@@ -1,14 +1,15 @@
-import sys
+import sys, os
 import cv2 as cv
 import numpy as np
 
-from Motion import Motion
-motion = Motion()
+# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+# from Motion import Motion
+# motion = Motion.Motion()
 
 cnt_arrow = 0
 def get_arrow_info(origin, arrow_image):
     arrow_info_image = cv.cvtColor(origin.copy(), cv.COLOR_GRAY2BGR)
-    _, contours, hierarchy = cv.findContours(arrow_image, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv.findContours(arrow_image, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
     
     if hierarchy is not None:
         global cnt_arrow
@@ -40,8 +41,14 @@ def get_arrow_info(origin, arrow_image):
                 b_diff = b[1] - b[0]
                 cnt_arrow += 1
                 if cnt_arrow == 30:
-                    if a_diff > b_diff: Motion.test_arrow(motion, 'LEFT')
-                    else: Motion.test_arrow(motion, 'RIGHT')
+                    # motion 통신
+                    # if a_diff > b_diff: Motion.test_arrow(motion, 'LEFT')
+                    # else: Motion.test_arrow(motion, 'RIGHT')
+
+                    # local test code
+                    if a_diff > b_diff: print('LEFT')
+                    else: print('RIGHT')
+                    break
                 if a_diff > b_diff: return arrow_info_image, 'left'
                 else: return arrow_info_image, 'right'
             else:
@@ -63,7 +70,6 @@ if not cap.isOpened():
 
 while True:
     _, img = cap.read()
-    # img = cv2.resize(img, (320, 240))
     # img = cv2.flip(img, 1)
 
     if not _:
@@ -71,7 +77,7 @@ while True:
         break
 
 
-    # img = cv.resize(img, (640, 480))
+    # img = cv.resize(img, (640, 480)) # r-pi common cam size
     # _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV)
     # origin = arrow[i]
     img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
