@@ -16,7 +16,7 @@ def get_arrow_info(origin, arrow_image):
             peri = cv.arcLength(cnt, True)
             approx = cv.approxPolyDP(cnt, peri * 0.02, True)
 
-            # cv2.drawContours(arrow_info_image, [approx], 0, (0, 255, 0), 3)
+            # cv.drawContours(arrow_info_image, [approx], 0, (0, 255, 0), 3)
             area = cv.contourArea(cnt)
             vertices = len(approx) # 꼭짓점 개수
             # area 값 조절로 인식 조절
@@ -29,7 +29,7 @@ def get_arrow_info(origin, arrow_image):
                 for i in range(len(approx)):
                     point = (approx[i][0][0], approx[i][0][1])
                     x_loc.append(point[0])
-                    # cv2.circle(arrow_info_image, point, 2, (0, 0, 255), 3)
+                    # cv.circle(arrow_info_image, point, 2, (0, 0, 255), 3)
             
     
                 x_loc.sort()
@@ -53,8 +53,8 @@ def get_arrow_info(origin, arrow_image):
         return None, None
 
 
-# video = "data/220922_N.mp4"
-video = "0925/entrance/entr03.h264"
+# video = "0925/entrance/entr03-1.mp4" # robot test address
+video = "src/entrance/entr03-1.mp4"
 cap = cv.VideoCapture(video)
 
 if not cap.isOpened():
