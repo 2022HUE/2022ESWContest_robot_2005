@@ -270,7 +270,7 @@ Arm_motor_mode3:
     MOVE G6D,100,  76, 145,  93, 100, 100
     MOVE G6B,100,  35,  90,
     MOVE G6C,100,  35,  90
-    
+
     WAIT
     mode = 0
     RETURN
@@ -289,7 +289,7 @@ Arm_motor_mode3:
 
     '************************************************
 기본자세:
-	
+
     MOVE G6A,100,  76, 145,  93, 100, 100
     MOVE G6D,100,  76, 145,  93, 100, 100
     MOVE G6B,100,  30,  80,
@@ -717,7 +717,7 @@ GOSUB_RX_EXIT2:
 
 
     '*******************************
- 
+
 
 
 연속전진_1:
@@ -3862,16 +3862,16 @@ D지역:
     SPEED 3
     SERVO 16, 10
     '   ETX 4800,41
-    
+
     RETURN
-   '******************************************
+    '******************************************
 
 전방하향110도:
 
     SPEED 3
     SERVO 16, 110
     '   ETX 4800,41
-    
+
     RETURN
 
 양팔벌리기:
@@ -5682,8 +5682,8 @@ D지역:
     WAIT
 
     GOTO RX_EXIT
-    
-    '******************************************    
+
+    '******************************************
 
 계단오른발내리기1cm:
     GOSUB All_motor_mode3
@@ -5858,19 +5858,20 @@ D지역:
 
     GOTO RX_EXIT
 
-    
+
     '******************************************
-    
+
 샤삭샤삭:
     GOSUB All_motor_mode3
+    보행COUNT = 0
     SPEED 7
-    HIGHSPEED SETON
+    'HIGHSPEED SETON..... 이거 하면 다음 모션들까지 다 개빨라지는데 복귀를 어떻게 하는지 모르겠음
 
 
     IF 보행순서 = 0 THEN
         보행순서 = 1
-        MOVE G6A, 102,  76, 143,  95, 100
-    	MOVE G6D, 100,  76, 143,  96, 100
+        MOVE G6A,95,  76, 147,  93, 101
+        MOVE G6D,101,  76, 147,  93, 98
         MOVE G6B,100
         MOVE G6C,100
         WAIT
@@ -5878,8 +5879,8 @@ D지역:
         GOTO 샤삭샤삭1
     ELSE
         보행순서 = 0
-        MOVE G6A, 102,  76, 143,  95, 100
-    	MOVE G6D, 100,  76, 143,  96, 100
+        MOVE G6D,95,  76, 147,  93, 101
+        MOVE G6A,101,  76, 147,  93, 98
         MOVE G6B,100
         MOVE G6C,100
         WAIT
@@ -5892,23 +5893,89 @@ D지역:
 
 샤삭샤삭1: '왼발
     'HIGHSPEED SETON
-    MOVE G6A, 102,  76, 143,  101, 100
-    MOVE G6D, 100,  76, 143,  96, 100
+    MOVE G6D,95,  95, 120, 100, 104
+    MOVE G6A,104,  77, 147,  93,  102
     MOVE G6B, 100
     MOVE G6C, 100
     WAIT
+샤삭샤삭2:
+
+    MOVE G6A,103,   73, 140, 103,  100
+    MOVE G6D, 95,  85, 147,  85, 102
+    WAIT
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+
+        GOTO RX_EXIT
+    ENDIF
+
+    ' 보행COUNT = 보행COUNT + 1
+    'IF 보행COUNT > 보행횟수 THEN  GOTO 전진종종걸음_2_stop
+
+    ERX 4800,A, 샤삭샤삭4
+    IF A <> A_old THEN
+샤삭샤삭2_stop:
+        MOVE G6D,95,  90, 125, 95, 104
+        MOVE G6A,104,  76, 145,  91,  102
+        MOVE G6C, 100
+        MOVE G6B,100
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB 안정화자세
+        SPEED 5
+        GOSUB 기본자세2
+
+        'DELAY 400
+        GOTO RX_EXIT
+    ENDIF
 
     '*********************************
 
-샤삭샤삭2: '오른발
-    MOVE G6A, 102,  76, 143,  95, 100
-    MOVE G6D, 100,  76, 143,  101, 100
+샤삭샤삭4: '오른발
+    MOVE G6A,95,  90, 125, 100, 104
+    MOVE G6D,104,  77, 147,  93,  102
     MOVE G6C, 100
     MOVE G6B, 100
     WAIT
 
+샤삭샤삭5:
+    MOVE G6D,103,    73, 140, 103,  100
+    MOVE G6A, 95,  85, 147,  85, 102
+    WAIT
+
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO RX_EXIT
+    ENDIF
+
+    ' 보행COUNT = 보행COUNT + 1
+    ' IF 보행COUNT > 보행횟수 THEN  GOTO 전진종종걸음_5_stop
+
+    ERX 4800,A, 샤삭샤삭1
+    IF A <> A_old THEN
+샤삭샤삭5_stop:
+        MOVE G6A,95,  90, 125, 95, 104
+        MOVE G6D,104,  76, 145,  91,  102
+        MOVE G6B, 100
+        MOVE G6C,100
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB 안정화자세
+        SPEED 5
+        GOSUB 기본자세2
+
+        'DELAY 400
+        GOTO RX_EXIT
+    ENDIF
+
     '******************************************
-    
+
     '******************************************
 
 
@@ -6167,7 +6234,8 @@ KEY26: ' ■
     ETX  4800,26
 
     SPEED 5
-    GOSUB 물건집기
+    GOSUB 샤삭샤삭
+    'GOSUB 물건집기
     GOTO RX_EXIT
     '***************
 KEY27: ' D
