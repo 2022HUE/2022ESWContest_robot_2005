@@ -59,7 +59,7 @@ def mouse_callback(event, x, y, flags, param):
         print("@2", lower_blue2, "~", upper_blue2)
         print("@3", lower_blue3, "~", upper_blue3)
 
-cap = cv.VideoCapture('src/stair/1002_19:55.h264')  # 제일 쓸만함
+cap = cv.VideoCapture('src/stair/0925_19:27.h264')  # 제일 쓸만함
 red_cnt = 0
 while(True):
     ret, img_color = cap.read()
@@ -103,7 +103,7 @@ while(True):
 
     # print(red_cnt)
     if max_index != -1 and red_cnt > 40:
-        if area>31000:
+        if area>26000:
             print("오른쪼으로 돌아라")
         center_x = int(centroids[max_index, 0])
         center_y = int(centroids[max_index, 1])
