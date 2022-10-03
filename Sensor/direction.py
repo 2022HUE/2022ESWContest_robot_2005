@@ -2,13 +2,13 @@ import cv2 as cv
 import sys
 import numpy as np
 
-from Motion import Motion
-motion = Motion()
+# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+# from Motion import Motion
+# motion = Motion.Motion()
 
 cnt_text = 0
-# cap = cv2.VideoCapture('./src/S.h264')
-cap = cv.VideoCapture('./0925/entrance/entr03-1.mp4')
-# none_img = cv2.imread('src/none.jpg',cv2.IMREAD_GRAYSCALE)
+video = "src/entrance/entr03-1.mp4"
+cap = cv.VideoCapture(video)
 
 if not cap.isOpened():
     print('Video open failed...')
@@ -96,7 +96,7 @@ def matching(sam, tar, params):
   else: return None, ret_mt, sample_img
 
 # font_img matching
-font_img = [cv.imread(f'./data/sample/font_img/{x}.jpg', cv.IMREAD_GRAYSCALE) for x in range(4)]
+font_img = [cv.imread('./src/entrance/direction_data/font_img/{}.jpg'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
 def match_font(font_img,tar, params, name):
   target_h, target_w = tar.shape
   match = 100
@@ -176,13 +176,15 @@ def match_font(font_img,tar, params, name):
 
 
 # sample E
-sample_e = [cv.imread(f'./data/sample/sam_e0{x}.png', cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+sample_e = [cv.imread('./src/entrance/direction_data/sam_e0{}.jpg'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+sample_ee = ['./src/entrance/direction_data/sam_e0{}.jpg'.format(x) for x in range(1, 6)]
+print(sample_ee)
 # sample W
-sample_w = [cv.imread(f'./data/sample/sam_w0{x}.png', cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+sample_w = [cv.imread('./src/entrance/direction_data/sam_w0{}.jpg'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
 # sample N
-sample_n = [cv.imread(f'./data/sample/sam_n0{x}.png', cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+sample_n = [cv.imread('./src/entrance/direction_data/sam_s0{}.jpg'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
 # sample S
-sample_s = [cv.imread(f'./data/sample/sam_s0{x}.png', cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+sample_s = [cv.imread('./src/entrance/direction_data/sam_n0{}.jpg'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
 
 sample_list = [sample_e, sample_w, sample_s, sample_n]
 
@@ -216,8 +218,8 @@ while True:
 
   # lines = cv2.HoughLinesP(edges, 1, np.pi / 180, 70, maxLineGap=50)
   
-  _, contours1, hierarchy1 = cv.findContours(th,  cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
-  _, contours2, hierarchy2 = cv.findContours(edges, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
+  contours1, hierarchy1 = cv.findContours(th,  cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
+  contours2, hierarchy2 = cv.findContours(edges, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
 
   text_cont = []
   for pos in range(len(contours1)):
@@ -285,6 +287,7 @@ while True:
     text_edges = cv.Canny(text_mask, 50, 150, apertureSize=3)
     lines = cv.HoughLinesP(text_edges,1,np.pi/180,40, minLineLength=0, maxLineGap=80)
 
+    print(sample_list)
     ms_gray, mt_gray, gimg = matching(sample_list, text_gray, 0.001)
     ms_mask, mt_mask, mimg = matching(sample_list, text_mask, 1) # ???
     match_mask_font, mmimg = match_font(font_img, text_mask, 0.05, 'm')
@@ -293,7 +296,10 @@ while True:
     print('match: ', mt_gray, mt_mask, match_gray_font, match_mask_font)
 
     if cnt_text == 10:
-        Motion.test_text(motion, mt_gray)
+        # Motion.test_text(motion, mt_gray) # robot용 코드
+        print('#################################')
+        print(mt_gray)
+        print('#################################')
         break
 
   
