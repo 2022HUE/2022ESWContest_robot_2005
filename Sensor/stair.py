@@ -2,12 +2,12 @@ import cv2 as cv
 import numpy as np
 
 hsv = 0
-lower_blue1 = 0
-upper_blue1 = 0
+lower_blue1 = 175
+upper_blue1 = 180
 lower_blue2 = 0
-upper_blue2 = 0
-lower_blue3 = 0
-upper_blue3 = 0
+upper_blue2 = 6
+lower_blue3 = 165
+upper_blue3 = 175
 
 def mouse_callback(event, x, y, flags, param):
     global hsv, lower_blue1, upper_blue1, lower_blue2, upper_blue2, lower_blue3, upper_blue3
@@ -20,7 +20,7 @@ def mouse_callback(event, x, y, flags, param):
         one_pixel = np.uint8([[color]])
         hsv = cv.cvtColor(one_pixel, cv.COLOR_BGR2HSV)
         hsv = hsv[0][0]
-
+        print(hsv)
         # HSV 색공간에서 마우스 클릭으로 얻은 픽셀값과 유사한 픽셀값의 범위를 정함
         if hsv[0] < 10:
             print("case1")
@@ -59,14 +59,12 @@ def mouse_callback(event, x, y, flags, param):
         print("@2", lower_blue2, "~", upper_blue2)
         print("@3", lower_blue3, "~", upper_blue3)
 
-
-cv.namedWindow('img_color')
-cv.setMouseCallback('img_color', mouse_callback)
-
-cap = cv.VideoCapture('src/stair/0925_19:27.h264') #제일 쓸만함
-
+cap = cv.VideoCapture('src/stair/1002_19:55.h264')  # 제일 쓸만함
+red_cnt = 0
 while(True):
     ret, img_color = cap.read()
+    if ret==False: break
+
     height, width = img_color.shape[:2]
     img_color = cv.resize(img_color, (width, height), interpolation=cv.INTER_AREA)
 
@@ -79,33 +77,34 @@ while(True):
 
     img_result = cv.bitwise_and(img_color, img_color, mask=img_mask)
 
-
     img_canny = cv.Canny(img_mask,50,150)
-    # cv.imshow('img_canny',img_canny)
-    lines = cv.HoughLines(img_canny, 1, np.pi/45, 80,None,None,None,None)
 
-    h, w = img_color.shape[:2]
+    h, w = img_color.shape[:2] #(480,640)
 
     #라벨링 진행
     nlabels, labels, stats, centroids = cv.connectedComponentsWithStats(img_mask) #흰색과 검은색 분리.
 
     #가장 큰 영역이 파란색 공이라고 가정할 것이다.
-    max = -1
+    max = 1000
     max_index = -1
 
     for i in range(nlabels):
         if i < 1:
             continue
-
         area = stats[i, cv.CC_STAT_AREA]
 
-        if area > max:
-            max = area
+        if area > max: # 노이즈 제거
             max_index = i
+            red_cnt += 1
+        else:
+            max_index = -1
+            if red_cnt>=30 and red_cnt<=150:
+                red_cnt -= 20
 
-    if max_index != -1:
-        if (area>14000 and area<16000):
-            print('오른쪽으로 돌아라')
+    # print(red_cnt)
+    if max_index != -1 and red_cnt > 40:
+        if area>31000:
+            print("오른쪼으로 돌아라")
         center_x = int(centroids[max_index, 0])
         center_y = int(centroids[max_index, 1])
         left = stats[max_index, cv.CC_STAT_LEFT]
@@ -115,6 +114,23 @@ while(True):
 
         cv.rectangle(img_color, (left, top), (left + width, top + height), (0, 0, 255), 5)
 
+
+
+    cv.imshow('img_color', img_color)
+    cv.imshow('img_result', img_result)
+
+    if cv.waitKey(10) & 0xFF == 27:
+        break
+
+
+    cv.namedWindow('img_color')
+    cv.setMouseCallback('img_color', mouse_callback)
+
+cv.destroyAllWindows()
+
+# 허프라인 검출
+def HoughLine():
+    lines = cv.HoughLines(img_canny, 1, np.pi / 45, 80, None, None, None, None)
     if lines is not None:
         for i in range(len(lines)):
             # rho = 거리, scale = 각도
@@ -129,15 +145,4 @@ while(True):
                 y1 = int(y0 + scale * (a))
                 x2 = int(x0 - scale * (-b))
                 y2 = int(y0 - scale * (a))
-
             cv.line(img_color, (x1, y1), (x2, y2), (0, 0, 255), 2)
-
-    cv.imshow('img_color', img_color)
-    # cv.imshow('img_mask', img_mask)
-    cv.imshow('img_result', img_result)
-
-
-    if cv.waitKey(1) & 0xFF == 27:
-        break
-
-cv.destroyAllWindows()
