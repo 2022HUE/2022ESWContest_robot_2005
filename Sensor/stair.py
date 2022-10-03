@@ -1,10 +1,8 @@
-import sys
-
 import cv2 as cv
 import numpy as np
 
-from Motion import Motion
-motion = Motion()
+# from Motion import Motion
+# motion = Motion()
 
 hsv = 0
 
@@ -15,7 +13,7 @@ upper_blue2 = np.array([175 + 10 - 180, 255, 255])
 lower_blue3 = np.array([175 - 10, 30, 30])
 upper_blue3 = np.array([175, 255, 255])
 
-cap = cv.VideoCapture('src/stair/0925_19:27.h264')  # 제일 쓸만함
+cap = cv.VideoCapture('src/stair/1002_1955.h264')  # 제일 쓸만함
 red_cnt = 0
 while(True):
     ret, img_color = cap.read()
@@ -61,7 +59,7 @@ while(True):
     if max_index != -1 and red_cnt > 40:
         if area>26000:
             print("오른쪽으로 돌아라")
-            Motion.test_arrow(motion, 'RIGHT')
+            # Motion.test_arrow(motion, 'RIGHT')
         center_x = int(centroids[max_index, 0])
         center_y = int(centroids[max_index, 1])
         left = stats[max_index, cv.CC_STAT_LEFT]
