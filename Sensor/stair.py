@@ -1,63 +1,19 @@
+import sys
+
 import cv2 as cv
 import numpy as np
 
+from Motion import Motion
+motion = Motion()
+
 hsv = 0
-lower_blue1 = 175
-upper_blue1 = 180
-lower_blue2 = 0
-upper_blue2 = 6
-lower_blue3 = 165
-upper_blue3 = 175
 
-def mouse_callback(event, x, y, flags, param):
-    global hsv, lower_blue1, upper_blue1, lower_blue2, upper_blue2, lower_blue3, upper_blue3
-
-    # 마우스 왼쪽 버튼 누를시 위치에 있는 픽셀값을 읽어와서 HSV로 변환 (x, y 값으로 저장)
-    if event == cv.EVENT_LBUTTONDOWN:
-        print(img_color[y, x])
-        color = img_color[y, x]
-
-        one_pixel = np.uint8([[color]])
-        hsv = cv.cvtColor(one_pixel, cv.COLOR_BGR2HSV)
-        hsv = hsv[0][0]
-        print(hsv)
-        # HSV 색공간에서 마우스 클릭으로 얻은 픽셀값과 유사한 픽셀값의 범위를 정함
-        if hsv[0] < 10:
-            print("case1")
-            lower_blue1 = np.array([hsv[0]-10+180, 30, 30]) # 색상만 조절
-            upper_blue1 = np.array([180, 255, 255])
-            lower_blue2 = np.array([0, 30, 30])
-            upper_blue2 = np.array([hsv[0], 255, 255])
-            lower_blue3 = np.array([hsv[0], 30, 30])
-            upper_blue3 = np.array([hsv[0]+10, 255, 255])
-            #     print(i-10+180, 180, 0, i)
-            #     print(i, i+10)
-
-        elif hsv[0] > 170:
-            print("case2")
-            lower_blue1 = np.array([hsv[0], 30, 30])
-            upper_blue1 = np.array([180, 255, 255])
-            lower_blue2 = np.array([0, 30, 30])
-            upper_blue2 = np.array([hsv[0]+10-180, 255, 255])
-            lower_blue3 = np.array([hsv[0]-10, 30, 30])
-            upper_blue3 = np.array([hsv[0], 255, 255])
-            #     print(i, 180, 0, i+10-180)
-            #     print(i-10, i)
-        else:
-            print("case3")
-            lower_blue1 = np.array([hsv[0], 30, 30])
-            upper_blue1 = np.array([hsv[0]+10, 255, 255])
-            lower_blue2 = np.array([hsv[0]-10, 30, 30])
-            upper_blue2 = np.array([hsv[0], 255, 255])
-            lower_blue3 = np.array([hsv[0]-10, 30, 30])
-            upper_blue3 = np.array([hsv[0], 255, 255])
-            #     print(i, i+10)
-            #     print(i-10, i)
-
-        print(hsv[0])
-        print("@1", lower_blue1, "~", upper_blue1)
-        print("@2", lower_blue2, "~", upper_blue2)
-        print("@3", lower_blue3, "~", upper_blue3)
+lower_blue1 = np.array([175, 30, 30])
+upper_blue1 = np.array([180, 255, 255])
+lower_blue2 = np.array([0, 30, 30])
+upper_blue2 = np.array([175 + 10 - 180, 255, 255])
+lower_blue3 = np.array([175 - 10, 30, 30])
+upper_blue3 = np.array([175, 255, 255])
 
 cap = cv.VideoCapture('src/stair/0925_19:27.h264')  # 제일 쓸만함
 red_cnt = 0
@@ -104,7 +60,8 @@ while(True):
     # print(red_cnt)
     if max_index != -1 and red_cnt > 40:
         if area>26000:
-            print("오른쪼으로 돌아라")
+            print("오른쪽으로 돌아라")
+            Motion.test_arrow(motion, 'RIGHT')
         center_x = int(centroids[max_index, 0])
         center_y = int(centroids[max_index, 1])
         left = stats[max_index, cv.CC_STAT_LEFT]
@@ -123,8 +80,8 @@ while(True):
         break
 
 
-    cv.namedWindow('img_color')
-    cv.setMouseCallback('img_color', mouse_callback)
+    # cv.namedWindow('img_color')
+    # cv.setMouseCallback('img_color', mouse_callback)
 
 cv.destroyAllWindows()
 
