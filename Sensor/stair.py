@@ -1,9 +1,6 @@
 import cv2 as cv
 import numpy as np
 
-# from Motion import Motion
-# motion = Motion()
-
 hsv = 0
 
 lower_blue1 = np.array([175, 30, 30])
@@ -13,8 +10,9 @@ upper_blue2 = np.array([175 + 10 - 180, 255, 255])
 lower_blue3 = np.array([175 - 10, 30, 30])
 upper_blue3 = np.array([175, 255, 255])
 
-cap = cv.VideoCapture('src/stair/1002_1955.h264')  # 제일 쓸만함
+cap = cv.VideoCapture('src/stair/0925_19:27.h264')  # 제일 쓸만함
 red_cnt = 0
+
 while(True):
     ret, img_color = cap.read()
     if ret==False: break
@@ -68,8 +66,6 @@ while(True):
         height = stats[max_index, cv.CC_STAT_HEIGHT]
 
         cv.rectangle(img_color, (left, top), (left + width, top + height), (0, 0, 255), 5)
-
-
 
     cv.imshow('img_color', img_color)
     cv.imshow('img_result', img_result)
