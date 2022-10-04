@@ -5864,9 +5864,9 @@ D지역:
 샤삭샤삭:
     GOSUB All_motor_mode3
     보행COUNT = 0
-    'SPEED 13
+    SPEED 13
     'HIGHSPEED로 안 하면 뒤로 감... 미친놈인 듯
-    HIGHSPEED SETON
+    'HIGHSPEED SETON
     '..... 이거 하면 다음 모션들까지 다 개빨라지는데 복귀를 어떻게 하는지 모르겠음
 
 
@@ -5895,15 +5895,15 @@ D지역:
 
 샤삭샤삭1: '왼발
     'HIGHSPEED SETON
-    MOVE G6D,95,  76, 145, 93, 104
+    MOVE G6D,95,  77, 140, 95, 104
     MOVE G6A,104,  77, 147,  93,  102
     MOVE G6B, 100
     MOVE G6C, 100
     WAIT
 샤삭샤삭2:
 
-    MOVE G6A,103,   73, 145, 103,  100
-    MOVE G6D, 95,  85, 147,  85, 102
+    MOVE G6A,103,   75, 145, 97,  100
+    MOVE G6D, 95,  77, 147,  90, 102
     WAIT
 
     GOSUB 앞뒤기울기측정
@@ -5919,8 +5919,8 @@ D지역:
     ERX 4800,A, 샤삭샤삭4
     IF A <> A_old THEN
 샤삭샤삭_2_stop:
-        MOVE G6D,95,  76, 125, 95, 104
-        MOVE G6A,104,  76, 145,  91,  102
+        MOVE G6D,95,  78, 135, 94, 104
+        MOVE G6A,104,  78, 145,  92,  102
         MOVE G6C, 100
         MOVE G6B,100
         WAIT
@@ -5937,15 +5937,15 @@ D지역:
     '*********************************
 
 샤삭샤삭4: '오른발
-    MOVE G6A,95,  90, 145, 93, 104
+    MOVE G6A,95,  77, 140, 95, 104
     MOVE G6D,104,  77, 147,  93,  102
     MOVE G6C, 100
     MOVE G6B, 100
     WAIT
 
 샤삭샤삭5:
-    MOVE G6D,103,    73, 145, 103,  100
-    MOVE G6A, 95,  85, 147,  85, 102
+    MOVE G6D,103,    75, 145, 97,  100
+    MOVE G6A, 95,  77, 147,  90, 102
     WAIT
 
 
@@ -5961,8 +5961,8 @@ D지역:
     ERX 4800,A, 샤삭샤삭1
     IF A <> A_old THEN
 샤삭샤삭5_stop:
-        MOVE G6A,95,  76, 125, 95, 104
-        MOVE G6D,104,  76, 145,  91,  102
+        MOVE G6A,95,  78, 135, 94, 104
+        MOVE G6D,104,  78, 145,  92,  102
         MOVE G6B, 100
         MOVE G6C,100
         WAIT
