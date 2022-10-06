@@ -53,10 +53,10 @@ while(True):
             if red_cnt>=30 and red_cnt<=150:
                 red_cnt -= 20
 
-    # print(red_cnt)
+    print(area)
     if max_index != -1 and red_cnt > 40:
-        if area>26000:
-            print("오른쪽으로 돌아라")
+        # if area>26000:
+            # print("오른쪽으로 돌아라")
             # Motion.test_arrow(motion, 'RIGHT')
         center_x = int(centroids[max_index, 0])
         center_y = int(centroids[max_index, 1])

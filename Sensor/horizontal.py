@@ -26,7 +26,7 @@ def ROI(x,y,w,h):
     roi = img_color[y:y+h,x:x+w]
     cv.rectangle(img_color, (0, 0), (w - 1,h - 1), (0, 255, 0))
 
-cap = cv.VideoCapture('src/stair/0925_19:27.h264')  # 제일 쓸만함
+cap = cv.VideoCapture('src/stair/1002_19:54.h264')  # 제일 쓸만함
 
 while(True):
 
