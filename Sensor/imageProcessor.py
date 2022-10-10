@@ -94,7 +94,6 @@ class ImageProccessor:
 
         img = self.correction(img)
         hsv = self.hsv_mask(img)
-
         line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
@@ -128,6 +127,8 @@ class ImageProccessor:
             if show:
                 cv.imshow("imageProcessor-get_img", origin)
                 cv.waitKey(1) & 0xFF == ord('q')
+        
+
         
     ########### ENTRANCE PROCESSING ###########
     def get_arrow(self, show):
