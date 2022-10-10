@@ -2084,13 +2084,19 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     GOTO RX_EXIT
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     '************************************************
 =======
 '************************************************
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+<<<<<<< HEAD
 =======
     '************************************************
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 °è´Ü¿Þ¹ß¿À¸£±â1cm:
     GOSUB All_motor_mode3
 
@@ -2182,11 +2188,17 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     GOSUB All_motor_mode3
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     GOSUB All_motor_mode3
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 =======
 >>>>>>> 0f871f6 (Chore: stair_left_down ìˆ˜ì •)
+=======
+=======
+    GOSUB All_motor_mode3
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 
     SPEED 4
     MOVE G6D, 88,  71, 152,  91, 110
@@ -2293,13 +2305,20 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
 =======
 
+<<<<<<< HEAD
     ' ¿Þ¹ß »ìÂ¦ µé±â
+<<<<<<< HEAD
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
+=======
+=======
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     SPEED 10
     MOVE G6A, 90, 100, 115, 105, 114
     MOVE G6D,113,  76, 145,  93,  94
     WAIT
 
+<<<<<<< HEAD
     ' ¿©±â±îÁø ¿Ã¶ó°¡±â ¹öÀü°ú ¶È°°À½
 
 <<<<<<< HEAD
@@ -2308,6 +2327,7 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     GOSUB Leg_motor_mode2
 
     '¿Þ¹ß ¸¹ÀÌ µé±â
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
     GOSUB Leg_motor_mode2
@@ -2320,6 +2340,13 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
 =======
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
+=======
+=======
+    GOSUB Leg_motor_mode2
+
+
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     SPEED 12
     MOVE G6A,  80, 30, 155, 150, 114,
     MOVE G6D,113,  65, 155,  90,  94
@@ -2327,6 +2354,7 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 
     GOSUB Leg_motor_mode2
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -2339,6 +2367,11 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 =======
     '¿Þ¹ß ¾Õ ¹æÇâÀ¸·Î ³»¸®±â + ¿À¸¥¹«¸­ ±ÁÈ÷±â + ¾ç¼Õ µÚ·Î ÇÏ±â
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
+=======
+    '¿Þ¹ß ¾Õ ¹æÇâÀ¸·Î ³»¸®±â + ¿À¸¥¹«¸­ ±ÁÈ÷±â + ¾ç¼Õ µÚ·Î ÇÏ±â
+=======
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     SPEED 7
     MOVE G6A,  80, 30, 175, 150, 114,
     MOVE G6D,113,  115, 65,  140,  94
@@ -2346,6 +2379,7 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     MOVE G6C,70,40
     WAIT
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -2358,6 +2392,11 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 =======
     '¿Þ¹«¸­ ÆîÄ¡±â + ¿À¸¥¹«¸­ ´õ ±ÁÈ÷±â + ¿À¸¥¼Õ ¾ÕÀ¸·Î ÇÏ±â
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
+=======
+    '¿Þ¹«¸­ ÆîÄ¡±â + ¿À¸¥¹«¸­ ´õ ±ÁÈ÷±â + ¿À¸¥¼Õ ¾ÕÀ¸·Î ÇÏ±â
+=======
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     GOSUB Leg_motor_mode3
     SPEED 5
     MOVE G6A,90, 20, 150, 150, 110
@@ -2380,8 +2419,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
 =======
 
+<<<<<<< HEAD
     '¿Þ¹«¸­ Á¶±Ý ´õ ÆîÄ¡¸é¼­ º¸Æø ³ª°¡±â + ¿À¸¥¹«¸­ Á¶±Ý Æì±â + ¿ÞÆÈ ¾ÕÀ¸·Î ¿À¸¥ÆÈ µÚ·Î
+<<<<<<< HEAD
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
+=======
+=======
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     SPEED 8
     MOVE G6A,100, 30, 150, 150, 100
     MOVE G6D,100,  155, 70,  100,100
@@ -2391,10 +2436,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 
     '¿Þ¹«¸­ È® Æì±â + ¿À¸¥¹ß µÚ·Î ÇÏ¸é¼­ »©±â + ÆÈ ¾ÕµÚ Á¶±Ý ´õ Å©°Ô
 =======
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+<<<<<<< HEAD
 =======
 
 <<<<<<< HEAD
@@ -2403,6 +2452,8 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 =======
     '¿Þ¹«¸­ È® Æì±â + ¿À¸¥¹ß µÚ·Î ÇÏ¸é¼­ »©±â + ÆÈ ¾ÕµÚ Á¶±Ý ´õ Å©°Ô
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     SPEED 10
     MOVE G6A,114, 70, 130, 150, 94
     MOVE G6D,80,  125, 140,  85,114
@@ -2410,6 +2461,7 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     MOVE G6C,100,40
     WAIT
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -2422,12 +2474,18 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 =======
     '¿Þ´Ù¸® °¡¸¸È÷ µÎ±â + ¿À¸¥´Ù¸® ±ÁÈ÷¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
+=======
+    '¿Þ´Ù¸® °¡¸¸È÷ µÎ±â + ¿À¸¥´Ù¸® ±ÁÈ÷¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â
+=======
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     GOSUB Leg_motor_mode2	
     SPEED 10
     MOVE G6A,114, 70, 130, 150, 94
     MOVE G6D,80,  125, 50,  150,114
     WAIT
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -2440,11 +2498,17 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 =======
     '¿Þ¹ß ÁöÅÊÇÏ±â + ¿À¸¥¹«¸­ Æì¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â±â
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
+=======
+    '¿Þ¹ß ÁöÅÊÇÏ±â + ¿À¸¥¹«¸­ Æì¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â±â
+=======
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     SPEED 9
     MOVE G6A,114, 75, 130, 120, 94
     MOVE G6D,80,  85, 90,  150,114
     WAIT
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -2457,6 +2521,11 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 =======
     '¿À¸¥¹ß °ÅÀÇ ³»¸®±â
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
+=======
+    '¿À¸¥¹ß °ÅÀÇ ³»¸®±â
+=======
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     SPEED 8
     MOVE G6A,112, 80, 130, 110, 94
     MOVE G6D,80,  75,130,  115,114
@@ -2464,6 +2533,7 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     MOVE G6C,100,40
     WAIT
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -2476,6 +2546,11 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 =======
     '±âº»ÀÚ¼¼
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
+=======
+    '±âº»ÀÚ¼¼
+=======
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     SPEED 6
     MOVE G6D, 98, 80, 130, 105,99,
     MOVE G6A,98,  80, 130,  105, 99
@@ -2756,6 +2831,9 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     RETURN
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     '****************************************
 °è´Ü¿Þ¹ß³»¸®±â1cm:    
 
@@ -3111,6 +3189,7 @@ stair_right_down:
 
 =======
    	'****************************************
+<<<<<<< HEAD
 =======
     '****************************************
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
@@ -3122,6 +3201,12 @@ stair_right_down:
 =======
 
 >>>>>>> b895699 (Chore: ê³„ë‹¨ ë¦¬ëª¨ì»¨ í‚¤ ìˆ˜ì •)
+=======
+
+stair_right_down:
+    GOSUB All_motor_mode3
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     GOSUB All_motor_mode3
 
     SPEED 4
@@ -3214,21 +3299,30 @@ stair_left_down:
     MOVE G6A, 88,  71, 152,  91, 110
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     MOVE G6D,108,  76, 145,  93,  94
 =======
     MOVE G6D,108,  77, 146,  93,  94
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+<<<<<<< HEAD
 =======
     MOVE G6D,108,  76, 145,  93,  94
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     MOVE G6B,100,40
     MOVE G6C,100,40
     WAIT
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     SPEED 10
     MOVE G6A, 90, 100, 115, 105, 114
     MOVE G6D,113,  76, 145,  93,  94
@@ -3314,6 +3408,7 @@ stair_left_down:
     SPEED 8
     MOVE G6A, 90, 100, 110, 100, 114
     MOVE G6D,114,  78, 146,  93,  94
+<<<<<<< HEAD
 =======
 	
 	'¿©±â±îÁø ¿Ã¶ó°¡±â ¹öÀü°ú ¶È°°À½
@@ -3367,6 +3462,59 @@ stair_left_down:
     '¿Þ¹«¸­ È® Æì±â + ¿À¸¥¹ß µÚ·Î ÇÏ¸é¼­ »©±â + ÆÈ ¾ÕµÚ Á¶±Ý ´õ Å©°Ô
     SPEED 10
 <<<<<<< HEAD
+=======
+    WAIT
+
+    GOSUB Leg_motor_mode2
+
+    SPEED 8
+    MOVE G6A, 90, 140, 35, 130, 114
+    MOVE G6D,114,  71, 155,  90,  94
+    WAIT
+
+
+    SPEED 12
+    MOVE G6A,  80, 55, 130, 140, 114,
+    MOVE G6D,114,  70, 155,  90,  94
+    WAIT
+
+    GOSUB Leg_motor_mode3
+
+    SPEED 7
+    MOVE G6A, 105, 75, 100, 155, 100,
+    MOVE G6D,95,  90, 165,  70, 100
+    MOVE G6B,160,50
+    MOVE G6C,160,40
+    WAIT
+
+    SPEED 6
+    MOVE G6A, 114, 90, 90, 155,100,
+    MOVE G6D,95,  100, 165,  65, 105
+    MOVE G6B,180,50
+    MOVE G6C,180,30
+    WAIT
+
+    '****************************
+    GOSUB Leg_motor_mode2	
+    SPEED 8
+    MOVE G6A, 114, 90, 100, 150,95,
+    MOVE G6D,95,  90, 165,  70, 105
+    WAIT
+
+    SPEED 12
+    MOVE G6A, 114, 90, 100, 150,95,
+    MOVE G6D,90,  120, 40,  140, 108
+    WAIT
+
+    SPEED 10
+    MOVE G6A, 114, 90, 110, 130,95,
+    MOVE G6D,90,  95, 90,  145, 108
+    MOVE G6B,140,50
+    MOVE G6C,140,30
+    WAIT
+
+    SPEED 10
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     MOVE G6A, 110, 90, 110, 130,95,
     MOVE G6D,80,  85, 110,  135, 108
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
@@ -3374,6 +3522,7 @@ stair_left_down:
     MOVE G6C,110,40
     WAIT
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     SPEED 4
     GOSUB ±âº»ÀÚ¼¼
@@ -3421,8 +3570,25 @@ stair_left_down:
     WAIT
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     SPEED 4
     GOSUB ±âº»ÀÚ¼¼
+=======
+    SPEED 5
+    MOVE G6D, 98, 90, 110, 125,99,
+    MOVE G6A,98,  90, 110,  125, 99
+    MOVE G6B,110,40
+    MOVE G6C,110,40
+    WAIT
+
+    SPEED 6
+    MOVE G6A,100,  77, 145,  93, 100, 100
+    MOVE G6D,100,  77, 145,  93, 100, 100
+    MOVE G6B,100,  30,  80
+    MOVE G6C,100,  30,  80
+    WAIT
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 
     GOTO RX_EXIT
 
@@ -3448,14 +3614,20 @@ MAIN_2:
     '**** 1ÀÌ¸é 	 ¶óº§, 2ÀÌ¸é key2·Î... °¡´Â¹®
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18 ,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28 ,KEY29,KEY30,KEY31,KEY32
 =======
     ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY16,KEY19,KEY22,KEY25
 
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+<<<<<<< HEAD
 =======
     ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18 ,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28 ,KEY29,KEY30,KEY31,KEY32
 >>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 
     IF A > 100 AND A < 110 THEN
         BUTTON_NO = A - 100
@@ -3550,8 +3722,11 @@ KEY10: '0
     '***************
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 KEY11: ' ¡ã
     ETX  4800,11
 
@@ -3583,10 +3758,15 @@ KEY15: 'A
     ETX 4800, 15
     GOSUB ±âº»ÀÚ¼¼
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 =======
 >>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
+=======
+=======
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     GOTO RX_EXIT
 KEY16: ' POWER
     ETX  4800,16
@@ -3646,8 +3826,11 @@ KEY16_1:
     '***************
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 KEY17: ' C
     ETX 4800, 17
     GOSUB ±âº»ÀÚ¼¼
@@ -3674,6 +3857,7 @@ KEY21: ' ¡â
     GOSUB ±âº»ÀÚ¼¼
 
 =======
+<<<<<<< HEAD
 =======
 >>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
 KEY19: 'P2
@@ -3695,6 +3879,12 @@ KEY21: ' ¡â
     ETX  4800,21
     GOSUB ±âº»ÀÚ¼¼
 
+=======
+KEY19: 'P2
+    ETX 4800, 19
+    GOSUB  °è´Ü¿À¸¥¹ß³»¸®±â1cm
+>>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     GOTO RX_EXIT
     '***************
 KEY22: ' *
@@ -3703,6 +3893,9 @@ KEY22: ' *
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     'GOSUB ±âº»ÀÚ¼¼
     GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
 =======
@@ -3729,6 +3922,7 @@ KEY24: '#
     'GOTO ¿À¸¥ÂÊÅÏ20
     ' GOTO Áý°í¿À¸¥ÂÊÅÏ45
     GOTO stair_left_down
+<<<<<<< HEAD
 =======
 	GOSUB ±âº»ÀÚ¼¼
     'GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
@@ -3737,11 +3931,16 @@ KEY24: '#
     '***************
 <<<<<<< HEAD
 <<<<<<< HEAD
+=======
+    GOTO RX_EXIT
+    '***************
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 'KEY24: '#
  '   ETX 4800, 24
  '   GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
  '   GOTO RX_EXIT
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+<<<<<<< HEAD
 =======
     'KEY24: '#
     '   ETX 4800, 24
@@ -3766,6 +3965,8 @@ KEY24: '#
     GOSUB  °è´Ü¿À¸¥¹ß³»¸®±â1cm
     GOTO RX_EXIT
 >>>>>>> b895699 (Chore: ê³„ë‹¨ ë¦¬ëª¨ì»¨ í‚¤ ìˆ˜ì •)
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     '***************
 KEY25: 'P1
     ETX 4800, 25
@@ -3774,6 +3975,9 @@ KEY25: 'P1
     'GOTO ¿ÞÂÊÅÏ20
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     GOSUB stair_left_down
     GOTO RX_EXIT
     '***************
@@ -3817,6 +4021,7 @@ KEY32: ' F
 =======
     GOSUB stair_right_down
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+<<<<<<< HEAD
 =======
     GOSUB stair_left_down
 >>>>>>> b895699 (Chore: ê³„ë‹¨ ë¦¬ëª¨ì»¨ í‚¤ ìˆ˜ì •)
@@ -3859,5 +4064,7 @@ KEY31: ' ¡ä
 KEY32: ' F
     ETX 4800, 32
     GOSUB ±âº»ÀÚ¼¼
+=======
+>>>>>>> d5e7416 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
     GOTO RX_EXIT
     '***************
