@@ -10,13 +10,19 @@ from imutils.video import FPS
 if __name__ == "__main__":
     from line import Line
     from Setting import setting, LineColor
+<<<<<<< HEAD
     from danger import Danger
+=======
+>>>>>>> 3153e74 (Feat: Image Processing to Yellowline)
 
 else:
     from Sensor.line import Line
     from Sensor.Setting import setting, LineColor
+<<<<<<< HEAD
     from danger import Danger
 
+=======
+>>>>>>> 3153e74 (Feat: Image Processing to Yellowline)
 print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
 
 
@@ -116,6 +122,10 @@ class ImageProccessor:
     def line_detection(self, show):
         img = self.get_img()
         origin = img.copy()
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3153e74 (Feat: Image Processing to Yellowline)
 
         # height, width = img.shape[:2]
 
@@ -125,19 +135,31 @@ class ImageProccessor:
         line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
+<<<<<<< HEAD
 
         roi_img = Line.ROI(self, line_gray, self.height, self.width)
         # get Line
         line_arr = Line.hough_lines(self, roi_img, 1, 1 * np.pi / 180, 30, 10, 20)  # 허프 변환
+=======
+        
+        roi_img = Line.ROI(self, line_gray, self.height, self.width)
+        # get Line
+        line_arr = Line.hough_lines(self, roi_img, 1, 1 * np.pi/180, 30, 10, 20) # 허프 변환
+>>>>>>> 3153e74 (Feat: Image Processing to Yellowline)
         line_arr = np.squeeze(line_arr)
         if line_arr != 'None':
             Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
 
             # tmp_zero = np.zeros((origin.shape[0], origin.shape[1], 3), dtype=np.uint8)
             left_line_arr, right_line_arr = Line.slope_filter(self, line_arr)
+<<<<<<< HEAD
             left_line, right_line = Line.find_fitline(self, origin, left_line_arr), Line.find_fitline(self, origin,
                                                                                                       right_line_arr)
 
+=======
+            left_line, right_line = Line.find_fitline(self, origin, left_line_arr), Line.find_fitline(self, origin, right_line_arr)
+            
+>>>>>>> 3153e74 (Feat: Image Processing to Yellowline)
             # draw
             if left_line != 'failed_to_find_line' and Line.slope_cal(self, left_line):
                 if Line.slope_cal(self, left_line) < 10:
@@ -156,6 +178,7 @@ class ImageProccessor:
             if show:
                 cv.imshow("imageProcessor-get_img", origin)
                 cv.waitKey(1) & 0xFF == ord('q')
+<<<<<<< HEAD
 
     ########################################
 
@@ -196,6 +219,8 @@ class ImageProccessor:
         return Danger.get_milkbox_pos(hsv)
 
     ########################################
+=======
+>>>>>>> 3153e74 (Feat: Image Processing to Yellowline)
 
 
 if __name__ == "__main__":
