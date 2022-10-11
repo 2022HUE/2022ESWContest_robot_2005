@@ -9,10 +9,13 @@ from imutils.video import FPS
 
 if __name__ == "__main__":
     from line import Line
+    from Setting import setting, LineColor
 
 else:
     from Sensor.line import Line
-    from Setting import setting, LineColor
+    from Sensor.Setting import setting, LineColor
+print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
+
 
 class ImageProccessor:
     def __init__(self, video : str = ""):
@@ -83,46 +86,47 @@ class ImageProccessor:
     ########### LINE DETECTION ###########
     def line_detection(self, show):
         img = self.get_img()
-        if show:
-            origin = img.copy()
-            cv.imshow("imageProcessor-get_img", img)
-            cv.waitKey(1) & 0xFF == ord('q')
+        origin = img.copy()
+
 
         # height, width = img.shape[:2]
         
         img = self.correction(img)
         hsv = self.hsv_mask(img)
-        print(setting)
+
         line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
         
-        roi_img = Line.ROI(line_gray, self.height, self.width)
+        roi_img = Line.ROI(self, line_gray, self.height, self.width)
         # get Line
-        line_arr = Line.hough_lines(roi_img, 1, 1 * np.pi/180, 30, 10, 20) # 허프 변환
+        line_arr = Line.hough_lines(self, roi_img, 1, 1 * np.pi/180, 30, 10, 20) # 허프 변환
         line_arr = np.squeeze(line_arr)
         if line_arr != 'None':
-            Line.draw_lines(origin, line_arr, [0, 0, 255], 2)
+            Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
 
             # tmp_zero = np.zeros((origin.shape[0], origin.shape[1], 3), dtype=np.uint8)
-            left_line_arr, right_line_arr = Line.slope_filter(line_arr)
-            left_line, right_line = Line.find_fitline(origin, left_line_arr), Line.find_fitline(origin, right_line_arr)
+            left_line_arr, right_line_arr = Line.slope_filter(self, line_arr)
+            left_line, right_line = Line.find_fitline(self, origin, left_line_arr), Line.find_fitline(self, origin, right_line_arr)
             
             # draw
-            if left_line != 'failed_to_find_line' and Line.slope_cal(left_line):
-                if Line.slope_cal(left_line) < 10:
-                    print('수평선!입니다!')
-                    Line.draw_fitline(origin, left_line, [0, 255, 0])
-                elif 85 < Line.slope_cal(left_line) < 95:
-                    print('수직선!입니다!')
-                    Line.draw_fitline(origin, left_line, [255, 255, 0])
-            if right_line != 'failed_to_find_line' and Line.slope_cal(right_line):
-                if Line.slope_cal(right_line) < 10:
-                    print('수평선!입니다!')
-                    Line.draw_fitline(origin, right_line, [0, 255, 0])
-                elif 85 < Line.slope_cal(right_line) < 95:
-                    print('수직선!입니다!')
-                    Line.draw_fitline(origin, right_line, [255, 255, 0])
+            if left_line != 'failed_to_find_line' and Line.slope_cal(self, left_line):
+                if Line.slope_cal(self, left_line) < 10:
+                    # print('수평선!입니다!')
+                    Line.draw_fitline(self, origin, left_line, [0, 255, 0])
+                elif 85 < Line.slope_cal(self, left_line) < 95:
+                    # print('수직선!입니다!')
+                    Line.draw_fitline(self, origin, left_line, [0, 255, 255])
+            if right_line != 'failed_to_find_line' and Line.slope_cal(self, right_line):
+                if Line.slope_cal(self, right_line) < 10:
+                    # print('수평선!입니다!')
+                    Line.draw_fitline(self, origin, right_line, [0, 255, 0])
+                elif 85 < Line.slope_cal(self, right_line) < 95:
+                    # print('수직선!입니다!')
+                    Line.draw_fitline(self, origin, right_line, [0, 255, 255])
+            if show:
+                cv.imshow("imageProcessor-get_img", origin)
+                cv.waitKey(1) & 0xFF == ord('q')
 
 
 if __name__ == "__main__":

@@ -1,5 +1,4 @@
 import sys, os
-from types import NoneType
 import cv2 as cv
 import numpy as np
 
@@ -15,8 +14,9 @@ class Line:
     # cap = cv.VideoCapture(video)
 
     def yellow_mask(self, hsv, color_data):
-        lower = color_data[0]
-        upper = color_data[1]
+        lower = np.array(color_data[0], np.uint8)
+        upper = np.array(color_data[1], np.uint8)
+        # print(color_data, lower, upper)
         mask = cv.inRange(hsv, lower, upper)
 
         kernel = cv.getStructuringElement(cv.MORPH_RECT, (3,3))
