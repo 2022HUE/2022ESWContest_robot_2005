@@ -63,7 +63,7 @@ class Line:
     # 대표선 그리기
     def draw_fitline(self, img, lines, color, thickness=10):
             cv.line(img, (lines[0], lines[1]), (lines[2], lines[3]), color, thickness)
-
+ 
     # 대표선 찾기
     def find_fitline(self, img, f_lines): 
         lines = np.squeeze(f_lines)
