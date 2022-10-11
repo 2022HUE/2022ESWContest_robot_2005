@@ -14,7 +14,6 @@ if not cap.isOpened():
     print('Video open failed...')
     sys.exit()
 
-
 def text_masking(text):
   hsv = cv.cvtColor(text, cv.COLOR_BGR2HSV)
   h, s, v = cv.split(hsv)

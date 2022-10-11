@@ -8,12 +8,12 @@ from imutils.video import FileVideoStream
 from imutils.video import FPS
 
 if __name__ == "__main__":
-    from line import Line
+    from Line import Line
     from Arrow import Arrow
     from Setting import setting, LineColor
 
 else:
-    from Sensor.line import Line
+    from Sensor.Line import Line
     from Sensor.Arrow import Arrow
     from Sensor.Setting import setting, LineColor
 print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])

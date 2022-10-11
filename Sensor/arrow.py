@@ -8,7 +8,7 @@ class Arrow:
     def get_arrow_info(self, arrow_image):
         # arrow_info_image = cv.cvtColor(origin.copy(), cv.COLOR_GRAY2BGR)
         contours, hierarchy = cv.findContours(arrow_image, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
-        
+         
         if hierarchy is not None:
             global cnt_arrow
             for cnt in contours:
