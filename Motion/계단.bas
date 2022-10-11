@@ -2266,15 +2266,18 @@ Number_Play: '  BUTTON_NO = 숫자대입
     MOVE G6B,100,40
     MOVE G6C,100,40
     WAIT
-
+	
+	' 왼발 살짝 들기
     SPEED 10
     MOVE G6A, 90, 100, 115, 105, 114
     MOVE G6D,113,  76, 145,  93,  94
     WAIT
+    
+    ' 여기까진 올라가기 버전과 똑같음
 
     GOSUB Leg_motor_mode2
 
-
+	'왼발 많이 들기
     SPEED 12
     MOVE G6A,  80, 30, 155, 150, 114,
     MOVE G6D,113,  65, 155,  90,  94
@@ -2282,6 +2285,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
 
     GOSUB Leg_motor_mode2
 
+	'왼발 앞 방향으로 내리기 + 오른무릎 굽히기 + 양손 뒤로 하기
     SPEED 7
     MOVE G6A,  80, 30, 175, 150, 114,
     MOVE G6D,113,  115, 65,  140,  94
@@ -2289,6 +2293,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
     MOVE G6C,70,40
     WAIT
 
+	'왼무릎 펼치기 + 오른무릎 더 굽히기 + 오른손 앞으로 하기
     GOSUB Leg_motor_mode3
     SPEED 5
     MOVE G6A,90, 20, 150, 150, 110
@@ -2298,7 +2303,8 @@ Number_Play: '  BUTTON_NO = 숫자대입
     WAIT
 
     '****************************
-
+	
+	'왼무릎 조금 더 펼치면서 보폭 나가기 + 오른무릎 조금 펴기 + 왼팔 앞으로 오른팔 뒤로
     SPEED 8
     MOVE G6A,100, 30, 150, 150, 100
     MOVE G6D,100,  155, 70,  100,100
@@ -2306,6 +2312,8 @@ Number_Play: '  BUTTON_NO = 숫자대입
     MOVE G6C,100,40
     WAIT
 
+
+	'왼무릎 확 펴기 + 오른발 뒤로 하면서 빼기 + 팔 앞뒤 조금 더 크게
     SPEED 10
     MOVE G6A,114, 70, 130, 150, 94
     MOVE G6D,80,  125, 140,  85,114
@@ -2313,17 +2321,20 @@ Number_Play: '  BUTTON_NO = 숫자대입
     MOVE G6C,100,40
     WAIT
 
+	'왼다리 가만히 두기 + 오른다리 굽히면서 앞으로 가져오기
     GOSUB Leg_motor_mode2	
     SPEED 10
     MOVE G6A,114, 70, 130, 150, 94
     MOVE G6D,80,  125, 50,  150,114
     WAIT
 
+	'왼발 지탱하기 + 오른무릎 펴면서 앞으로 가져오기기
     SPEED 9
     MOVE G6A,114, 75, 130, 120, 94
     MOVE G6D,80,  85, 90,  150,114
     WAIT
 
+	'오른발 거의 내리기
     SPEED 8
     MOVE G6A,112, 80, 130, 110, 94
     MOVE G6D,80,  75,130,  115,114
@@ -2331,6 +2342,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
     MOVE G6C,100,40
     WAIT
 
+	'기본자세
     SPEED 6
     MOVE G6D, 98, 80, 130, 105,99,
     MOVE G6A,98,  80, 130,  105, 99
@@ -2703,84 +2715,94 @@ stair_left_down:
 
     SPEED 4
     MOVE G6A, 88,  71, 152,  91, 110
-    MOVE G6D,108,  77, 146,  93,  94
+    MOVE G6D,108,  76, 145,  93,  94
     MOVE G6B,100,40
     MOVE G6C,100,40
     WAIT
 
-    SPEED 8
-    MOVE G6A, 90, 100, 110, 100, 114
-    MOVE G6D,114,  78, 146,  93,  94
+    SPEED 10
+    MOVE G6A, 90, 100, 115, 105, 114
+    MOVE G6D,113,  76, 145,  93,  94
+    WAIT
+	
+	'여기까진 올라가기 버전과 똑같음
+	
+    GOSUB Leg_motor_mode2
+
+	'왼발 많이 들기
+    SPEED 12
+    MOVE G6A,  80, 30, 155, 150, 114,
+    MOVE G6D,113,  65, 155,  90,  94
     WAIT
 
     GOSUB Leg_motor_mode2
 
-    SPEED 8
-    MOVE G6A, 90, 140, 35, 130, 114
-    MOVE G6D,114,  71, 155,  90,  94
-    WAIT
-
-
-    SPEED 12
-    MOVE G6A,  80, 55, 130, 140, 114,
-    MOVE G6D,114,  70, 155,  90,  94
-    WAIT
-
-    GOSUB Leg_motor_mode3
-
+	'왼발 앞 방향으로 내리기 + 오른무릎 굽히기 + 양손 뒤로 하기기
     SPEED 7
-    MOVE G6A, 105, 75, 100, 155, 100,
-    MOVE G6D,95,  90, 165,  70, 100
-    MOVE G6B,160,50
-    MOVE G6C,160,40
+    MOVE G6A,  80, 30, 175, 150, 114,
+    MOVE G6D,113,  115, 65,  140,  94
+    MOVE G6B,70,50
+    MOVE G6C,70,40
     WAIT
 
-    SPEED 6
-    MOVE G6A, 114, 90, 90, 155,100,
-    MOVE G6D,95,  100, 165,  65, 105
-    MOVE G6B,180,50
-    MOVE G6C,180,30
+	'왼무릎 펼치기 + 오른무릎 더 굽히기 + 오른손 앞으로 하기
+    GOSUB Leg_motor_mode3
+    SPEED 5
+    MOVE G6A,90, 20, 150, 150, 110
+    MOVE G6D,110,  155, 35,  120,94
+    MOVE G6B,100,50
+    MOVE G6C,140,40
     WAIT
 
     '****************************
-    GOSUB Leg_motor_mode2	
+
+	'왼무릎 조금 더 펼치면서 보폭 나가기 + 오른무릎 조금 펴기 + 왼팔 앞으로 오른팔 뒤로
     SPEED 8
-    MOVE G6A, 114, 90, 100, 150,95,
-    MOVE G6D,95,  90, 165,  70, 105
-    WAIT
-
-    SPEED 12
-    MOVE G6A, 114, 90, 100, 150,95,
-    MOVE G6D,90,  120, 40,  140, 108
-    WAIT
-
-    SPEED 10
-    MOVE G6A, 114, 90, 110, 130,95,
-    MOVE G6D,90,  95, 90,  145, 108
+    MOVE G6A,100, 30, 150, 150, 100
+    MOVE G6D,100,  155, 70,  100,100
     MOVE G6B,140,50
-    MOVE G6C,140,30
+    MOVE G6C,100,40
     WAIT
-
+    
+	'왼무릎 확 펴기 + 오른발 뒤로 하면서 빼기 + 팔 앞뒤 조금 더 크게
     SPEED 10
-    MOVE G6A, 110, 90, 110, 130,95,
-    MOVE G6D,80,  85, 110,  135, 108
-    MOVE G6B,110,40
-    MOVE G6C,110,40
+    MOVE G6A,114, 70, 130, 150, 94
+    MOVE G6D,80,  125, 140,  85,114
+    MOVE G6B,170,50
+    MOVE G6C,100,40
     WAIT
 
-    SPEED 5
-    MOVE G6D, 98, 90, 110, 125,99,
-    MOVE G6A,98,  90, 110,  125, 99
-    MOVE G6B,110,40
-    MOVE G6C,110,40
+	'왼다리 가만히 두기 + 오른다리 굽히면서 앞으로 가져오기
+    GOSUB Leg_motor_mode2	
+    SPEED 10
+    MOVE G6A,114, 70, 130, 150, 94
+    MOVE G6D,80,  125, 50,  150,114
     WAIT
 
+	'왼발 지탱하기 + 오른무릎 펴면서 앞으로 가져오기
+    SPEED 9
+    MOVE G6A,114, 75, 130, 120, 94
+    MOVE G6D,80,  85, 90,  150,114
+    WAIT
+
+	'오른발 거의 내리기
+    SPEED 8
+    MOVE G6A,112, 80, 130, 110, 94
+    MOVE G6D,80,  75,130,  115,114
+    MOVE G6B,130,50
+    MOVE G6C,100,40
+    WAIT
+
+	'기본자세
     SPEED 6
-    MOVE G6A,100,  77, 145,  93, 100, 100
-    MOVE G6D,100,  77, 145,  93, 100, 100
-    MOVE G6B,100,  30,  80
-    MOVE G6C,100,  30,  80
+    MOVE G6D, 98, 80, 130, 105,99,
+    MOVE G6A,98,  80, 130,  105, 99
+    MOVE G6B,110,40
+    MOVE G6C,110,40
     WAIT
+
+    SPEED 4
+    GOSUB 기본자세
 
     GOTO RX_EXIT
 
