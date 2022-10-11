@@ -22,3 +22,6 @@ DS_Store
  
 # 예외
 #!제외할 파일명.txt
+
+__pycache__/
+__init__.py
