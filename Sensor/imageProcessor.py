@@ -9,7 +9,6 @@ from imutils.video import FPS
 
 if __name__ == "__main__":
     from line import Line
-    # from Setting import setting
 
 else:
     from Sensor.line import Line
