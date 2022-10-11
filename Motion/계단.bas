@@ -2083,10 +2083,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 
     GOTO RX_EXIT
 <<<<<<< HEAD
+<<<<<<< HEAD
     '************************************************
 =======
 '************************************************
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+=======
+    '************************************************
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
 °è´Ü¿Þ¹ß¿À¸£±â1cm:
     GOSUB All_motor_mode3
 
@@ -2274,6 +2278,7 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     MOVE G6C,100,40
     WAIT
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
     ' ¿Þ¹ß »ìÂ¦ µé±â
@@ -2283,11 +2288,15 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 	
 	' ¿Þ¹ß »ìÂ¦ µé±â
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
+=======
+
+    ' ¿Þ¹ß »ìÂ¦ µé±â
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
     SPEED 10
     MOVE G6A, 90, 100, 115, 105, 114
     MOVE G6D,113,  76, 145,  93,  94
     WAIT
-    
+
     ' ¿©±â±îÁø ¿Ã¶ó°¡±â ¹öÀü°ú ¶È°°À½
 
 <<<<<<< HEAD
@@ -2296,6 +2305,7 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     GOSUB Leg_motor_mode2
 
     '¿Þ¹ß ¸¹ÀÌ µé±â
+<<<<<<< HEAD
 =======
     GOSUB Leg_motor_mode2
 
@@ -2305,6 +2315,8 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 =======
 	'¿Þ¹ß ¸¹ÀÌ µé±â
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
+=======
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
     SPEED 12
     MOVE G6A,  80, 30, 155, 150, 114,
     MOVE G6D,113,  65, 155,  90,  94
@@ -2314,12 +2326,16 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ¾Õ ¹æÇâÀ¸·Î ³»¸®±â + ¿À¸¥¹«¸­ ±ÁÈ÷±â + ¾ç¼Õ µÚ·Î ÇÏ±â
 =======
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 =======
 	'¿Þ¹ß ¾Õ ¹æÇâÀ¸·Î ³»¸®±â + ¿À¸¥¹«¸­ ±ÁÈ÷±â + ¾ç¼Õ µÚ·Î ÇÏ±â
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
+=======
+    '¿Þ¹ß ¾Õ ¹æÇâÀ¸·Î ³»¸®±â + ¿À¸¥¹«¸­ ±ÁÈ÷±â + ¾ç¼Õ µÚ·Î ÇÏ±â
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
     SPEED 7
     MOVE G6A,  80, 30, 175, 150, 114,
     MOVE G6D,113,  115, 65,  140,  94
@@ -2329,12 +2345,16 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹«¸­ ÆîÄ¡±â + ¿À¸¥¹«¸­ ´õ ±ÁÈ÷±â + ¿À¸¥¼Õ ¾ÕÀ¸·Î ÇÏ±â
 =======
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 =======
 	'¿Þ¹«¸­ ÆîÄ¡±â + ¿À¸¥¹«¸­ ´õ ±ÁÈ÷±â + ¿À¸¥¼Õ ¾ÕÀ¸·Î ÇÏ±â
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
+=======
+    '¿Þ¹«¸­ ÆîÄ¡±â + ¿À¸¥¹«¸­ ´õ ±ÁÈ÷±â + ¿À¸¥¼Õ ¾ÕÀ¸·Î ÇÏ±â
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
     GOSUB Leg_motor_mode3
     SPEED 5
     MOVE G6A,90, 20, 150, 150, 110
@@ -2345,6 +2365,7 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 
     '****************************
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
     '¿Þ¹«¸­ Á¶±Ý ´õ ÆîÄ¡¸é¼­ º¸Æø ³ª°¡±â + ¿À¸¥¹«¸­ Á¶±Ý Æì±â + ¿ÞÆÈ ¾ÕÀ¸·Î ¿À¸¥ÆÈ µÚ·Î
@@ -2354,6 +2375,10 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 	
 	'¿Þ¹«¸­ Á¶±Ý ´õ ÆîÄ¡¸é¼­ º¸Æø ³ª°¡±â + ¿À¸¥¹«¸­ Á¶±Ý Æì±â + ¿ÞÆÈ ¾ÕÀ¸·Î ¿À¸¥ÆÈ µÚ·Î
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
+=======
+
+    '¿Þ¹«¸­ Á¶±Ý ´õ ÆîÄ¡¸é¼­ º¸Æø ³ª°¡±â + ¿À¸¥¹«¸­ Á¶±Ý Æì±â + ¿ÞÆÈ ¾ÕÀ¸·Î ¿À¸¥ÆÈ µÚ·Î
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
     SPEED 8
     MOVE G6A,100, 30, 150, 150, 100
     MOVE G6D,100,  155, 70,  100,100
@@ -2369,8 +2394,12 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 =======
 
+<<<<<<< HEAD
 	'¿Þ¹«¸­ È® Æì±â + ¿À¸¥¹ß µÚ·Î ÇÏ¸é¼­ »©±â + ÆÈ ¾ÕµÚ Á¶±Ý ´õ Å©°Ô
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
+=======
+    '¿Þ¹«¸­ È® Æì±â + ¿À¸¥¹ß µÚ·Î ÇÏ¸é¼­ »©±â + ÆÈ ¾ÕµÚ Á¶±Ý ´õ Å©°Ô
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
     SPEED 10
     MOVE G6A,114, 70, 130, 150, 94
     MOVE G6D,80,  125, 140,  85,114
@@ -2380,12 +2409,16 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ´Ù¸® °¡¸¸È÷ µÎ±â + ¿À¸¥´Ù¸® ±ÁÈ÷¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â
 =======
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 =======
 	'¿Þ´Ù¸® °¡¸¸È÷ µÎ±â + ¿À¸¥´Ù¸® ±ÁÈ÷¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
+=======
+    '¿Þ´Ù¸® °¡¸¸È÷ µÎ±â + ¿À¸¥´Ù¸® ±ÁÈ÷¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
     GOSUB Leg_motor_mode2	
     SPEED 10
     MOVE G6A,114, 70, 130, 150, 94
@@ -2394,17 +2427,22 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ÁöÅÊÇÏ±â + ¿À¸¥¹«¸­ Æì¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â±â
 =======
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 =======
 	'¿Þ¹ß ÁöÅÊÇÏ±â + ¿À¸¥¹«¸­ Æì¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â±â
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
+=======
+    '¿Þ¹ß ÁöÅÊÇÏ±â + ¿À¸¥¹«¸­ Æì¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â±â
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
     SPEED 9
     MOVE G6A,114, 75, 130, 120, 94
     MOVE G6D,80,  85, 90,  150,114
     WAIT
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     '¿À¸¥¹ß °ÅÀÇ ³»¸®±â
@@ -2413,6 +2451,9 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 =======
 	'¿À¸¥¹ß °ÅÀÇ ³»¸®±â
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
+=======
+    '¿À¸¥¹ß °ÅÀÇ ³»¸®±â
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
     SPEED 8
     MOVE G6A,112, 80, 130, 110, 94
     MOVE G6D,80,  75,130,  115,114
@@ -2422,12 +2463,16 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     '±âº»ÀÚ¼¼
 =======
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
 =======
 	'±âº»ÀÚ¼¼
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
+=======
+    '±âº»ÀÚ¼¼
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
     SPEED 6
     MOVE G6D, 98, 80, 130, 105,99,
     MOVE G6A,98,  80, 130,  105, 99
@@ -2707,6 +2752,7 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 
     RETURN
 <<<<<<< HEAD
+<<<<<<< HEAD
     '****************************************
 °è´Ü¿Þ¹ß³»¸®±â1cm:    
 
@@ -2894,6 +2940,9 @@ stair_right_down:
 
 =======
    	'****************************************
+=======
+    '****************************************
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
 
 stair_right_down:
     GOSUB All_motor_mode3
@@ -3010,6 +3059,7 @@ stair_left_down:
     MOVE G6D,113,  76, 145,  93,  94
     WAIT
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     '¿©±â±îÁø ¿Ã¶ó°¡±â ¹öÀü°ú ¶È°°À½
 
@@ -3092,9 +3142,15 @@ stair_left_down:
 	
 	'¿©±â±îÁø ¿Ã¶ó°¡±â ¹öÀü°ú ¶È°°À½
 	
+=======
+
+    '¿©±â±îÁø ¿Ã¶ó°¡±â ¹öÀü°ú ¶È°°À½
+
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
     GOSUB Leg_motor_mode2
 
-	'¿Þ¹ß ¸¹ÀÌ µé±â
+    '¿Þ¹ß ¸¹ÀÌ µé±â
+    '¾È °Çµå¸²
     SPEED 12
     MOVE G6A,  80, 30, 155, 150, 114,
     MOVE G6D,113,  65, 155,  90,  94
@@ -3103,18 +3159,18 @@ stair_left_down:
 
     GOSUB Leg_motor_mode2
 
-	'¿Þ¹ß ¾Õ ¹æÇâÀ¸·Î ³»¸®±â + ¿À¸¥¹«¸­ ±ÁÈ÷±â + ¾ç¼Õ µÚ·Î ÇÏ±â±â
+    '¿Þ¹ß ¾Õ ¹æÇâÀ¸·Î ³»¸®±â + ¿À¸¥¹«¸­ ±ÁÈ÷±â + ¾ç¼Õ µÚ·Î ÇÏ±â±â
     SPEED 7
-    MOVE G6A,  80, 30, 175, 150, 114,
+    MOVE G6A,  95, 10, 170, 148, 114,
     MOVE G6D,113,  115, 65,  140,  94
     MOVE G6B,70,50
     MOVE G6C,70,40
     WAIT
 
-	'¿Þ¹«¸­ ÆîÄ¡±â + ¿À¸¥¹«¸­ ´õ ±ÁÈ÷±â + ¿À¸¥¼Õ ¾ÕÀ¸·Î ÇÏ±â
+    '¿Þ¹«¸­ ÆîÄ¡±â + ¿À¸¥¹«¸­ ´õ ±ÁÈ÷±â + ¿À¸¥¼Õ ¾ÕÀ¸·Î ÇÏ±â
     GOSUB Leg_motor_mode3
     SPEED 5
-    MOVE G6A,90, 20, 150, 150, 110
+    MOVE G6A,90, 10, 150, 150, 110
     MOVE G6D,110,  155, 35,  120,94
     MOVE G6B,100,50
     MOVE G6C,140,40
@@ -3122,15 +3178,15 @@ stair_left_down:
 
     '****************************
 
-	'¿Þ¹«¸­ Á¶±Ý ´õ ÆîÄ¡¸é¼­ º¸Æø ³ª°¡±â + ¿À¸¥¹«¸­ Á¶±Ý Æì±â + ¿ÞÆÈ ¾ÕÀ¸·Î ¿À¸¥ÆÈ µÚ·Î
+    '¿Þ¹«¸­ Á¶±Ý ´õ ÆîÄ¡¸é¼­ º¸Æø ³ª°¡±â + ¿À¸¥¹«¸­ Á¶±Ý Æì±â + ¿ÞÆÈ ¾ÕÀ¸·Î ¿À¸¥ÆÈ µÚ·Î
     SPEED 8
-    MOVE G6A,100, 30, 150, 150, 100
+    MOVE G6A,100, 15, 150, 150, 100
     MOVE G6D,100,  155, 70,  100,100
     MOVE G6B,140,50
     MOVE G6C,100,40
     WAIT
-    
-	'¿Þ¹«¸­ È® Æì±â + ¿À¸¥¹ß µÚ·Î ÇÏ¸é¼­ »©±â + ÆÈ ¾ÕµÚ Á¶±Ý ´õ Å©°Ô
+
+    '¿Þ¹«¸­ È® Æì±â + ¿À¸¥¹ß µÚ·Î ÇÏ¸é¼­ »©±â + ÆÈ ¾ÕµÚ Á¶±Ý ´õ Å©°Ô
     SPEED 10
 <<<<<<< HEAD
     MOVE G6A, 110, 90, 110, 130,95,
@@ -3156,7 +3212,7 @@ stair_left_down:
     MOVE G6C,100,40
     WAIT
 
-	'¿Þ´Ù¸® °¡¸¸È÷ µÎ±â + ¿À¸¥´Ù¸® ±ÁÈ÷¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â
+    '¿Þ´Ù¸® °¡¸¸È÷ µÎ±â + ¿À¸¥´Ù¸® ±ÁÈ÷¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â
     GOSUB Leg_motor_mode2	
     SPEED 10
     MOVE G6A,114, 70, 130, 150, 94
@@ -3164,13 +3220,13 @@ stair_left_down:
 >>>>>>> 9df3388 (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°3cm, stair_left_down ì£¼ì„ ì¶”ê°€)
     WAIT
 
-	'¿Þ¹ß ÁöÅÊÇÏ±â + ¿À¸¥¹«¸­ Æì¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â
+    '¿Þ¹ß ÁöÅÊÇÏ±â + ¿À¸¥¹«¸­ Æì¸é¼­ ¾ÕÀ¸·Î °¡Á®¿À±â
     SPEED 9
     MOVE G6A,114, 75, 130, 120, 94
     MOVE G6D,80,  85, 90,  150,114
     WAIT
 
-	'¿À¸¥¹ß °ÅÀÇ ³»¸®±â
+    '¿À¸¥¹ß °ÅÀÇ ³»¸®±â
     SPEED 8
     MOVE G6A,112, 80, 130, 110, 94
     MOVE G6D,80,  75,130,  115,114
@@ -3178,7 +3234,7 @@ stair_left_down:
     MOVE G6C,100,40
     WAIT
 
-	'±âº»ÀÚ¼¼
+    '±âº»ÀÚ¼¼
     SPEED 6
     MOVE G6D, 98, 80, 130, 105,99,
     MOVE G6A,98,  80, 130,  105, 99
@@ -3455,11 +3511,18 @@ KEY24: '#
     GOTO stair_left_down
     GOTO RX_EXIT
     '***************
+<<<<<<< HEAD
 'KEY24: '#
  '   ETX 4800, 24
  '   GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
  '   GOTO RX_EXIT
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+=======
+    'KEY24: '#
+    '   ETX 4800, 24
+    '   GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
+    '   GOTO RX_EXIT
+>>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
     '***************
 KEY25: 'P1
     ETX 4800, 25
