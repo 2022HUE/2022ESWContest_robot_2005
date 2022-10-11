@@ -3,8 +3,8 @@ import numpy as np
 
 # 가우시안 블러 안씀 !
 
-global DANGER_CONST, ROOM_S, ROOM_V, MORPH_kernel, GAUSSIAN_kernel
-DANGER_CONST = 10
+global DANGER_RATE, ROOM_S, ROOM_V, MORPH_kernel, GAUSSIAN_kernel
+DANGER_RATE = 10
 # 위험 지역 인식 용도 s(채도) 기준값
 ROOM_S = 170
 # 위험 지역 인식 용도 v(명도) 기준값
@@ -29,6 +29,7 @@ def get_s_mask(src):
     # morphology 연산으로 노이즈 제거
     # s_bin = mophorlogy(s_bin)
     cv.imshow('s_bin', s_bin)
+    cv.imshow('s_bin', s_bin)
 
     return s_bin
 
@@ -49,7 +50,7 @@ def is_danger(src):
     rate = np.count_nonzero(mask_AND) / (640 * 480)
     rate = int(rate * 1000)
     print(rate)
-    return "DANGER" if rate <= DANGER_CONST else "STAIR"
+    return "DANGER" if rate <= DANGER_RATE else "STAIR"
 
 # cap = cv.VideoCapture("videos/danger/1002_19:36.h264")
 cap = cv.VideoCapture("videos/stair/0925_18:19.h264")
