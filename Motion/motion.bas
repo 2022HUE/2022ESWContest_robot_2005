@@ -3667,13 +3667,13 @@ Number_Play: '  BUTTON_NO = 숫자대입
 안전구역:
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 4 !"
-    'GOSUB SOUND_PLAY_CHK
+    GOSUB SOUND_PLAY_CHK
     RETURN
 
 확진구역:
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 5 !"
-    'GOSUB SOUND_PLAY_CHK
+    GOSUB SOUND_PLAY_CHK
     RETURN
 
 동쪽:
@@ -3682,7 +3682,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
     WAIT
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 0 !"
-    'GOSUB SOUND_PLAY_CHK
+    GOSUB SOUND_PLAY_CHK
     DELAY 500
     PRINT "SOUND 0 !"
     DELAY 10
@@ -3695,7 +3695,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
     WAIT
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 1 !"
-    'GOSUB SOUND_PLAY_CHK
+    GOSUB SOUND_PLAY_CHK
     DELAY 500
     PRINT "SOUND 1 !"
     DELAY 10
@@ -3708,7 +3708,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
     WAIT
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 2 !"
-    'GOSUB SOUND_PLAY_CHK
+    GOSUB SOUND_PLAY_CHK
     DELAY 500
     PRINT "SOUND 2 !"
     DELAY 10
@@ -3724,7 +3724,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
     DELAY 500
     PRINT "SOUND 3 !"
     DELAY 10
-    'GOSUB SOUND_PLAY_CHK
+    GOSUB SOUND_PLAY_CHK
     GOSUB 기본자세2
     RETURN
     '******************************************
@@ -6237,8 +6237,8 @@ KEY26: ' ■
     ETX  4800,26
 
     'SPEED 5
-    GOSUB 샤삭샤삭
-    'GOSUB 물건집기
+    'GOSUB 샤삭샤삭
+    GOSUB 물건집기
     GOTO RX_EXIT
     '***************
 KEY27: ' D
