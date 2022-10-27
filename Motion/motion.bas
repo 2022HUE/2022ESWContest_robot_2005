@@ -3672,13 +3672,13 @@ Number_Play: '  BUTTON_NO = О©╫О©╫О©╫з╢О©╫О©╫О©╫
 О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫:
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 4 !"
-    'GOSUB SOUND_PLAY_CHK
+    GOSUB SOUND_PLAY_CHK
     RETURN
 
 х╝О©╫О©╫О©╫О©╫О©╫О©╫:
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 5 !"
-    'GOSUB SOUND_PLAY_CHK
+    GOSUB SOUND_PLAY_CHK
     RETURN
 
 О©╫О©╫О©╫О©╫:
@@ -3687,7 +3687,7 @@ Number_Play: '  BUTTON_NO = О©╫О©╫О©╫з╢О©╫О©╫О©╫
     WAIT
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 0 !"
-    'GOSUB SOUND_PLAY_CHK
+    GOSUB SOUND_PLAY_CHK
     DELAY 500
     PRINT "SOUND 0 !"
     DELAY 10
@@ -3700,7 +3700,7 @@ Number_Play: '  BUTTON_NO = О©╫О©╫О©╫з╢О©╫О©╫О©╫
     WAIT
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 1 !"
-    'GOSUB SOUND_PLAY_CHK
+    GOSUB SOUND_PLAY_CHK
     DELAY 500
     PRINT "SOUND 1 !"
     DELAY 10
@@ -3713,7 +3713,7 @@ Number_Play: '  BUTTON_NO = О©╫О©╫О©╫з╢О©╫О©╫О©╫
     WAIT
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 2 !"
-    'GOSUB SOUND_PLAY_CHK
+    GOSUB SOUND_PLAY_CHK
     DELAY 500
     PRINT "SOUND 2 !"
     DELAY 10
@@ -3729,8 +3729,13 @@ Number_Play: '  BUTTON_NO = О©╫О©╫О©╫з╢О©╫О©╫О©╫
     DELAY 500
     PRINT "SOUND 3 !"
     DELAY 10
+<<<<<<< HEAD
     'GOSUB SOUND_PLAY_CHK
     GOSUB О©╫Б╨╩О©╫з╪О©╫2
+=======
+    GOSUB SOUND_PLAY_CHK
+    GOSUB ╠Б╨╩юз╪╪2
+>>>>>>> 2bc48b6 (Chore: Л²▄Л└╠ Й╢─К═╗ К╙╗Л┘≤ Л┬≤Л═∙)
     RETURN
     '******************************************
 
@@ -6248,10 +6253,15 @@ KEY26: ' О©╫О©╫
 =======
 =======
     'SPEED 5
+<<<<<<< HEAD
 >>>>>>> d2ab6ee (Chore: Л┐╓Л┌╜Л┐╓Л┌╜ К╙╗Л┘≤ Л┬≤Л═∙)
     GOSUB ╩Ч╩Х╩Ч╩Х
     'GOSUB ╧╟╟гаЩ╠Б
 >>>>>>> 5f3e757 (Chore: Л┐╓Л┌╜Л┐╓Л┌╜ К╙╗Л┘≤ Л┬≤Л═∙)
+=======
+    'GOSUB ╩Ч╩Х╩Ч╩Х
+    GOSUB ╧╟╟гаЩ╠Б
+>>>>>>> 2bc48b6 (Chore: Л²▄Л└╠ Й╢─К═╗ К╙╗Л┘≤ Л┬≤Л═∙)
     GOTO RX_EXIT
     '***************
 KEY27: ' D
