@@ -4449,6 +4449,7 @@ Number_Play: '  BUTTON_NO = ���ڴ���
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     GOSUB SOUND_PLAY_CHK
 =======
     'GOSUB SOUND_PLAY_CHK
@@ -4459,6 +4460,9 @@ Number_Play: '  BUTTON_NO = ���ڴ���
 =======
     'GOSUB SOUND_PLAY_CHK
 >>>>>>> be40f22 (Add: Motion file 추가)
+=======
+    GOSUB SOUND_PLAY_CHK
+>>>>>>> 2a55088 (Chore: 음성 관련 모션 수정)
     RETURN
 
 Ȯ������:
@@ -4467,6 +4471,7 @@ Number_Play: '  BUTTON_NO = ���ڴ���
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     GOSUB SOUND_PLAY_CHK
 =======
     'GOSUB SOUND_PLAY_CHK
@@ -4477,6 +4482,9 @@ Number_Play: '  BUTTON_NO = ���ڴ���
 =======
     'GOSUB SOUND_PLAY_CHK
 >>>>>>> be40f22 (Add: Motion file 추가)
+=======
+    GOSUB SOUND_PLAY_CHK
+>>>>>>> 2a55088 (Chore: 음성 관련 모션 수정)
     RETURN
 
 ����:
@@ -4488,6 +4496,7 @@ Number_Play: '  BUTTON_NO = ���ڴ���
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     GOSUB SOUND_PLAY_CHK
 =======
     'GOSUB SOUND_PLAY_CHK
@@ -4498,6 +4507,9 @@ Number_Play: '  BUTTON_NO = ���ڴ���
 =======
     'GOSUB SOUND_PLAY_CHK
 >>>>>>> be40f22 (Add: Motion file 추가)
+=======
+    GOSUB SOUND_PLAY_CHK
+>>>>>>> 2a55088 (Chore: 음성 관련 모션 수정)
     DELAY 500
     PRINT "SOUND 0 !"
     DELAY 10
@@ -4513,6 +4525,7 @@ Number_Play: '  BUTTON_NO = ���ڴ���
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     GOSUB SOUND_PLAY_CHK
 =======
     'GOSUB SOUND_PLAY_CHK
@@ -4523,6 +4536,9 @@ Number_Play: '  BUTTON_NO = ���ڴ���
 =======
     'GOSUB SOUND_PLAY_CHK
 >>>>>>> be40f22 (Add: Motion file 추가)
+=======
+    GOSUB SOUND_PLAY_CHK
+>>>>>>> 2a55088 (Chore: 음성 관련 모션 수정)
     DELAY 500
     PRINT "SOUND 1 !"
     DELAY 10
@@ -4538,6 +4554,7 @@ Number_Play: '  BUTTON_NO = ���ڴ���
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     GOSUB SOUND_PLAY_CHK
 =======
     'GOSUB SOUND_PLAY_CHK
@@ -4548,6 +4565,9 @@ Number_Play: '  BUTTON_NO = ���ڴ���
 =======
     'GOSUB SOUND_PLAY_CHK
 >>>>>>> be40f22 (Add: Motion file 추가)
+=======
+    GOSUB SOUND_PLAY_CHK
+>>>>>>> 2a55088 (Chore: 음성 관련 모션 수정)
     DELAY 500
     PRINT "SOUND 2 !"
     DELAY 10
@@ -4566,6 +4586,7 @@ Number_Play: '  BUTTON_NO = ���ڴ���
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     GOSUB SOUND_PLAY_CHK
 =======
     'GOSUB SOUND_PLAY_CHK
@@ -4578,6 +4599,14 @@ Number_Play: '  BUTTON_NO = ���ڴ���
     'GOSUB SOUND_PLAY_CHK
     GOSUB �⺻�ڼ�2
 >>>>>>> be40f22 (Add: Motion file 추가)
+=======
+    'GOSUB SOUND_PLAY_CHK
+    GOSUB �⺻�ڼ�2
+=======
+    GOSUB SOUND_PLAY_CHK
+    GOSUB �⺻�ڼ�2
+>>>>>>> 2bc48b6 (Chore: 음성 관련 모션 수정)
+>>>>>>> 2a55088 (Chore: 음성 관련 모션 수정)
     RETURN
     '******************************************
 
@@ -8419,6 +8448,7 @@ KEY26: ' ��
 =======
 =======
     'SPEED 5
+<<<<<<< HEAD
 >>>>>>> d2ab6ee (Chore: 샤삭샤삭 모션 수정)
     GOSUB �������
     'GOSUB ��������
@@ -8427,6 +8457,7 @@ KEY26: ' ��
     'GOSUB �������
     GOSUB ��������
 >>>>>>> 2bc48b6 (Chore: 음성 관련 모션 수정)
+<<<<<<< HEAD
 =======
     GOSUB �������
     'GOSUB ��������
@@ -8457,6 +8488,8 @@ KEY26: ' ��
     'GOSUB ��������
 >>>>>>> 5f3e757 (Chore: 샤삭샤삭 모션 수정)
 >>>>>>> c2e00a1 (Chore: 샤삭샤삭 모션 수정)
+=======
+>>>>>>> 2a55088 (Chore: 음성 관련 모션 수정)
     GOTO RX_EXIT
     '***************
 KEY27: ' D
