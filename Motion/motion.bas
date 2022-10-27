@@ -3707,20 +3707,28 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 4 !"
 <<<<<<< HEAD
+<<<<<<< HEAD
     GOSUB SOUND_PLAY_CHK
 =======
     'GOSUB SOUND_PLAY_CHK
 >>>>>>> 601e172 (Add: Motion file ì¶”ê°€)
+=======
+    GOSUB SOUND_PLAY_CHK
+>>>>>>> 2bc48b6 (Chore: ìŒì„± ê´€ë ¨ ëª¨ì…˜ ìˆ˜ì •)
     RETURN
 
 È®Áø±¸¿ª:
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 5 !"
 <<<<<<< HEAD
+<<<<<<< HEAD
     GOSUB SOUND_PLAY_CHK
 =======
     'GOSUB SOUND_PLAY_CHK
 >>>>>>> 601e172 (Add: Motion file ì¶”ê°€)
+=======
+    GOSUB SOUND_PLAY_CHK
+>>>>>>> 2bc48b6 (Chore: ìŒì„± ê´€ë ¨ ëª¨ì…˜ ìˆ˜ì •)
     RETURN
 
 µ¿ÂÊ:
@@ -3730,10 +3738,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 0 !"
 <<<<<<< HEAD
+<<<<<<< HEAD
     GOSUB SOUND_PLAY_CHK
 =======
     'GOSUB SOUND_PLAY_CHK
 >>>>>>> 601e172 (Add: Motion file ì¶”ê°€)
+=======
+    GOSUB SOUND_PLAY_CHK
+>>>>>>> 2bc48b6 (Chore: ìŒì„± ê´€ë ¨ ëª¨ì…˜ ìˆ˜ì •)
     DELAY 500
     PRINT "SOUND 0 !"
     DELAY 10
@@ -3747,10 +3759,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 1 !"
 <<<<<<< HEAD
+<<<<<<< HEAD
     GOSUB SOUND_PLAY_CHK
 =======
     'GOSUB SOUND_PLAY_CHK
 >>>>>>> 601e172 (Add: Motion file ì¶”ê°€)
+=======
+    GOSUB SOUND_PLAY_CHK
+>>>>>>> 2bc48b6 (Chore: ìŒì„± ê´€ë ¨ ëª¨ì…˜ ìˆ˜ì •)
     DELAY 500
     PRINT "SOUND 1 !"
     DELAY 10
@@ -3764,10 +3780,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     PRINT "OPEN 20GongMo.mrs !"
     PRINT "SOUND 2 !"
 <<<<<<< HEAD
+<<<<<<< HEAD
     GOSUB SOUND_PLAY_CHK
 =======
     'GOSUB SOUND_PLAY_CHK
 >>>>>>> 601e172 (Add: Motion file ì¶”ê°€)
+=======
+    GOSUB SOUND_PLAY_CHK
+>>>>>>> 2bc48b6 (Chore: ìŒì„± ê´€ë ¨ ëª¨ì…˜ ìˆ˜ì •)
     DELAY 500
     PRINT "SOUND 2 !"
     DELAY 10
@@ -3784,10 +3804,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     PRINT "SOUND 3 !"
     DELAY 10
 <<<<<<< HEAD
+<<<<<<< HEAD
     GOSUB SOUND_PLAY_CHK
 =======
     'GOSUB SOUND_PLAY_CHK
 >>>>>>> 601e172 (Add: Motion file ì¶”ê°€)
+=======
+    GOSUB SOUND_PLAY_CHK
+>>>>>>> 2bc48b6 (Chore: ìŒì„± ê´€ë ¨ ëª¨ì…˜ ìˆ˜ì •)
     GOSUB ±âº»ÀÚ¼¼2
     RETURN
     '******************************************
@@ -7021,6 +7045,7 @@ KEY26: ' ¡á
 <<<<<<< HEAD
 <<<<<<< HEAD
     'SPEED 5
+<<<<<<< HEAD
     º¸ÇàÈ½¼ö = 1
     GOSUB È½¼ö_»þ»è»þ»è
     'GOSUB ¹°°ÇÁý±â
@@ -7036,6 +7061,10 @@ KEY26: ' ¡á
     GOSUB »þ»è»þ»è
     'GOSUB ¹°°ÇÁý±â
 >>>>>>> 5f3e757 (Chore: ìƒ¤ì‚­ìƒ¤ì‚­ ëª¨ì…˜ ìˆ˜ì •)
+=======
+    'GOSUB »þ»è»þ»è
+    GOSUB ¹°°ÇÁý±â
+>>>>>>> 2bc48b6 (Chore: ìŒì„± ê´€ë ¨ ëª¨ì…˜ ìˆ˜ì •)
     GOTO RX_EXIT
     '***************
 KEY27: ' D
