@@ -7,12 +7,12 @@ global H_BLUE, H_RED
 # opencv 에서 hue 값: 0 ~ 180, blue : 120, red : 0 (음수로 내려가면 알아서 변환함)
 # 실제 경기장에서는 어두운 파란색이라 120보다 낮은 100 ~ 115 정도 값인 듯
 # BOX
-H_BLUE = [[82, 87, 30], [170, 255, 120]]
+H_BLUE = [[82, 87, 30], [130, 255, 120]]
 H_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
 # morphology kernel 값
 MORPH_kernel = 3
 
-cap = cv.VideoCapture("src/danger/1002_19:05.h264")
+cap = cv.VideoCapture("src/danger/1002_19:26.h264")
 
 def mophorlogy(mask):
     kernel = np.ones((MORPH_kernel, MORPH_kernel), np.uint8)
@@ -43,12 +43,12 @@ def get_milkbox_color(hsv):
 def get_milkbox_mask(hsv, color):
     lower_hue, upper_hue = np.array(H_BLUE[0]), np.array(H_BLUE[1])
     if color == "RED":
-        lower_hue, upper_hue = H_RED[0], H_RED[1]
+        lower_hue, upper_hue = np.array(H_RED[0]), np.array(H_RED[1])
     # saturation, value 적당한 값 : 30 이라고 함 -> 일단 150, 0 으로 둠
     # lower_hue = np.array([hue - 10, 30, 30])
     # upper_hue = np.array([hue + 10, 255, 255])
     h_mask = cv.inRange(hsv, lower_hue, upper_hue)
-    cv.imshow('milk_mask', h_mask)
+    # cv.imshow('h_mask', h_mask)
     return h_mask # mask 리턴
 
 while cap.isOpened():
@@ -57,13 +57,20 @@ while cap.isOpened():
     if not _:
         print("ret is false")
         break
-    blur = cv.GaussianBlur(src, (0,0), 1)
+    blur = cv.GaussianBlur(src, (5, 5), 0)
     cv.imshow('src', src)
+    cv.imshow('blur', blur)
 
     # HSV로 색 추출
     hsv = cv.cvtColor(blur, cv.COLOR_BGR2HSV)
     s_bin = get_s_mask(hsv)
-    cv.imshow('s_bin', s_bin)
+    # cv.imshow('s_bin', s_bin)
+
+    # hsv에 채색 mask 씌워서 해당하는 장애물 mask 받아내기
+    hsv_s = cv.bitwise_and(hsv, hsv, mask=s_bin)
+    # cv.imshow('hsv_s', hsv_s)
+    milk_mask = get_milkbox_mask(hsv_s, "BLUE")
+    cv.imshow('milk_mask', milk_mask)
 
     # milk_mask = get_milkbox_color(hsv)
     # 우유팩 마스크를 씌워서 imshow 하기
