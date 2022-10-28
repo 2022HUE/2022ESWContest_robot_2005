@@ -1,5 +1,3 @@
-import sys, os
-from types import NoneType
 import cv2 as cv
 import numpy as np
 
