@@ -2827,8 +2827,7 @@ MAIN_2:
 
     '**** 입력된 A값이 0 이면 MAIN 라벨로 가고
     '**** 1이면 	 라벨, 2이면 key2로... 가는문
-    ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY16,KEY19,KEY22,KEY25
-
+    ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18 ,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28 ,KEY29,KEY30,KEY31,KEY32
 
     IF A > 100 AND A < 110 THEN
         BUTTON_NO = A - 100
@@ -2921,6 +2920,36 @@ KEY10: '0
     GOSUB 기본자세
     GOTO RX_EXIT
     '***************
+KEY11: ' ▲
+    ETX  4800,11
+
+    GOTO 기본자세
+    GOTO RX_EXIT
+
+    '***************
+KEY12: ' ▼
+    ETX  4800,12
+
+    GOSUB 기본자세
+    GOTO RX_EXIT
+    '***************
+KEY13: '▶
+    ETX  4800,13
+    'GOSUB 전방하향90도
+    GOSUB 기본자세
+    GOTO RX_EXIT
+    '**************
+KEY14: ' ◀
+    ETX  4800,14
+    GOSUB 기본자세
+    GOTO RX_EXIT
+
+
+    GOTO RX_EXIT
+    '***************
+KEY15: 'A
+    ETX 4800, 15
+    GOSUB 기본자세
     GOTO RX_EXIT
 KEY16: ' POWER
     ETX  4800,16
@@ -2978,9 +3007,30 @@ KEY16_1:
 
     GOTO RX_EXIT
     '***************
+KEY17: ' C
+    ETX 4800, 17
+    GOSUB 기본자세
+    GOTO RX_EXIT
+    '***************
+KEY18: ' E
+    ETX 4800, 18
+    GOSUB 기본자세
+    GOTO RX_EXIT
+    '***************
 KEY19: 'P2
     ETX 4800, 19
     GOSUB  계단오른발내리기1cm
+    GOTO RX_EXIT
+    '***************
+KEY20: 'B
+    ETX 4800, 20
+    GOSUB 기본자세
+    GOTO RX_EXIT
+    '***************
+KEY21: ' △
+    ETX  4800,21
+    GOSUB 기본자세
+
     GOTO RX_EXIT
     '***************
 KEY22: ' *
@@ -2991,10 +3041,16 @@ KEY22: ' *
     GOTO stair_left_down
     GOTO RX_EXIT
     '***************
-    'KEY24: '#
-    '   ETX 4800, 24
+KEY23: 'G
+    ETX 4800, 23
+    GOSUB 기본자세
+    GOTO RX_EXIT
+    '***************
+KEY24: '#
+       ETX 4800, 24
+       GOSUB 기본자세
     '   GOSUB 계단왼발내리기1cm
-    '   GOTO RX_EXIT
+       GOTO RX_EXIT
     '***************
 KEY25: 'P1
     ETX 4800, 25
@@ -3002,5 +3058,44 @@ KEY25: 'P1
     ' GOTO 왼쪽턴3
     'GOTO 왼쪽턴20
     GOSUB stair_right_down
+    GOTO RX_EXIT
+    '***************
+KEY26: ' ■
+    ETX  4800,26
+
+    'SPEED 5
+    'GOSUB 샤삭샤삭
+    GOSUB 기본자세
+    GOTO RX_EXIT
+    '***************
+KEY27: ' D
+    ETX 4800, 27
+    GOTO 기본자세
+    GOTO RX_EXIT
+    '***************
+KEY28: ' ◁
+    ETX 4800, 28
+    GOSUB 기본자세
+    GOTO RX_EXIT
+    '***************
+KEY29: ' □
+    ETX 4800, 29
+    GOSUB 기본자세
+    GOTO RX_EXIT
+    '***************
+KEY30: ' ▷
+    ETX 4800, 30
+    GOSUB 기본자세
+    GOTO RX_EXIT
+    '***************
+KEY31: ' ▽
+    ETX 4800, 31
+    GOSUB 기본자세
+    GOTO RX_EXIT
+    '***************
+
+KEY32: ' F
+    ETX 4800, 32
+    GOSUB 기본자세
     GOTO RX_EXIT
     '***************
