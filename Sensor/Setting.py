@@ -32,3 +32,7 @@ cur = Setting()
 # cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
 cur.MAP_DIRECTION = None # (entr) E, W, S, N
 cur.MAP_ARROW = "" # (entr) LEFT, RIGHT
+
+setting.DANGER_H_BLUE = [[82, 87, 30], [130, 255, 120]]
+setting.DANGER_H_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
+
