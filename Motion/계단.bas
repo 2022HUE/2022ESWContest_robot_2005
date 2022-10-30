@@ -2737,9 +2737,9 @@ stair_left_down:
 
     GOSUB Leg_motor_mode2
 
-    '왼발 앞 방향으로 내리기 + 오른무릎 굽히기 + 양손 뒤로 하기기
+    '왼발 앞 방향으로 내리기 + 오른무릎 굽히기 + 양손 뒤로 하기
     SPEED 7
-    MOVE G6A,  80, 30, 170, 148, 114,
+    MOVE G6A,  80, 30, 175, 150, 114,
     MOVE G6D,113,  115, 65,  140,  94
     MOVE G6B,70,50
     MOVE G6C,70,40
@@ -2750,8 +2750,8 @@ stair_left_down:
     SPEED 5
     MOVE G6A,90, 15, 135, 150, 110
     MOVE G6D,110,  155, 35,  120,94
-    MOVE G6B,100,50
-    MOVE G6C,140,40
+    MOVE G6B,100,30
+    MOVE G6C,150,70
     WAIT
 
     '****************************
@@ -2760,16 +2760,16 @@ stair_left_down:
     SPEED 8
     MOVE G6A,104, 25, 135, 150, 100
     MOVE G6D,100,  155, 70,  100,100
-    MOVE G6B,140,50
-    MOVE G6C,100,40
+    MOVE G6B,150,30
+    MOVE G6C,100,70
     WAIT
 
     '왼무릎 확 펴기 + 오른발 뒤로 하면서 빼기 + 팔 앞뒤 조금 더 크게
     SPEED 10
     MOVE G6A,114, 70, 130, 150, 94
     MOVE G6D,80,  125, 140,  85,114
-    MOVE G6B,170,50
-    MOVE G6C,100,40
+    MOVE G6B,170,30
+    MOVE G6C,100,70
     WAIT
 
     '왼다리 가만히 두기 + 오른다리 굽히면서 앞으로 가져오기
@@ -2789,8 +2789,8 @@ stair_left_down:
     SPEED 8
     MOVE G6A,112, 80, 130, 110, 94
     MOVE G6D,80,  75,130,  115,114
-    MOVE G6B,130,50
-    MOVE G6C,100,40
+    MOVE G6B,130,30
+    MOVE G6C,100,70
     WAIT
 
     '기본자세
@@ -3034,7 +3034,7 @@ KEY21: ' △
     '***************
 KEY22: ' *
     ETX 4800, 22
-	GOSUB 기본자세
+    GOSUB 기본자세
     'GOSUB 계단왼발내리기1cm
     GOTO RX_EXIT
     '***************
