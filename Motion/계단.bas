@@ -3368,6 +3368,7 @@ stair_right_down:
 =======
 
 >>>>>>> b895699 (Chore: 계단 리모컨 키 수정)
+<<<<<<< HEAD
 =======
 =======
 =======
@@ -3379,6 +3380,8 @@ stair_right_down:
     GOSUB All_motor_mode3
 >>>>>>> f684033 (Add: 계단 파일 추가)
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
+=======
+>>>>>>> 90a6a99 (Chore: 계단 리모컨 키 수정)
     GOSUB All_motor_mode3
 
     SPEED 4
@@ -4125,6 +4128,7 @@ KEY19: 'P2
 =======
     GOSUB stair_right_down
 >>>>>>> b895699 (Chore: 계단 리모컨 키 수정)
+<<<<<<< HEAD
     GOTO RX_EXIT
     '***************
 KEY20: 'B
@@ -4146,6 +4150,8 @@ KEY19: 'P2
     GOSUB  ��ܿ����߳�����1cm
 >>>>>>> f684033 (Add: 계단 파일 추가)
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
+=======
+>>>>>>> 90a6a99 (Chore: 계단 리모컨 키 수정)
     GOTO RX_EXIT
     '***************
 KEY20: 'B
@@ -4166,8 +4172,11 @@ KEY22: ' *
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
+=======
+>>>>>>> 90a6a99 (Chore: 계단 리모컨 키 수정)
     'GOSUB �⺻�ڼ�
     GOSUB ��ܿ޹߳�����1cm
 =======
@@ -4195,6 +4204,9 @@ KEY24: '#
     ' GOTO ������������45
     GOTO stair_left_down
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 90a6a99 (Chore: 계단 리모컨 키 수정)
 =======
 	GOSUB �⺻�ڼ�
     'GOSUB ��ܿ޹߳�����1cm
@@ -4241,25 +4253,34 @@ KEY23: 'G
 KEY24: '#
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
+=======
+>>>>>>> 90a6a99 (Chore: 계단 리모컨 키 수정)
        ETX 4800, 24
        GOSUB �⺻�ڼ�
     '   GOSUB ��ܿ޹߳�����1cm
        GOTO RX_EXIT
 >>>>>>> de3081d (Chore: 리모컨 키값 수정)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 90a6a99 (Chore: 계단 리모컨 키 수정)
 =======
     ETX 4800, 24
     GOSUB  ��ܿ����߳�����1cm
     GOTO RX_EXIT
 >>>>>>> b895699 (Chore: 계단 리모컨 키 수정)
+<<<<<<< HEAD
 =======
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
 =======
 >>>>>>> 9ef8ece (Chore: stair_left_down 값 수정)
 =======
 >>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
+=======
+>>>>>>> 90a6a99 (Chore: 계단 리모컨 키 수정)
     '***************
 KEY25: 'P1
     ETX 4800, 25
@@ -4269,8 +4290,11 @@ KEY25: 'P1
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
+=======
+>>>>>>> 90a6a99 (Chore: 계단 리모컨 키 수정)
     GOSUB stair_left_down
     GOTO RX_EXIT
     '***************
@@ -4315,6 +4339,7 @@ KEY32: ' F
     GOSUB stair_right_down
 >>>>>>> f684033 (Add: 계단 파일 추가)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     GOSUB stair_left_down
 >>>>>>> b895699 (Chore: 계단 리모컨 키 수정)
@@ -4359,6 +4384,11 @@ KEY32: ' F
     GOSUB �⺻�ڼ�
 =======
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
+=======
+=======
+    GOSUB stair_left_down
+>>>>>>> b895699 (Chore: 계단 리모컨 키 수정)
+>>>>>>> 90a6a99 (Chore: 계단 리모컨 키 수정)
     GOTO RX_EXIT
     '***************
 KEY26: ' ��
