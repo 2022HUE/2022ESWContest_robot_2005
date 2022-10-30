@@ -2762,10 +2762,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
 	GOSUB All_motor_mode3
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ¿ÏÀü Áý¾î³Ö±â ''''
 =======
     '¿À¸¥¹ß ¿ÏÀü Áý¾î³Ö±â ''''
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß ¿ÏÀü Áý¾î³Ö±â ''''
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 5
     MOVE G6D, 100, 110,  112, 92,  101, 100
     MOVE G6A,  100,  112, 112, 92, 101, 100
@@ -2774,10 +2778,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿À¸¥¹ß¸ñ ¿ÞÂÊÀ¸·Î
 =======
     '¿Þ¹ß¸ñ ¿ÞÂÊÀ¸·Î
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿À¸¥¹ß¸ñ ¿ÞÂÊÀ¸·Î
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 5
     MOVE G6D, 112, 110,  112, 92,  101, 100
     MOVE G6A,  85,  110, 112, 92, 108, 100
@@ -2786,10 +2794,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT 	
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß °ÅÀÇ¹ß¸ñ±îÁö   Áý¾î³Ö±â
 =======
     '¿À¸¥¹ß °ÅÀÇ¹ß¸ñ±îÁö   Áý¾î³Ö±â
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß °ÅÀÇ¹ß¸ñ±îÁö   Áý¾î³Ö±â
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 5
     MOVE G6D, 112, 110,  112, 92,  101, 100
     MOVE G6A,  95,  110, 112, 92, 108, 100
@@ -2798,10 +2810,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT 	
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß °ÅÀÇ  Áý¾î³Ö±â
 =======
     '¿À¸¥¹ß °ÅÀÇ  Áý¾î³Ö±â
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß °ÅÀÇ  Áý¾î³Ö±â
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 5
     MOVE G6D, 112, 110,  112, 92,  101, 100
     MOVE G6A,  95,  105, 63, 119, 116, 100
@@ -2810,10 +2826,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß Áý¾î³Ö±â
 =======
     '¿À¸¥¹ß Áý¾î³Ö±â
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß Áý¾î³Ö±â
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 5
     MOVE G6D, 112, 110,  112, 92,  101, 100
     MOVE G6A,  95,  15, 139, 139, 116, 100
@@ -2822,10 +2842,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿À¸¥¹«¸­¼öÁ÷ ÃÖÁ¾µé±â
 =======
     '¿Þ¹«¸­¼öÁ÷ ÃÖÁ¾µé±â
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿À¸¥¹«¸­¼öÁ÷ ÃÖÁ¾µé±â
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 2
     MOVE G6D, 112, 110,  112, 77,  91, 100
     MOVE G6A,  95,  15, 169, 139, 116, 100
@@ -2834,10 +2858,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿À¸¥¹«¸­ ¸¹ÀÌµé±â
 =======
     '¿Þ¹«¸­ ¸¹ÀÌµé±â
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿À¸¥¹«¸­ ¸¹ÀÌµé±â
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 1
     MOVE G6D, 112, 125,  102, 65,  91, 100
     MOVE G6A,  95,  15, 169, 139, 116, 100
@@ -2846,10 +2874,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT	
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿À¸¥¹«¸­ µé±â
 =======
     '¿Þ¹«¸­ µé±â
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿À¸¥¹«¸­ µé±â
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 5
     MOVE G6D, 108, 140,  92, 82,  91, 100
     MOVE G6A,  95,  15, 169, 139, 116, 100
@@ -2858,10 +2890,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '½ÃÇè ¿Þ¹ß·Î ÁöÅÊÇÏ°í ³»·Á°¡´Â µ¿ÀÛ
 =======
     '½ÃÇè ¿À¸¥¹ß·Î ÁöÅÊÇÏ°í ³»·Á°¡´Â µ¿ÀÛ
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '½ÃÇè ¿Þ¹ß·Î ÁöÅÊÇÏ°í ³»·Á°¡´Â µ¿ÀÛ
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 5
     MOVE G6D, 105, 140,  92, 102,  81, 100
     MOVE G6A,  95,  15, 169, 149, 116, 100
@@ -2870,10 +2906,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿À¸¥¹ß , ¿Þ¹ß ¼¼¿ì±â
 =======
     '¿Þ¹ß , ¿À¸¥¹ß ¼¼¿ì±â
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿À¸¥¹ß , ¿Þ¹ß ¼¼¿ì±â
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 5
     MOVE G6D, 105, 120,  112, 102,  81, 100
     MOVE G6A,  95,  35, 149, 139, 116, 100
@@ -2882,10 +2922,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß °ÅÀÇ ¼öÁ÷À¸·Î ¼¼¿ì±â ';';'
 =======
     '¿À¸¥¹ß °ÅÀÇ ¼öÁ÷À¸·Î ¼¼¿ì±â ';';'
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß °ÅÀÇ ¼öÁ÷À¸·Î ¼¼¿ì±â ';';'
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 5
     MOVE G6D, 105, 120,  112, 102,  96, 100
     MOVE G6A,  100,  35, 149, 139, 106, 100
@@ -2894,10 +2938,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ¹ß¸ñ ¿ÞÂÊÀ¸·Î ±â¿ïÀÌ±â
 =======
     '¿À¸¥¹ß ¹ß¸ñ ¿ÞÂÊÀ¸·Î ±â¿ïÀÌ±â
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß ¹ß¸ñ ¿ÞÂÊÀ¸·Î ±â¿ïÀÌ±â
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 5
     MOVE G6D, 97, 120,  112, 102,  96, 100
     MOVE G6A,  105,  35, 149, 139, 106, 100
@@ -2906,10 +2954,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ¹«¸­°ú »óÃ¼ ¼÷ÀÌ±â
 =======
     '¿À¸¥¹ß ¹«¸­°ú »óÃ¼ ¼÷ÀÌ±â
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß ¹«¸­°ú »óÃ¼ ¼÷ÀÌ±â
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 3
     MOVE G6D, 97, 120,  112, 102,  96, 100
     MOVE G6A,  110,  45, 149, 139, 106, 100
@@ -2918,10 +2970,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ¹«¸­ ¾à°£ ¿Ã¸®±â
 =======
     '¿À¸¥¹ß ¹«¸­ ¾à°£ ¿Ã¸®±â
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß ¹«¸­ ¾à°£ ¿Ã¸®±â
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 5
     MOVE G6D, 97, 120,  102, 107,  96, 100
     MOVE G6A,  110,  55, 149, 139, 106, 100
@@ -2930,10 +2986,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ¹«¸­ ¾à°£ ¿Ã¸®±â (¿Þ¹ß ¹ß¸ñ Áß½É Àâ±â)
 =======
     '¿À¸¥¹ß ¹«¸­ ¾à°£ ¿Ã¸®±â (¿À¸¥¹ß ¹ß¸ñ Áß½É Àâ±â)
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß ¹«¸­ ¾à°£ ¿Ã¸®±â (¿Þ¹ß ¹ß¸ñ Áß½É Àâ±â)
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 5
     MOVE G6D, 97, 120,  102, 107,  96, 100
     MOVE G6A,  112,  55, 149, 139, 106, 100
@@ -2942,10 +3002,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ¾ÕÀ¸·Î °®°í¿À±â
 =======
     '¿À¸¥¹ß ¾ÕÀ¸·Î °®°í¿À±â
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß ¾ÕÀ¸·Î °®°í¿À±â
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 3
     MOVE G6D, 97, 105,  103, 132,  96, 100
     MOVE G6A,  112,  55, 149, 139, 106, 100
@@ -2954,10 +3018,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ¾ÕÀ¸·Î °®°í¿À±â 2
 =======
     '¿À¸¥¹ß ¾ÕÀ¸·Î °®°í¿À±â 2
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß ¾ÕÀ¸·Î °®°í¿À±â 2
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 3
     MOVE G6D, 97, 110,  97, 160,  96, 100
     MOVE G6A,  112,  55, 149, 139, 106, 100
@@ -2966,10 +3034,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ¾ÕÀ¸·Î °®°í¿À±â 3
 =======
     '¿À¸¥¹ß ¾ÕÀ¸·Î °®°í¿À±â 3
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß ¾ÕÀ¸·Î °®°í¿À±â 3
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 3
     MOVE G6D, 97, 110,  107, 160,  96, 100
     MOVE G6A,  112,  55, 149, 139, 106, 100
@@ -2978,10 +3050,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ³»¸®±â1
 =======
     '¿À¸¥¹ß ³»¸®±â1
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß ³»¸®±â1
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 3
     MOVE G6D, 90, 65,  149, 149,  96, 100
     MOVE G6A,  112,  55, 149, 139, 106, 100
@@ -2990,10 +3066,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ³»¸®±â2
 =======
     '¿À¸¥¹ß ³»¸®±â2
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß ³»¸®±â2
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 3
     MOVE G6D, 90, 65,  149, 149,  96, 100
     MOVE G6A,  107,  55, 149, 139, 106, 100
@@ -3002,10 +3082,14 @@ Number_Play: '  BUTTON_NO = ¼ýÀÚ´ëÀÔ
     WAIT
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     '¿Þ¹ß ³»¸®±â3
 =======
     '¿À¸¥¹ß ³»¸®±â3
 >>>>>>> db3afa5 (Feat: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm ì¶”ê°€)
+=======
+    '¿Þ¹ß ³»¸®±â3
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     SPEED 3
     MOVE G6D, 97, 55,  149, 136,  96, 100
     MOVE G6A,  107,  55, 149, 139, 104, 100
@@ -3618,12 +3702,17 @@ KEY22: ' *
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     'GOSUB ±âº»ÀÚ¼¼
     GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
 =======
     GOSUB ±âº»ÀÚ¼¼
     'GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
 >>>>>>> f330313 (Chore: stair_left_down ë¬´ë¦Ž, íŒ” ë²Œë¦¬ëŠ” ê°ë„ ìˆ˜ì •)
+=======
+    'GOSUB ±âº»ÀÚ¼¼
+    GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
+>>>>>>> d114a0d (Comment: ê³„ë‹¨ì™¼ë°œë‚´ë¦¬ê¸°1cm  ì£¼ì„ ìˆ˜ì •)
     GOTO RX_EXIT
     '***************
 KEY23: 'G
