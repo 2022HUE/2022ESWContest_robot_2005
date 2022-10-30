@@ -42,6 +42,7 @@ def get_v_mask(hsv):
     v_bin = mophorlogy(v_bin)
     return v_bin
 
+
 # 장애물 위치 파악을 위한 함수
 def danger_roi(hsv):
     return True
@@ -53,16 +54,20 @@ def get_black_mask(hsv):
     # h_mask = mophorlogy(h_mask)
     return h_mask  # mask 리턴
 
+
 def get_color_mask(hsv, const):
     lower_hue, upper_hue = np.array(const[0]), np.array(const[1])
     mask = cv.inRange(hsv, lower_hue, upper_hue)
     return mask
 
+
 def get_alphabet_red_mask(hsv):
     return get_color_mask(hsv, ALPHABET_RED)
 
+
 def get_alphabet_blue_mask(hsv):
     return get_color_mask(hsv, ALPHABET_BLUE)
+
 
 def is_out_of_black(hsv, visualization=False):
     begin = (bx, by) = (160, 200)
@@ -74,12 +79,13 @@ def is_out_of_black(hsv, visualization=False):
     rate *= 100
 
     if visualization:
-        cv.imshow("roi", cv.rectangle(hsv, begin, end, (0, 0, 255), 3)) # hsv 말고 src 여야함
+        cv.imshow("roi", cv.rectangle(hsv, begin, end, (0, 0, 255), 3))  # hsv 말고 src 여야함
         cv.imshow("mask", mask)
         cv.waitKey(1)
     print(rate)
 
     return rate <= 30
+
 
 def get_alphabet_roi(hsv):
     gray = cv.cvtColor(hsv, cv.COLOR_HSV2BGR)
@@ -87,6 +93,7 @@ def get_alphabet_roi(hsv):
     cv.imshow('gray', gray)
     v_mask = get_v_mask(hsv)
     cv.imshow('v', v_mask)
+
 
 def get_alphabet_color(hsv):
     get_alphabet_roi(hsv)
