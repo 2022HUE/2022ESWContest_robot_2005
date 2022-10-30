@@ -2624,7 +2624,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
     '****************************************
 
 stair_right_down:
-    GOSUB All_motor_mode3
+
     GOSUB All_motor_mode3
 
     SPEED 4
@@ -3019,7 +3019,7 @@ KEY18: ' E
     '***************
 KEY19: 'P2
     ETX 4800, 19
-    GOSUB  계단오른발내리기1cm
+    GOSUB stair_right_down
     GOTO RX_EXIT
     '***************
 KEY20: 'B
@@ -3035,10 +3035,8 @@ KEY21: ' △
     '***************
 KEY22: ' *
     ETX 4800, 22
-    '  GOTO 오른쪽턴3
-    'GOTO 오른쪽턴20
-    ' GOTO 집고오른쪽턴45
-    GOTO stair_left_down
+	GOSUB 기본자세
+    'GOSUB 계단왼발내리기1cm
     GOTO RX_EXIT
     '***************
 KEY23: 'G
@@ -3047,17 +3045,16 @@ KEY23: 'G
     GOTO RX_EXIT
     '***************
 KEY24: '#
-       ETX 4800, 24
-       GOSUB 기본자세
-    '   GOSUB 계단왼발내리기1cm
-       GOTO RX_EXIT
+    ETX 4800, 24
+    GOSUB  계단오른발내리기1cm
+    GOTO RX_EXIT
     '***************
 KEY25: 'P1
     ETX 4800, 25
     ' GOTO 집고왼쪽턴45
     ' GOTO 왼쪽턴3
     'GOTO 왼쪽턴20
-    GOSUB stair_right_down
+    GOSUB stair_left_down
     GOTO RX_EXIT
     '***************
 KEY26: ' ■
