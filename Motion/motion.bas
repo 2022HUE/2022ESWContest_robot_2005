@@ -8449,6 +8449,7 @@ KEY26: ' ��
 =======
     'SPEED 5
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> d2ab6ee (Chore: 샤삭샤삭 모션 수정)
     GOSUB �������
     'GOSUB ��������
@@ -8458,10 +8459,14 @@ KEY26: ' ��
     GOSUB ��������
 >>>>>>> 2bc48b6 (Chore: 음성 관련 모션 수정)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bc73abb (Chore: stair_left_down 무릎, 팔 벌리는 각도 수정)
 =======
     GOSUB �������
     'GOSUB ��������
 >>>>>>> f330313 (Chore: stair_left_down 무릎, 팔 벌리는 각도 수정)
+<<<<<<< HEAD
 =======
     'GOSUB �������
     GOSUB ��������
@@ -8490,6 +8495,8 @@ KEY26: ' ��
 >>>>>>> c2e00a1 (Chore: 샤삭샤삭 모션 수정)
 =======
 >>>>>>> 2a55088 (Chore: 음성 관련 모션 수정)
+=======
+>>>>>>> bc73abb (Chore: stair_left_down 무릎, 팔 벌리는 각도 수정)
     GOTO RX_EXIT
     '***************
 KEY27: ' D
