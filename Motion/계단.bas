@@ -2945,8 +2945,12 @@ stair_right_down:
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
 
 stair_right_down:
+<<<<<<< HEAD
     GOSUB All_motor_mode3
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+=======
+
+>>>>>>> b895699 (Chore: ê³„ë‹¨ ë¦¬ëª¨ì»¨ í‚¤ ìˆ˜ì •)
     GOSUB All_motor_mode3
 
     SPEED 4
@@ -3500,8 +3504,12 @@ KEY21: ' ¡â
 >>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
 KEY19: 'P2
     ETX 4800, 19
+<<<<<<< HEAD
     GOSUB  °è´Ü¿À¸¥¹ß³»¸®±â1cm
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+=======
+    GOSUB stair_right_down
+>>>>>>> b895699 (Chore: ê³„ë‹¨ ë¦¬ëª¨ì»¨ í‚¤ ìˆ˜ì •)
     GOTO RX_EXIT
     '***************
 KEY20: 'B
@@ -3517,6 +3525,7 @@ KEY21: ' ¡â
     '***************
 KEY22: ' *
     ETX 4800, 22
+<<<<<<< HEAD
 <<<<<<< HEAD
     'GOSUB ±âº»ÀÚ¼¼
     GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
@@ -3536,6 +3545,10 @@ KEY24: '#
     'GOTO ¿À¸¥ÂÊÅÏ20
     ' GOTO Áý°í¿À¸¥ÂÊÅÏ45
     GOTO stair_left_down
+=======
+	GOSUB ±âº»ÀÚ¼¼
+    'GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
+>>>>>>> b895699 (Chore: ê³„ë‹¨ ë¦¬ëª¨ì»¨ í‚¤ ìˆ˜ì •)
     GOTO RX_EXIT
     '***************
 <<<<<<< HEAD
@@ -3558,17 +3571,24 @@ KEY23: 'G
     GOTO RX_EXIT
     '***************
 KEY24: '#
+<<<<<<< HEAD
        ETX 4800, 24
        GOSUB ±âº»ÀÚ¼¼
     '   GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
        GOTO RX_EXIT
 >>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
+=======
+    ETX 4800, 24
+    GOSUB  °è´Ü¿À¸¥¹ß³»¸®±â1cm
+    GOTO RX_EXIT
+>>>>>>> b895699 (Chore: ê³„ë‹¨ ë¦¬ëª¨ì»¨ í‚¤ ìˆ˜ì •)
     '***************
 KEY25: 'P1
     ETX 4800, 25
     ' GOTO Áý°í¿ÞÂÊÅÏ45
     ' GOTO ¿ÞÂÊÅÏ3
     'GOTO ¿ÞÂÊÅÏ20
+<<<<<<< HEAD
 <<<<<<< HEAD
     GOSUB stair_left_down
     GOTO RX_EXIT
@@ -3613,6 +3633,9 @@ KEY32: ' F
 =======
     GOSUB stair_right_down
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+=======
+    GOSUB stair_left_down
+>>>>>>> b895699 (Chore: ê³„ë‹¨ ë¦¬ëª¨ì»¨ í‚¤ ìˆ˜ì •)
     GOTO RX_EXIT
     '***************
 KEY26: ' ¡á
