@@ -36,3 +36,19 @@ cur.MAP_ARROW = "" # (entr) LEFT, RIGHT
 setting.DANGER_H_BLUE = [[82, 87, 30], [130, 255, 120]]
 setting.DANGER_H_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
 
+########### DANGER DETECTION ###########
+
+# 파란색 색상 마스크 lower, upper의 [h, s, v] 값
+setting.DANGER_H_BLUE = [[82, 87, 30], [130, 255, 120]]
+# 빨간색 색상 마스크 lower, upper의 [h, s, v] 값
+setting.DANGER_H_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
+# 위험/계단 지역 판단하는 비율의 기준
+setting.DANGER_RATE = 10
+# 위험 지역 인식 용도 s(채도) 기준값
+setting.DANGER_ROOM_S = 170
+# 위험 지역 인식 용도 v(명도) 기준값
+setting.DANGER_ROOM_V = 80
+# 장애물 인식 용도 s(채도) 기준값
+setting.DANGER_MILKBOX_S = 80
+# 장애물 인식 용도 v(명도) 기준값
+setting.DANGER_MILKBOX_V = 150
