@@ -8,7 +8,9 @@ global H_BLUE, H_RED
 # 실제 경기장에서는 어두운 파란색이라 120보다 낮은 100 ~ 115 정도 값인 듯
 # BOX
 H_BLUE = [[82, 87, 30], [130, 255, 120]]
-H_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
+H_RED = [[167, 77, 30], [180, 255, 189]]  # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
+DANGER_BLACK = [[0, 0, 0], [180, 255, 80]]
+
 # morphology kernel 값
 MORPH_kernel = 3
 
@@ -34,10 +36,36 @@ def get_v_mask(hsv):
     v_bin = mophorlogy(v_bin)
     return v_bin
 
+
 def danger_roi(hsv):
     return True
 
-def get_milkbox_color(hsv):
+def get_black_mask(hsv):
+    lower_hue, upper_hue = np.array(DANGER_BLACK[0]), np.array(DANGER_BLACK[1])
+    h_mask = cv.inRange(hsv, lower_hue, upper_hue)
+    # h_mask = mophorlogy(h_mask)
+    return h_mask  # mask 리턴
+
+
+def is_out_of_black(hsv, visualization=False):
+    begin = (bx, by) = (160, 200)
+    end = (ex, ey) = (480, 420)
+
+    mask = get_black_mask(hsv)
+
+    rate = np.count_nonzero(mask) / ((ex - bx) * (ey - by))
+    rate *= 100
+
+    if visualization:
+        cv.imshow("roi", cv.rectangle(hsv, begin, end, (0, 0, 255), 3))
+        cv.imshow("mask", mask)
+        cv.waitKey(1)
+    print(rate)
+
+    return rate <= 30
+
+
+def get_alphabet_color(hsv):
     return True
 
 def get_milkbox_mask(hsv, color):
@@ -49,7 +77,7 @@ def get_milkbox_mask(hsv, color):
     # upper_hue = np.array([hue + 10, 255, 255])
     h_mask = cv.inRange(hsv, lower_hue, upper_hue)
     # cv.imshow('h_mask', h_mask)
-    return h_mask # mask 리턴
+    return h_mask  # mask 리턴
 
 while cap.isOpened():
     _, src = cap.read()
