@@ -2172,7 +2172,6 @@ Number_Play: '  BUTTON_NO = 숫자대입
 
 계단오른발오르기1cm:
     GOSUB All_motor_mode3
-    GOSUB All_motor_mode3
 
     SPEED 4
     MOVE G6D, 88,  71, 152,  91, 110
@@ -2740,7 +2739,7 @@ stair_left_down:
 
     '왼발 앞 방향으로 내리기 + 오른무릎 굽히기 + 양손 뒤로 하기기
     SPEED 7
-    MOVE G6A,  95, 10, 170, 148, 114,
+    MOVE G6A,  80, 30, 170, 148, 114,
     MOVE G6D,113,  115, 65,  140,  94
     MOVE G6B,70,50
     MOVE G6C,70,40
@@ -2749,7 +2748,7 @@ stair_left_down:
     '왼무릎 펼치기 + 오른무릎 더 굽히기 + 오른손 앞으로 하기
     GOSUB Leg_motor_mode3
     SPEED 5
-    MOVE G6A,90, 10, 150, 150, 110
+    MOVE G6A,90, 15, 135, 150, 110
     MOVE G6D,110,  155, 35,  120,94
     MOVE G6B,100,50
     MOVE G6C,140,40
@@ -2759,7 +2758,7 @@ stair_left_down:
 
     '왼무릎 조금 더 펼치면서 보폭 나가기 + 오른무릎 조금 펴기 + 왼팔 앞으로 오른팔 뒤로
     SPEED 8
-    MOVE G6A,100, 15, 150, 150, 100
+    MOVE G6A,104, 25, 135, 150, 100
     MOVE G6D,100,  155, 70,  100,100
     MOVE G6B,140,50
     MOVE G6C,100,40
@@ -2783,7 +2782,7 @@ stair_left_down:
     '왼발 지탱하기 + 오른무릎 펴면서 앞으로 가져오기
     SPEED 9
     MOVE G6A,114, 75, 130, 120, 94
-    MOVE G6D,80,  85, 90,  150,114
+    MOVE G6D,80,  70, 90,  150,114
     WAIT
 
     '오른발 거의 내리기
