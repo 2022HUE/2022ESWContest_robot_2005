@@ -3846,19 +3846,28 @@ MAIN_2:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
+=======
+>>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
     ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18 ,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28 ,KEY29,KEY30,KEY31,KEY32
 =======
     ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY16,KEY19,KEY22,KEY25
 
 >>>>>>> f684033 (Add: 계단 파일 추가)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18 ,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28 ,KEY29,KEY30,KEY31,KEY32
 >>>>>>> de3081d (Chore: 리모컨 키값 수정)
 =======
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
+=======
+=======
+    ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18 ,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28 ,KEY29,KEY30,KEY31,KEY32
+>>>>>>> de3081d (Chore: 리모컨 키값 수정)
+>>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
 
     IF A > 100 AND A < 110 THEN
         BUTTON_NO = A - 100
@@ -3954,10 +3963,15 @@ KEY10: '0
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> de3081d (Chore: 리모컨 키값 수정)
 =======
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
+=======
+=======
+>>>>>>> de3081d (Chore: 리모컨 키값 수정)
+>>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
 KEY11: ' ��
     ETX  4800,11
 
@@ -3990,14 +4004,20 @@ KEY15: 'A
     GOSUB �⺻�ڼ�
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
 =======
 >>>>>>> f684033 (Add: 계단 파일 추가)
 =======
 >>>>>>> de3081d (Chore: 리모컨 키값 수정)
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> f684033 (Add: 계단 파일 추가)
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
+=======
+>>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
     GOTO RX_EXIT
 KEY16: ' POWER
     ETX  4800,16
@@ -4058,10 +4078,15 @@ KEY16_1:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> de3081d (Chore: 리모컨 키값 수정)
 =======
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
+=======
+=======
+>>>>>>> de3081d (Chore: 리모컨 키값 수정)
+>>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
 KEY17: ' C
     ETX 4800, 17
     GOSUB �⺻�ڼ�
@@ -4089,6 +4114,7 @@ KEY21: ' ��
 
 =======
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> de3081d (Chore: 리모컨 키값 수정)
 KEY19: 'P2
@@ -4111,11 +4137,26 @@ KEY21: ' ��
     GOSUB �⺻�ڼ�
 
 =======
+=======
+=======
+>>>>>>> de3081d (Chore: 리모컨 키값 수정)
+>>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
 KEY19: 'P2
     ETX 4800, 19
     GOSUB  ��ܿ����߳�����1cm
 >>>>>>> f684033 (Add: 계단 파일 추가)
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
+    GOTO RX_EXIT
+    '***************
+KEY20: 'B
+    ETX 4800, 20
+    GOSUB �⺻�ڼ�
+    GOTO RX_EXIT
+    '***************
+KEY21: ' ��
+    ETX  4800,21
+    GOSUB �⺻�ڼ�
+
     GOTO RX_EXIT
     '***************
 KEY22: ' *
@@ -4163,12 +4204,15 @@ KEY24: '#
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     GOTO RX_EXIT
     '***************
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
 =======
 >>>>>>> 9ef8ece (Chore: stair_left_down 값 수정)
+=======
+>>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
 'KEY24: '#
  '   ETX 4800, 24
  '   GOSUB ��ܿ޹߳�����1cm
@@ -4185,6 +4229,9 @@ KEY24: '#
     '   GOTO RX_EXIT
 >>>>>>> 1af3458 (Chore: stair_left_down 값 수정)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
 =======
 KEY23: 'G
     ETX 4800, 23
@@ -4193,11 +4240,15 @@ KEY23: 'G
     '***************
 KEY24: '#
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
        ETX 4800, 24
        GOSUB �⺻�ڼ�
     '   GOSUB ��ܿ޹߳�����1cm
        GOTO RX_EXIT
 >>>>>>> de3081d (Chore: 리모컨 키값 수정)
+<<<<<<< HEAD
 =======
     ETX 4800, 24
     GOSUB  ��ܿ����߳�����1cm
@@ -4207,6 +4258,8 @@ KEY24: '#
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
 =======
 >>>>>>> 9ef8ece (Chore: stair_left_down 값 수정)
+=======
+>>>>>>> 138ac71 (Chore: 리모컨 키값 수정)
     '***************
 KEY25: 'P1
     ETX 4800, 25
@@ -4306,5 +4359,44 @@ KEY32: ' F
     GOSUB �⺻�ڼ�
 =======
 >>>>>>> d5e7416 (Add: 계단 파일 추가)
+    GOTO RX_EXIT
+    '***************
+KEY26: ' ��
+    ETX  4800,26
+
+    'SPEED 5
+    'GOSUB �������
+    GOSUB �⺻�ڼ�
+    GOTO RX_EXIT
+    '***************
+KEY27: ' D
+    ETX 4800, 27
+    GOTO �⺻�ڼ�
+    GOTO RX_EXIT
+    '***************
+KEY28: ' ��
+    ETX 4800, 28
+    GOSUB �⺻�ڼ�
+    GOTO RX_EXIT
+    '***************
+KEY29: ' ��
+    ETX 4800, 29
+    GOSUB �⺻�ڼ�
+    GOTO RX_EXIT
+    '***************
+KEY30: ' ��
+    ETX 4800, 30
+    GOSUB �⺻�ڼ�
+    GOTO RX_EXIT
+    '***************
+KEY31: ' ��
+    ETX 4800, 31
+    GOSUB �⺻�ڼ�
+    GOTO RX_EXIT
+    '***************
+
+KEY32: ' F
+    ETX 4800, 32
+    GOSUB �⺻�ڼ�
     GOTO RX_EXIT
     '***************
