@@ -6237,8 +6237,8 @@ KEY26: ' ¡á
     ETX  4800,26
 
     'SPEED 5
-    'GOSUB »þ»è»þ»è
-    GOSUB ¹°°ÇÁý±â
+    GOSUB »þ»è»þ»è
+    'GOSUB ¹°°ÇÁý±â
     GOTO RX_EXIT
     '***************
 KEY27: ' D
