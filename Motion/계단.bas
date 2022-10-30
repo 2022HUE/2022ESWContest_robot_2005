@@ -3269,11 +3269,15 @@ MAIN_2:
     '**** ÀÔ·ÂµÈ A°ªÀÌ 0 ÀÌ¸é MAIN ¶óº§·Î °¡°í
     '**** 1ÀÌ¸é 	 ¶óº§, 2ÀÌ¸é key2·Î... °¡´Â¹®
 <<<<<<< HEAD
+<<<<<<< HEAD
     ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18 ,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28 ,KEY29,KEY30,KEY31,KEY32
 =======
     ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY16,KEY19,KEY22,KEY25
 
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+=======
+    ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18 ,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28 ,KEY29,KEY30,KEY31,KEY32
+>>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
 
     IF A > 100 AND A < 110 THEN
         BUTTON_NO = A - 100
@@ -3367,6 +3371,9 @@ KEY10: '0
     GOTO RX_EXIT
     '***************
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
 KEY11: ' ¡ã
     ETX  4800,11
 
@@ -3397,8 +3404,11 @@ KEY14: ' ¢¸
 KEY15: 'A
     ETX 4800, 15
     GOSUB ±âº»ÀÚ¼¼
+<<<<<<< HEAD
 =======
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+=======
+>>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
     GOTO RX_EXIT
 KEY16: ' POWER
     ETX  4800,16
@@ -3457,6 +3467,9 @@ KEY16_1:
     GOTO RX_EXIT
     '***************
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
 KEY17: ' C
     ETX 4800, 17
     GOSUB ±âº»ÀÚ¼¼
@@ -3467,6 +3480,7 @@ KEY18: ' E
     GOSUB ±âº»ÀÚ¼¼
     GOTO RX_EXIT
     '***************
+<<<<<<< HEAD
 KEY19: 'P2
     ETX 4800, 19
     GOSUB stair_right_down
@@ -3482,10 +3496,23 @@ KEY21: ' ¡â
     GOSUB ±âº»ÀÚ¼¼
 
 =======
+=======
+>>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
 KEY19: 'P2
     ETX 4800, 19
     GOSUB  °è´Ü¿À¸¥¹ß³»¸®±â1cm
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+    GOTO RX_EXIT
+    '***************
+KEY20: 'B
+    ETX 4800, 20
+    GOSUB ±âº»ÀÚ¼¼
+    GOTO RX_EXIT
+    '***************
+KEY21: ' ¡â
+    ETX  4800,21
+    GOSUB ±âº»ÀÚ¼¼
+
     GOTO RX_EXIT
     '***************
 KEY22: ' *
@@ -3512,6 +3539,7 @@ KEY24: '#
     GOTO RX_EXIT
     '***************
 <<<<<<< HEAD
+<<<<<<< HEAD
 'KEY24: '#
  '   ETX 4800, 24
  '   GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
@@ -3523,6 +3551,18 @@ KEY24: '#
     '   GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
     '   GOTO RX_EXIT
 >>>>>>> 1af3458 (Chore: stair_left_down ê°’ ìˆ˜ì •)
+=======
+KEY23: 'G
+    ETX 4800, 23
+    GOSUB ±âº»ÀÚ¼¼
+    GOTO RX_EXIT
+    '***************
+KEY24: '#
+       ETX 4800, 24
+       GOSUB ±âº»ÀÚ¼¼
+    '   GOSUB °è´Ü¿Þ¹ß³»¸®±â1cm
+       GOTO RX_EXIT
+>>>>>>> de3081d (Chore: ë¦¬ëª¨ì»¨ í‚¤ê°’ ìˆ˜ì •)
     '***************
 KEY25: 'P1
     ETX 4800, 25
@@ -3573,5 +3613,44 @@ KEY32: ' F
 =======
     GOSUB stair_right_down
 >>>>>>> f684033 (Add: ê³„ë‹¨ íŒŒì¼ ì¶”ê°€)
+    GOTO RX_EXIT
+    '***************
+KEY26: ' ¡á
+    ETX  4800,26
+
+    'SPEED 5
+    'GOSUB »þ»è»þ»è
+    GOSUB ±âº»ÀÚ¼¼
+    GOTO RX_EXIT
+    '***************
+KEY27: ' D
+    ETX 4800, 27
+    GOTO ±âº»ÀÚ¼¼
+    GOTO RX_EXIT
+    '***************
+KEY28: ' ¢·
+    ETX 4800, 28
+    GOSUB ±âº»ÀÚ¼¼
+    GOTO RX_EXIT
+    '***************
+KEY29: ' ¡à
+    ETX 4800, 29
+    GOSUB ±âº»ÀÚ¼¼
+    GOTO RX_EXIT
+    '***************
+KEY30: ' ¢¹
+    ETX 4800, 30
+    GOSUB ±âº»ÀÚ¼¼
+    GOTO RX_EXIT
+    '***************
+KEY31: ' ¡ä
+    ETX 4800, 31
+    GOSUB ±âº»ÀÚ¼¼
+    GOTO RX_EXIT
+    '***************
+
+KEY32: ' F
+    ETX 4800, 32
+    GOSUB ±âº»ÀÚ¼¼
     GOTO RX_EXIT
     '***************
