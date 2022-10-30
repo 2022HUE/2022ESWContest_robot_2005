@@ -36,7 +36,6 @@ def get_v_mask(hsv):
     v_bin = mophorlogy(v_bin)
     return v_bin
 
-
 def danger_roi(hsv):
     return True
 
@@ -45,7 +44,6 @@ def get_black_mask(hsv):
     h_mask = cv.inRange(hsv, lower_hue, upper_hue)
     # h_mask = mophorlogy(h_mask)
     return h_mask  # mask 리턴
-
 
 def is_out_of_black(hsv, visualization=False):
     begin = (bx, by) = (160, 200)
