@@ -45,13 +45,6 @@ def rect(img, contours1):
         rect_y = contours1[pos][0][0][1] #가장 위의 y값 좌표
         rect_x = contours1[pos][0][0][0]  # 가장 위의 y값 좌표
 
-        # if center=='right':
-        #     pass # 오른쪽 가기 모션
-        # elif center=='left':
-        #     pass # 왼쪽으로 가는 모션
-        # elif center=='go':
-        #     #크기 측정하며 전진.
-
         alphabet_size_calculation(peri, points, area_arr, approx, rect_y,rect_x)
 
 def alphabet_center_check(x):
@@ -88,7 +81,6 @@ def left_rignt(img_mask,x=0,y=0,w=0,h=0):
 
     #로봇의 각도가 70도
     print("left %d  right %d"%(left,right))
-    # if abs(left-right)>10 and abs(left-right)<50:
     if left<=10: #이부분 다시 확인.
         print("회전 완료") #여기서 함수 끝!!
         rotation = True
@@ -164,6 +156,5 @@ while(True):
 
 cv.destroyAllWindows()
 
-# 올라갔을 때 계단 색 확인 하는 함수
+# 올라갔을 때 계단 색 확인 하는 함수 --> 허프라인으로 시도해보기
 # 수평 확인하는 함수
-
