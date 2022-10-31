@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-cap = cv.VideoCapture("src/stair/1027_23:21.h264")  # 알파벳 구분 영상으로 쓰기.
+cap = cv.VideoCapture("src/stair/1027_23:22.h264")  # 알파벳 구분 영상으로 쓰기.
 
 def rect(img, contours1):
     for pos in range(len(contours1)):

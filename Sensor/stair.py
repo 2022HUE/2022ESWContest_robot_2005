@@ -2,11 +2,12 @@ import cv2 as cv
 import numpy as np
 
 global DANGER_CONST, ROOM_S, ROOM_V
-global ALPHABET_GO
+global ALPHABET_GO, ROTATION
 DANGER_CONST = 10
 ROOM_S = 180
 ROOM_V = 0
 ALPHABET_GO= False
+ROTATION = ''
 def mophorlogy(mask):
     kernel = np.ones((3, 3), np.uint8)
     mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)
@@ -42,7 +43,8 @@ def rect(img, contours1):
         points = len(approx)
         area_arr = cv.moments(contours1[pos])
         # x = contours1[pos][0][0][0]  # 알파벳 위치의 x값 좌표 --> 알파벳 중앙에 오게할 때 필요
-        y = contours1[pos][0][0][1] #가장 위의 y값 좌표
+        rect_y = contours1[pos][0][0][1] #가장 위의 y값 좌표
+        print(rect_y)
 
         # center = alphabet_center_check(x+10) #x값이 0인걸 방지
         # if center=='right':
@@ -51,7 +53,12 @@ def rect(img, contours1):
         #     pass # 왼쪽으로 가는 모션
         # elif center=='go':
         #     #크기 측정하며 전진.
-        alphabet_size_calculation(peri, points, area_arr, approx, y)
+
+        alphabet_size_calculation(peri, points, area_arr, approx, rect_y)
+
+        # ROTATION = 'finish'
+        # return ROTATION, peri, points, area_arr, approx, rect_y
+
 
 def alphabet_center_check(x): #안됨..
     print(x)
@@ -66,12 +73,17 @@ def alphabet_center_check(x): #안됨..
         return 'go'
 
 #전진 하면서 크기 측정 함수
-def alphabet_size_calculation(peri, points, area_arr,approx,y):
-    if peri >= 300 and peri <= 1000 and points == 4 and y < 150:
+def alphabet_size_calculation(peri, points, area_arr,approx,rect_y):
+    if peri >= 300 and peri <= 1000 and points == 4 and rect_y < 150:
         area = area_arr["m00"]
         cv.drawContours(img_color, [approx], 0, (0, 255, 255), 2)
+        print(area)
         if area >= 43000:
             print("정지 후 계단 지역으로 회전하세요.")
+            return True
+        else:
+            return False
+
 
 #계단 지역 기준 왼쪽 오른쪽 판단하는 함수
 def left_rignt(img_mask,ALPHABET_GO,x=0,y=0,w=0,h=0):
@@ -79,10 +91,6 @@ def left_rignt(img_mask,ALPHABET_GO,x=0,y=0,w=0,h=0):
         left = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000 )
         x =320;
         right = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000)
-        #
-        # rate = np.count_nonzero(mask_AND) / (640 * 480)
-        # rate = int(rate * 1000)
-        # print(rate)
 
         #로봇의 각도가 70도
         print("left %d  right %d"%(left,right))
@@ -96,7 +104,7 @@ def left_rignt(img_mask,ALPHABET_GO,x=0,y=0,w=0,h=0):
         else:
             print("알파벳은 왼쪽에 있습니다.")
 
-    if alphabet_go==True:
+    if ALPHABET_GO==True:
         return 'rectgo'
     else:
         return 'notgo'
@@ -122,7 +130,7 @@ def HoughLine():
 
 
 # cap = cv.VideoCapture('src/stair/0925_19:27.h264')  # 제일 쓸만함
-cap = cv.VideoCapture("src/stair/1027_23:21.h264") #알파벳 구분 영상으로 쓰기.
+cap = cv.VideoCapture("src/stair/1027_23:22.h264") #알파벳 구분 영상으로 쓰기.
 
 while(True):
     ret, img_color = cap.read()
@@ -133,28 +141,32 @@ while(True):
     stair_saturation_check_mask = saturation_measurement(img_color)
 
     img_canny = cv.Canny(img_color,50,150)
-    left_rignt(stair_saturation_check_mask,ALPHABET_GO) #알파벳 오른쪽 왼쪽 확인하는 함수.
-    # HoughLine()
+    # 알파벳 오른쪽 왼쪽 확인하는 함수.
+    # left_rignt(stair_saturation_check_mask,ALPHABET_GO)
 
     h, w = img_color.shape[:2] #(480,640)
     cv.imshow('img_color', img_color)
 
     # ---------------------------------------------------------------
-
     blur = cv.GaussianBlur(img_gray, (9,9), 0)
     add = cv.add(blur, 0)
     alpha = 0.0
     dst = np.clip((1 + alpha) * add - 128 * alpha, 0, 255).astype(np.uint8)
 
     ret, th = cv.threshold(dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
+    dst = cv.bitwise_or(dst, dst, mask=th)
+
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
+    dst = cv.dilate(dst, kernel, iterations=1)
 
     edges = cv.Canny(th, 100, 200, apertureSize=3)
-
 
     contours1, hierarchy1 = cv.findContours(dst, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
 
     x,y,w,h = 0,0,600,400
+    #알파벳 영역 추적
     rect(th[y:y+h, x:x+w], contours1)
+
     #----------------------------------------------------------------
 
     cv.imshow('result',img_color)
