@@ -9,7 +9,6 @@ upper_blue2 = 0
 lower_blue3 = 0
 upper_blue3 = 0
 
-
 def mouse_callback(event, x, y, flags, param):
     global hsv, lower_blue1, upper_blue1, lower_blue2, upper_blue2, lower_blue3, upper_blue3
 
@@ -60,7 +59,7 @@ def mouse_callback(event, x, y, flags, param):
         print("@2", lower_blue2, "~", upper_blue2)
         print("@3", lower_blue3, "~", upper_blue3)
 
-cap = cv.VideoCapture('src/stair/1002_19:55.h264')  # 제일 쓸만함
+cap = cv.VideoCapture('src/stair/1027_23:22.h264')  # 제일 쓸만함
 red_cnt = 0
 
 while(True):
@@ -83,9 +82,8 @@ while(True):
     cv.imshow('img_color', img_color)
     cv.imshow('img_result', img_result)
 
-    if cv.waitKey(10) & 0xFF == 27:
+    if cv.waitKey(20) & 0xFF == 27:
         break
-
 
     cv.namedWindow('img_color')
     cv.setMouseCallback('img_color', mouse_callback)
