@@ -27,17 +27,17 @@ def mophorlogy(mask):
     return mask
 
 
-def get_s_mask(hsv):
+def get_s_mask(hsv, s_value):
     h, s, v = cv.split(hsv)
-    ret_s, s_bin = cv.threshold(s, 80, 255, cv.THRESH_BINARY)
+    ret_s, s_bin = cv.threshold(s, s_value, 255, cv.THRESH_BINARY)
     # morphology 연산으로 노이즈 제거
     s_bin = mophorlogy(s_bin)
     return s_bin
 
 
-def get_v_mask(hsv):
+def get_v_mask(hsv, v_value):
     h, s, v = cv.split(hsv)
-    ret_v, v_bin = cv.threshold(v, 150, 255, cv.THRESH_BINARY)
+    ret_v, v_bin = cv.threshold(v, v_value, 255, cv.THRESH_BINARY)
     # morphology 연산으로 노이즈 제거
     v_bin = mophorlogy(v_bin)
     return v_bin
@@ -141,11 +141,12 @@ def get_alphabet_roi(src):
         # print('x, y, w, h:', x, y, w, h)
         img_crop = img_copy[y:y + h, x:x + w]
     # cv.imshow('img_crop', img_crop)
+
     hsv_crop = cv.cvtColor(img_crop, cv.COLOR_BGR2HSV)
     return hsv_crop
 
+
 def get_alphabet_color(hsv):
-    get_alphabet_roi(hsv)
     red_mask = get_alphabet_red_mask(hsv)
     blue_mask = get_alphabet_blue_mask(hsv)
     color = "RED" if np.count_nonzero(red_mask) > np.count_nonzero(blue_mask) else "BLUE"
@@ -180,7 +181,7 @@ while cap.isOpened():
 
     # HSV로 색 추출
     hsv = cv.cvtColor(blur, cv.COLOR_BGR2HSV)
-    # s_bin = get_s_mask(hsv)
+    # s_bin = get_s_mask(hsv, DANGER_MILKBOX_S)
     # # cv.imshow('s_bin', s_bin)
     #
     # # hsv에 채색 mask 씌워서 해당하는 장애물 mask 받아내기
