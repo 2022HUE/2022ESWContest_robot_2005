@@ -22,10 +22,10 @@ def mophorlogy(mask):
     mask = cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel)
     return mask
 
-def get_s_mask(src):
+def get_s_mask(src, s_value):
     hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
     h, s, v = cv.split(hsv)
-    ret_s, s_bin = cv.threshold(s, ROOM_S, 255, cv.THRESH_BINARY)
+    ret_s, s_bin = cv.threshold(s, s_value, 255, cv.THRESH_BINARY)
     # morphology 연산으로 노이즈 제거
     # s_bin = mophorlogy(s_bin)
     cv.imshow('s_bin', s_bin)
@@ -33,17 +33,17 @@ def get_s_mask(src):
 
     return s_bin
 
-def get_v_mask(src):
+def get_v_mask(src, v_value):
     hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
     h, s, v = cv.split(hsv)
-    ret_v, v_bin = cv.threshold(v, ROOM_V, 255, cv.THRESH_BINARY)
+    ret_v, v_bin = cv.threshold(v, v_value, 255, cv.THRESH_BINARY)
     # morphology 연산으로 노이즈 제거
     # v_bin = mophorlogy(v_bin)
     cv.imshow('v_bin', v_bin)
     return v_bin
 
 def is_danger(src):
-    mask_AND = cv.bitwise_and(get_s_mask(src), get_v_mask(src))
+    mask_AND = cv.bitwise_and(get_s_mask(src, ROOM_S), get_v_mask(src, ROOM_V))
     mask_AND = mophorlogy(mask_AND)
     cv.imshow('mask_AND', mask_AND)
     # 계단일 때 채색 비율: 80~200, 위험지역일 때 비율: 0~10

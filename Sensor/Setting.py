@@ -16,9 +16,9 @@ setting.YELLOW_DATA = [[20, 100, 100], [35, 255, 255]]
 ########### DANGER DETECTION ###########
 
 # 장애물 파란색 색상 마스크 lower, upper의 [h, s, v] 값
-setting.DANGER_H_BLUE = [[82, 87, 30], [130, 255, 120]]
+setting.DANGER_MILKBOX_BLUE = [[82, 87, 30], [130, 255, 120]]
 # 장애물 빨간색 색상 마스크 lower, upper의 [h, s, v] 값
-setting.DANGER_H_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
+setting.DANGER_MILKBOX_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
 
 # 알파벳 파란색 색상 마스크 lower, upper의 [h, s, v] 값
 setting.ALPHABET_BLUE = [[82, 87, 30], [130, 255, 120]]
