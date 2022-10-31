@@ -2,11 +2,12 @@ import cv2 as cv
 import numpy as np
 
 global DANGER_CONST, ROOM_S, ROOM_V
-global ALPHABET_GO
+global ALPHABET_GO,ARROW
 DANGER_CONST = 10
 ROOM_S = 180
 ROOM_V = 0
 ALPHABET_GO= False
+ARROW = ''
 def mophorlogy(mask):
     kernel = np.ones((3, 3), np.uint8)
     mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)
@@ -72,25 +73,35 @@ def alphabet_size_calculation(peri, points, area_arr,approx,rect_y,rect_x):
             return False
 
 
-#계단 지역 기준 왼쪽 오른쪽 판단하는 함수
-def left_rignt(img_mask,x=0,y=0,w=0,h=0):
+#계단 지역 기준 왼쪽 오른쪽 판단하는 함수 #화살표 방향대로 돌아야 함.
+def left_rignt(img_mask,ARROW,x=0,y=0,w=0,h=0,):
     rotation = False
     left = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000 )
     x =320;
     right = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000)
 
-    #로봇의 각도가 70도
-    print("left %d  right %d"%(left,right))
-    if left<=10: #이부분 다시 확인.
-        print("회전 완료") #여기서 함수 끝!!
+    if ARROW=='left':
+        #왼쪽 값이 작아질 때 까지 돌아야되고
+        stair_start_rotation(left,right,ARROW)
+    elif ARROW=='right':
+        stair_start_rotation(right,left,ARROW)
+        #오른쪽 값이 작아질 때 까지 돌아야되고
+        pass
+
+def stair_start_rotation(a,b,ARROW):
+    print(a)
+    print(b)
+    if a <= 10:  # 이부분 다시 확인.
+        # 회전 완료를 판단하기 전에 ,,
+        print("회전 완료")  # 여기서 함수 끝!!
         rotation = True
         return rotation
         # rect(img_mask) # 여기서 알파벳 크기 체크 # 여기서 A를 중앙에 오도록
-    elif left>right:
-        print("알파벳은 오른쪽에 있습니다.")
-    else:
-        print("알파벳은 왼쪽에 있습니다.")
-
+    elif a>b:
+        return ARROW #회전 방향대로 돌아라
+    elif a<b:
+        if ARROW=='left': return 'right'
+        else: return 'left'
 
 # 허프라인 검출
 def HoughLine():
@@ -125,7 +136,7 @@ while(True):
 
     img_canny = cv.Canny(img_color,50,150)
 
-    # left_rignt(stair_saturation_check_mask) # 알파벳 오른쪽 왼쪽 확인하는 함수.
+    left_rignt(stair_saturation_check_mask,ARROW='left') # 알파벳 오른쪽 왼쪽 확인하는 함수., ARROW에 화살표 방향 넣어야 함.
 
     # ---------------------------------------------------------------
     blur = cv.GaussianBlur(img_gray, (9,9), 0)
@@ -145,7 +156,7 @@ while(True):
 
     x,y,w,h = 0,0,600,400
     #알파벳 영역 추적
-    rect(th[y:y+h, x:x+w], contours1)
+    # rect(th[y:y+h, x:x+w], contours1)
 
     #----------------------------------------------------------------
 
