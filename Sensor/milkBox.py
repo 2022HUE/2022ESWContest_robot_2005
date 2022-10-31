@@ -23,7 +23,15 @@ DANGER_ROOM_V = 80
 # morphology kernel 값
 MORPH_kernel = 3
 
-cap = cv.VideoCapture("src/danger/1027_23:32.h264")
+# 파랑
+# 1031 20:56 촬영본은 제대로 안됨
+# cap = cv.VideoCapture("src/danger/1031_20:56.h264")
+cap = cv.VideoCapture("src/danger/1027_23:41.h264")
+
+# 빨강
+# cap = cv.VideoCapture("src/danger/1031_20:35.h264")
+# cap = cv.VideoCapture("src/danger/1031_20:49.h264")
+# cap = cv.VideoCapture("src/danger/1027_23:32.h264")
 
 
 def mophorlogy(mask):
@@ -131,7 +139,7 @@ def get_alphabet_roi(src):
     # text count
     if text_cont:
         x, y, w, h = cv.boundingRect(text_cont[0])
-        img_crop = img_copy[y:y + h, x:x + h]
+        img_crop = img_copy[y:y + h, x:x + w]
         text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
         text = img_crop.copy()
 
@@ -146,7 +154,7 @@ def get_alphabet_roi(src):
         x, y, w, h = cv.boundingRect(text_cont[pos])
         # print('x, y, w, h:', x, y, w, h)
         img_crop = img_copy[y:y + h, x:x + w]
-    # cv.imshow('img_crop', img_crop)
+    cv.imshow('img_crop', img_crop)
 
     hsv_crop = cv.cvtColor(img_crop, cv.COLOR_BGR2HSV)
     return hsv_crop
@@ -195,6 +203,7 @@ while cap.isOpened():
     alphabet_hsv = get_alphabet_roi(src)
     color = get_alphabet_color(alphabet_hsv)
 
+    print(color)
     # HSV로 색 추출
     hsv = cv.cvtColor(blur, cv.COLOR_BGR2HSV)
     # s_bin = get_s_mask(hsv, DANGER_MILKBOX_S)
