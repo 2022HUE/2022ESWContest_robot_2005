@@ -2,12 +2,11 @@ import cv2 as cv
 import numpy as np
 
 global DANGER_CONST, ROOM_S, ROOM_V
-global ALPHABET_GO, ROTATION
+global ALPHABET_GO
 DANGER_CONST = 10
 ROOM_S = 180
 ROOM_V = 0
 ALPHABET_GO= False
-ROTATION = ''
 def mophorlogy(mask):
     kernel = np.ones((3, 3), np.uint8)
     mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)
@@ -55,9 +54,6 @@ def rect(img, contours1):
         #     #크기 측정하며 전진.
 
         alphabet_size_calculation(peri, points, area_arr, approx, rect_y)
-
-        # ROTATION = 'finish'
-        # return ROTATION, peri, points, area_arr, approx, rect_y
 
 
 def alphabet_center_check(x): #안됨..
