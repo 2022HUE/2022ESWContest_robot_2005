@@ -17,7 +17,7 @@ ALPHABET_BLUE = [[82, 87, 30], [130, 255, 120]]
 # morphology kernel 값
 MORPH_kernel = 3
 
-cap = cv.VideoCapture("src/danger/0925_19:32.h264")
+cap = cv.VideoCapture("src/danger/1027_23:32.h264")
 
 
 def mophorlogy(mask):
@@ -87,13 +87,62 @@ def is_out_of_black(hsv, visualization=False):
     return rate <= 30
 
 
-def get_alphabet_roi(hsv):
-    gray = cv.cvtColor(hsv, cv.COLOR_HSV2BGR)
-    gray = cv.cvtColor(gray, cv.COLOR_BGR2GRAY)
-    cv.imshow('gray', gray)
-    v_mask = get_v_mask(hsv)
-    cv.imshow('v', v_mask)
+def get_alphabet_roi(src):
+    img_copy = src.copy()
+    gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
+    blur = cv.GaussianBlur(gray, (7, 7), 0)
+    val = 0
+    add = cv.add(blur, val)
+    alpha = 0.0
 
+    dst = np.clip((1 + alpha) * add - 128 * alpha, 0, 255).astype(np.uint8)
+    ret, th = cv.threshold(dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
+    dst = cv.bitwise_and(dst, dst, mask=th)
+    # cv.imshow('dst', dst)
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (1, 1))
+    dst = cv.dilate(dst, kernel, iterations=1)
+
+    edges = cv.Canny(th, 100, 200, apertureSize=3)
+
+    contours1, hierarchy1 = cv.findContours(th, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
+
+    text_cont = []
+    for pos in range(len(contours1)):
+        peri = cv.arcLength(contours1[pos], True)
+        approx = cv.approxPolyDP(contours1[pos], peri * 0.02, True)
+        points = len(approx)
+        if peri > 200 and peri < 400:
+            text_cont.append(contours1[pos])
+            cv.drawContours(src, [approx], 0, (0, 255, 255), 1)
+
+    contour_pos = []
+    for pos in range(len(text_cont)):
+        area = cv.contourArea(text_cont[pos])
+        # if area > 20000:
+        contour_pos.append(pos)
+
+    ##########################################################################
+    # text count
+    if text_cont:
+        x, y, w, h = cv.boundingRect(text_cont[0])
+        img_crop = img_copy[y:y + h, x:x + h]
+        text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
+        text = img_crop.copy()
+
+    else:
+        text = src.copy()
+        text_gray = cv.cvtColor(text, cv.COLOR_BGR2GRAY)
+    ##########################################################################
+
+    img_crop = img_copy
+    for pos in contour_pos:
+        # print(pos)
+        x, y, w, h = cv.boundingRect(text_cont[pos])
+        # print('x, y, w, h:', x, y, w, h)
+        img_crop = img_copy[y:y + h, x:x + w]
+    # cv.imshow('img_crop', img_crop)
+    hsv_crop = cv.cvtColor(img_crop, cv.COLOR_BGR2HSV)
+    return hsv_crop
 
 def get_alphabet_color(hsv):
     get_alphabet_roi(hsv)
@@ -126,17 +175,20 @@ while cap.isOpened():
     cv.imshow('src', src)
     cv.imshow('blur', blur)
 
+    alphabet_hsv = get_alphabet_roi(src)
+    print(get_alphabet_color(alphabet_hsv))
+
     # HSV로 색 추출
     hsv = cv.cvtColor(blur, cv.COLOR_BGR2HSV)
-    s_bin = get_s_mask(hsv)
-    # cv.imshow('s_bin', s_bin)
-
-    # hsv에 채색 mask 씌워서 해당하는 장애물 mask 받아내기
-    hsv_s = cv.bitwise_and(hsv, hsv, mask=s_bin)
-    # cv.imshow('hsv_s', hsv_s)
-    milk_color = get_alphabet_color(hsv)
-    milk_mask = get_milkbox_mask(hsv_s, milk_color)
-    cv.imshow('milk_mask', milk_mask)
+    # s_bin = get_s_mask(hsv)
+    # # cv.imshow('s_bin', s_bin)
+    #
+    # # hsv에 채색 mask 씌워서 해당하는 장애물 mask 받아내기
+    # hsv_s = cv.bitwise_and(hsv, hsv, mask=s_bin)
+    # # cv.imshow('hsv_s', hsv_s)
+    # milk_color = get_alphabet_color(hsv)
+    # milk_mask = get_milkbox_mask(hsv_s, milk_color)
+    # cv.imshow('milk_mask', milk_mask)
 
     # milk_mask = get_milkbox_color(hsv)
     # 우유팩 마스크를 씌워서 imshow 하기
