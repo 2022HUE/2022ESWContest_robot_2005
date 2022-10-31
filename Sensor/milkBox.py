@@ -13,6 +13,12 @@ DANGER_BLACK = [[0, 0, 0], [180, 255, 80]]
 # 알파벳 hsv 값, 일단 장애물이랑 같게 설정해둠 바꿔야함
 ALPHABET_RED = [[167, 77, 30], [180, 255, 189]]
 ALPHABET_BLUE = [[82, 87, 30], [130, 255, 120]]
+# 위험/계단 지역 판단하는 비율의 기준
+DANGER_RATE = 10
+# 위험 지역 인식 용도 s(채도) 기준값
+DANGER_ROOM_S = 170
+# 위험 지역 인식 용도 v(명도) 기준값
+DANGER_ROOM_V = 80
 
 # morphology kernel 값
 MORPH_kernel = 3
@@ -165,6 +171,16 @@ def get_milkbox_mask(hsv, color):
     # cv.imshow('h_mask', h_mask)
     return h_mask  # mask 리턴
 
+# 위험 지역인지 계단 지역인지의 detection
+def is_danger(src):
+    mask_AND = cv.bitwise_and(get_s_mask(src, DANGER_ROOM_S), get_v_mask(src, DANGER_ROOM_V))
+    mask_AND = mophorlogy(mask_AND)
+    cv.imshow('mask_AND', mask_AND)
+    # 계단일 때 채색 비율: 80~200, 위험지역일 때 비율: 0~10
+    rate = np.count_nonzero(mask_AND) / (640 * 480)
+    rate = int(rate * 1000)
+    print(rate)
+    return "DANGER" if rate <= DANGER_RATE else "STAIR"
 
 while cap.isOpened():
     _, src = cap.read()
@@ -177,7 +193,7 @@ while cap.isOpened():
     cv.imshow('blur', blur)
 
     alphabet_hsv = get_alphabet_roi(src)
-    print(get_alphabet_color(alphabet_hsv))
+    color = get_alphabet_color(alphabet_hsv)
 
     # HSV로 색 추출
     hsv = cv.cvtColor(blur, cv.COLOR_BGR2HSV)
@@ -202,16 +218,5 @@ while cap.isOpened():
     # cv.imshow('img_masked_blue', img_blue)
     if cv.waitKey(2) & 0xFF == ord('q'):
         break
-
-
-# 안전 지역인지(False) 위험 지역인지(True) detection
-def isDanger(cap):
-    return True
-
-
-# 위험 지역인지 계단 지역인지의 detection
-def stair_danger(cap):
-    return True
-
 
 cap.release()
