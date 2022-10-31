@@ -43,9 +43,8 @@ def rect(img, contours1):
         area_arr = cv.moments(contours1[pos])
         # x = contours1[pos][0][0][0]  # 알파벳 위치의 x값 좌표 --> 알파벳 중앙에 오게할 때 필요
         rect_y = contours1[pos][0][0][1] #가장 위의 y값 좌표
-        print(rect_y)
+        rect_x = contours1[pos][0][0][0]  # 가장 위의 y값 좌표
 
-        # center = alphabet_center_check(x+10) #x값이 0인걸 방지
         # if center=='right':
         #     pass # 오른쪽 가기 모션
         # elif center=='left':
@@ -53,27 +52,26 @@ def rect(img, contours1):
         # elif center=='go':
         #     #크기 측정하며 전진.
 
-        alphabet_size_calculation(peri, points, area_arr, approx, rect_y)
+        alphabet_size_calculation(peri, points, area_arr, approx, rect_y,rect_x)
 
-
-def alphabet_center_check(x): #안됨..
-    print(x)
-    if x < 100:
-        print("왼쪽으로 이동해야 알파벳이 중앙에 위치합니다.")
-        return 'left'
-    elif x >= 400 and x<500:
-        print("오른쪽으로 이동해야 알파벳이 중앙에 위치합니다.")
-        return 'right'
-    elif x >= 100 and x <= 400:
-        print("알파벳의 위치는 중앙입니다. 전진하세요")
-        return 'go'
+def alphabet_center_check(x):
+    if x >= 310 and x <= 340:
+        # print("알파벳의 위치는 중앙입니다. 전진하세요")
+        print("전진")
+        return True
+    elif x<300: #왼쪽의 여백이 부족하다.
+        print("왼쪽 %d걸음 이동하세요"%(x//100))
+        return 'left',x//100
+    elif x>350:
+        print("오른쪽 %d걸음 이동하세요" % (x // 100))
+        return 'right', x // 100
 
 #전진 하면서 크기 측정 함수
-def alphabet_size_calculation(peri, points, area_arr,approx,rect_y):
+def alphabet_size_calculation(peri, points, area_arr,approx,rect_y,rect_x):
     if peri >= 300 and peri <= 1000 and points == 4 and rect_y < 150:
+        alphabet_center_check(rect_x)
         area = area_arr["m00"]
         cv.drawContours(img_color, [approx], 0, (0, 255, 255), 2)
-        print(area)
         if area >= 43000:
             print("정지 후 계단 지역으로 회전하세요.")
             return True
@@ -82,28 +80,25 @@ def alphabet_size_calculation(peri, points, area_arr,approx,rect_y):
 
 
 #계단 지역 기준 왼쪽 오른쪽 판단하는 함수
-def left_rignt(img_mask,ALPHABET_GO,x=0,y=0,w=0,h=0):
-    if ALPHABET_GO == False:
-        left = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000 )
-        x =320;
-        right = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000)
+def left_rignt(img_mask,x=0,y=0,w=0,h=0):
+    rotation = False
+    left = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000 )
+    x =320;
+    right = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000)
 
-        #로봇의 각도가 70도
-        print("left %d  right %d"%(left,right))
-        # if abs(left-right)>10 and abs(left-right)<50:
-        if left<=10: #이부분 다시 확인.
-            print("회전 완료")
-            alphabet_go = True
-            # rect(img_mask) # 여기서 알파벳 크기 체크 # 여기서 A를 중앙에 오도록
-        elif left>right:
-            print("알파벳은 오른쪽에 있습니다.")
-        else:
-            print("알파벳은 왼쪽에 있습니다.")
-
-    if ALPHABET_GO==True:
-        return 'rectgo'
+    #로봇의 각도가 70도
+    print("left %d  right %d"%(left,right))
+    # if abs(left-right)>10 and abs(left-right)<50:
+    if left<=10: #이부분 다시 확인.
+        print("회전 완료") #여기서 함수 끝!!
+        rotation = True
+        return rotation
+        # rect(img_mask) # 여기서 알파벳 크기 체크 # 여기서 A를 중앙에 오도록
+    elif left>right:
+        print("알파벳은 오른쪽에 있습니다.")
     else:
-        return 'notgo'
+        print("알파벳은 왼쪽에 있습니다.")
+
 
 # 허프라인 검출
 def HoughLine():
@@ -124,9 +119,9 @@ def HoughLine():
                 y2 = int(y0 - scale * (a))
             cv.line(img_color, (x1, y1), (x2, y2), (0, 0, 255), 2)
 
-
 # cap = cv.VideoCapture('src/stair/0925_19:27.h264')  # 제일 쓸만함
-cap = cv.VideoCapture("src/stair/1027_23:22.h264") #알파벳 구분 영상으로 쓰기.
+cap = cv.VideoCapture("src/stair/1027_23:21.h264") # 알파벳 채도로 위치 구분 영상으로 쓰기.
+# cap = cv.VideoCapture("src/stair/1027_23:22.h264") #알파벳 사이즈 및 중앙 측정 영상으로 쓰기
 
 while(True):
     ret, img_color = cap.read()
@@ -137,11 +132,8 @@ while(True):
     stair_saturation_check_mask = saturation_measurement(img_color)
 
     img_canny = cv.Canny(img_color,50,150)
-    # 알파벳 오른쪽 왼쪽 확인하는 함수.
-    # left_rignt(stair_saturation_check_mask,ALPHABET_GO)
 
-    h, w = img_color.shape[:2] #(480,640)
-    cv.imshow('img_color', img_color)
+    # left_rignt(stair_saturation_check_mask) # 알파벳 오른쪽 왼쪽 확인하는 함수.
 
     # ---------------------------------------------------------------
     blur = cv.GaussianBlur(img_gray, (9,9), 0)
@@ -167,11 +159,11 @@ while(True):
 
     cv.imshow('result',img_color)
 
-    if cv.waitKey(20) & 0xFF == 27:
+    if cv.waitKey(2) & 0xFF == 27:
         break
 
 cv.destroyAllWindows()
 
 # 올라갔을 때 계단 색 확인 하는 함수
 # 수평 확인하는 함수
-# 시야에서 노란게 보이나 안 보이나
+
