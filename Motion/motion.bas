@@ -3184,7 +3184,7 @@ GOSUB_RX_EXIT2:
 
 머리상하정면:
     SPEED 머리이동속도
-    SERVO 11,100	
+    SERVO 11,100	' 이거 머임? 왜 상하인데 11이야
     SPEED 5
     GOSUB 기본자세
     GOTO MAIN
@@ -3792,7 +3792,6 @@ D지역:
 
     RETURN
     '******************************************
-
 전방하향80도:
 
     SPEED 3
@@ -6182,6 +6181,122 @@ D지역:
 		GOTO 샤삭샤삭1
     '******************************************
 
+횟수_샤삭샤삭:
+    GOSUB All_motor_mode3
+    보행COUNT = 0
+    SPEED 13
+    'HIGHSPEED로 안 하면 뒤로 감... 미친놈인 듯
+    'HIGHSPEED SETON
+    '..... 이거 하면 다음 모션들까지 다 개빨라지는데 복귀를 어떻게 하는지 모르겠음
+
+
+    IF 보행순서 = 0 THEN
+        보행순서 = 1
+        MOVE G6A,95,  76, 147,  93, 101
+        MOVE G6D,101,  76, 147,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO 샤삭샤삭1
+    ELSE
+        보행순서 = 0
+        MOVE G6D,95,  76, 147,  93, 101
+        MOVE G6A,101,  76, 147,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO 샤삭샤삭4
+    ENDIF
+
+
+    '**********************
+
+횟수_샤삭샤삭1: '왼발
+    'HIGHSPEED SETON
+    MOVE G6D,104,  77, 147, 93, 100
+    MOVE G6A,95,  95, 143,  94,  102
+    MOVE G6B, 100
+    MOVE G6C, 100
+    WAIT
+횟수_샤삭샤삭2:
+
+    MOVE G6A,99,    75, 146, 97,  98
+    MOVE G6D, 95,  77, 147,  90, 100
+    WAIT
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+
+        GOTO RX_EXIT
+    ENDIF
+
+    보행COUNT = 보행COUNT + 1
+    IF 보행COUNT > 보행횟수 THEN  GOTO 횟수_샤삭샤삭_2_stop
+
+    ERX 4800,A, 횟수_샤삭샤삭4
+    IF A <> A_old THEN
+횟수_샤삭샤삭_2_stop:
+        MOVE G6D,95,  87, 143, 97, 102
+        MOVE G6A,104,  76, 145,  92,  100
+        MOVE G6C, 100
+        MOVE G6B,100
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB 안정화자세
+        SPEED 5
+        GOSUB 기본자세2
+
+        'DELAY 400
+        GOTO RX_EXIT
+    ENDIF
+
+    '*********************************
+
+횟수_샤삭샤삭4: '오른발
+    MOVE G6A,104,  77, 147, 93, 100
+    MOVE G6D,95,  95, 143,  94,  102
+    MOVE G6C, 100
+    MOVE G6B, 100
+    WAIT
+
+횟수_샤삭샤삭5:
+    MOVE G6D,99,    75, 146, 97,  98
+    MOVE G6A, 95,  77, 147,  93, 100
+    WAIT
+
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO RX_EXIT
+    ENDIF
+
+    보행COUNT = 보행COUNT + 1
+    IF 보행COUNT > 보행횟수 THEN  GOTO 횟수_샤삭샤삭5_stop
+
+    ERX 4800,A, 횟수_샤삭샤삭1
+    IF A <> A_old THEN
+횟수_샤삭샤삭5_stop:
+        MOVE G6A,95,  87, 143, 97, 102
+        MOVE G6D,104,  76, 145,  92,  100
+        MOVE G6B, 100
+        MOVE G6C,100
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB 안정화자세
+        SPEED 5
+        GOSUB 기본자세2
+
+        'DELAY 400
+        GOTO RX_EXIT
+    ENDIF
+		GOTO 샤삭샤삭1
+
 
     '******************************************
 
@@ -6440,8 +6555,9 @@ KEY26: ' ■
     ETX  4800,26
 
     'SPEED 5
-    'GOSUB 샤삭샤삭
-    GOSUB 물건집기
+    보행횟수 = 1
+    GOSUB 횟수_샤삭샤삭
+    'GOSUB 물건집기
     GOTO RX_EXIT
     '***************
 KEY27: ' D
