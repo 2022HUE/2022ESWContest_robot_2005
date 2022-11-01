@@ -3951,6 +3951,7 @@ GOSUB_RX_EXIT2:
     GOTO MAIN
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ¸Ó¸®»óÇÏÁ¤¸é:
     SPEED ¸Ó¸®ÀÌµ¿¼Óµµ
 <<<<<<< HEAD
@@ -3967,6 +3968,16 @@ GOSUB_RX_EXIT2:
     SPEED ï¿½Ó¸ï¿½ï¿½Ìµï¿½ï¿½Óµï¿½
     SERVO 11,100	
 >>>>>>> be40f22 (Add: Motion file ì¶”ê°€)
+=======
+ï¿½Ó¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½:
+    SPEED ï¿½Ó¸ï¿½ï¿½Ìµï¿½ï¿½Óµï¿½
+    SERVO 11,100	
+=======
+¸Ó¸®»óÇÏÁ¤¸é:
+    SPEED ¸Ó¸®ÀÌµ¿¼Óµµ
+    SERVO 11,100	' ÀÌ°Å ¸ÓÀÓ? ¿Ö »óÇÏÀÎµ¥ 11ÀÌ¾ß
+>>>>>>> cbc020c (Feat: íšŸìˆ˜_ìƒ¤ì‚­ìƒ¤ì‚­ ì¶”ê°€)
+>>>>>>> 12590a0 (Feat: íšŸìˆ˜_ìƒ¤ì‚­ìƒ¤ì‚­ ì¶”ê°€)
     SPEED 5
     GOSUB ï¿½âº»ï¿½Ú¼ï¿½
     GOTO MAIN
@@ -4731,6 +4742,7 @@ Dï¿½ï¿½ï¿½ï¿½:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 601e172 (Add: Motion file ì¶”ê°€)
@@ -4741,6 +4753,13 @@ Dï¿½ï¿½ï¿½ï¿½:
 
 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½80ï¿½ï¿½:
 >>>>>>> be40f22 (Add: Motion file ì¶”ê°€)
+=======
+
+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½80ï¿½ï¿½:
+=======
+Àü¹æÇÏÇâ80µµ:
+>>>>>>> cbc020c (Feat: íšŸìˆ˜_ìƒ¤ì‚­ìƒ¤ì‚­ ì¶”ê°€)
+>>>>>>> 12590a0 (Feat: íšŸìˆ˜_ìƒ¤ì‚­ìƒ¤ì‚­ ì¶”ê°€)
 
     SPEED 3
     SERVO 16, 80
@@ -8429,6 +8448,122 @@ Dï¿½ï¿½ï¿½ï¿½:
     'HIGHSPEED SETON
     '..... ÀÌ°Å ÇÏ¸é ´ÙÀ½ ¸ð¼Çµé±îÁö ´Ù °³»¡¶óÁö´Âµ¥ º¹±Í¸¦ ¾î¶»°Ô ÇÏ´ÂÁö ¸ð¸£°ÚÀ½
 
+È½¼ö_»þ»è»þ»è:
+    GOSUB All_motor_mode3
+    º¸ÇàCOUNT = 0
+    SPEED 13
+    'HIGHSPEED·Î ¾È ÇÏ¸é µÚ·Î °¨... ¹ÌÄ£³ðÀÎ µí
+    'HIGHSPEED SETON
+    '..... ÀÌ°Å ÇÏ¸é ´ÙÀ½ ¸ð¼Çµé±îÁö ´Ù °³»¡¶óÁö´Âµ¥ º¹±Í¸¦ ¾î¶»°Ô ÇÏ´ÂÁö ¸ð¸£°ÚÀ½
+
+
+    IF º¸Çà¼ø¼­ = 0 THEN
+        º¸Çà¼ø¼­ = 1
+        MOVE G6A,95,  76, 147,  93, 101
+        MOVE G6D,101,  76, 147,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO »þ»è»þ»è1
+    ELSE
+        º¸Çà¼ø¼­ = 0
+        MOVE G6D,95,  76, 147,  93, 101
+        MOVE G6A,101,  76, 147,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO »þ»è»þ»è4
+    ENDIF
+
+
+    '**********************
+
+È½¼ö_»þ»è»þ»è1: '¿Þ¹ß
+    'HIGHSPEED SETON
+    MOVE G6D,104,  77, 147, 93, 100
+    MOVE G6A,95,  95, 143,  94,  102
+    MOVE G6B, 100
+    MOVE G6C, 100
+    WAIT
+È½¼ö_»þ»è»þ»è2:
+
+    MOVE G6A,99,    75, 146, 97,  98
+    MOVE G6D, 95,  77, 147,  90, 100
+    WAIT
+
+    GOSUB ¾ÕµÚ±â¿ï±âÃøÁ¤
+    IF ³Ñ¾îÁøÈ®ÀÎ = 1 THEN
+        ³Ñ¾îÁøÈ®ÀÎ = 0
+
+        GOTO RX_EXIT
+    ENDIF
+
+    º¸ÇàCOUNT = º¸ÇàCOUNT + 1
+    IF º¸ÇàCOUNT > º¸ÇàÈ½¼ö THEN  GOTO È½¼ö_»þ»è»þ»è_2_stop
+
+    ERX 4800,A, È½¼ö_»þ»è»þ»è4
+    IF A <> A_old THEN
+È½¼ö_»þ»è»þ»è_2_stop:
+        MOVE G6D,95,  87, 143, 97, 102
+        MOVE G6A,104,  76, 145,  92,  100
+        MOVE G6C, 100
+        MOVE G6B,100
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB ¾ÈÁ¤È­ÀÚ¼¼
+        SPEED 5
+        GOSUB ±âº»ÀÚ¼¼2
+
+        'DELAY 400
+        GOTO RX_EXIT
+    ENDIF
+
+    '*********************************
+
+È½¼ö_»þ»è»þ»è4: '¿À¸¥¹ß
+    MOVE G6A,104,  77, 147, 93, 100
+    MOVE G6D,95,  95, 143,  94,  102
+    MOVE G6C, 100
+    MOVE G6B, 100
+    WAIT
+
+È½¼ö_»þ»è»þ»è5:
+    MOVE G6D,99,    75, 146, 97,  98
+    MOVE G6A, 95,  77, 147,  93, 100
+    WAIT
+
+
+    GOSUB ¾ÕµÚ±â¿ï±âÃøÁ¤
+    IF ³Ñ¾îÁøÈ®ÀÎ = 1 THEN
+        ³Ñ¾îÁøÈ®ÀÎ = 0
+        GOTO RX_EXIT
+    ENDIF
+
+    º¸ÇàCOUNT = º¸ÇàCOUNT + 1
+    IF º¸ÇàCOUNT > º¸ÇàÈ½¼ö THEN  GOTO È½¼ö_»þ»è»þ»è5_stop
+
+    ERX 4800,A, È½¼ö_»þ»è»þ»è1
+    IF A <> A_old THEN
+È½¼ö_»þ»è»þ»è5_stop:
+        MOVE G6A,95,  87, 143, 97, 102
+        MOVE G6D,104,  76, 145,  92,  100
+        MOVE G6B, 100
+        MOVE G6C,100
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB ¾ÈÁ¤È­ÀÚ¼¼
+        SPEED 5
+        GOSUB ±âº»ÀÚ¼¼2
+
+        'DELAY 400
+        GOTO RX_EXIT
+    ENDIF
+		GOTO »þ»è»þ»è1
+
 
     IF º¸Çà¼ø¼­ = 0 THEN
         º¸Çà¼ø¼­ = 1
@@ -8868,6 +9003,7 @@ KEY26: ' ï¿½ï¿½
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> d2ab6ee (Chore: ìƒ¤ì‚­ìƒ¤ì‚­ ëª¨ì…˜ ìˆ˜ì •)
     GOSUB »þ»è»þ»è
     'GOSUB ¹°°ÇÁý±â
@@ -8893,11 +9029,15 @@ KEY26: ' ï¿½ï¿½
     GOSUB ¹°°ÇÁý±â
 >>>>>>> 77312ab (Add: ì´¬ì˜.bas ì¶”ê°€)
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 12590a0 (Feat: íšŸìˆ˜_ìƒ¤ì‚­ìƒ¤ì‚­ ì¶”ê°€)
 =======
     º¸ÇàÈ½¼ö = 1
     GOSUB È½¼ö_»þ»è»þ»è
     'GOSUB ¹°°ÇÁý±â
 >>>>>>> cbc020c (Feat: íšŸìˆ˜_ìƒ¤ì‚­ìƒ¤ì‚­ ì¶”ê°€)
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> def7285 (Chore: ìƒ¤ì‚­ìƒ¤ì‚­ ëª¨ì…˜ ìˆ˜ì •)
@@ -8921,6 +9061,8 @@ KEY26: ' ï¿½ï¿½
 >>>>>>> bc73abb (Chore: stair_left_down ë¬´ë¦Ž, íŒ” ë²Œë¦¬ëŠ” ê°ë„ ìˆ˜ì •)
 =======
 >>>>>>> ef4d111 (Add: ì´¬ì˜.bas ì¶”ê°€)
+=======
+>>>>>>> 12590a0 (Feat: íšŸìˆ˜_ìƒ¤ì‚­ìƒ¤ì‚­ ì¶”ê°€)
     GOTO RX_EXIT
     '***************
 KEY27: ' D
