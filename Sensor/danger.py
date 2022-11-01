@@ -29,6 +29,7 @@ DANGER_ROOM_S = 170
 # 위험 지역 인식 용도 v(명도) 기준값
 DANGER_ROOM_V = 80
 
+
 class Danger:
     def __init__(self):
         pass
@@ -39,54 +40,43 @@ class Danger:
         mask = cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel)
         return mask
 
-
-    def get_s_mask(self, hsv):
+    def get_s_mask(self, hsv, s_value):
         h, s, v = cv.split(hsv)
-        ret_s, s_bin = cv.threshold(s, 80, 255, cv.THRESH_BINARY)
+        ret_s, s_bin = cv.threshold(s, s_value, 255, cv.THRESH_BINARY)
         # morphology 연산으로 노이즈 제거
         s_bin = self.mophorlogy(s_bin)
         return s_bin
 
-
-    def get_v_mask(self, hsv):
+    def get_v_mask(self, hsv, v_value):
         h, s, v = cv.split(hsv)
-        ret_v, v_bin = cv.threshold(v, 150, 255, cv.THRESH_BINARY)
+        ret_v, v_bin = cv.threshold(v, v_value, 255, cv.THRESH_BINARY)
         # morphology 연산으로 노이즈 제거
         v_bin = self.mophorlogy(v_bin)
         return v_bin
-
 
     # 장애물 위치 파악을 위한 함수
     def danger_roi(self, hsv):
         return True
 
-
     def get_black_mask(self, hsv):
-        lower_hue, upper_hue = np.array(DANGER_BLACK[0]), np.array(DANGER_BLACK[1])
-        h_mask = cv.inRange(hsv, lower_hue, upper_hue)
-        # h_mask = mophorlogy(h_mask)
-        return h_mask  # mask 리턴
-
+        return self.get_black_mask(hsv, DANGER_BLACK)
 
     def get_color_mask(self, hsv, const):
         lower_hue, upper_hue = np.array(const[0]), np.array(const[1])
         mask = cv.inRange(hsv, lower_hue, upper_hue)
         return mask
 
-
     def get_alphabet_red_mask(self, hsv):
         return self.get_color_mask(hsv, ALPHABET_RED)
 
-
     def get_alphabet_blue_mask(self, hsv):
-        return self.get_color_mask(self, hsv, ALPHABET_BLUE)
-
+        return self.get_color_mask(hsv, ALPHABET_BLUE)
 
     def is_out_of_black(self, hsv, visualization=False):
         begin = (bx, by) = (160, 200)
         end = (ex, ey) = (480, 420)
 
-        mask = self.get_black_mask(self, hsv)
+        mask = self.get_black_mask(hsv)
 
         rate = np.count_nonzero(mask) / ((ex - bx) * (ey - by))
         rate *= 100
@@ -99,10 +89,8 @@ class Danger:
 
         return rate <= 30
 
-
     def get_alphabet_roi(self, src):
         img_copy = src.copy()
-        cv.imshow('img_copy', src)
         gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
         blur = cv.GaussianBlur(gray, (7, 7), 0)
         val = 0
@@ -138,7 +126,7 @@ class Danger:
         # text count
         if text_cont:
             x, y, w, h = cv.boundingRect(text_cont[0])
-            img_crop = img_copy[y:y + h, x:x + h]
+            img_crop = img_copy[y:y + h, x:x + w]
             text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
             text = img_crop.copy()
 
@@ -153,11 +141,10 @@ class Danger:
             x, y, w, h = cv.boundingRect(text_cont[pos])
             # print('x, y, w, h:', x, y, w, h)
             img_crop = img_copy[y:y + h, x:x + w]
-        cv.imshow('abd', img_crop)
+        cv.imshow('img_crop', img_crop)
 
         hsv_crop = cv.cvtColor(img_crop, cv.COLOR_BGR2HSV)
         return hsv_crop
-
 
     def get_alphabet_color(self, hsv):
         red_mask = self.get_alphabet_red_mask(hsv)
@@ -165,14 +152,10 @@ class Danger:
         color = "RED" if np.count_nonzero(red_mask) > np.count_nonzero(blue_mask) else "BLUE"
         return color
 
-
     def get_milkbox_mask(self, hsv, color):
         lower_hue, upper_hue = np.array(DANGER_MILKBOX_BLUE[0]), np.array(DANGER_MILKBOX_BLUE[1])
         if color == "RED":
             lower_hue, upper_hue = np.array(DANGER_MILKBOX_RED[0]), np.array(DANGER_MILKBOX_RED[1])
-        # saturation, value 적당한 값 : 30 이라고 함 -> 일단 150, 0 으로 둠
-        # lower_hue = np.array([hue - 10, 30, 30])
-        # upper_hue = np.array([hue + 10, 255, 255])
         h_mask = cv.inRange(hsv, lower_hue, upper_hue)
         print(color)
         # cv.imshow('h_mask', h_mask)
