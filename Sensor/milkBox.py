@@ -1,18 +1,20 @@
 import cv2 as cv
 import numpy as np
 
-global H_BLUE, H_RED
+global DANGER_MILKBOX_BLUE, DANGER_MILKBOX_RED
 
 # blue 를 찾는 범위 값으로 HSV 이미지 위에 씌울 마스크 생성
 # opencv 에서 hue 값: 0 ~ 180, blue : 120, red : 0 (음수로 내려가면 알아서 변환함)
 # 실제 경기장에서는 어두운 파란색이라 120보다 낮은 100 ~ 115 정도 값인 듯
 # BOX
-H_BLUE = [[82, 87, 30], [130, 255, 120]]
-H_RED = [[167, 77, 30], [180, 255, 189]]  # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
+DANGER_MILKBOX_BLUE = [[82, 87, 30], [130, 255, 120]]
+DANGER_MILKBOX_RED = [[167, 77, 30], [180, 255, 189]]  # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
 DANGER_BLACK = [[0, 0, 0], [180, 255, 80]]
+
 # 알파벳 hsv 값, 일단 장애물이랑 같게 설정해둠 바꿔야함
 ALPHABET_RED = [[167, 77, 30], [180, 255, 189]]
 ALPHABET_BLUE = [[82, 87, 30], [130, 255, 120]]
+
 # 위험/계단 지역 판단하는 비율의 기준
 DANGER_RATE = 10
 # 위험 지역 인식 용도 s(채도) 기준값
@@ -20,16 +22,20 @@ DANGER_ROOM_S = 170
 # 위험 지역 인식 용도 v(명도) 기준값
 DANGER_ROOM_V = 80
 
+# 장애물 인식 용도 s(채도) 기준값
+DANGER_MILKBOX_S = 80
+# 장애물 인식 용도 v(명도) 기준값
+DANGER_MILKBOX_V = 150
 # morphology kernel 값
 MORPH_kernel = 3
 
 # 파랑
 # 1031 20:56 촬영본은 제대로 안됨
 # cap = cv.VideoCapture("src/danger/1031_20:56.h264")
-cap = cv.VideoCapture("src/danger/1027_23:41.h264")
+# cap = cv.VideoCapture("src/danger/1027_23:41.h264")
 
 # 빨강
-# cap = cv.VideoCapture("src/danger/1031_20:35.h264")
+cap = cv.VideoCapture("src/danger/1031_20:35.h264")
 # cap = cv.VideoCapture("src/danger/1031_20:49.h264")
 # cap = cv.VideoCapture("src/danger/1027_23:32.h264")
 
@@ -63,10 +69,7 @@ def danger_roi(hsv):
 
 
 def get_black_mask(hsv):
-    lower_hue, upper_hue = np.array(DANGER_BLACK[0]), np.array(DANGER_BLACK[1])
-    h_mask = cv.inRange(hsv, lower_hue, upper_hue)
-    # h_mask = mophorlogy(h_mask)
-    return h_mask  # mask 리턴
+    return get_color_mask(hsv, DANGER_BLACK)
 
 
 def get_color_mask(hsv, const):
@@ -168,12 +171,9 @@ def get_alphabet_color(hsv):
 
 
 def get_milkbox_mask(hsv, color):
-    lower_hue, upper_hue = np.array(H_BLUE[0]), np.array(H_BLUE[1])
+    lower_hue, upper_hue = np.array(DANGER_MILKBOX_BLUE[0]), np.array(DANGER_MILKBOX_BLUE[1])
     if color == "RED":
-        lower_hue, upper_hue = np.array(H_RED[0]), np.array(H_RED[1])
-    # saturation, value 적당한 값 : 30 이라고 함 -> 일단 150, 0 으로 둠
-    # lower_hue = np.array([hue - 10, 30, 30])
-    # upper_hue = np.array([hue + 10, 255, 255])
+        lower_hue, upper_hue = np.array(DANGER_MILKBOX_RED[0]), np.array(DANGER_MILKBOX_RED[1])
     h_mask = cv.inRange(hsv, lower_hue, upper_hue)
     print(color)
     # cv.imshow('h_mask', h_mask)
@@ -200,20 +200,16 @@ while cap.isOpened():
     cv.imshow('src', src)
     cv.imshow('blur', blur)
 
-    alphabet_hsv = get_alphabet_roi(src)
-    color = get_alphabet_color(alphabet_hsv)
+    # alphabet_hsv = get_alphabet_roi(src)
+    # milk_color = get_alphabet_color(alphabet_hsv)
 
-    print(color)
     # HSV로 색 추출
     hsv = cv.cvtColor(blur, cv.COLOR_BGR2HSV)
-    # s_bin = get_s_mask(hsv, DANGER_MILKBOX_S)
-    # # cv.imshow('s_bin', s_bin)
-    #
+
     # # hsv에 채색 mask 씌워서 해당하는 장애물 mask 받아내기
+    # s_bin = get_s_mask(hsv, DANGER_MILKBOX_S)
     # hsv_s = cv.bitwise_and(hsv, hsv, mask=s_bin)
-    # # cv.imshow('hsv_s', hsv_s)
-    # milk_color = get_alphabet_color(hsv)
-    # milk_mask = get_milkbox_mask(hsv_s, milk_color)
+    # milk_mask = get_milkbox_mask(hsv_s, "RED")
     # cv.imshow('milk_mask', milk_mask)
 
     # milk_mask = get_milkbox_color(hsv)
