@@ -6224,7 +6224,7 @@ KEY1:
 KEY2:
     ETX  4800,2
 
-    보행횟수 = 6
+    보행횟수 = 1
     GOTO 횟수_전진종종걸음
 
     GOTO RX_EXIT
@@ -6422,8 +6422,8 @@ KEY26: ' ■
     ETX  4800,26
 
     'SPEED 5
-    GOSUB 샤삭샤삭
-    'GOSUB 물건집기
+    'GOSUB 샤삭샤삭
+    GOSUB 물건집기
     GOTO RX_EXIT
     '***************
 KEY27: ' D
