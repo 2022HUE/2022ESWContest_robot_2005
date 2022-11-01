@@ -31,6 +31,7 @@ DANGER_ROOM_V = 80
 
 
 class Danger:
+
     def __init__(self):
         pass
 
@@ -171,3 +172,34 @@ class Danger:
         rate = int(rate * 1000)
         print(rate)
         return "DANGER" if rate <= DANGER_RATE else "STAIR"
+
+
+if __name__ == "__main__":
+    danger = Danger()
+
+    # 파랑
+    # 1031 20:56 촬영본은 제대로 안됨
+    # cap = cv.VideoCapture("src/danger/1031_20:56.h264")
+    # cap = cv.VideoCapture("src/danger/1027_23:41.h264")
+
+    # 빨강
+    cap = cv.VideoCapture("src/danger/1031_20:35.h264")
+    # cap = cv.VideoCapture("src/danger/1031_20:49.h264")
+    # cap = cv.VideoCapture("src/danger/1027_23:32.h264")
+
+    while cap.isOpened():
+        _, src = cap.read()
+
+        if not _:
+            print("ret is false")
+            break
+        blur = cv.GaussianBlur(src, (5, 5), 0)
+        cv.imshow('src', src)
+        cv.imshow('blur', blur)
+
+        alphabet_hsv = danger.get_alphabet_roi(src)
+        milk_color = danger.get_alphabet_color(alphabet_hsv)
+        if cv.waitKey(2) & 0xFF == ord('q'):
+            break
+
+cap.release()
