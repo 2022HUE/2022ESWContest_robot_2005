@@ -103,6 +103,19 @@ def stair_start_rotation(a,b,ARROW):
         if ARROW=='left': return 'right'
         else: return 'left'
 
+def stair_down(img_mask,x=140,y=0):
+    saturation = int((np.count_nonzero(img_mask[y:y+480,x:x+500]) / (640 * 480))*1000 )
+    cv.imshow('saturation',img_mask[y:y+480,x:x+640])
+
+    if saturation>=400:
+        print("3층 입니다.%d"%saturation)
+        return 'down' #내려가기
+    elif saturation>=100:
+        print("2층입니다.%d"%saturation)
+        return 'down'  # 내려가기
+    elif saturation<=70:
+        print("모두 내려왔습니다.%d"%saturation)
+        return 'go' #전진
 # 허프라인 검출
 def HoughLine():
     lines = cv.HoughLines(img_canny, 1, np.pi / 45, 80, None, None, None, None)
@@ -136,7 +149,8 @@ while(True):
 
     img_canny = cv.Canny(img_color,50,150)
 
-    left_rignt(stair_saturation_check_mask,ARROW='left') # 알파벳 오른쪽 왼쪽 확인하는 함수., ARROW에 화살표 방향 넣어야 함.
+    # left_rignt(stair_saturation_check_mask,ARROW='left') # 알파벳 오른쪽 왼쪽 확인하는 함수., ARROW에 화살표 방향 넣어야 함.
+    stair_down(stair_saturation_check_mask) #계단 내려가기
 
     # ---------------------------------------------------------------
     blur = cv.GaussianBlur(img_gray, (9,9), 0)
