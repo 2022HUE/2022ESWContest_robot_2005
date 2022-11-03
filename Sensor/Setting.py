@@ -10,8 +10,11 @@ class Setting:
     def __init__(self) -> None:
         pass
 
-
+'''SETTING CONSTANT'''
 setting = Setting()
-
 ########### LINE DETECTION ###########
 setting.YELLOW_DATA = [[20, 100, 100], [35, 255, 255]]
+
+########### ENTRANCE PROCESSING ###########
+setting.ARROW_BLUR = 7
+setting.ARROW_BRIGHT = 1.0
