@@ -6,7 +6,7 @@ import platform
 from imutils.video import WebcamVideoStream
 from imutils.video import FileVideoStream
 from imutils.video import FPS
- 
+  
 if __name__ == "__main__":
     from Line import Line
     from Arrow import Arrow
