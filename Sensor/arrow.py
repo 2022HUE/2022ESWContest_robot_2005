@@ -1,10 +1,5 @@
-import sys, os
 import cv2 as cv
 import numpy as np
-
-# sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-# from Motion import Motion
-# motion = Motion.Motion()
 
 class Arrow:
     def __init__(self):
