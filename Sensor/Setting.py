@@ -58,3 +58,6 @@ setting.DANGER_ROOM_V = 80
 setting.DANGER_MILKBOX_S = 80
 # 장애물 인식 용도 v(명도) 기준값
 setting.DANGER_MILKBOX_V = 150
+########### ENTRANCE PROCESSING ###########
+setting.ARROW_BLUR = 7
+setting.ARROW_BRIGHT = 1.0
