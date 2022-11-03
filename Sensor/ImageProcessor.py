@@ -10,11 +10,13 @@ from imutils.video import FPS
 if __name__ == "__main__":
     from Line import Line
     from Arrow import Arrow
+    from Direction import Direction
     from Setting import setting, LineColor
 
 else:
     from Sensor.Line import Line
     from Sensor.Arrow import Arrow
+    from Sensor.Direction import Direction
     from Sensor.Setting import setting, LineColor
 print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
 
@@ -147,6 +149,67 @@ class ImageProccessor:
             cv.imshow("show", origin)
             cv.waitKey(1) & 0xFF == ord('q')
         return ret_arrow
+    
+    def get_direction(self, show):
+        img = self.get_img()
+        origin = img.copy()
+        dir = Direction
+
+        gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+        dst = self.blur(gray, setting.DIR_BLUR)
+
+        _,th = cv.threshold(dst, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        dst = cv.bitwise_and(img, img, mask = th)
+
+        kernel=cv.getStructuringElement(cv.MORPH_RECT,(1,1))
+        dst=cv.dilate(dst,kernel,iterations=1)
+        
+        contours, hierarchy = cv.findContours(th,  cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
+
+        roi_contour = []
+        for pos in range(len(contours)):
+            peri = cv.arcLength(contours[pos], True)
+            approx = cv.approxPolyDP(contours[pos], peri * 0.02, True)
+            points = len(approx)
+            if peri > 900 and points == 4:
+                roi_contour.append(contours[pos])
+                # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
+
+        roi_contour_pos = []
+        for pos in range(len(roi_contour)):
+            area = cv.contourArea(roi_contour[pos])
+            if area > 20000:
+                roi_contour_pos.append(pos)
+
+        if roi_contour: 
+            x, y, w, h = cv.boundingRect(roi_contour[0])
+            img_crop = origin[y:y+h, x:x+h]
+            text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
+            # text = img_crop.copy()
+
+            '''
+            [Issue]
+            현재 mt_gray(gray처리된 roi 부분을 matchTemplate 비교)값을 대표로 리턴함.
+            mt_gray, mt_mask가 정확도가 가장 높으며 두 값은 항상 유사한 결과를 가짐.
+            font 이미지와 비교한 2가지 값도 정확도가 낮지는 않으나, 가끔 로봇의 고개 각도에 따라 튀는 값이 나올 때가 있음
+            '''
+            mt_gray = Direction.matching(dir, Direction.sample_list, text_gray, 0.001) # 1. matchTemplate - Gray Scale
+            # mt_mask = dir.matching(dir.sample_list, text_mask, 1) # 2. matchTemplate - Masking
+            # text_mask = dir.text_masking(text)
+            # match_mask_font = dir.match_font(dir.font_img, text_mask) # 3. font <-> masking
+            # match_gray_font = dir.match_font(dir.font_img, text_gray) # 4. font <-> gray scale
+            
+            # print('match: ', mt_gray, mt_mask, match_gray_font, match_mask_font) # Debug: printing
+
+            if show:
+                cv.imshow("show", origin)
+                # cv.imshow("show", img_crop)
+                cv.waitKey(1) & 0xFF == ord('q')
+
+            print(mt_gray) # Debug: print return value
+            return mt_gray
+        else: # False
+            return ''
 
 if __name__ == "__main__":
     ### Debug Path List ###
@@ -155,9 +218,10 @@ if __name__ == "__main__":
     arrow_path02 = "src/entrance/1027_23:14.h264"
     # line
     line_path01 = "src/line/1003_line2.mp4"
-    img_processor = ImageProccessor(video=arrow_path02)
+    img_processor = ImageProccessor(video=arrow_path01)
     
     ### Debug Run ###
     while True:
-        img_processor.get_arrow(show=True)
+        # img_processor.get_arrow(show=True)
+        img_processor.get_direction(show=True)
         # img_processor.line_detection(show=True)

@@ -18,3 +18,5 @@ setting.YELLOW_DATA = [[20, 100, 100], [35, 255, 255]]
 ########### ENTRANCE PROCESSING ###########
 setting.ARROW_BLUR = 7
 setting.ARROW_BRIGHT = 1.0
+setting.DIR_BLUR = 7
+setting.DIR_KERNEL = 1
