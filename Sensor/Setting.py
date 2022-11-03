@@ -7,9 +7,8 @@ class Setting:
     def __init__(self) -> None:
         pass
 
-
+'''SETTING CONSTANT'''
 setting = Setting()
-
 ########### LINE DETECTION ###########
 setting.YELLOW_DATA = [[20, 100, 100], [35, 255, 255]]
 
@@ -53,3 +52,6 @@ setting.MILKBOX_POS = [((0, 209), (0, 159)), ((210, 429), (0, 159)), ((430, 639)
 
 # morphology kernel 값
 setting.MORPH_kernel = 3
+########### ENTRANCE PROCESSING ###########
+setting.ARROW_BLUR = 7
+setting.ARROW_BRIGHT = 1.0

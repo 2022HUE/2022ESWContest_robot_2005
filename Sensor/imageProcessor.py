@@ -9,6 +9,7 @@ from imutils.video import FPS
 
 if __name__ == "__main__":
     from line import Line
+    from Arrow import Arrow
     from Setting import setting, LineColor
 <<<<<<< HEAD
     from danger import Danger
@@ -17,6 +18,7 @@ if __name__ == "__main__":
 
 else:
     from Sensor.line import Line
+    from Sensor.Arrow import Arrow
     from Sensor.Setting import setting, LineColor
 <<<<<<< HEAD
     from danger import Danger
@@ -58,10 +60,16 @@ class ImageProccessor:
     #######################################
 
     ########### 기본 공용 함수 ###########
+<<<<<<< HEAD
     def blur(self, img):
         return cv.GaussianBlur(img, (7, 7), 1)
 
     def light(self, img, val):  # 밝기
+=======
+    def blur(self, img, val):
+        return cv.GaussianBlur(img, (val, val), 1)
+    def light(self, img, val): # 밝기
+>>>>>>> 2ef7c97 (Feat: Arrow Detection 기능 모듈화 및 연결)
         arr = np.full(img.shape, (val, val, val), np.uint8)
         return cv.add(img, arr)
 
@@ -179,6 +187,7 @@ class ImageProccessor:
                 cv.imshow("imageProcessor-get_img", origin)
                 cv.waitKey(1) & 0xFF == ord('q')
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     ########################################
 
@@ -221,10 +230,43 @@ class ImageProccessor:
     ########################################
 =======
 >>>>>>> 3153e74 (Feat: Image Processing to Yellowline)
+=======
+        
+    ########### ENTRANCE PROCESSING ###########
+    def get_arrow(self, show):
+        img = self.get_img()
+        origin = img.copy()
+>>>>>>> 2ef7c97 (Feat: Arrow Detection 기능 모듈화 및 연결)
 
+        img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+        img = self.blur(img, setting.ARROW_BLUR)
+        img = self.bright(img, setting.ARROW_BRIGHT)
+        _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV)
+        ret_arrow = Arrow.get_arrow_info(self, img)
+        if ret_arrow: print(ret_arrow) # Debug: print arrow
+
+        if show:
+            cv.imshow("show", origin)
+            cv.waitKey(1) & 0xFF == ord('q')
+        return ret_arrow
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     img_processor = ImageProccessor(video="src/danger/1027_23:35.mp4")
 
     while True:
         img_processor.line_detection(show=True)
+=======
+    ### Debug Path List ###
+    # entrance
+    arrow_path01 = "src/entrance/entr03-1.mp4"
+    arrow_path02 = "src/entrance/1027_23:14.h264"
+    # line
+    line_path01 = "src/line/1003_line2.mp4"
+    img_processor = ImageProccessor(video=arrow_path02)
+    
+    ### Debug Run ###
+    while True:
+        img_processor.get_arrow(show=True)
+        # img_processor.line_detection(show=True)
+>>>>>>> 2ef7c97 (Feat: Arrow Detection 기능 모듈화 및 연결)
