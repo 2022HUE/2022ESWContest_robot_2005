@@ -61,3 +61,5 @@ setting.DANGER_MILKBOX_V = 150
 ########### ENTRANCE PROCESSING ###########
 setting.ARROW_BLUR = 7
 setting.ARROW_BRIGHT = 1.0
+setting.DIR_BLUR = 7
+setting.DIR_KERNEL = 1
