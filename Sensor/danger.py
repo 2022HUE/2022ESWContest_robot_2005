@@ -29,6 +29,16 @@ DANGER_ROOM_S = 170
 # 위험 지역 인식 용도 v(명도) 기준값
 DANGER_ROOM_V = 80
 
+# 장애물 들고 있음을 판단하는 비율의 기준
+HOLDING_RATE = 5
+
+# ---------------------------
+
+# 로봇 시야에서 장애물의 위치
+MILKBOX_POS = [((0, 209), (0, 159)), ((210, 429), (0, 159)), ((430, 639), (0, 159)),
+               ((0, 209), (160, 319)), ((210, 429), (160, 319)), ((430, 639), (160, 319)),
+               ((0, 209), (320, 479)), ((210, 429), (320, 479)), ((430, 639), (320, 479))]
+
 
 class Danger:
 
@@ -55,12 +65,28 @@ class Danger:
         v_bin = self.mophorlogy(v_bin)
         return v_bin
 
+    def is_holding_milkbox(self, hsv, color):
+        mask = self.get_milkbox_mask(hsv, color)
+        rate = np.count_nonzero(mask) / (640 * 480)
+        rate *= 100
+        # print(rate)
+        return True if rate >= HOLDING_RATE else False
+
+    # 잡고 있는 장애물의 크롭 화면 가져오기
+    # -> 그냥 이 부분 제외하고는 검은색으로 채울 까
+    def get_holding_milkbox_roi(self, hsv):
+        hsv_crop = hsv.copy()[0:179, 0:639]
+        cv.imshow('holding_milkbox_img', hsv_crop)
+        return hsv_crop
+
     # 장애물 위치 파악을 위한 함수
-    def danger_roi(self, hsv):
-        return True
+    def get_milkbox_pos(self, hsv):
+        # 9개의 구역 중 하나의 구역 리턴 (index로 리턴)
+        idx = 0
+        return idx
 
     def get_black_mask(self, hsv):
-        return self.get_black_mask(hsv, DANGER_BLACK)
+        return self.get_color_mask(hsv, DANGER_BLACK)
 
     def get_color_mask(self, hsv, const):
         lower_hue, upper_hue = np.array(const[0]), np.array(const[1])
@@ -73,6 +99,7 @@ class Danger:
     def get_alphabet_blue_mask(self, hsv):
         return self.get_color_mask(hsv, ALPHABET_BLUE)
 
+    # 장애물이 위험지역에서 벗어났는지 확인
     def is_out_of_black(self, hsv, visualization=False):
         begin = (bx, by) = (160, 200)
         end = (ex, ey) = (480, 420)
@@ -159,8 +186,7 @@ class Danger:
         if color == "RED":
             lower_hue, upper_hue = np.array(DANGER_MILKBOX_RED[0]), np.array(DANGER_MILKBOX_RED[1])
         h_mask = cv.inRange(hsv, lower_hue, upper_hue)
-        print(color)
-        # cv.imshow('h_mask', h_mask)
+        # print(color)
         return h_mask  # mask 리턴
 
     # 안전 지역인지(False) 위험 지역인지(True) detection
@@ -178,15 +204,21 @@ class Danger:
 if __name__ == "__main__":
     danger = Danger()
 
+    # 알파벳 글자 인식 부분 촬영
     # 파랑
     # 1031 20:56 촬영본은 제대로 안됨
-    cap = cv.VideoCapture("src/danger/1031_20:56.h264")
+    # cap = cv.VideoCapture("src/danger/1031_20:56.h264")
     # cap = cv.VideoCapture("src/danger/1027_23:41.h264")
 
     # 빨강
     # cap = cv.VideoCapture("src/danger/1031_20:35.h264")
     # cap = cv.VideoCapture("src/danger/1031_20:49.h264")
     # cap = cv.VideoCapture("src/danger/1027_23:32.h264")
+
+    # 장애물 집고 나올 때의 영상
+    # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
+    cap = cv.VideoCapture("src/danger/1031_20:57.h264")
+
 
     while cap.isOpened():
         _, src = cap.read()
@@ -196,11 +228,15 @@ if __name__ == "__main__":
             break
         blur = cv.GaussianBlur(src, (5, 5), 0)
         cv.imshow('src', src)
-        cv.imshow('blur', blur)
 
-        milk_color = danger.get_alphabet_color(src)
-        print(milk_color)
-        if cv.waitKey(2) & 0xFF == ord('q'):
+        hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
+        # black_mask = danger.get_black_mask(hsv)
+        # cv.imshow('danger_region_mask', black_mask)
+
+        milk_crop = danger.get_holding_milkbox_roi(hsv)
+        print("들고 있는 중~") if danger.is_holding_milkbox(milk_crop, "BLUE") else print("떨굼")
+
+        if cv.waitKey(10) & 0xFF == ord('q'):
             break
 
 cap.release()
