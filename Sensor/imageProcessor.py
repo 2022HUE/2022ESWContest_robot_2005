@@ -9,10 +9,12 @@ from imutils.video import FPS
 
 if __name__ == "__main__":
     from line import Line
+    from Arrow import Arrow
     from Setting import setting, LineColor
 
 else:
     from Sensor.line import Line
+    from Sensor.Arrow import Arrow
     from Sensor.Setting import setting, LineColor
 print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
 
@@ -49,10 +51,9 @@ class ImageProccessor:
     #######################################
 
     ########### 기본 공용 함수 ###########
-    def blur(self, img):
-        return cv.GaussianBlur(img, (7, 7), 1)
-
-    def light(self, img, val):  # 밝기
+    def blur(self, img, val):
+        return cv.GaussianBlur(img, (val, val), 1)
+    def light(self, img, val): # 밝기
         arr = np.full(img.shape, (val, val, val), np.uint8)
         return cv.add(img, arr)
 
@@ -127,39 +128,34 @@ class ImageProccessor:
             if show:
                 cv.imshow("imageProcessor-get_img", origin)
                 cv.waitKey(1) & 0xFF == ord('q')
-
-            # draw
-            if left_line != 'failed_to_find_line' and Line.slope_cal(self, left_line):
-                if Line.slope_cal(self, left_line) < 10:
-                    # print('수평선!입니다!')
-                    Line.draw_fitline(self, origin, left_line, [0, 255, 0])
-                elif 85 < Line.slope_cal(self, left_line) < 95:
-                    # print('수직선!입니다!')
-                    Line.draw_fitline(self, origin, left_line, [0, 255, 255])
-            if right_line != 'failed_to_find_line' and Line.slope_cal(self, right_line):
-                if Line.slope_cal(self, right_line) < 10:
-                    # print('수평선!입니다!')
-                    Line.draw_fitline(self, origin, right_line, [0, 255, 0])
-                elif 85 < Line.slope_cal(self, right_line) < 95:
-                    # print('수직선!입니다!')
-                    Line.draw_fitline(self, origin, right_line, [0, 255, 255])
-            if show:
-                cv.imshow("imageProcessor-get_img", origin)
-                cv.waitKey(1) & 0xFF == ord('q')
-    ########################################
-
-    ########### DANGER DETECTION ###########
-    def danger_detection(self, show):
+        
+    ########### ENTRANCE PROCESSING ###########
+    def get_arrow(self, show):
         img = self.get_img()
         origin = img.copy()
 
-        img = self.correction(img)
-        hsv = self.hsv_mask(img)
+        img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+        img = self.blur(img, setting.ARROW_BLUR)
+        img = self.bright(img, setting.ARROW_BRIGHT)
+        _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV)
+        ret_arrow = Arrow.get_arrow_info(self, img)
+        if ret_arrow: print(ret_arrow) # Debug: print arrow
 
-    ########################################
+        if show:
+            cv.imshow("show", origin)
+            cv.waitKey(1) & 0xFF == ord('q')
+        return ret_arrow
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video="src/danger/1027_23:35.mp4")
-
+    ### Debug Path List ###
+    # entrance
+    arrow_path01 = "src/entrance/entr03-1.mp4"
+    arrow_path02 = "src/entrance/1027_23:14.h264"
+    # line
+    line_path01 = "src/line/1003_line2.mp4"
+    img_processor = ImageProccessor(video=arrow_path02)
+    
+    ### Debug Run ###
     while True:
-        img_processor.line_detection(show=True)
+        img_processor.get_arrow(show=True)
+        # img_processor.line_detection(show=True)
