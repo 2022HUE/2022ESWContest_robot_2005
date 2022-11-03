@@ -70,7 +70,6 @@ while(True):
     # left_rignt(stair_saturation_check_mask,ARROW='left') # 알파벳 오른쪽 왼쪽 확인하는 함수., ARROW에 화살표 방향 넣어야 함.
     stair_down(stair_saturation_check_mask)
 
-
     cv.imshow('result',img_color)
 
     if cv.waitKey(2) & 0xFF == 27:
