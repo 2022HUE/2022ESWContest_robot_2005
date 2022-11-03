@@ -3909,7 +3909,7 @@ D지역:
     MOVE G6D,100,  76, 143,  92, 99, 100
     WAIT
 
-    RETURN
+    GOTO RX_EXIT
     '*******************
 횟수_집고후진:
     GOSUB All_motor_mode3
