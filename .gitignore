@@ -16,10 +16,8 @@
  
 # 예외
 #!제외할 파일명.txt
-
 *.pyc
 __pycache__/
 __init__.py
 
 .DS_Store
-DS_Store
