@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 *.pyc
 __pycache__/
 __init__.py
 
 .DS_Store
 DS_Store
-=======
-
-__pycache__/
-__init__.py
->>>>>>> 0f262c6 (Chore: Simple correction .gitignore)
