@@ -3360,8 +3360,8 @@ D지역:
 집고왼쪽옆으로:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
-    MOVE G6B, 175, 10, 60,	  ,	  ,
-    MOVE G6C, 175, 10, 60,	  ,   ,
+    MOVE G6B, 185, 10, 60,	  ,	  ,
+    MOVE G6C, 185, 10, 60,	  ,   ,
     WAIT
 
     DELAY 3
@@ -3395,8 +3395,8 @@ D지역:
 집고오른쪽옆으로:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
-    MOVE G6B, 175, 10, 60,	  ,	  ,
-    MOVE G6C, 175, 10, 60,	  ,   ,
+    MOVE G6B, 185, 10, 60,	  ,	  ,
+    MOVE G6C, 185, 10, 60,	  ,   ,
     WAIT
 
     DELAY 3
@@ -3434,8 +3434,8 @@ D지역:
     SPEED 10
     MOVE G6D, 90,  90, 120, 105, 110, 100
     MOVE G6A,100,  76, 145,  93, 107, 100
-    MOVE G6B, 175, 10, 60,	  ,	  ,
-    MOVE G6C, 175, 10, 60,	  ,   ,
+    MOVE G6B, 185, 10, 60,	  ,	  ,
+    MOVE G6C, 185, 10, 60,	  ,   ,
     WAIT
 
     SPEED 13
@@ -3473,8 +3473,8 @@ D지역:
     SPEED 10
     MOVE G6A, 90,  90, 120, 105, 110, 100	
     MOVE G6D,100,  76, 145,  93, 107, 100	
-    MOVE G6B, 175, 10, 60,	  ,	  ,
-    MOVE G6C, 175, 10, 60,	  ,   ,
+    MOVE G6B, 185, 10, 60,	  ,	  ,
+    MOVE G6C, 185, 10, 60,	  ,   ,
     WAIT
 
     SPEED 13
