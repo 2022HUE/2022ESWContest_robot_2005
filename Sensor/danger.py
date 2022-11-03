@@ -147,7 +147,8 @@ class Danger:
         hsv_crop = cv.cvtColor(img_crop, cv.COLOR_BGR2HSV)
         return hsv_crop
 
-    def get_alphabet_color(self, hsv):
+    def get_alphabet_color(self, src):
+        hsv = self.get_alphabet_roi(src)
         red_mask = self.get_alphabet_red_mask(hsv)
         blue_mask = self.get_alphabet_blue_mask(hsv)
         color = "RED" if np.count_nonzero(red_mask) > np.count_nonzero(blue_mask) else "BLUE"
@@ -179,11 +180,11 @@ if __name__ == "__main__":
 
     # 파랑
     # 1031 20:56 촬영본은 제대로 안됨
-    # cap = cv.VideoCapture("src/danger/1031_20:56.h264")
+    cap = cv.VideoCapture("src/danger/1031_20:56.h264")
     # cap = cv.VideoCapture("src/danger/1027_23:41.h264")
 
     # 빨강
-    cap = cv.VideoCapture("src/danger/1031_20:35.h264")
+    # cap = cv.VideoCapture("src/danger/1031_20:35.h264")
     # cap = cv.VideoCapture("src/danger/1031_20:49.h264")
     # cap = cv.VideoCapture("src/danger/1027_23:32.h264")
 
@@ -197,8 +198,8 @@ if __name__ == "__main__":
         cv.imshow('src', src)
         cv.imshow('blur', blur)
 
-        alphabet_hsv = danger.get_alphabet_roi(src)
-        milk_color = danger.get_alphabet_color(alphabet_hsv)
+        milk_color = danger.get_alphabet_color(src)
+        print(milk_color)
         if cv.waitKey(2) & 0xFF == ord('q'):
             break
 
