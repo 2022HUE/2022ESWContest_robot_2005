@@ -12,6 +12,7 @@ if __name__ == "__main__":
     from Stair import Stair #파일명 / class이름
     from Arrow import Arrow
     from Direction import Direction
+    from Danger import Danger
     from Setting import setting, LineColor #기본값들
 
 else:
@@ -231,21 +232,20 @@ class ImageProccessor:
     def alphabet_center_check(self,x):
         return Stair.in_alphabet_center_check(self,x)
     def mophorlogy(self,mask):
-        return Stair.in_mophorlogy(self,mask)
+        return Danger.mophorlogy(self,mask)
 
     def get_s_mask(self,src,s_value):
         src = cv.cvtColor(src,cv.COLOR_BGR2HSV)
-        return Stair.in_get_s_mask(self,src,s_value)
+        return Danger.get_s_mask(self,src,s_value)
 
     def get_v_mask(self,src,v_value):
         src = cv.cvtColor(src,cv.COLOR_BGR2HSV)
-        return Stair.in_get_s_mask(self, src, v_value)
+        return Danger.get_v_mask(self, src, v_value)
 
     def saturation_measurement(self):
         img= img_processor.get_img()
         stair_saturation_check_mask = Stair.in_saturation_measurement(self,img,setting.ROOM_S,setting.ROOM_V)
         return stair_saturation_check_mask
-
 
     def stair_start_rotation(self,a,b):  # 계단 지역 기준 왼쪽 오른쪽 판단하는 함수 #화살표 방향대로 돌아야 함.
         return Stair.in_stair_start_rotation(self,a,b,setting.ARROW)
