@@ -6,33 +6,32 @@ ROOM_S = 180 #--> if 계단 내려갈 때 수치가 50이면 좋겠어,
 ROOM_V = 0
 ALPHABET_GO= False
 ARROW = ''
+MORPH_kernel = 3
 
 class Stair:
-    def mophorlogy(self,mask):
-        kernel = np.ones((3, 3), np.uint8)
+
+    def in_mophorlogy(self, mask):
+        kernel = np.ones((MORPH_kernel, MORPH_kernel), np.uint8)
         mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)
         mask = cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel)
         return mask
 
-    def get_s_mask(self,src):
-        hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
+    def in_get_s_mask(self, hsv, s_value):
         h, s, v = cv.split(hsv)
-        # ret_s, s_bin = cv.threshold(s, ROOM_S, 255, cv.THRESH_BINARY)
-        ret_s, s_bin = cv.threshold(s, ROOM_S, 255, cv.THRESH_BINARY)
-
-        s_bin = self.mophorlogy(s_bin) # morphology 연산으로 노이즈 제거
+        ret_s, s_bin = cv.threshold(s, s_value, 255, cv.THRESH_BINARY)
+        # morphology 연산으로 노이즈 제거
+        s_bin = self.mophorlogy(s_bin)
         return s_bin
 
-    def get_v_mask(self,src):
-        hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
+    def in_get_v_mask(self, hsv, v_value):
         h, s, v = cv.split(hsv)
-        ret_v, v_bin = cv.threshold(v, ROOM_V, 255, cv.THRESH_BINARY)
+        ret_v, v_bin = cv.threshold(v, v_value, 255, cv.THRESH_BINARY)
         # morphology 연산으로 노이즈 제거
         v_bin = self.mophorlogy(v_bin)
         return v_bin
 
-    def in_saturation_measurement(self,src):
-        mask_AND = cv.bitwise_and(self.get_s_mask(src), self.get_v_mask(src))
+    def in_saturation_measurement(self,src,s_vlaue,v_value):
+        mask_AND = cv.bitwise_and(self.get_s_mask(src,s_vlaue), self.get_v_mask(src,v_value))
         mask_AND = self.mophorlogy(mask_AND)
         return mask_AND
 

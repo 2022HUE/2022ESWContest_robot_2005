@@ -10,7 +10,8 @@ from imutils.video import FPS
 if __name__ == "__main__":
     from line import Line
     from Stair import Stair #파일명 / class이름
-    from Setting import setting, LineColor
+    from Setting import setting #기본값 설정
+
 
 else:
     from Sensor.line import Line
@@ -128,7 +129,6 @@ class ImageProccessor:
                 cv.imshow("imageProcessor-get_img", origin)
                 cv.waitKey(1) & 0xFF == ord('q')
 
-    # img_processor.rect(self, img, th[y:y + h, x:x + w], contours1, show=True)
     def rect(self,show):
         img = img_processor.get_img()
         img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
@@ -155,44 +155,32 @@ class ImageProccessor:
     def alphabet_center_check(self,x):
         return Stair.in_alphabet_center_check(self,x)
     def mophorlogy(self,mask):
-        kernel = np.ones((3, 3), np.uint8)
-        mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)
-        mask = cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel)
-        return mask
+        return Stair.in_mophorlogy(self,mask)
 
-    def get_s_mask(self,src):
-        hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
-        h, s, v = cv.split(hsv)
-        ret_s, s_bin = cv.threshold(s, setting.STAIR_S, 255, cv.THRESH_BINARY)
-        # morphology 연산으로 노이즈 제거
-        s_bin = self.mophorlogy(s_bin)
-        return s_bin
+    def get_s_mask(self,src,s_value):
+        src = cv.cvtColor(src,cv.COLOR_BGR2HSV)
+        return Stair.in_get_s_mask(self,src,s_value)
 
-    def get_v_mask(self,src):
-        hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
-        h, s, v = cv.split(hsv)
-        ret_v, v_bin = cv.threshold(v, setting.ROOM_V, 255, cv.THRESH_BINARY)
-        # morphology 연산으로 노이즈 제거
-        v_bin = self.mophorlogy(v_bin)
-        return v_bin
+    def get_v_mask(self,src,v_value):
+        src = cv.cvtColor(src,cv.COLOR_BGR2HSV)
+        return Stair.in_get_s_mask(self, src, v_value)
 
-    # def saturation_measurement(self):
-    #     img= img_processor.get_img()
-    #     stair_saturation_check_mask = Stair.in_saturation_measurement(self,img)
-    #     return stair_saturation_check_mask
+    def saturation_measurement(self):
+        img= img_processor.get_img()
+        stair_saturation_check_mask = Stair.in_saturation_measurement(self,img,setting.ROOM_S,setting.ROOM_V)
+        return stair_saturation_check_mask
 
-        # 계단 지역 기준 왼쪽 오른쪽 판단하는 함수 #화살표 방향대로 돌아야 함.
 
-    def stair_start_rotation(self,a,b):
+    def stair_start_rotation(self,a,b):  # 계단 지역 기준 왼쪽 오른쪽 판단하는 함수 #화살표 방향대로 돌아야 함.
         return Stair.in_stair_start_rotation(self,a,b,setting.ARROW)
     def left_rignt(self):
         img = img_processor.get_img()
-        img_mask = Stair.in_saturation_measurement(self, img)
+        img_mask = Stair.in_saturation_measurement(self, img,setting.ROOM_S,setting.ROOM_V)
         return Stair.in_left_rignt(self,img_mask,setting.ARROW)
 
     def stair_down(self):
         img = img_processor.get_img()
-        img_mask = Stair.in_saturation_measurement(self, img) # -->s_mask가 50 이면 좋겠어
+        img_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V) # -->s_mask가 50 이면 좋겠어
         return Stair.in_stair_down(self,img_mask)
 
 if __name__ == "__main__":
