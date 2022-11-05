@@ -59,7 +59,7 @@ def mouse_callback(event, x, y, flags, param):
         print("@2", lower_blue2, "~", upper_blue2)
         print("@3", lower_blue3, "~", upper_blue3)
 
-cap = cv.VideoCapture('src/stair/1027_23:22.h264')  # 제일 쓸만함
+cap = cv.VideoCapture('src/stair/1027_23:24.h264')  # 제일 쓸만함
 red_cnt = 0
 
 while(True):

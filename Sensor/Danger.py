@@ -43,7 +43,6 @@ MILKBOX_POS = [((0, 209), (0, 159)), ((210, 429), (0, 159)), ((430, 639), (0, 15
 
 
 class Danger:
-
     def __init__(self):
         pass
 
