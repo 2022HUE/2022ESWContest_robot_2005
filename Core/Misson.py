@@ -1,5 +1,6 @@
 from enum import Enum, auto
 from Core.Robo import Robo
+import Robo
 from Setting import cur, Arrow
 import time
 
@@ -91,6 +92,9 @@ class MissonEntrance:
             print('ACT: ', act)
             if self.detect_arrow():
                 print(self.map_arrow)
+                print('before', Robo)
+                self.robo.map_arrow = self.map_arrow
+                # print('after', self.robo.map_arrow)
                 self.miss = 0
                 # motion
             else:

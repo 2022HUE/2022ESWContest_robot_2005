@@ -5,7 +5,7 @@ class LineColor(Enum):
 
 class Arrow(Enum):
     LEFT = auto()
-    RIGHT = auto()
+    RIGHT = auto() 
 
 class Setting:
     def __init__(self) -> None:
