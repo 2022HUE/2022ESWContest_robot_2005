@@ -58,12 +58,10 @@ class ImageProccessor:
     def light(self, img, val): # 밝기
         arr = np.full(img.shape, (val, val, val), np.uint8)
         return cv.add(img, arr)
-
-    def bright(self, img, alpha):  # 명도
-        return np.clip((1 + alpha) * img - 128 * alpha, 0, 255).astype(np.uint8)
-
-    def correction(self, img):
-        img = self.blur(img)
+    def bright(self, img, alpha): # 명도
+        return np.clip((1+alpha)*img - 128*alpha, 0, 255).astype(np.uint8)
+    def correction(self, img, val):
+        img = self.blur(img, val)
         img = self.light(img, 0)
         img = self.bright(img, 0)
         return img
@@ -88,13 +86,12 @@ class ImageProccessor:
     #######################################
 
     ########### LINE DETECTION ###########
-    def line_detection(self, show):
+    # 라인이 수평선인지 수직선인지 return해줌
+    def is_line_horizon_vertical(self, show):
         img = self.get_img()
         origin = img.copy()
 
-        # height, width = img.shape[:2]
-
-        img = self.correction(img)
+        img = self.correction(img, 7)
         hsv = self.hsv_mask(img)
         line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
@@ -111,28 +108,49 @@ class ImageProccessor:
             left_line_arr, right_line_arr = Line.slope_filter(self, line_arr)
             left_line, right_line = Line.find_fitline(self, origin, left_line_arr), Line.find_fitline(self, origin, right_line_arr)
             
-            # draw
-            if left_line != 'failed_to_find_line' and Line.slope_cal(self, left_line):
+            # init
+            horizon = False
+            vertical = False
+
+            # check line "Horizontal or Vericality"
+            if left_line and Line.slope_cal(self, left_line):
                 if Line.slope_cal(self, left_line) < 10:
-                    # print('수평선!입니다!')
-                    Line.draw_fitline(self, origin, left_line, [0, 255, 0])
+                    # print('수평선!입니다!') # Debug
+                    # Line.draw_fitline(self, origin, left_line, [0, 255, 0]) # Debug
+                    horizon = True
                 elif 85 < Line.slope_cal(self, left_line) < 95:
-                    # print('수직선!입니다!')
-                    Line.draw_fitline(self, origin, left_line, [0, 255, 255])
-            if right_line != 'failed_to_find_line' and Line.slope_cal(self, right_line):
+                    # print('수직선!입니다!') # Debug
+                    # Line.draw_fitline(self, origin, left_line, [0, 255, 255]) # Debug
+                    vertical = True
+
+            if right_line and Line.slope_cal(self, right_line):
                 if Line.slope_cal(self, right_line) < 10:
-                    # print('수평선!입니다!')
-                    Line.draw_fitline(self, origin, right_line, [0, 255, 0])
+                    # print('수평선!입니다!') # Debug
+                    # Line.draw_fitline(self, origin, right_line, [0, 255, 0]) # Debug
+                    horizon = True
                 elif 85 < Line.slope_cal(self, right_line) < 95:
-                    # print('수직선!입니다!')
-                    Line.draw_fitline(self, origin, right_line, [0, 255, 255])
+                    # print('수직선!입니다!') # Debug
+                    # Line.draw_fitline(self, origin, right_line, [0, 255, 255]) # Debug
+                    vertical = True
+
+            ########### [Option] Show ##########
             if show:
-                cv.imshow("imageProcessor-get_img", origin)
+                cv.imshow("show", origin)
                 cv.waitKey(1) & 0xFF == ord('q')
+            ####################################
+
+            if horizon and vertical: return "BOTH" # 수직, 수평선 둘 다 인식
+            elif horizon: return "HORIZON" # 수직선만 인식
+            elif vertical: return "VERTICAL" # 수평선만 인식
+            else: return False
+
+        else: # 라인 자체를 인식 못할 경우 False 리턴
+            return False
         
 
         
     ########### ENTRANCE PROCESSING ###########
+    # 화살표 방향 인식 후 리턴
     def get_arrow(self, show):
         img = self.get_img()
         origin = img.copy()
@@ -144,11 +162,15 @@ class ImageProccessor:
         ret_arrow = Arrow.get_arrow_info(self, img)
         if ret_arrow: print(ret_arrow) # Debug: print arrow
 
+        ########### [Option] Show ##########
         if show:
             cv.imshow("show", origin)
             cv.waitKey(1) & 0xFF == ord('q')
+        ####################################
+
         return ret_arrow
     
+    # 방위 글자 인식 후 방위 리턴
     def get_direction(self, show):
         img = self.get_img()
         origin = img.copy()
@@ -200,10 +222,12 @@ class ImageProccessor:
             
             # print('match: ', mt_gray, mt_mask, match_gray_font, match_mask_font) # Debug: printing
 
+            ########### [Option] Show ##########
             if show:
                 cv.imshow("show", origin)
                 # cv.imshow("show", img_crop)
                 cv.waitKey(1) & 0xFF == ord('q')
+            ####################################
 
             print(mt_gray) # Debug: print return value
             return mt_gray
@@ -217,10 +241,10 @@ if __name__ == "__main__":
     arrow_path02 = "src/entrance/1027_23:14.h264"
     # line
     line_path01 = "src/line/1003_line2.mp4"
-    img_processor = ImageProccessor(video=arrow_path01)
+    img_processor = ImageProccessor(video=line_path01)
     
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
-        img_processor.get_direction(show=True)
-        # img_processor.line_detection(show=True)
+        # img_processor.get_direction(show=True)
+        img_processor.line_detection(show=True)

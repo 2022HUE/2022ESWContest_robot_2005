@@ -76,7 +76,7 @@ class Line:
                 x2, y2 = int(((img.shape[0]/2+50)-y)/vy*vx + x) , int(img.shape[0]/2+50)
                 res = [x1,y1,x2,y2]
                 return res
-            else: return 'failed_to_find_line'
+            else: return False
 
     # 기울기 필터링
     def slope_cal(self, line):
