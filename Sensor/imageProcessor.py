@@ -17,7 +17,7 @@ else:
     from Sensor.Line import Line
     from Sensor.Arrow import Arrow
     from Sensor.Direction import Direction
-    from Setting import setting, LineColor
+    from Sensor.Setting import setting, LineColor
 print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
 
 
