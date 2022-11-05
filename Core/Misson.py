@@ -42,7 +42,7 @@ class MissonEntrance:
         if cur.MAP_DIRECTION:
             self.map_direction = cur.MAP_DIRECTION
         else:
-            self.map_direction = self.robo._image_processor.get_map_direction()
+            self.map_direction = self.robo._image_processor.get_direction()
         
         if self.map_direction:
             # 미션 코드 (motion)
@@ -60,8 +60,7 @@ class MissonEntrance:
         if cur.MAP_ARROW:
             map_arrow = cur.MAP_ARROW
         else:
-            map_arrow = self.robo._image_processor.get_map_arrow()
-
+            map_arrow = self.robo._image_processor.get_arrow()
         
         if map_arrow:
             self.map_arrow = Arrow.LEFT if map_arrow == "LEFT" else Arrow.RIGHT
@@ -84,6 +83,13 @@ class MissonEntrance:
         elif act == act.DETECT_DIRECTION:
             print('ACT: ', act)
             # self.detect_direction()
+            if self.detect_direction():
+                self.miss = 0
+            else:
+                # motion
+                self.detect_direction()
+                return False
+                
             # (motion) 고개 올리기 - 화살표 보이게
             self.act = Act.DETECT_ARROW
         
