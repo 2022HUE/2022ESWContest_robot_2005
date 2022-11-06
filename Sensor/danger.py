@@ -78,14 +78,22 @@ class Danger:
     # -> 그냥 이 부분 제외하고는 검은색으로 채울 까
     def get_holding_milkbox_roi(self, hsv):
         hsv_crop = hsv.copy()[0:179, 0:639]
-        cv.imshow('holding_milkbox_img', hsv_crop)
+        # cv.imshow('holding_milkbox_img', hsv_crop)
         return hsv_crop
 
     # 장애물 위치 파악을 위한 함수
-    def get_milkbox_pos(self, hsv):
+    def get_milkbox_pos(self, hsv, color):
+        max_idx = 0
+        max_rate = 0
         # 9개의 구역 중 하나의 구역 리턴 (index로 리턴)
-        idx = 0
-        return idx
+        for idx, pos in enumerate(MILKBOX_POS):
+            mask = self.get_milkbox_mask(hsv[pos[1][0]:pos[1][1], pos[0][0]:pos[0][1]], color)
+            rate = np.count_nonzero(mask) / ((pos[1][1]-pos[1][0]) * (pos[0][1]-pos[0][0]))
+            rate*=100
+            # print(rate)
+            if rate > max_rate:
+                max_idx = idx
+        return max_idx
 
     def get_black_mask(self, hsv):
         return self.get_color_mask(hsv, DANGER_BLACK)
@@ -101,12 +109,16 @@ class Danger:
     def get_alphabet_blue_mask(self, hsv):
         return self.get_color_mask(hsv, ALPHABET_BLUE)
 
-    # 장애물이 위험지역에서 벗어났는지 확인
-    def is_out_of_black(self, hsv, visualization=False):
+    # 떨어트렸을 때 장애물이 위험지역 내부에 있는 지에 대한 확인
+
+    # 장애물에 충분히 근접했는지 (즉, 이제 장애물 집어도 되는지) 확인
+
+    # 장애물 들고 위험지역에서 벗어났는지 확인
+    def is_out_of_black(self, src, visualization=False):
         begin = (bx, by) = (160, 200)
         end = (ex, ey) = (480, 420)
-
-        mask = self.get_black_mask(hsv)
+        src_copy = src.copy()
+        mask = self.get_black_mask(src_copy[by:ey, bx:ex])
 
         rate = np.count_nonzero(mask) / ((ex - bx) * (ey - by))
         rate *= 100
@@ -219,8 +231,10 @@ if __name__ == "__main__":
 
     # 장애물 집고 나올 때의 영상
     # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
-    cap = cv.VideoCapture("src/danger/1031_20:57.h264")
+    # cap = cv.VideoCapture("src/danger/1031_20:57.h264")
 
+    # 장애물 어디있는지 바라볼 때의 시야
+    cap = cv.VideoCapture("src/danger/1031_20:59.h264")
 
     while cap.isOpened():
         _, src = cap.read()
@@ -232,13 +246,11 @@ if __name__ == "__main__":
         cv.imshow('src', src)
 
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
-        # black_mask = danger.get_black_mask(hsv)
-        # cv.imshow('danger_region_mask', black_mask)
+        # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
+        # print(danger.get_milkbox_pos(hsv, "RED"))
+        danger.get_alphabet_color(src)
 
-        milk_crop = danger.get_holding_milkbox_roi(hsv)
-        print("들고 있는 중~") if danger.is_holding_milkbox(milk_crop, "BLUE") else print("떨굼")
-
-        if cv.waitKey(10) & 0xFF == ord('q'):
+        if cv.waitKey(8) & 0xFF == ord('q'):
             break
 
 cap.release()
