@@ -288,6 +288,18 @@ Arm_motor_mode3:
 
 
     '************************************************
+고개중앙기본자세:
+	SERVO 16, 73
+	
+    MOVE G6A,100,  76, 145,  93, 100, 100
+    MOVE G6D,100,  76, 145,  93, 100, 100
+    MOVE G6B,100,  30,  80,
+    MOVE G6C,100,  30,  80,
+    WAIT
+    mode = 0
+
+    RETURN
+    '********************************************
 기본자세:
 
     MOVE G6A,100,  76, 145,  93, 100, 100
@@ -1542,6 +1554,8 @@ GOSUB_RX_EXIT2:
 
 
     '*************************************
+    
+    
 
     '*********************************
 
@@ -1968,579 +1982,6 @@ GOSUB_RX_EXIT2:
 
     '**********************************************
     '************************************************
-    '*********************************************
-
-    '좀더 강하게 옆으로 가는 함수(문열때 사용)
-오른쪽옆으로걷기:
-
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-    GOSUB All_motor_Reset
-    DELAY  10
-
-    SPEED 7
-    MOVE G6D, 90,  90, 120, 105, 110, 100
-    MOVE G6A,100,  76, 145,  93, 107, 100
-    'MOVE G6C,100,  40
-    'MOVE G6B,100,  40
-    WAIT
-
-    SPEED 13
-    MOVE G6D, 102,  76, 145, 93, 100, 100
-    MOVE G6A,83,  78, 140,  96, 115, 100
-    WAIT
-
-    SPEED 13
-    MOVE G6D,98,  76, 145,  93, 100, 100
-    MOVE G6A,98,  76, 145,  93, 100, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6A,100,  76, 145,  93, 100, 100
-    MOVE G6D,100,  76, 145,  93, 100, 100
-    WAIT
-
-
-    SPEED 5
-
-    RETURN
-
-
-왼쪽옆으로걷기:
-
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-    GOSUB All_motor_Reset
-    DELAY  10
-
-    SPEED 7
-    MOVE G6A, 90,  90, 120, 105, 110, 100
-    MOVE G6D,100,  76, 145,  93, 107, 100
-    'MOVE G6C,100,  40
-    'MOVE G6B,100,  40
-    WAIT
-
-    SPEED 13
-    MOVE G6A, 102,  76, 145, 93, 100, 100
-    MOVE G6D,83,  78, 140,  96, 115, 100
-    WAIT
-
-    SPEED 13
-    MOVE G6A,98,  76, 145,  93, 100, 100
-    MOVE G6D,98,  76, 145,  93, 100, 100
-    WAIT
-
-    SPEED 12
-    MOVE G6D,100,  76, 145,  93, 100, 100
-    MOVE G6A,100,  76, 145,  93, 100, 100
-    WAIT
-
-
-    SPEED 5
-
-    RETURN
-
-문열기동작:
-    SPEED 5
-
-    MOVE G6C,130,  90, 10
-    MOVE G6B,100, 190 , 10	
-    WAIT
-
-    DELAY 200
-
-    RETURN
-
-
-문열기동작2:
-    SPEED 5
-
-    MOVE G6B,130,  90, 10
-    MOVE G6C,100, 190 , 10	
-    WAIT
-
-    DELAY 200
-
-    RETURN
-    '*******************************
-문열기걷기:
-    GOSUB All_motor_mode3
-    보행COUNT = 0
-    SPEED 7
-    HIGHSPEED SETON
-
-
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        MOVE G6A,95,  77, 147,  93, 101
-        MOVE G6D,101,  76, 149,  93, 98
-        WAIT
-
-        GOTO 문열기걷기_1
-    ELSE
-        보행순서 = 0
-        MOVE G6D,95,  76, 149,  93, 101
-        MOVE G6A,101,  77, 147,  93, 98
-        WAIT
-
-        GOTO 문열기걷기_4
-    ENDIF
-
-
-    '**********************
-
-문열기걷기_1:
-    MOVE G6A,95,  91, 125, 100, 104
-    MOVE G6D,104,  77, 149,  93,  102
-    WAIT
-
-
-문열기걷기_2:
-
-    MOVE G6A,103,   74, 140, 103,  100
-    MOVE G6D, 95,  85, 149,  85, 102
-    WAIT
-
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-
-        GOTO RX_EXIT
-    ENDIF
-
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 문열기걷기_2_stop
-
-    ERX 4800,A, 문열기걷기_4
-    IF A <> A_old THEN
-문열기걷기_2_stop:
-        MOVE G6D,95,  90, 127, 95, 104
-        MOVE G6A,104,  77, 145,  91,  102
-        WAIT
-        HIGHSPEED SETOFF
-        SPEED 15
-        'GOSUB 안정화자세
-        ' SPEED 5
-        '  GOSUB 기본자세2
-        MOVE G6A,100,  75, 145,  93, 100, 100
-        MOVE G6D,100,  76, 145,  93, 100, 100
-
-        'DELAY 400
-        GOTO RX_EXIT
-    ENDIF
-
-    '*********************************
-
-문열기걷기_4:
-    MOVE G6D,95,  96, 122, 100, 104
-    MOVE G6A,104,  78, 147,  93,  102
-    WAIT
-
-
-문열기걷기_5:
-    MOVE G6D,103,    74, 142, 103,  100
-    MOVE G6A, 95,  86, 147,  85, 102
-    WAIT
-
-
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO RX_EXIT
-    ENDIF
-
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 문열기걷기_5_stop
-
-    ERX 4800,A, 문열기걷기_1
-    IF A <> A_old THEN
-문열기걷기_5_stop:
-        MOVE G6A,95,  91, 125, 95, 104
-        MOVE G6D,104,  79, 145,  91,  102
-        WAIT
-        HIGHSPEED SETOFF
-        SPEED 15
-        '   GOSUB 안정화자세
-        '  SPEED 5
-        ' GOSUB 기본자세2
-        MOVE G6A,100,  75, 145,  93, 100, 100
-        MOVE G6D,100,  77, 145,  93, 100, 100
-
-        'DELAY 400
-        GOTO RX_EXIT
-    ENDIF
-
-    '*************************************
-
-    '*********************************
-
-    GOTO 문열기걷기_1
-
-문열기걷기후진:
-    GOSUB All_motor_mode3
-    넘어진확인 = 0
-    보행COUNT = 0
-    SPEED 7
-    'HIGHSPEED SETON
-
-
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        MOVE G6A,95,  77, 145,  93, 101
-        MOVE G6D,101,  76, 145,  93, 98
-        WAIT
-
-        GOTO 문열기걷기후진_1
-    ELSE
-        보행순서 = 0
-        MOVE G6D,95,  76, 145,  93, 101
-        MOVE G6A,101,  76, 145,  93, 98
-        WAIT
-
-        GOTO 문열기걷기후진_4
-    ENDIF
-
-
-    '**********************
-
-문열기걷기후진_1:
-    MOVE G6D,104,  76, 147,  93,  102
-    MOVE G6A,95,  95, 120, 95, 104
-    WAIT
-
-
-
-문열기걷기후진_3:
-    MOVE G6A, 103,  79, 147,  89, 100
-    MOVE G6D,95,   65, 147, 103,  102
-    WAIT
-
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO RX_EXIT
-    ENDIF
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 문열기걷기후진_3_stop
-    ERX 4800,A, 문열기걷기후진_4
-    IF A <> A_old THEN
-문열기걷기후진_3_stop:
-        MOVE G6D,95,  85, 130, 100, 104
-        MOVE G6A,104,  77, 146,  93,  102
-        WAIT
-
-        'SPEED 15
-        '        GOSUB 안정화자세
-        '       HIGHSPEED SETOFF
-        '      SPEED 5
-        '     GOSUB 기본자세2
-        MOVE G6A,100,  76, 145,  93, 100, 100
-        MOVE G6D,100,  76, 145,  93, 100, 100
-
-        '   DELAY 400
-        GOTO RX_EXIT
-    ENDIF
-    '*********************************
-
-문열기걷기후진_4:
-    MOVE G6A,104,  76, 147,  93,  102
-    MOVE G6D,95,  95, 120, 95, 104
-    WAIT
-
-
-문열기걷기후진_6:
-    MOVE G6D, 103,  79, 147,  89, 100
-    MOVE G6A,95,   65, 147, 103,  102
-    WAIT
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO RX_EXIT
-    ENDIF
-
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 문열기걷기후진_6_stop
-
-    ERX 4800,A, 문열기걷기후진_1
-    IF A <> A_old THEN  'GOTO 문열기걷기후진_멈춤
-문열기걷기후진_6_stop:
-        MOVE G6A,95,  85, 130, 100, 104
-        MOVE G6D,104,  77, 146,  93,  102
-        WAIT
-
-        'SPEED 15
-        '        GOSUB 안정화자세
-        '       HIGHSPEED SETOFF
-        '      SPEED 5
-        '     GOSUB 기본자세2
-        MOVE G6A,100,  76, 145,  93, 100, 100
-        MOVE G6D,100,  76, 145,  93, 100, 100
-
-        '  DELAY 400
-        GOTO RX_EXIT
-    ENDIF
-
-    GOTO 문열기걷기후진_1
-
-문열기왼쪽3:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-
-문열기왼쪽3_LOOP:
-    'SPEED 5
-
-    'MOVE G6B,130,  90, 10
-    'MOVE G6C,100, 190 , 10	
-    'WAIT
-
-    ' DELAY 150
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        SPEED 15
-        MOVE G6D,100,  73, 145,  91, 100, 100
-        MOVE G6A,100,  79, 145,  91, 100, 100
-        WAIT
-
-        SPEED 6
-        MOVE G6D,100,  84, 145,  76, 100, 100
-        MOVE G6A,100,  68, 145,  106, 100, 100
-        WAIT
-
-        SPEED 9
-        MOVE G6D,90,  90, 145,  76, 102, 100
-        MOVE G6A,104,  71, 145,  103, 100, 100
-        WAIT
-        SPEED 7
-        MOVE G6D,90,  80, 128, 102, 104
-        MOVE G6A,105,  76, 144,  93,  100
-        WAIT
-
-
-
-    ELSE
-        보행순서 = 0
-        SPEED 15
-        MOVE G6D,100,  73, 145,  91, 100, 100
-        MOVE G6A,100,  79, 145,  91, 100, 100
-        WAIT
-
-
-        SPEED 6
-        MOVE G6D,100,  88, 145,  76, 100, 100
-        MOVE G6A,100,  65, 145,  106, 100, 100
-        WAIT
-
-        SPEED 9
-        MOVE G6D,104,  86, 146,  78, 100, 100
-        MOVE G6A,90,  58, 145,  108, 100, 100
-        WAIT
-
-        SPEED 7
-        MOVE G6A,90,  85, 128, 98, 104
-        MOVE G6D,105,  77, 144,  93,  100
-        WAIT
-
-
-    ENDIF
-
-    SPEED 12
-    ' GOSUB 기본자세2
-    MOVE G6A,100,  76, 145,  91, 100, 100
-    MOVE G6D,100,  76, 145,  91, 100, 100
-
-
-    GOTO RX_EXIT
-
-문열기오른쪽3:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-
-문열기오른쪽3_LOOP:
-    '   MOVE G6C,130,  90, 10
-    '  MOVE G6B,100, 190 , 10	
-    ' WAIT
-    'DELAY 150
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        SPEED 15
-        MOVE G6A,100,  73, 145,  91, 100, 100
-        MOVE G6D,98,  79, 146,  91, 100, 100
-        WAIT
-
-
-        SPEED 6
-        MOVE G6A,100,  84, 145,  76, 100, 100
-        MOVE G6D,98,  68, 146,  106, 100, 100
-        WAIT
-
-        SPEED 9
-        MOVE G6A,90,  90, 145,  76, 102, 100
-        MOVE G6D,102  71, 146,  103, 100, 100
-        WAIT
-        SPEED 7
-        MOVE G6A,90,  80, 128, 102, 104
-        MOVE G6D,103,  76, 145,  93,  100
-        WAIT
-
-
-
-    ELSE
-        보행순서 = 0
-        SPEED 15
-        MOVE G6A,100,  73, 145,  91, 100, 100
-        MOVE G6D,98,  79, 146,  91, 100, 100
-        WAIT
-
-
-        SPEED 6
-        MOVE G6A,100,  88, 145,  76, 100, 100
-        MOVE G6D,98,  65, 146,  106, 100, 100
-        WAIT
-
-        SPEED 9
-        MOVE G6A,104,  86, 146,  78, 100, 100
-        MOVE G6D,88,  58, 146,  108, 100, 100
-        WAIT
-
-        SPEED 7
-        MOVE G6D,88,  85, 129, 98, 104
-        MOVE G6A,105,  77, 143,  93,  100
-        WAIT
-
-    ENDIF
-    SPEED 12
-    '  GOSUB 기본자세2
-    MOVE G6A,100,  76, 145,  91, 100, 100
-    MOVE G6D,100,  76, 145,  91, 100, 100
-
-    GOTO RX_EXIT
-
-문열기왼쪽3_LOOP_고정:
-    SPEED 5
-
-    MOVE G6C,130,  90, 10
-    MOVE G6B,100, 190 , 10	
-    WAIT
-
-    DELAY 150
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        SPEED 15
-        MOVE G6D,100,  73, 145,  93, 100, 100
-        MOVE G6A,100,  79, 145,  93, 100, 100
-        WAIT
-
-        SPEED 6
-        MOVE G6D,100,  84, 145,  78, 100, 100
-        MOVE G6A,100,  68, 145,  108, 100, 100
-        WAIT
-
-        SPEED 9
-        MOVE G6D,90,  90, 145,  78, 102, 100
-        MOVE G6A,104,  71, 145,  105, 100, 100
-        WAIT
-        SPEED 7
-        MOVE G6D,90,  80, 130, 102, 104
-        MOVE G6A,105,  76, 146,  93,  100
-        WAIT
-
-
-
-    ELSE
-        보행순서 = 0
-        SPEED 15
-        MOVE G6D,100,  73, 145,  93, 100, 100
-        MOVE G6A,100,  79, 145,  93, 100, 100
-        WAIT
-
-
-        SPEED 6
-        MOVE G6D,100,  88, 145,  78, 100, 100
-        MOVE G6A,100,  65, 145,  108, 100, 100
-        WAIT
-
-        SPEED 9
-        MOVE G6D,104,  86, 146,  80, 100, 100
-        MOVE G6A,90,  58, 145,  110, 100, 100
-        WAIT
-
-        SPEED 7
-        MOVE G6A,90,  85, 130, 98, 104
-        MOVE G6D,105,  77, 146,  93,  100
-        WAIT
-
-
-
-    ENDIF
-
-    SPEED 12
-    ' GOSUB 기본자세2
-
-
-    GOTO RX_EXIT
-
-문열기오른쪽3_LOOP_고정:
-    '  SPEED 5
-
-    MOVE G6C,130,  90, 10
-    MOVE G6B,100, 190 , 10	
-    WAIT
-
-    DELAY 150
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        SPEED 15
-        MOVE G6A,100,  73, 145,  93, 100, 100
-        MOVE G6D,98,  79, 146,  93, 100, 100
-        WAIT
-
-
-        SPEED 6
-        MOVE G6A,100,  84, 145,  78, 100, 100
-        MOVE G6D,98,  68, 146,  108, 100, 100
-        WAIT
-
-        SPEED 9
-        MOVE G6A,90,  90, 145,  78, 102, 100
-        MOVE G6D,102  71, 146,  105, 100, 100
-        WAIT
-        SPEED 7
-        MOVE G6A,90,  80, 130, 102, 104
-        MOVE G6D,103,  76, 147,  93,  100
-        WAIT
-
-
-
-    ELSE
-        보행순서 = 0
-        SPEED 15
-        MOVE G6A,100,  73, 145,  93, 100, 100
-        MOVE G6D,98,  79, 146,  93, 100, 100
-        WAIT
-
-
-        SPEED 6
-        MOVE G6A,100,  88, 145,  78, 100, 100
-        MOVE G6D,98,  65, 146,  108, 100, 100
-        WAIT
-
-        SPEED 9
-        MOVE G6A,104,  86, 146,  80, 100, 100
-        MOVE G6D,88,  58, 146,  110, 100, 100
-        WAIT
-
-        SPEED 7
-        MOVE G6D,88,  85, 131, 98, 104
-        MOVE G6A,105,  77, 145,  93,  100
-        WAIT
-
-    ENDIF
-    SPEED 12
-    '  GOSUB 기본자세2
-
-    GOTO RX_EXIT
-
-
 
 왼쪽턴3:
     MOTORMODE G6A,3,3,3,3,2
@@ -2758,113 +2199,6 @@ GOSUB_RX_EXIT2:
 
     GOTO RX_EXIT
     '**********************************************
-문열고오른쪽턴20:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-    SPEED 8
-    MOVE G6A,95,  56, 145,  113, 105, 100
-    MOVE G6D,95,  96, 145,  73, 105, 100
-    '  MOVE G6B,90
-    ' MOVE G6C,110
-    WAIT
-
-    SPEED 12
-    MOVE G6A,93,  56, 145,  113, 105, 100
-    MOVE G6D,93,  96, 145,  73, 105, 100
-    WAIT
-
-    SPEED 6
-    MOVE G6A,101,  76, 146,  93, 98, 100
-    MOVE G6D,101,  76, 146,  93, 98, 100
-
-    WAIT
-
-    '  GOSUB 기본자세2
-    MOVE G6A,100,  76, 145,  93, 100, 100
-    MOVE G6D,100,  76, 145,  93, 100, 100
-
-    GOTO RX_EXIT
-    '**********************************************	
-
-문열고왼쪽턴20:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-    SPEED 8
-    MOVE G6A,95,  96, 145,  73, 105, 100
-    MOVE G6D,95,  56, 145,  113, 105, 100
-    'MOVE G6B,110
-    'MOVE G6C,90
-    WAIT
-
-    SPEED 12
-    MOVE G6A,93,  96, 145,  73, 105, 100
-    MOVE G6D,93,  56, 145,  113, 105, 100
-    WAIT
-    SPEED 6
-    MOVE G6A,101,  76, 146,  93, 98, 100
-    MOVE G6D,101,  76, 146,  93, 98, 100
-
-    WAIT
-
-    'GOSUB 기본자세2
-    MOVE G6A,100,  76, 145,  93, 100, 100
-    MOVE G6D,100,  76, 145,  93, 100, 100
-
-    GOTO RX_EXIT
-
-문열고왼쪽턴45:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-    SPEED 10
-    MOVE G6A,95, 106, 145,  63, 105, 100
-    MOVE G6D,95,  46, 145,  123, 105, 100
-    'MOVE G6B,110
-    'MOVE G6C,90
-    WAIT
-
-    SPEED 12
-    MOVE G6A,93,  106, 145,  63, 105, 100
-    MOVE G6D,93,  46, 145,  123, 105, 100
-    WAIT
-    SPEED 8
-    '   MOVE G6A,101,  76, 146,  93, 98, 100
-    '  MOVE G6D,101,  76, 146,  93, 98, 100
-
-    '  WAIT
-
-    'GOSUB 기본자세2
-    MOVE G6A,100,  76, 145,  93, 100, 100
-    MOVE G6D,100,  76, 145,  93, 100, 100
-
-    GOTO RX_EXIT
-
-문열고오른쪽턴45:
-    MOTORMODE G6A,3,3,3,3,2
-    MOTORMODE G6D,3,3,3,3,2
-    SPEED 10
-    MOVE G6A,95,  46, 145,  123, 105, 100
-    MOVE G6D,95,  106, 145,  63, 105, 100
-    '  MOVE G6B,90
-    ' MOVE G6C,110
-    WAIT
-
-    SPEED 12
-    MOVE G6A,93,  46, 145,  123, 105, 100
-    MOVE G6D,93,  106, 145,  63, 105, 100
-    WAIT
-
-    SPEED 8
-    ' MOVE G6A,101,  76, 146,  93, 98, 100
-    'MOVE G6D,101,  76, 146,  93, 98, 100
-
-    'WAIT
-
-    '  GOSUB 기본자세2
-    MOVE G6A,100,  76, 145,  93, 100, 100
-    MOVE G6D,100,  76, 145,  93, 100, 100
-
-    GOTO RX_EXIT
-    '**********************************************
 왼쪽턴45:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
@@ -2898,6 +2232,9 @@ GOSUB_RX_EXIT2:
 오른쪽턴45:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
+	MOVE G6B, 100, 180,  80,  ,  ,  
+	MOVE G6C, 100, 180,  80,  ,  ,  
+
 오른쪽턴45_LOOP:
 
     SPEED 10
@@ -2982,7 +2319,66 @@ GOSUB_RX_EXIT2:
 
     GOTO RX_EXIT
     '****************************************
+팔들고오른쪽턴45:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+	MOVE G6B, 100, 180,  80,  ,  ,  
+	MOVE G6C, 100, 180,  80,  ,  ,  
+
+팔들고오른쪽턴45_LOOP:
+
+    SPEED 10
+    MOVE G6A,95,  46, 145,  123, 105, 100
+    MOVE G6D,95,  106, 145,  63, 105, 100
+    WAIT
+
+    SPEED 12
+    MOVE G6A,93,  46, 145,  123, 105, 100
+    MOVE G6D,93,  106, 145,  63, 105, 100
+    WAIT
+
+    SPEED 8
+    GOSUB 기본자세2
+    ' DELAY 50
+    '    GOSUB 앞뒤기울기측정
+    '    IF 넘어진확인 = 1 THEN
+    '        넘어진확인 = 0
+    '        GOTO RX_EXIT
+    '    ENDIF
+    '
+    '    ERX 4800,A,오른쪽턴45_LOOP
+    '    IF A_old = A THEN GOTO 오른쪽턴45_LOOP
+    '
+    GOTO RX_EXIT
     '************************************************
+팔들고왼쪽턴45:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+팔들고왼쪽턴45_LOOP:
+
+    SPEED 10
+    MOVE G6A,95,  106, 145,  63, 105, 100
+    MOVE G6D,95,  46, 145,  123, 105, 100
+    WAIT
+
+    SPEED 12
+    MOVE G6A,93,  106, 145,  63, 105, 100
+    MOVE G6D,93,  46, 145,  123, 105, 100
+    WAIT
+
+    SPEED 8
+    GOSUB 기본자세2
+    'DELAY 50
+    '    GOSUB 앞뒤기울기측정
+    '    IF 넘어진확인 = 1 THEN
+    '        넘어진확인 = 0
+    '        GOTO RX_EXIT
+    '    ENDIF
+    '
+    '    ERX 4800,A,왼쪽턴45_LOOP
+    '    IF A_old = A THEN GOTO 왼쪽턴45_LOOP
+    '
+    GOTO RX_EXIT
     '**********************************************
 
 
@@ -3182,7 +2578,7 @@ GOSUB_RX_EXIT2:
 
 머리상하정면:
     SPEED 머리이동속도
-    SERVO 11,100	
+    SERVO 11,100	' 이거 머임? 왜 상하인데 11이야
     SPEED 5
     GOSUB 기본자세
     GOTO MAIN
@@ -3746,6 +3142,18 @@ D지역:
     PRINT "SOUND 3 !"
     RETURN
 
+전방하향110도:
+    SPEED 3
+    SERVO 16, 110
+
+    RETURN
+    '******************************************
+전방하향105도:
+    SPEED 3
+    SERVO 16, 105
+
+    RETURN
+    '******************************************
 전방하향100도:
     SPEED 3
     SERVO 16, 100
@@ -3764,7 +3172,6 @@ D지역:
 
     RETURN
     '******************************************
-
 전방하향90도:
 
     SPEED 3
@@ -3779,7 +3186,6 @@ D지역:
 
     RETURN
     '******************************************
-
 전방하향80도:
 
     SPEED 3
@@ -3799,6 +3205,12 @@ D지역:
 
     RETURN
     '******************************************
+전방하향65도:
+    SPEED 3
+    SERVO 16, 69
+
+    RETURN
+    '******************************************
 전방하향60도:
 
     SPEED 3
@@ -3807,72 +3219,72 @@ D지역:
     RETURN
 
     '******************************************
-전방하향54도:
+전방하향55도:
 
     SPEED 3
-    SERVO 16, 58
+    SERVO 16, 59
 
     RETURN
 
     '******************************************
-
 전방하향50도:
-
     SPEED 3
     SERVO 16, 54
 
     RETURN
-
     '******************************************
 
 전방하향45도:
-
     SPEED 3
     SERVO 16, 50
+    
     RETURN
+    '******************************************
+전방하향40도:
+    SPEED 3
+    SERVO 16, 45
 
+    RETURN
     '******************************************
 전방하향35도:
-
     SPEED 3
     SERVO 16, 40
     RETURN
 
     '******************************************
-
 전방하향30도:
 
     SPEED 3
     SERVO 16, 36
 
     RETURN
+    '******************************************
+전방하향25도:
+    SPEED 3
+    SERVO 16, 30
 
+    RETURN
+    '******************************************
+전방하향20도:
+    SPEED 3
+    SERVO 16, 26
+
+    RETURN
     '******************************************
 전방하향18도:
 
     SPEED 3
     SERVO 16, 22
-    '  ETX 4800,40
+    
     RETURN
-
     '******************************************
-
 전방하향10도:
 
     SPEED 3
     SERVO 16, 10
-    '   ETX 4800,41
 
     RETURN
     '******************************************
-
-전방하향110도:
-
-    SPEED 3
-    SERVO 16, 110
-    '   ETX 4800,41
-
-    RETURN
 
 양팔벌리기:
     'MOVE G6A, 101,  83, 128,  96,  99, 100
@@ -4022,8 +3434,8 @@ D지역:
 집고왼쪽옆으로:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
-    MOVE G6B, 175, 10, 60,	  ,	  ,
-    MOVE G6C, 175, 10, 60,	  ,   ,
+    MOVE G6B, 185, 10, 60,	  ,	  ,
+    MOVE G6C, 185, 10, 60,	  ,   ,
     WAIT
 
     DELAY 3
@@ -4057,8 +3469,8 @@ D지역:
 집고오른쪽옆으로:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
-    MOVE G6B, 175, 10, 60,	  ,	  ,
-    MOVE G6C, 175, 10, 60,	  ,   ,
+    MOVE G6B, 185, 10, 60,	  ,	  ,
+    MOVE G6C, 185, 10, 60,	  ,   ,
     WAIT
 
     DELAY 3
@@ -4096,8 +3508,8 @@ D지역:
     SPEED 10
     MOVE G6D, 90,  90, 120, 105, 110, 100
     MOVE G6A,100,  76, 145,  93, 107, 100
-    MOVE G6B, 175, 10, 60,	  ,	  ,
-    MOVE G6C, 175, 10, 60,	  ,   ,
+    MOVE G6B, 185, 10, 60,	  ,	  ,
+    MOVE G6C, 185, 10, 60,	  ,   ,
     WAIT
 
     SPEED 13
@@ -4135,8 +3547,8 @@ D지역:
     SPEED 10
     MOVE G6A, 90,  90, 120, 105, 110, 100	
     MOVE G6D,100,  76, 145,  93, 107, 100	
-    MOVE G6B, 175, 10, 60,	  ,	  ,
-    MOVE G6C, 175, 10, 60,	  ,   ,
+    MOVE G6B, 185, 10, 60,	  ,	  ,
+    MOVE G6C, 185, 10, 60,	  ,   ,
     WAIT
 
     SPEED 13
@@ -4571,99 +3983,8 @@ D지역:
     MOVE G6D,100,  76, 143,  92, 99, 100
     WAIT
 
-    RETURN
+    GOTO RX_EXIT
     '*******************
-문열고집고전진:
-    보행속도 = 8
-    좌우속도 = 4
-    넘어진확인 = 0
-
-    'GOSUB 전방하향18도
-    'DELAY 20
-    SPEED 6
-    GOSUB All_motor_mode3
-    MOVE G6B, 185, 10, 80
-    MOVE G6C, 190, 10, 80
-    WAIT
-
-    DELAY 20
-    'HIGHSPEED SETON
-
-    SPEED 10
-    MOVE G6D,  90,  74, 144,  94, 109
-    MOVE G6A, 108,  76, 146,  93, 96
-    WAIT
-
-    SPEED 12
-    MOVE G6D,90, 90, 120, 101, 109,99
-    MOVE G6A,108,  76, 147,  92,  96,100
-    WAIT
-
-    'HIGHSPEED SETOFF
-    GOTO 문열고집고전진_2	
-
-문열고집고전진_2:
-    MOVE G6A,110,  76, 147,  93, 100,100
-    MOVE G6D,96, 90, 120, 101, 106,99
-    WAIT
-
-문열고집고전진_3:
-    'ETX 4800,13 '진행코드를 보냄
-
-    SPEED 보행속도
-
-    MOVE G6D, 90,  56, 145, 114, 109
-    MOVE G6A,108,  76, 147,  89,  95
-    WAIT
-
-    SPEED 좌우속도
-    MOVE G6D,108,  76, 147, 89,  97
-    MOVE G6A,90, 100, 142,  68, 107
-    WAIT
-
-    SPEED 보행속도
-
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO MAIN
-    ENDIF
-
-
-    ERX 4800,A, 문열고집고전진_4
-    IF A = 11 THEN
-        GOTO 문열고집고전진_4
-        '    ELSE
-        '    	MOVE G6A, 90, 100, 100, 115, 110,100
-        ' 		MOVE G6D,112,  76, 146,  93,  96,100
-        ' 		MOVE G6B,90
-        ' 		MOVE G6C,110
-        ' 		WAIT
-        ' 		HIGHSPEED SETOFF
-        ' 		SPEED 8
-
-        ' 		MOVE G6D, 106,  76, 146,  93,  96,100		
-        ' 		MOVE G6A,  88,  71, 152,  91, 106,100
-        ' 		MOVE G6C, 100
-        ' 		MOVE G6B, 100
-        ' 		WAIT	
-        ' 		SPEED 8
-        ' 		GOSUB 기본자세2
-
-        ' 		GOTO RX_EXIT
-    ENDIF
-문열고집고전진_4:
-    SPEED 13
-    MOVE G6A,95, 90, 120, 101, 110,99
-    MOVE G6D,108,  76, 146,  92,  95,99
-    WAIT
-
-    SPEED 11
-    MOVE G6A,100,  76, 145,  92, 99, 100
-    MOVE G6D,100,  76, 145,  92, 99, 100
-    WAIT
-
-    RETURN
 횟수_집고후진:
     GOSUB All_motor_mode3
     넘어진확인 = 0
@@ -4692,270 +4013,7 @@ D지역:
         GOTO 횟수_집고후진_4
     ENDIF
 
-
-    '**********************
-문열고전진달리기50:
-    넘어진확인 = 0
-    GOSUB All_motor_mode3
-    보행COUNT = 0
-    DELAY 50
-    SPEED 6
-    HIGHSPEED SETON
-
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        MOVE G6A,95,  76, 145,  93, 101
-        MOVE G6D,101,  77, 146,  93, 98
-        WAIT
-
-        MOVE G6A,95,  80, 120, 120, 104
-        MOVE G6D,104,  77, 147,  91,  102
-        MOVE G6B, 185, 10, 80
-        MOVE G6C, 190, 10, 80
-        WAIT
-
-        GOTO 문열고전진달리기50_2
-    ELSE
-        보행순서 = 0
-        MOVE G6D,95,  76, 146,  93, 101
-        MOVE G6A,101,  77, 145,  93, 98
-        WAIT
-
-        MOVE G6D,95,  80, 121, 120, 104
-        MOVE G6A,104,  77, 146,  91,  102
-        MOVE G6B, 185, 10, 80
-        MOVE G6C, 190, 10, 80
-        WAIT
-
-        GOTO 문열고전진달리기50_5
-    ENDIF
-    '**********************
-
-문열고전진달리기50_1:
-    MOVE G6A,95,  95, 100, 120, 104
-    MOVE G6D,104,  77, 148,  93,  102
-    MOVE G6B, 185, 10, 80
-    MOVE G6C, 190, 10, 80
-    WAIT
-
-문열고전진달리기50_2:
-    MOVE G6A,95,  75, 122, 120, 104
-    MOVE G6D,104,  78, 148,  90,  100
-    WAIT
-
-문열고전진달리기50_3:
-    MOVE G6A,103,  69, 145, 103,  100
-    MOVE G6D, 95, 87, 161,  68, 102
-    WAIT
-
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO RX_EXIT
-    ENDIF
-
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 문열고전진달리기50_3_stop
-
-    ERX 4800,A, 문열고전진달리기50_4
-    IF A <> A_old THEN
-문열고전진달리기50_3_stop:
-
-        MOVE G6D,90,  93, 116, 100, 104
-        MOVE G6A,104,  74, 145,  91,  102
-        MOVE G6B, 185, 10, 80
-        MOVE G6C, 190, 10, 80
-        WAIT
-        HIGHSPEED SETOFF
-        SPEED 15
-        ' GOSUB 안정화자세
-        SPEED 13
-        ' GOSUB 기본자세2
-        MOVE G6A,100,  76, 145,  91, 100, 100
-        MOVE G6D,100,  76, 145,  91, 100, 100
-
-        DELAY 150
-        GOTO RX_EXIT
-    ENDIF
-    '*********************************
-
-문열고전진달리기50_4:
-    MOVE G6D,95,  95, 101, 120, 104
-    MOVE G6A,104,  77, 147,  93,  102
-    MOVE G6B, 185, 10, 80
-    MOVE G6C, 190, 10, 80
-    WAIT
-문열고전진달리기50_5:
-    MOVE G6D,95,  75, 123, 120, 104
-    MOVE G6A,104,  78, 147,  90,  100
-    WAIT
-
-문열고전진달리기50_6:
-    MOVE G6D,103,  69, 146, 103,  100
-    MOVE G6A, 95, 87, 160,  68, 102
-    WAIT
-
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO RX_EXIT
-    ENDIF
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 문열고전진달리기50_6_stop
-    ERX 4800,A, 문열고전진달리기50_1
-    IF A <> A_old THEN
-문열고전진달리기50_6_stop:
-
-        MOVE G6A,90,  93, 115, 100, 104
-        MOVE G6D,104,  74, 146,  91,  102
-        MOVE G6B, 185, 10, 80
-        MOVE G6C, 190, 10, 80
-        WAIT
-        HIGHSPEED SETOFF
-        SPEED 15
-        ' GOSUB 안정화자세
-        SPEED 13
-        ' GOSUB 기본자세2
-        MOVE G6A,100,  76, 145,  91, 100, 100
-        MOVE G6D,100,  76, 145,  91, 100, 100
-        DELAY 150
-        GOTO RX_EXIT
-    ENDIF
-    GOTO 문열고전진달리기50_1
-
-
-
-
-
     '*******************************************
-
-집고전진달리기50:
-    넘어진확인 = 0
-    GOSUB All_motor_mode3
-    보행COUNT = 0
-    DELAY 50
-    SPEED 6
-    HIGHSPEED SETON
-
-    IF 보행순서 = 0 THEN
-        보행순서 = 1
-        MOVE G6A,95,  76, 145,  93, 101
-        MOVE G6D,101,  77, 146,  93, 98
-        WAIT
-
-        MOVE G6A,95,  80, 120, 120, 104
-        MOVE G6D,104,  77, 147,  91,  102
-        MOVE G6B,185,  10,  60
-        MOVE G6C,185,  10,  60
-        WAIT
-
-        GOTO 집고전진달리기50_2
-    ELSE
-        보행순서 = 0
-        MOVE G6D,95,  76, 146,  93, 101
-        MOVE G6A,101,  77, 145,  93, 98
-        WAIT
-
-        MOVE G6D,95,  80, 121, 120, 104
-        MOVE G6A,104,  77, 146,  91,  102
-        MOVE G6B,185,  10,  60
-        MOVE G6C,185,  10,  60
-        WAIT
-
-        GOTO 집고전진달리기50_5
-    ENDIF
-    '**********************
-
-집고전진달리기50_1:
-    MOVE G6A,95,  95, 100, 120, 104
-    MOVE G6D,104,  77, 148,  93,  102
-    MOVE G6B,185,  10,  60
-    MOVE G6C,185,  10,  60
-    WAIT
-
-집고전진달리기50_2:
-    MOVE G6A,95,  75, 122, 120, 104
-    MOVE G6D,104,  78, 148,  90,  100
-    WAIT
-
-집고전진달리기50_3:
-    MOVE G6A,103,  69, 145, 103,  100
-    MOVE G6D, 95, 87, 161,  68, 102
-    WAIT
-
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO RX_EXIT
-    ENDIF
-
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 집고전진달리기50_3_stop
-
-    ERX 4800,A, 문열고전진달리기50_4
-    IF A <> A_old THEN
-집고전진달리기50_3_stop:
-
-        MOVE G6D,90,  93, 116, 100, 104
-        MOVE G6A,104,  74, 145,  91,  102
-        MOVE G6B,185,  10,  60
-        MOVE G6C,185,  10,  60
-        WAIT
-        HIGHSPEED SETOFF
-        SPEED 15
-        ' GOSUB 안정화자세
-        ' GOSUB 기본자세2
-        MOVE G6A,100,  76, 145,  91, 100, 100
-        MOVE G6D,100,  76, 145,  91, 100, 100
-
-        DELAY 150
-        GOTO RX_EXIT
-    ENDIF
-    '*********************************
-
-집고전진달리기50_4:
-    MOVE G6D,95,  95, 101, 120, 104
-    MOVE G6A,104,  77, 147,  93,  102
-    MOVE G6B,185,  10,  60
-    MOVE G6C,185,  10,  60
-    WAIT
-집고전진달리기50_5:
-    MOVE G6D,95,  75, 123, 120, 104
-    MOVE G6A,104,  78, 147,  90,  100
-    WAIT
-
-집고전진달리기50_6:
-    MOVE G6D,103,  69, 146, 103,  100
-    MOVE G6A, 95, 87, 160,  68, 102
-    WAIT
-
-    GOSUB 앞뒤기울기측정
-    IF 넘어진확인 = 1 THEN
-        넘어진확인 = 0
-        GOTO RX_EXIT
-    ENDIF
-    보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 집고전진달리기50_6_stop
-    ERX 4800,A, 집고전진달리기50_1
-    IF A <> A_old THEN
-집고전진달리기50_6_stop:
-
-        MOVE G6A,90,  93, 115, 100, 104
-        MOVE G6D,104,  74, 146,  91,  102
-        MOVE G6B,185,  10,  60
-        MOVE G6C,185,  10,  60
-        WAIT
-        HIGHSPEED SETOFF
-        SPEED 15
-        ' GOSUB 안정화자세
-        ' GOSUB 기본자세2
-        MOVE G6A,100,  76, 145,  91, 100, 100
-        MOVE G6D,100,  76, 145,  91, 100, 100
-        DELAY 150
-        GOTO RX_EXIT
-    ENDIF
-    GOTO 집고전진달리기50_1
-
 
 횟수_집고후진_1:
     MOVE G6D,104,  76, 147,  93,  102
@@ -5687,6 +4745,7 @@ D지역:
 계단오른발내리기1cm:
     
     GOSUB All_motor_mode3
+    GOSUB All_motor_mode3
 
     '오른발 완전 집어넣기 ''''
     SPEED 5
@@ -5860,12 +4919,11 @@ D지역:
     SPEED 4
     GOSUB 기본자세''검수 대상
 
-    ETX 4800, 254
-
     RETURN
     '******************************************
 계단왼발내리기1cm:
     
+	GOSUB All_motor_mode3
 	GOSUB All_motor_mode3
 
     '왼발 완전 집어넣기 ''''
@@ -6040,8 +5098,6 @@ D지역:
     SPEED 4
     GOSUB 기본자세''검수 대상
 
-    ETX 4800, 254
-
     RETURN
 
     '******************************************
@@ -6163,6 +5219,239 @@ D지역:
 		GOTO 샤삭샤삭1
     '******************************************
 
+횟수_샤삭샤삭:
+    GOSUB All_motor_mode3
+    보행COUNT = 0
+    SPEED 13
+    'HIGHSPEED로 안 하면 뒤로 감... 미친놈인 듯
+    'HIGHSPEED SETON
+    '..... 이거 하면 다음 모션들까지 다 개빨라지는데 복귀를 어떻게 하는지 모르겠음
+
+
+    IF 보행순서 = 0 THEN
+        보행순서 = 1
+        MOVE G6A,95,  76, 147,  93, 101
+        MOVE G6D,101,  76, 147,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO 샤삭샤삭1
+    ELSE
+        보행순서 = 0
+        MOVE G6D,95,  76, 147,  93, 101
+        MOVE G6A,101,  76, 147,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO 샤삭샤삭4
+    ENDIF
+
+
+    '**********************
+
+횟수_샤삭샤삭1: '왼발
+    'HIGHSPEED SETON
+    MOVE G6D,104,  77, 147, 93, 100
+    MOVE G6A,95,  95, 143,  94,  102
+    MOVE G6B, 100
+    MOVE G6C, 100
+    WAIT
+횟수_샤삭샤삭2:
+
+    MOVE G6A,99,    75, 146, 97,  98
+    MOVE G6D, 95,  77, 147,  90, 100
+    WAIT
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+
+        GOTO RX_EXIT
+    ENDIF
+
+    보행COUNT = 보행COUNT + 1
+    IF 보행COUNT > 보행횟수 THEN  GOTO 횟수_샤삭샤삭_2_stop
+
+    ERX 4800,A, 횟수_샤삭샤삭4
+    IF A <> A_old THEN
+횟수_샤삭샤삭_2_stop:
+        MOVE G6D,104,  77, 147, 93, 100
+        MOVE G6A,95,  95, 143,  94,  102
+        MOVE G6C, 100
+        MOVE G6B,100
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB 안정화자세
+        SPEED 5
+        GOSUB 기본자세2
+
+        'DELAY 400
+        GOTO RX_EXIT
+    ENDIF
+
+    '*********************************
+
+횟수_샤삭샤삭4: '오른발
+    MOVE G6A,104,  77, 147, 93, 100
+    MOVE G6D,95,  95, 143,  94,  102
+    MOVE G6C, 100
+    MOVE G6B, 100
+    WAIT
+
+횟수_샤삭샤삭5:
+    MOVE G6D,99,    75, 146, 97,  98
+    MOVE G6A, 95,  77, 147,  93, 100
+    WAIT
+
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO RX_EXIT
+    ENDIF
+
+    보행COUNT = 보행COUNT + 1
+    IF 보행COUNT > 보행횟수 THEN  GOTO 횟수_샤삭샤삭5_stop
+
+    ERX 4800,A, 횟수_샤삭샤삭1
+    IF A <> A_old THEN
+횟수_샤삭샤삭5_stop:
+        MOVE G6A,104,  77, 147, 93, 100
+        MOVE G6D,95,  95, 143,  94,  102
+        MOVE G6B, 100
+        MOVE G6C,100
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB 안정화자세
+        SPEED 5
+        GOSUB 기본자세2
+
+        'DELAY 400
+        GOTO RX_EXIT
+    ENDIF
+		GOTO 샤삭샤삭1
+		
+	'*****************************************
+뒤로샤삭샤삭:
+    GOSUB All_motor_mode3
+    보행COUNT = 0
+    SPEED 13
+    'HIGHSPEED로 안 하면 뒤로 감... 미친놈인 듯
+    'HIGHSPEED SETON
+    '..... 이거 하면 다음 모션들까지 다 개빨라지는데 복귀를 어떻게 하는지 모르겠음
+
+
+    IF 보행순서 = 0 THEN
+        보행순서 = 1
+        MOVE G6A,95,  76, 145,  93, 101
+        MOVE G6D,101,  76, 145,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO 뒤로샤삭샤삭1
+    ELSE
+        보행순서 = 0
+        MOVE G6D,95,  76, 145,  93, 101
+        MOVE G6A,101,  76, 145,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO 뒤로샤삭샤삭4
+    ENDIF
+
+
+    '**********************
+
+뒤로샤삭샤삭1: '왼발
+    'HIGHSPEED SETON
+    MOVE G6D,104,  76, 147,  93,  100
+    MOVE G6A,95,  80, 140, 94, 102
+    MOVE G6B, 100
+    MOVE G6C, 100
+    WAIT
+뒤로샤삭샤삭2:
+
+    MOVE G6A,99,   75, 140, 90,  98
+    MOVE G6D, 95,  73, 147,  96, 100
+    WAIT
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+
+        GOTO RX_EXIT
+    ENDIF
+
+    ' 보행COUNT = 보행COUNT + 1
+    'IF 보행COUNT > 보행횟수 THEN  GOTO 전진종종걸음_2_stop
+
+    ERX 4800,A, 뒤로샤삭샤삭4
+    IF A <> A_old THEN
+뒤로샤삭샤삭_2_stop:
+        MOVE G6D,95,  82, 135, 93, 104
+        MOVE G6A,96,  78, 145,  91,  102
+        MOVE G6C, 100
+        MOVE G6B,100
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB 안정화자세
+        SPEED 5
+        GOSUB 기본자세2
+
+        'DELAY 400
+        GOTO RX_EXIT
+    ENDIF
+
+    '*********************************
+
+뒤로샤삭샤삭4: '오른발
+    MOVE G6A,104,  76, 147,  93,  100
+    MOVE G6D,95,  80, 140, 94, 104
+    MOVE G6C, 100
+    MOVE G6B, 100
+    WAIT
+
+뒤로샤삭샤삭5:
+    MOVE G6D,99,   75, 140, 90,  98
+    MOVE G6A, 95,  73, 147,  96, 100
+    WAIT
+
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO RX_EXIT
+    ENDIF
+
+    ' 보행COUNT = 보행COUNT + 1
+    ' IF 보행COUNT > 보행횟수 THEN  GOTO 전진종종걸음_5_stop
+
+    ERX 4800,A, 뒤로샤삭샤삭1
+    IF A <> A_old THEN
+뒤로샤삭샤삭5_stop:
+        MOVE G6A,95,  82, 135, 93, 104
+        MOVE G6D,96,  78, 145,  91,  102
+        MOVE G6B, 100
+        MOVE G6C,100
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB 안정화자세
+        SPEED 5
+        GOSUB 기본자세2
+
+        'DELAY 400
+        GOTO RX_EXIT
+    ENDIF
+		GOTO 뒤로샤삭샤삭1
+
 
     '******************************************
 
@@ -6238,7 +5527,6 @@ KEY3:
 KEY4:
     ETX 4800, 4
     GOSUB 왼쪽옆으로20
-    '  GOTO 문열기왼쪽3
     GOTO RX_EXIT
     '***************
 KEY5:
@@ -6260,7 +5548,7 @@ KEY6:
     GOTO RX_EXIT
 KEY7:
     ETX 4800, 7
-    GOSUB 왼쪽턴45
+    GOSUB 팔들고왼쪽턴45
     GOTO RX_EXIT
     '***************
 KEY8:
@@ -6270,7 +5558,7 @@ KEY8:
     '***************
 KEY9:
     ETX 4800, 9
-    GOSUB 오른쪽턴45
+    GOSUB 팔들고오른쪽턴45
     GOTO RX_EXIT
     '***************
 KEY10: '0
@@ -6294,13 +5582,13 @@ KEY12: ' ▼
 KEY13: '▶
     ETX  4800,13
     'GOSUB 전방하향90도
-    GOSUB 우유깍잡기오른쪽돌기1
+    GOSUB 집고오른쪽턴45
 
     GOTO RX_EXIT
     '**************
 KEY14: ' ◀
     ETX  4800,14
-    GOSUB 우유깍잡기왼쪽돌기1
+    GOSUB 집고왼쪽턴45
     GOTO RX_EXIT
 
 
@@ -6368,7 +5656,7 @@ KEY16_1:
     '***************
 KEY17: ' C
     ETX 4800, 17
-    GOSUB 머리왼쪽60도
+    GOSUB 머리왼쪽45도
     GOTO RX_EXIT
     '***************
 KEY18: ' E
@@ -6422,13 +5710,14 @@ KEY26: ' ■
     ETX  4800,26
 
     'SPEED 5
-    'GOSUB 샤삭샤삭
-    GOSUB 물건집기
+    보행횟수 = 1
+    GOSUB 뒤로샤삭샤삭
+    'GOSUB 물건집기
     GOTO RX_EXIT
     '***************
 KEY27: ' D
     ETX 4800, 27
-    GOTO 머리오른쪽60도
+    GOTO 머리오른쪽45도
     GOTO RX_EXIT
     '***************
 KEY28: ' ◁
