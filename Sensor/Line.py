@@ -43,7 +43,7 @@ class Line:
             return lines
 
     def ROI(self, img, height, width, color3=(255,255,255), color1=255):
-        vertices = np.array([[(50,height),(width/2-45, height/2+60), (width/2+45, height/2+60), (width-50,height)]], dtype=np.int32)
+        vertices = np.array([[(100,height),(width/2-45, height/2+60), (width/2+45, height/2+60), (width-50,height)]], dtype=np.int32)
         mask = np.zeros_like(img)
 
         if len(img.shape) > 2: # Color 이미지
@@ -67,7 +67,7 @@ class Line:
     # 대표선 찾기
     def find_fitline(self, img, f_lines): 
         lines = np.squeeze(f_lines)
-        if len(lines) == 0: return 'failed_to_find_line'
+        if len(lines) == 0: return False
         else:
             if len(lines) > 8:
                 lines = lines.reshape(lines.shape[0]*2,2)
@@ -87,6 +87,8 @@ class Line:
             return slope
     
     def slope_filter(self, line_arr):
+        # print(len(line_arr))
+        if len(line_arr) <= 4: return "None", "None"
         slope = (np.arctan2(line_arr[:,1] - line_arr[:,3], line_arr[:,0] - line_arr[:,2]) * 180) / np.pi
         
         # 수직/수평 필터링

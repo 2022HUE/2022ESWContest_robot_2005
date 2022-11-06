@@ -80,6 +80,7 @@ class MissonEntrance:
             print('ACT: ', act)
             self.act = Act.DETECT_DIRECTION
 
+        # 방위 인식
         elif act == act.DETECT_DIRECTION:
             print('ACT: ', act)
             # self.detect_direction()
@@ -89,11 +90,11 @@ class MissonEntrance:
                 # motion
                 self.detect_direction()
                 return False
-                
+
             # (motion) 고개 올리기 - 화살표 보이게
             self.act = Act.DETECT_ARROW
         
-        
+        # 화살표 인식
         elif act == act.DETECT_ARROW:
             print('ACT: ', act)
             if self.detect_arrow():

@@ -22,6 +22,7 @@ class Controller:
     act: Act = Act.START
     count_room: int=0
     count_misson: int=0
+    goto_rotate: bool = False
     area: str
 
     MissonEntrance.init_robo(robo)
@@ -56,7 +57,28 @@ class Controller:
             else:
                 self.area = "DANGER"
 
-            
+    def is_horizon(self):
+        state = self.robo._image_processor.is_line_horizon_vertical()
+        if state == "HORIZON":
+            return True
+        elif state == "VERTICAL":
+            return "GO"
+        elif state == "LEFT" or state == "RIGHT":
+            return state
+        else:
+            return False
+        
+    def line_rotate(self):
+        state = self.robo._image_processor.is_line_horizon_vertical()
+        if state == "LEFT" or state == "RIGHT":
+            # motion) state 방향으로 회전
+            return False
+        elif state == "VERTICAL" or state == "BOTH":
+            return True
+        else: # state: "HORIZON"
+            # motion을 어떻게 넣을까요?
+            return False
+        
 
     def go_robo(self):
         act = self.act
@@ -66,22 +88,49 @@ class Controller:
             self.act = act.GO_ENTRANCE
             
         elif act == act.GO_ENTRANCE:
-            # motion
-            # 고개 내려서 선 인식
-            # 수평선이 나올 때까지 직진
-            # 고개 올리기
-            self.act = act.ENTRANCE
+            # motion: 고개 내리기
+            goto_ = self.is_horizon()
+            if goto_ is True:
+                # motion: 고개 올리기 up
+                self.act = act.ENTRANCE
+            elif goto_ == "GO":
+                # motion: 전진
+                return False
+            elif goto_ == "LEFT":
+                # motion: 왼쪽으로 조금  회전+이동
+                return False
+            elif goto_ == "RIGHT":
+                # motion: 오른쪽으로 조금 회전+이동
+                return False
+            else:
+                # 여기도 전진을 넣어도 될까?
+                return False
+
 
         elif act == act.ENTRANCE:
-            robo.entrance = True
-            self.check_cur_area()
-            if self.area == "STAIR":
-                self.act = act.GO_STAIR
+            if MissonEntrance.go_robo():
+                self.check_cur_area()
+                if self.area == "STAIR":
+                    self.act = act.GO_STAIR
+                else:
+                    self.act = act.GO_DANGER
             else:
-                self.act = act.GO_DANGER
+                return False
 
         elif act == act.GO_STAIR:
-            self.act = act.STAIR
+            # motion: 화살표 방향으로 회전
+            if self.goto_rotate: 
+                goto_ = self.is_horizon()
+            else: 
+                goto_ = self.line_rotate()
+            if goto_:
+                # motion 전진
+                if self.goto_rotate:
+                    self.act = act.STAIR
+                else:
+                    self.goto_rotate = True
+            else:
+                return False
 
         elif act == act.STAIR:
             robo.stair = True
