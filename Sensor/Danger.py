@@ -119,7 +119,8 @@ class Danger:
 
         return rate <= 30
 
-    def get_alphabet_roi(self, src):
+    # 방 이름 ROI 찾기
+    def get_alphabet_roi(self, src, option): # [Option] gray, hsv
         img_copy = src.copy()
         gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
         blur = cv.GaussianBlur(gray, (7, 7), 0)
@@ -159,10 +160,13 @@ class Danger:
             img_crop = img_copy[y:y + h, x:x + w]
             text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
             text = img_crop.copy()
+            if option == "GRAY":
+                return text_gray
 
         else:
             text = src.copy()
             text_gray = cv.cvtColor(text, cv.COLOR_BGR2GRAY)
+            return "Failed" # ROI 인식 실패
         ##########################################################################
 
         img_crop = img_copy
@@ -241,4 +245,4 @@ if __name__ == "__main__":
         if cv.waitKey(10) & 0xFF == ord('q'):
             break
 
-cap.release()
+# cap.release()

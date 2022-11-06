@@ -20,11 +20,11 @@ class Direction:
         return text_mask
 
 
-    def match_sam(self, sam_l, tar):
+    def match_sam(self, sam_l, tar, num):
         target_h, target_w = tar.shape
         ms_score = 100 # matchShape score
         mt_score = 0 # matchTemplate score
-        for i in range(5):
+        for i in range(num):
             sample = sam_l[i]
             h, w = sample.shape
             ratio = w / h
@@ -62,14 +62,15 @@ class Direction:
 
         return mt_score
 
-    def matching(self, sam, tar, params):
+    def matching(self, sam, tar, params, option): # [Option] "EWSN", "ABCD"
         # sample_img: list
-        match_e = ('E', self.match_sam(self, sam[0], tar))
-        match_w = ('W', self.match_sam(self, sam[1], tar))
-        match_s = ('S', self.match_sam(self, sam[2], tar))
-        match_n = ('N', self.match_sam(self, sam[3], tar))
+        n = len(sam[0])
+        match1 = (option[0], self.match_sam(self, sam[0], tar, n))
+        match2 = (option[1], self.match_sam(self, sam[1], tar, n))
+        match3 = (option[2], self.match_sam(self, sam[2], tar, n))
+        match4 = (option[3], self.match_sam(self, sam[3], tar, n))
 
-        match_list = [match_e, match_w, match_s, match_n]
+        match_list = [match1, match2, match3, match4]
         ret_mt = max(match_list, key=lambda x: x[1])[0]
         ret_match_val = round(min(match_list, key=lambda x: x[1])[1], 4)
 
