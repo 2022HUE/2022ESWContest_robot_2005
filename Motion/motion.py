@@ -6,7 +6,7 @@ import serial
 import time
 import sys
 from threading import Thread, Lock
-#from Constant import const 
+#from Constant import const
 
 
 # -----------------------------------------------
