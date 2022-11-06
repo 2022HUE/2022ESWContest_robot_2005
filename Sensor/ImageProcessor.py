@@ -22,7 +22,7 @@ print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
 
 
 class ImageProccessor:
-    def __init__(self, video : str = ""):
+    def __init__(self, video: str = ""):
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
@@ -31,9 +31,8 @@ class ImageProccessor:
             else:
                 self._cam = WebcamVideoStream(src=0).start()
 
-
-        self.fps = FPS() # FPS
-        print(self.fps) # debuging: fps
+        self.fps = FPS()  # FPS
+        print(self.fps)  # debuging: fps
 
         shape = (self.height, self.width, _) = self.get_img().shape
         print(shape)  # debuging: image shape => height, width
@@ -50,9 +49,8 @@ class ImageProccessor:
             cv.imshow("imageProcessor-get_img", img)
             cv.waitKey(1)
         return img
+
     #######################################
-    
-    
 
     ########### 기본 공용 함수 ###########
     def blur(self, img, val):
@@ -70,8 +68,10 @@ class ImageProccessor:
 
     def RGB2GRAY(self, img):
         return cv.cvtColor(img, cv.COLOR_RGB2GRAY)
-    def HSV2BGR(self, hsv): # hsv 포맷 이미지를 파라미터로 받음
+
+    def HSV2BGR(self, hsv):  # hsv 포맷 이미지를 파라미터로 받음
         return cv.cvtColor(hsv, cv.COLOR_HSV2BGR)
+
     def hsv_mask(self, img):
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         h, s, v = cv.split(hsv)
@@ -80,13 +80,11 @@ class ImageProccessor:
         _, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY_INV)
 
         th_mask = cv.bitwise_or(th_s, th_v)
-        hsv = cv.bitwise_and(hsv, hsv, mask = th_mask)
+        hsv = cv.bitwise_and(hsv, hsv, mask=th_mask)
         return hsv
-    #######################################
-    
-    
 
-    
+    #######################################
+
     ########### LINE DETECTION ###########
     # 라인이 수평선인지 수직선인지 return해줌
     def is_line_horizon_vertical(self, show):
