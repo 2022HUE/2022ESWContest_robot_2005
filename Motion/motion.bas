@@ -5262,6 +5262,123 @@ D지역:
         GOTO RX_EXIT
     ENDIF
 		GOTO 샤삭샤삭1
+		
+	'*****************************************
+뒤로샤삭샤삭:
+    GOSUB All_motor_mode3
+    보행COUNT = 0
+    SPEED 13
+    'HIGHSPEED로 안 하면 뒤로 감... 미친놈인 듯
+    'HIGHSPEED SETON
+    '..... 이거 하면 다음 모션들까지 다 개빨라지는데 복귀를 어떻게 하는지 모르겠음
+
+
+    IF 보행순서 = 0 THEN
+        보행순서 = 1
+        MOVE G6A,95,  76, 147,  93, 101
+        MOVE G6D,101,  76, 147,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO 뒤로샤삭샤삭1
+    ELSE
+        보행순서 = 0
+        MOVE G6D,95,  76, 147,  93, 101
+        MOVE G6A,101,  76, 147,  93, 98
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        GOTO 뒤로샤삭샤삭4
+    ENDIF
+
+
+    '**********************
+
+뒤로샤삭샤삭1: '왼발
+    'HIGHSPEED SETON
+    MOVE G6D,95,  80, 135, 95, 104
+    MOVE G6A,100,  80, 147,  93,  102
+    MOVE G6B, 100
+    MOVE G6C, 100
+    WAIT
+뒤로샤삭샤삭2:
+
+    MOVE G6A,100,   75, 145, 100,  100
+    MOVE G6D, 95,  77, 147,  90, 102
+    WAIT
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+
+        GOTO RX_EXIT
+    ENDIF
+
+    ' 보행COUNT = 보행COUNT + 1
+    'IF 보행COUNT > 보행횟수 THEN  GOTO 전진종종걸음_2_stop
+
+    ERX 4800,A, 뒤로샤삭샤삭4
+    IF A <> A_old THEN
+뒤로샤삭샤삭_2_stop:
+        MOVE G6D,95,  82, 135, 93, 104
+        MOVE G6A,96,  78, 145,  91,  102
+        MOVE G6C, 100
+        MOVE G6B,100
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB 안정화자세
+        SPEED 5
+        GOSUB 기본자세2
+
+        'DELAY 400
+        GOTO RX_EXIT
+    ENDIF
+
+    '*********************************
+
+뒤로샤삭샤삭4: '오른발
+    MOVE G6A,95,  85, 130, 95, 104
+    MOVE G6D,100,  77, 147,  93,  102
+    MOVE G6C, 100
+    MOVE G6B, 100
+    WAIT
+
+뒤로샤삭샤삭5:
+    MOVE G6D,100,    75, 145, 100,  100
+    MOVE G6A, 95,  77, 147,  90, 102
+    WAIT
+
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO RX_EXIT
+    ENDIF
+
+    ' 보행COUNT = 보행COUNT + 1
+    ' IF 보행COUNT > 보행횟수 THEN  GOTO 전진종종걸음_5_stop
+
+    ERX 4800,A, 뒤로샤삭샤삭1
+    IF A <> A_old THEN
+뒤로샤삭샤삭5_stop:
+        MOVE G6A,95,  82, 135, 93, 104
+        MOVE G6D,96,  78, 145,  91,  102
+        MOVE G6B, 100
+        MOVE G6C,100
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB 안정화자세
+        SPEED 5
+        GOSUB 기본자세2
+
+        'DELAY 400
+        GOTO RX_EXIT
+    ENDIF
+		GOTO 뒤로샤삭샤삭1
 
 
     '******************************************
