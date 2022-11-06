@@ -181,7 +181,7 @@ class ImageProccessor:
         _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV)
         ret_arrow = Arrow.get_arrow_info(self, img, origin)
         if ret_arrow: print(ret_arrow) # Debug: print arrow
-
+ 
         ########### [Option] Show ##########
         if show:
             cv.imshow("show", origin)
