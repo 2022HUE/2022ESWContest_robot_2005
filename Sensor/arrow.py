@@ -5,10 +5,10 @@ class Arrow:
     def __init__(self):
         pass
     cnt_arrow = 0
-    def get_arrow_info(self, arrow_image, origin):
+    def get_arrow_info(self, arrow_image):
         # arrow_info_image = cv.cvtColor(origin.copy(), cv.COLOR_GRAY2BGR)
         contours, hierarchy = cv.findContours(arrow_image, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
-          
+         
         if hierarchy is not None:
             global cnt_arrow
             for cnt in contours:
@@ -22,7 +22,7 @@ class Arrow:
                 if area > 30000 and vertices == 7:
                     # print(cnt_arrow)
                     # Debug: drea contours
-                    cv.drawContours(origin, [approx], 0, (0, 255, 0), 3)
+                    # cv.drawContours(origin, [approx], 0, (0, 255, 0), 3)
                     # cv.drawContours(arrow_info_image, [approx], 0, (0, 255, 0), 3)
 
                     x_loc = []
@@ -63,7 +63,6 @@ if __name__ == "__main__":
     arrow = Arrow()
     # path = "src/entrance/entr03-1.mp4"
     path = "src/entrance/1027_23:14.h264"
-    # path = "src/entrance/1027_23:19.h264"
     cap = cv.VideoCapture(path)
 
     while cap.isOpened():

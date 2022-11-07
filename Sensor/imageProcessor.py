@@ -11,18 +11,20 @@ if __name__ == "__main__":
     from Line import Line
     from Arrow import Arrow
     from Direction import Direction
+    from Danger import Danger
     from Setting import setting, LineColor
 
 else:
     from Sensor.Line import Line
     from Sensor.Arrow import Arrow
     from Sensor.Direction import Direction
+    from Sensor.Danger import Danger
     from Sensor.Setting import setting, LineColor
 print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
 
 
 class ImageProccessor:
-    def __init__(self, video : str = ""):
+    def __init__(self, video: str = ""):
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
@@ -31,9 +33,8 @@ class ImageProccessor:
             else:
                 self._cam = WebcamVideoStream(src=0).start()
 
-
-        self.fps = FPS() # FPS
-        print(self.fps) # debuging: fps
+        self.fps = FPS()  # FPS
+        print(self.fps)  # debuging: fps
 
         shape = (self.height, self.width, _) = self.get_img().shape
         print(shape)  # debuging: image shape => height, width
@@ -50,9 +51,8 @@ class ImageProccessor:
             cv.imshow("imageProcessor-get_img", img)
             cv.waitKey(1)
         return img
+
     #######################################
-    
-    
 
     ########### 기본 공용 함수 ###########
     def blur(self, img, val):
@@ -70,8 +70,10 @@ class ImageProccessor:
 
     def RGB2GRAY(self, img):
         return cv.cvtColor(img, cv.COLOR_RGB2GRAY)
-    def HSV2BGR(self, hsv): # hsv 포맷 이미지를 파라미터로 받음
+
+    def HSV2BGR(self, hsv):  # hsv 포맷 이미지를 파라미터로 받음
         return cv.cvtColor(hsv, cv.COLOR_HSV2BGR)
+
     def hsv_mask(self, img):
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         h, s, v = cv.split(hsv)
@@ -80,13 +82,11 @@ class ImageProccessor:
         _, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY_INV)
 
         th_mask = cv.bitwise_or(th_s, th_v)
-        hsv = cv.bitwise_and(hsv, hsv, mask = th_mask)
+        hsv = cv.bitwise_and(hsv, hsv, mask=th_mask)
         return hsv
-    #######################################
-    
-    
 
-    
+    #######################################
+
     ########### LINE DETECTION ###########
     # 라인이 수평선인지 수직선인지 return해줌
     def is_line_horizon_vertical(self, show):
@@ -104,12 +104,11 @@ class ImageProccessor:
         line_arr = Line.hough_lines(self, roi_img, 1, 1 * np.pi/180, 30, 10, 20) # 허프 변환
         line_arr = np.squeeze(line_arr)
         if line_arr != 'None':
+            Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
 
             # tmp_zero = np.zeros((origin.shape[0], origin.shape[1], 3), dtype=np.uint8)
             left_line_arr, right_line_arr = Line.slope_filter(self, line_arr)
-            if left_line_arr == "None": return False
             left_line, right_line = Line.find_fitline(self, origin, left_line_arr), Line.find_fitline(self, origin, right_line_arr)
-            Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
             
             # init
             horizon = False
@@ -119,53 +118,36 @@ class ImageProccessor:
             if left_line and Line.slope_cal(self, left_line):
                 if Line.slope_cal(self, left_line) < 10:
                     # print('수평선!입니다!') # Debug
-                    Line.draw_fitline(self, origin, left_line, [0, 255, 0]) # Debug
+                    # Line.draw_fitline(self, origin, left_line, [0, 255, 0]) # Debug
                     horizon = True
-                if 85 < Line.slope_cal(self, left_line) < 105:
+                elif 85 < Line.slope_cal(self, left_line) < 95:
                     # print('수직선!입니다!') # Debug
-                    Line.draw_fitline(self, origin, left_line, [0, 255, 255]) # Debug
+                    # Line.draw_fitline(self, origin, left_line, [0, 255, 255]) # Debug
                     vertical = True
-                print(int(Line.slope_cal(self, left_line)))
 
             if right_line and Line.slope_cal(self, right_line):
-                # [ISSUE] 수평선 각도 179.xx 일 때도 있음
                 if Line.slope_cal(self, right_line) < 10:
                     # print('수평선!입니다!') # Debug
-                    Line.draw_fitline(self, origin, right_line, [0, 255, 0]) # Debug
+                    # Line.draw_fitline(self, origin, right_line, [0, 255, 0]) # Debug
                     horizon = True
-                if 85 < Line.slope_cal(self, right_line) < 105:
+                elif 85 < Line.slope_cal(self, right_line) < 95:
                     # print('수직선!입니다!') # Debug
-                    Line.draw_fitline(self, origin, right_line, [0, 255, 255]) # Debug
+                    # Line.draw_fitline(self, origin, right_line, [0, 255, 255]) # Debug
                     vertical = True
-                print(int(Line.slope_cal(self, right_line)))
 
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", origin)
-                cv.waitKey(10) & 0xFF == ord('q')
+                cv.waitKey(1) & 0xFF == ord('q')
             ####################################
 
-            if horizon and vertical: 
-                print("BOTH")
-                return "BOTH" # 수직, 수평선 둘 다 인식
-            elif horizon: 
-                print("HORIZON")
-                return "HORIZON" # 수직선만 인식
-            elif vertical: 
-                print("VERTICAL")
-                return "VERTICAL" # 수평선만 인식
-            else:
-                if left_line: 
-                    # print('left', Line.slope_cal(self, left_line))
-                    return "LEFT"
-                if right_line: 
-                    # print('right', Line.slope_cal(self, right_line))
-                    return "RIGHT"
-                # return False
+            if horizon and vertical: return "BOTH" # 수직, 수평선 둘 다 인식
+            elif horizon: return "HORIZON" # 수직선만 인식
+            elif vertical: return "VERTICAL" # 수평선만 인식
+            else: return False
 
         else: # 라인 자체를 인식 못할 경우 False 리턴
-            print('false')
-            # return False
+            return False
         
 
         
@@ -179,9 +161,9 @@ class ImageProccessor:
         img = self.blur(img, setting.ARROW_BLUR)
         img = self.bright(img, setting.ARROW_BRIGHT)
         _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV)
-        ret_arrow = Arrow.get_arrow_info(self, img, origin)
+        ret_arrow = Arrow.get_arrow_info(self, img)
         if ret_arrow: print(ret_arrow) # Debug: print arrow
- 
+
         ########### [Option] Show ##########
         if show:
             cv.imshow("show", origin)
@@ -201,13 +183,11 @@ class ImageProccessor:
 
         _,th = cv.threshold(dst, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
         dst = cv.bitwise_and(img, img, mask = th)
-        edges = cv.Canny(th, 100, 200, apertureSize=3)
 
         kernel=cv.getStructuringElement(cv.MORPH_RECT,(1,1))
         dst=cv.dilate(dst,kernel,iterations=1)
         
         contours, hierarchy = cv.findContours(th,  cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
-        contours_, _ = cv.findContours(edges,  cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
 
         roi_contour = []
         for pos in range(len(contours)):
@@ -216,14 +196,7 @@ class ImageProccessor:
             points = len(approx)
             if peri > 900 and points == 4:
                 roi_contour.append(contours[pos])
-                cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
-        for pos in range(len(contours_)):
-            peri = cv.arcLength(contours_[pos], True)
-            approx = cv.approxPolyDP(contours_[pos], peri * 0.02, True)
-            points = len(approx)
-            if peri > 900 and points == 4:
-                # roi_contour.append(contours_[pos])
-                cv.drawContours(img, [approx], 0, (255, 255, 0), 1) # Debug: Drawing Contours
+                # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
 
         roi_contour_pos = []
         for pos in range(len(roi_contour)):
@@ -235,7 +208,7 @@ class ImageProccessor:
             x, y, w, h = cv.boundingRect(roi_contour[0])
             img_crop = origin[y:y+h, x:x+h]
             text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
-            text = img_crop.copy()
+            # text = img_crop.copy()
 
             '''
             [Issue]
@@ -243,39 +216,66 @@ class ImageProccessor:
             mt_gray, mt_mask가 정확도가 가장 높으며 두 값은 항상 유사한 결과를 가짐.
             font 이미지와 비교한 2가지 값도 정확도가 낮지는 않으나, 가끔 로봇의 고개 각도에 따라 튀는 값이 나올 때가 있음
             '''
+            mt_gray = Direction.matching(self, Direction.sample_list, text_gray, 0.001, "EWSN") # 1. matchTemplate - Gray Scale
+            # mt_mask = dir.matching(dir.sample_list, text_mask, 1, "EWSN") # 2. matchTemplate - Masking
+            # text_mask = dir.text_masking(text)
+            # match_mask_font = dir.match_font(dir.font_img, text_mask) # 3. font <-> masking
+            # match_gray_font = dir.match_font(dir.font_img, text_gray) # 4. font <-> gray scale
             
-            mt_gray = Direction.matching(dir, Direction.sample_list, text_gray, 0.001) # 1. matchTemplate - Gray Scale
-            text_mask = Direction.text_masking(dir, text)
-            mt_mask = Direction.matching(dir, Direction.sample_list, text_mask, 1) # 2. matchTemplate - Masking
-            match_mask_font = Direction.match_font(dir, Direction.font_img, text_mask) # 3. font <-> masking
-            match_gray_font = Direction.match_font(dir, Direction.font_img, text_gray) # 4. font <-> gray scale
-            
-            print('match: ', mt_gray, mt_mask, match_gray_font, match_mask_font) # Debug: printing
+            # print('match: ', mt_gray, mt_mask, match_gray_font, match_mask_font) # Debug: printing
 
             ########### [Option] Show ##########
             if show:
-                cv.imshow("show", text_gray)
+                cv.imshow("show", origin)
                 # cv.imshow("show", img_crop)
                 cv.waitKey(1) & 0xFF == ord('q')
             ####################################
 
-            # print(mt_gray, match_gray_font) # Debug: print return value
+            print(mt_gray) # Debug: print return value
             return mt_gray
         else: # False
             return ''
+    
+    ########### DANGER PROCESSING ###########
+    def get_alphabet_name(self, show):
+        img = self.get_img()
+
+        roi = Danger.get_alphabet_roi(self, img, "GRAY")
+        arr_a = [cv.imread('src/alphabet_data/a{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        arr_b = [cv.imread('src/alphabet_data/b{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        arr_c = [cv.imread('src/alphabet_data/c{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        arr_d = [cv.imread('src/alphabet_data/d{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        arr = [arr_a, arr_b, arr_c, arr_d]
+        if roi != "Failed":
+            mt_gray = Direction.matching(Direction, arr, roi, 0.001, "ABCD")
+            print(mt_gray)
+            ########### [Option] Show ##########
+            if show:
+                cv.imshow("show", roi)
+                # cv.imshow("show", img_crop)
+                cv.waitKey(20) & 0xFF == ord('q')
+            ####################################
+
+
 
 if __name__ == "__main__":
     ### Debug Path List ###
     # entrance
-    arrow_path01 = "src/entrance/entr03-1.mp4"
-    arrow_path02 = "src/entrance/1027_23:14.h264"
-    arrow_path03 = "src/entrance/1027_23:19.h264"
+    entr01 = "src/entrance/entr03-1.mp4"
+    entr02 = "src/entrance/1027_23:14.h264"
     # line
-    line_path01 = "src/line/1003_line2.mp4"
-    img_processor = ImageProccessor(video=arrow_path02)
+    line01 = "src/line/1003_line2.mp4"
+    line02 = "src/entrance/1027_23:19.h264"
+    # danger
+    danger01 = "src/danger/1027_23:41.h264" # A
+    danger02 = "src/danger/1031_20:56.h264" # C
+    danger03 = "src/danger/1027_23:32.h264" # D
+    danger04 = "src/danger/1031_20:49.h264" # B
+    img_processor = ImageProccessor(video=line02)
     
     ### Debug Run ###
     while True:
-        img_processor.get_arrow(show=True)
+        # img_processor.get_arrow(show=True)
         # img_processor.get_direction(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
+        img_processor.get_alphabet_name(show=True)
