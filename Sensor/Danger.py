@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 
 global DANGER_MILKBOX_BLUE, DANGER_MILKBOX_RED, DANGER_BLACK, ALPHABET_RED, ALPHABET_BLUE, DANGER_RATE, DANGER_ROOM_S, DANGER_ROOM_V, MORPH_kernel, GAUSSIAN_kernel
-
+ 
 # blue 를 찾는 범위 값으로 HSV 이미지 위에 씌울 마스크 생성
 # opencv 에서 hue 값: 0 ~ 180, blue : 120, red : 0 (음수로 내려가면 알아서 변환함)
 # 실제 경기장에서는 어두운 파란색이라 120보다 낮은 100 ~ 115 정도 값인 듯
