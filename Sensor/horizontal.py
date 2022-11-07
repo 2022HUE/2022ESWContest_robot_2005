@@ -48,17 +48,17 @@ def draw_stair_line(lines,img,w,h,line_height):
             cv.line(img_color, (x1 + w, y1 + h), (x2 + w, y2 + h),[255,0,0],3)  # 라인 그리기.
 
             if y1+h < line_height:
-                print("올라가라")
+
                 return True
             elif y1+h > line_height:
-                print("샤샤샤샥 필요")
+                
                 return False
 
 def ROI(x,y,w,h):
     cv.rectangle(img_color, (x, y), (w - 1,h - 1), (0, 255, 0),2)
 
-# cap = cv.VideoCapture('src/stair/1027_23:23.h264')  # 제일 쓸만함
-cap = cv.VideoCapture('src/stair/1006_18:40.h264')  # 제일 쓸만함
+cap = cv.VideoCapture('src/stair/1027_23:26.h264')  # 제일 쓸만함
+# cap = cv.VideoCapture('src/stair/1006_18:40.h264')  # 제일 쓸만함
 
 while(True):
     ret, img_color = cap.read()

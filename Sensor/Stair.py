@@ -139,5 +139,4 @@ class Stair:
     def in_stair_top(self, hsv, lower_hue, upper_hue):
         y = 200; x = 0; h = 200; w = 640 #ROI 영역 지정을 위해 변수 선언
         mask = cv.inRange(hsv[y:y+h,x:x+w], lower_hue, upper_hue)
-        top = int((np.count_nonzero(mask) / (640 * 480)) * 1000)
-        return top
+        return mask

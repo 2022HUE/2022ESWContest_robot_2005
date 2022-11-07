@@ -130,8 +130,6 @@ class ImageProccessor:
                 cv.imshow("imageProcessor-get_img", origin)
                 cv.waitKey(1) & 0xFF == ord('q')
 
-
-
     ########### ENTRANCE PROCESSING ###########
     def get_arrow(self, show):
         img = self.get_img()
@@ -257,12 +255,11 @@ class ImageProccessor:
         img = img_processor.get_img()
         img_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V) # -->s_mask가 50 이면 좋겠어
         return Stair.in_stair_down(self,img_mask,setting.ONE_F, setting.TWO_F, setting.THREE_F)
-    def HoughLine(self):
+    def HoughLine(self): #계단 오르기 허프라인
         img = img_processor.get_img()
         x=0 ; y=200; w=640; h=200 # 계단 영역 ROI지정
         roi = img[y:y+h, x:x+w]
         img_canny = cv.Canny(roi, 20, 200)
-
         return Stair.in_HoughLine(self,img_canny)
 
     def draw_stair_line(self,lines):
@@ -281,25 +278,33 @@ class ImageProccessor:
 
 if __name__ == "__main__":
     # img_processor = ImageProccessor(video="src/stair/1002_19:56.h264")
-    img_processor = ImageProccessor(video="src/stair/1027_23:24.h264")
+    # img_processor = ImageProccessor(video="src/stair/1027_23:26.h264")
     # img_processor = ImageProccessor(video="src/stair/1006_18:40.h264")
+    img_processor = ImageProccessor(video="src/stair/1106_21:06.h264")
+    # img_processor = ImageProccessor(video="src/stair/1106_20:14.h264")
 
     while True:
-        cv.imshow('img',img_processor.get_img())
+
+        img = img_processor.get_img()
+        cv.imshow('img',img)
+
         # # 로봇 처음에 알파벳으로 회전---------------------------------------------------------------
         # a,b = img_processor.left_rignt() # 오른쪽 왼쪽 채도 확인하는 함수.,
         # rotation_ret = img_processor.stair_rotation(a,setting.ALPHABET_ROTATION,setting.ARROW) # 미완성시 돌아야 할 방향(LEFT,RIGHT) || 회전완료 => TRUE
         # # ----------------------------------------------------------------------------------------
 
-        # # # 알파벳 크기 계산하여 중앙, 전진, 회전 판단 -----------------------------------------------------------
-        # alphabet_area, rect_x = img_processor.rect(show=True)
-        # alphabet_center_ret = img_processor.alphabet_center_check(rect_x)
-        # if alphabet_center_ret==True: #알파벳이 중앙에 오면/ 이 아래 부분 나중에 밖으로 빼야함
-        #     size_calc_ret = img_processor.alphabet_size_calc(alphabet_area,rect_x)
-        #     if size_calc_ret==True:
-        #         print("알파벳에 가까워졌음, 계단 지역으로 회전하라")
-        #     else:
-        #         print("전진")
+        # # 알파벳 크기 계산하여 중앙, 전진, 회전 판단 -----------------------------------------------------------
+        try:
+
+            alphabet_area, rect_x = img_processor.rect(show=True)
+            alphabet_center_ret = img_processor.alphabet_center_check(rect_x)
+            if alphabet_center_ret==True: #알파벳이 중앙에 오면/ 이 아래 부분 나중에 밖으로 빼야함
+                size_calc_ret = img_processor.alphabet_size_calc(alphabet_area,rect_x)
+                if size_calc_ret==True:
+                    print("알파벳에 가까워졌음, 계단 지역으로 회전하라")
+                else:
+                    print("전진")
+        except:pass
         # ------------------------------------------------------------------------------------------------------
 
         # # # 알파벳에서 계단 방향으로 회전 (언제까지) -----------------------------------------------------------------------------
@@ -313,7 +318,9 @@ if __name__ == "__main__":
         #     print("계단 지역으로 회전 완료. 머리를 30도로 낮추세요")
         # # # --------------------------------------------------------------------------------------------
 
-        # # # 계단 올라가기 -----------------------------------------------------------------------------
+        # # 계단 올라가기 -----------------------------------------------------------------------------
+
+        #
         # hough_ret = img_processor.HoughLine()
         # if hough_ret is not False:
         #     stair_line = img_processor.draw_stair_line(hough_ret)
@@ -323,7 +330,11 @@ if __name__ == "__main__":
         #         print("샤샤샤샥")
         #
         # else: #라인 추출 실패했을 때 --> 2층인지, 샤샤샤샥 필요한지 구분
-        #     top_ret = img_processor.stair_top()
+        #     top_ret = img_processor.stair_top() #파란색 지역의 mask로 반환됨
+        #     cv.imshow('bluemask',top_ret)
+        #
+        #
+        #     top_ret = int((np.count_nonzero(top_ret) / (640 * 480)) * 1000)
         #     if top_ret >= setting.STAIR_UP:
         #         print("2층이다 올라가") #2층 올라가는 모션 실행 후
         #         #stair_stage_check는 외부에서 계단 올라간거 체크하는 변수 만들어야 함.
@@ -331,12 +342,15 @@ if __name__ == "__main__":
         #         #     print("정상 도달")
         #     else:
         #         print("샤샤샤샥")
-        # # # 계단 올라가기 -----------------------------------------------------------------------------
+        # # # ----------------------------------------------------------------------------------
+
+
 
         # # 계단 내려가기 ---------------------------------------------------------------------------
         # # false이면 내려가기 실행, True이면 모두 내려온 것
         # stair_down_ret = img_processor.stair_down()
         # # ---------------------------------------------------------------------------------------
 
-        if cv.waitKey(50) & 0xFF == 27:
+        if cv.waitKey(20) & 0xFF == 27:
             break
+
