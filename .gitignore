@@ -1,9 +1,3 @@
-*.pyc
-__pycache__/
-__init__.py
-
-.DS_Store
-DS_Store
 # 파일 제외 (파일명.확장자)
 #파일명.txt
 .idea
@@ -29,3 +23,4 @@ __init__.py
 
 .DS_Store
 DS_Store
+
