@@ -265,16 +265,17 @@ if __name__ == "__main__":
     entr02 = "src/entrance/1027_23:14.h264"
     # line
     line01 = "src/line/1003_line2.mp4"
+    line02 = "src/entrance/1027_23:19.h264"
     # danger
     danger01 = "src/danger/1027_23:41.h264" # A
     danger02 = "src/danger/1031_20:56.h264" # C
     danger03 = "src/danger/1027_23:32.h264" # D
     danger04 = "src/danger/1031_20:49.h264" # B
-    img_processor = ImageProccessor(video=danger01)
+    img_processor = ImageProccessor(video=danger02)
     
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
         # img_processor.get_direction(show=True)
-        # img_processor.line_detection(show=True)
+        # img_processor.is_line_horizon_vertical(show=True)
         img_processor.get_alphabet_name(show=True)
