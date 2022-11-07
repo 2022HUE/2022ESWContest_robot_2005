@@ -329,6 +329,15 @@ Arm_motor_mode3:
     WAIT
     mode = 2
     RETURN
+    '******************************************	
+만세자세:
+	MOVE G6A,100, 56, 182, 76, 100, 100
+    MOVE G6D,100, 56, 182, 76, 100, 100
+    MOVE G6B,100,  180,  80,
+    MOVE G6C,100,  180,  80
+    WAIT
+    mode = 2
+    RETURN 
     '******************************************
 앉은자세:
     GOSUB 자이로OFF
@@ -2394,15 +2403,6 @@ GOSUB_RX_EXIT2:
 
     SPEED 8
     GOSUB 기본자세2
-    'DELAY 50
-    '    GOSUB 앞뒤기울기측정
-    '    IF 넘어진확인 = 1 THEN
-    '        넘어진확인 = 0
-    '        GOTO RX_EXIT
-    '    ENDIF
-    '
-    '    ERX 4800,A,왼쪽턴45_LOOP
-    '    IF A_old = A THEN GOTO 왼쪽턴45_LOOP
     '
     GOTO RX_EXIT
     '**********************************************
@@ -2426,16 +2426,7 @@ GOSUB_RX_EXIT2:
 
     SPEED 8
     GOSUB 기본자세2
-    ' DELAY 50
-    '    GOSUB 앞뒤기울기측정
-    '    IF 넘어진확인 = 1 THEN
-    '        넘어진확인 = 0
-    '        GOTO RX_EXIT
-    '    ENDIF
-    '
-    '    ERX 4800,A,오른쪽턴45_LOOP
-    '    IF A_old = A THEN GOTO 오른쪽턴45_LOOP
-    '
+    
     GOTO RX_EXIT
 
     '************************************************
@@ -2458,14 +2449,6 @@ GOSUB_RX_EXIT2:
 
     SPEED 10
     GOSUB 기본자세2
-    '  DELAY 50
-    '    GOSUB 앞뒤기울기측정
-    '    IF 넘어진확인 = 1 THEN
-    '        넘어진확인 = 0
-    '        GOTO RX_EXIT
-    '    ENDIF
-    '    ERX 4800,A,왼쪽턴60_LOOP
-    '    IF A_old = A THEN GOTO 왼쪽턴60_LOOP
 
     GOTO RX_EXIT
 
@@ -2490,14 +2473,6 @@ GOSUB_RX_EXIT2:
 
     SPEED 10
     GOSUB 기본자세2
-    ' DELAY 50
-    '    GOSUB 앞뒤기울기측정
-    '    IF 넘어진확인 = 1 THEN
-    '        넘어진확인 = 0
-    '        GOTO RX_EXIT
-    '    ENDIF
-    '    ERX 4800,A,오른쪽턴60_LOOP
-    '    IF A_old = A THEN GOTO 오른쪽턴60_LOOP
 
     GOTO RX_EXIT
 
