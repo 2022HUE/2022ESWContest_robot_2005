@@ -11,12 +11,14 @@ if __name__ == "__main__":
     from Line import Line
     from Arrow import Arrow
     from Direction import Direction
+    from Danger import Danger
     from Setting import setting, LineColor
 
 else:
     from Sensor.Line import Line
     from Sensor.Arrow import Arrow
     from Sensor.Direction import Direction
+    from Sensor.Danger import Danger
     from Sensor.Setting import setting, LineColor
 print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
 
@@ -214,8 +216,8 @@ class ImageProccessor:
             mt_gray, mt_mask가 정확도가 가장 높으며 두 값은 항상 유사한 결과를 가짐.
             font 이미지와 비교한 2가지 값도 정확도가 낮지는 않으나, 가끔 로봇의 고개 각도에 따라 튀는 값이 나올 때가 있음
             '''
-            mt_gray = Direction.matching(dir, Direction.sample_list, text_gray, 0.001) # 1. matchTemplate - Gray Scale
-            # mt_mask = dir.matching(dir.sample_list, text_mask, 1) # 2. matchTemplate - Masking
+            mt_gray = Direction.matching(self, Direction.sample_list, text_gray, 0.001, "EWSN") # 1. matchTemplate - Gray Scale
+            # mt_mask = dir.matching(dir.sample_list, text_mask, 1, "EWSN") # 2. matchTemplate - Masking
             # text_mask = dir.text_masking(text)
             # match_mask_font = dir.match_font(dir.font_img, text_mask) # 3. font <-> masking
             # match_gray_font = dir.match_font(dir.font_img, text_gray) # 4. font <-> gray scale
@@ -233,18 +235,47 @@ class ImageProccessor:
             return mt_gray
         else: # False
             return ''
+    
+    ########### DANGER PROCESSING ###########
+    def get_alphabet_name(self, show):
+        img = self.get_img()
+
+        roi = Danger.get_alphabet_roi(self, img, "GRAY")
+        arr_a = [cv.imread('src/alphabet_data/a{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        arr_b = [cv.imread('src/alphabet_data/b{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        arr_c = [cv.imread('src/alphabet_data/c{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        arr_d = [cv.imread('src/alphabet_data/d{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        arr = [arr_a, arr_b, arr_c, arr_d]
+        if roi != "Failed":
+            mt_gray = Direction.matching(Direction, arr, roi, 0.001, "ABCD")
+            print(mt_gray)
+            ########### [Option] Show ##########
+            if show:
+                cv.imshow("show", roi)
+                # cv.imshow("show", img_crop)
+                cv.waitKey(20) & 0xFF == ord('q')
+            ####################################
+
+
 
 if __name__ == "__main__":
     ### Debug Path List ###
     # entrance
-    arrow_path01 = "src/entrance/entr03-1.mp4"
-    arrow_path02 = "src/entrance/1027_23:14.h264"
+    entr01 = "src/entrance/entr03-1.mp4"
+    entr02 = "src/entrance/1027_23:14.h264"
     # line
-    line_path01 = "src/line/1003_line2.mp4"
-    img_processor = ImageProccessor(video=line_path01)
+    line01 = "src/line/1003_line2.mp4"
+    line02 = "src/entrance/1027_23:19.h264"
+    # danger
+    danger01 = "src/danger/1027_23:41.h264" # A
+    danger02 = "src/danger/1031_20:56.h264" # C
+    danger03 = "src/danger/1027_23:32.h264" # D
+    danger04 = "src/danger/1031_20:49.h264" # B
+    img_processor = ImageProccessor(video=danger02)
     
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
         # img_processor.get_direction(show=True)
-        img_processor.line_detection(show=True)
+        # img_processor.is_line_horizon_vertical(show=True)
+        img_processor.get_alphabet_name(show=True)

@@ -119,13 +119,14 @@ class Danger:
 
         return rate <= 30
 
-    def get_alphabet_roi(self, src):
+    # 방 이름 ROI 찾기
+    def get_alphabet_roi(self, src, option): # [Option] gray, hsv
         img_copy = src.copy()
         gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
         blur = cv.GaussianBlur(gray, (7, 7), 0)
         val = 0
         add = cv.add(blur, val)
-        alpha = 0.0
+        alpha = 1.0
 
         dst = np.clip((1 + alpha) * add - 128 * alpha, 0, 255).astype(np.uint8)
         ret, th = cv.threshold(dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
@@ -159,10 +160,13 @@ class Danger:
             img_crop = img_copy[y:y + h, x:x + w]
             text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
             text = img_crop.copy()
+            if option == "GRAY":
+                return text_gray
 
         else:
             text = src.copy()
             text_gray = cv.cvtColor(text, cv.COLOR_BGR2GRAY)
+            return "Failed" # ROI 인식 실패
         ##########################################################################
 
         img_crop = img_copy
@@ -171,10 +175,11 @@ class Danger:
             x, y, w, h = cv.boundingRect(text_cont[pos])
             # print('x, y, w, h:', x, y, w, h)
             img_crop = img_copy[y:y + h, x:x + w]
-        cv.imshow('img_crop', img_crop)
+        cv.imshow('img_crop', edges)
 
         hsv_crop = cv.cvtColor(img_crop, cv.COLOR_BGR2HSV)
-        return hsv_crop
+        # return hsv_crop
+        return src
 
     def get_alphabet_color(self, src):
         hsv = self.get_alphabet_roi(src)
@@ -209,7 +214,7 @@ if __name__ == "__main__":
     # 알파벳 글자 인식 부분 촬영
     # 파랑
     # 1031 20:56 촬영본은 제대로 안됨
-    # cap = cv.VideoCapture("src/danger/1031_20:56.h264")
+    cap = cv.VideoCapture("src/danger/1031_20:56.h264")
     # cap = cv.VideoCapture("src/danger/1027_23:41.h264")
 
     # 빨강
@@ -219,7 +224,7 @@ if __name__ == "__main__":
 
     # 장애물 집고 나올 때의 영상
     # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
-    cap = cv.VideoCapture("src/danger/1031_20:57.h264")
+    # cap = cv.VideoCapture("src/danger/1031_20:57.h264")
 
 
     while cap.isOpened():
@@ -229,16 +234,17 @@ if __name__ == "__main__":
             print("ret is false")
             break
         blur = cv.GaussianBlur(src, (5, 5), 0)
+        danger.get_alphabet_roi(src, "")
         cv.imshow('src', src)
 
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
         # black_mask = danger.get_black_mask(hsv)
         # cv.imshow('danger_region_mask', black_mask)
 
-        milk_crop = danger.get_holding_milkbox_roi(hsv)
-        print("들고 있는 중~") if danger.is_holding_milkbox(milk_crop, "BLUE") else print("떨굼")
+        # milk_crop = danger.get_holding_milkbox_roi(hsv)
+        # print("들고 있는 중~") if danger.is_holding_milkbox(milk_crop, "BLUE") else print("떨굼")
 
         if cv.waitKey(10) & 0xFF == ord('q'):
             break
 
-cap.release()
+# cap.release()
