@@ -193,7 +193,7 @@ class ImageProccessor:
     def get_milkbox_pos(self, color):
         img = self.get_img()
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        return Danger.get_milkbox_pos(img)
+        return Danger.get_milkbox_pos(hsv)
 
     ########################################
 
