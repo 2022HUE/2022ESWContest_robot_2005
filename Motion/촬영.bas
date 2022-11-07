@@ -2318,39 +2318,62 @@ GOSUB_RX_EXIT2:
     '    IF A_old = A THEN GOTO 오른쪽턴60_LOOP
 
     GOTO RX_EXIT
-    '****************************************
-팔들면서오른쪽턴45:
+    '**********************************************
+팔들면서왼쪽턴20:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
-	MOVE G6B, 100, 180,  80,  ,  ,  
+    MOVE G6B, 100, 180,  80,  ,  ,  
 	MOVE G6C, 100, 180,  80,  ,  ,  
-
-팔들면서오른쪽턴45_LOOP:
-
-    SPEED 10
-    MOVE G6A,95,  46, 145,  123, 105, 100
-    MOVE G6D,95,  106, 145,  63, 105, 100
+	
+    SPEED 8
+    MOVE G6A,95,  96, 145,  73, 105, 100
+    MOVE G6D,95,  56, 145,  113, 105, 100
+    MOVE G6B,110
+    MOVE G6C,90
     WAIT
 
     SPEED 12
-    MOVE G6A,93,  46, 145,  123, 105, 100
-    MOVE G6D,93,  106, 145,  63, 105, 100
+    MOVE G6A,93,  96, 145,  73, 105, 100
+    MOVE G6D,93,  56, 145,  113, 105, 100
+    WAIT
+    SPEED 6
+    MOVE G6A,101,  76, 146,  93, 98, 100
+    MOVE G6D,101,  76, 146,  93, 98, 100
+
     WAIT
 
-    SPEED 8
     GOSUB 기본자세2
-    ' DELAY 50
-    '    GOSUB 앞뒤기울기측정
-    '    IF 넘어진확인 = 1 THEN
-    '        넘어진확인 = 0
-    '        GOTO RX_EXIT
-    '    ENDIF
-    '
-    '    ERX 4800,A,오른쪽턴45_LOOP
-    '    IF A_old = A THEN GOTO 오른쪽턴45_LOOP
-    '
+
     GOTO RX_EXIT
-    '************************************************
+    '**********************************************
+팔들면서오른쪽턴20:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    MOVE G6B, 100, 180,  80,  ,  ,  
+	MOVE G6C, 100, 180,  80,  ,  ,  
+	
+    SPEED 8
+    MOVE G6A,95,  56, 145,  113, 105, 100
+    MOVE G6D,95,  96, 145,  73, 105, 100
+    MOVE G6B,90
+    MOVE G6C,110
+    WAIT
+
+    SPEED 12
+    MOVE G6A,93,  56, 145,  113, 105, 100
+    MOVE G6D,93,  96, 145,  73, 105, 100
+    WAIT
+
+    SPEED 6
+    MOVE G6A,101,  76, 146,  93, 98, 100
+    MOVE G6D,101,  76, 146,  93, 98, 100
+
+    WAIT
+
+    GOSUB 기본자세2
+
+    GOTO RX_EXIT
+    '**********************************************
 팔들면서왼쪽턴45:
     MOTORMODE G6A,3,3,3,3,2
     MOTORMODE G6D,3,3,3,3,2
@@ -2383,7 +2406,100 @@ GOSUB_RX_EXIT2:
     '
     GOTO RX_EXIT
     '**********************************************
+팔들면서오른쪽턴45:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+	MOVE G6B, 100, 180,  80,  ,  ,  
+	MOVE G6C, 100, 180,  80,  ,  ,  
 
+팔들면서오른쪽턴45_LOOP:
+
+    SPEED 10
+    MOVE G6A,95,  46, 145,  123, 105, 100
+    MOVE G6D,95,  106, 145,  63, 105, 100
+    WAIT
+
+    SPEED 12
+    MOVE G6A,93,  46, 145,  123, 105, 100
+    MOVE G6D,93,  106, 145,  63, 105, 100
+    WAIT
+
+    SPEED 8
+    GOSUB 기본자세2
+    ' DELAY 50
+    '    GOSUB 앞뒤기울기측정
+    '    IF 넘어진확인 = 1 THEN
+    '        넘어진확인 = 0
+    '        GOTO RX_EXIT
+    '    ENDIF
+    '
+    '    ERX 4800,A,오른쪽턴45_LOOP
+    '    IF A_old = A THEN GOTO 오른쪽턴45_LOOP
+    '
+    GOTO RX_EXIT
+
+    '************************************************
+팔들면서왼쪽턴60:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    MOVE G6B, 100, 180,  80,  ,  ,  
+	MOVE G6C, 100, 180,  80,  ,  ,  
+팔들면서왼쪽턴60_LOOP:
+
+    SPEED 15
+    MOVE G6A,95,  116, 145,  53, 105, 100
+    MOVE G6D,95,  36, 145,  133, 105, 100
+    WAIT
+
+    SPEED 15
+    MOVE G6A,90,  116, 145,  53, 105, 100
+    MOVE G6D,90,  36, 145,  133, 105, 100
+    WAIT
+
+    SPEED 10
+    GOSUB 기본자세2
+    '  DELAY 50
+    '    GOSUB 앞뒤기울기측정
+    '    IF 넘어진확인 = 1 THEN
+    '        넘어진확인 = 0
+    '        GOTO RX_EXIT
+    '    ENDIF
+    '    ERX 4800,A,왼쪽턴60_LOOP
+    '    IF A_old = A THEN GOTO 왼쪽턴60_LOOP
+
+    GOTO RX_EXIT
+
+    '**********************************************
+팔들면서오른쪽턴60:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    MOVE G6B, 100, 180,  80,  ,  ,  
+	MOVE G6C, 100, 180,  80,  ,  ,  
+팔들면서오른쪽턴60_LOOP:
+
+    SPEED 15
+    MOVE G6A,95,  36, 145,  133, 105, 100
+    MOVE G6D,95,  116, 145,  53, 105, 100
+    WAIT
+
+    SPEED 15
+    MOVE G6A,90,  36, 145,  133, 105, 100
+    MOVE G6D,90,  116, 145,  53, 105, 100
+
+    WAIT
+
+    SPEED 10
+    GOSUB 기본자세2
+    ' DELAY 50
+    '    GOSUB 앞뒤기울기측정
+    '    IF 넘어진확인 = 1 THEN
+    '        넘어진확인 = 0
+    '        GOTO RX_EXIT
+    '    ENDIF
+    '    ERX 4800,A,오른쪽턴60_LOOP
+    '    IF A_old = A THEN GOTO 오른쪽턴60_LOOP
+
+    GOTO RX_EXIT
 
     '************************************************
 
