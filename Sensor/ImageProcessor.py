@@ -278,9 +278,9 @@ class ImageProccessor:
 
 if __name__ == "__main__":
     # img_processor = ImageProccessor(video="src/stair/1002_19:56.h264")
-    # img_processor = ImageProccessor(video="src/stair/1027_23:26.h264")
+    img_processor = ImageProccessor(video="src/stair/1106_20:12.h264")
     # img_processor = ImageProccessor(video="src/stair/1006_18:40.h264")
-    img_processor = ImageProccessor(video="src/stair/1106_21:06.h264")
+    # img_processor = ImageProccessor(video="src/stair/1106_21:06.h264")
     # img_processor = ImageProccessor(video="src/stair/1106_20:14.h264")
 
     while True:
@@ -295,7 +295,6 @@ if __name__ == "__main__":
 
         # # 알파벳 크기 계산하여 중앙, 전진, 회전 판단 -----------------------------------------------------------
         try:
-
             alphabet_area, rect_x = img_processor.rect(show=True)
             alphabet_center_ret = img_processor.alphabet_center_check(rect_x)
             if alphabet_center_ret==True: #알파벳이 중앙에 오면/ 이 아래 부분 나중에 밖으로 빼야함
