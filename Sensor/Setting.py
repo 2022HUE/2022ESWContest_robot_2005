@@ -53,6 +53,27 @@ setting.DANGER_ROOM_V = 80
 setting.DANGER_MILKBOX_S = 80
 # 장애물 인식 용도 v(명도) 기준값
 setting.DANGER_MILKBOX_V = 150
+setting.DANGER_H_BLUE = [[82, 87, 30], [130, 255, 120]]
+setting.DANGER_H_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
+
+
+########### STAIR DETECTION ###########
+setting.ROOM_S = 180
+setting.ROOM_V = 0
+
+setting.STAIR_S = 50 #계단 내려갈 때 채도 체크
+setting.LINE_HIGH = 300 #계단 올라갈 때 허프라인 위치
+setting.STAIR_BLUE = [[102, 30, 30], [130, 255, 255]] #계단 맨 위의 파란색 hsv
+setting.STAIR_UP = 290 #계단 올라갈 때 채도값 설정
+setting.ALPHABET_ROTATION = 10 #알파벳 방향으로 회전할 때 알파벳 부분의 채도가 이거 이하여야 함.
+Setting.STAIR_ROTATION = 270 #계단 지역으로 회전할 때 채도
+
+setting.ONE_F = 90 #계단 1층 채도
+setting.TWO_F = 100 #계단 2층 채도
+setting.THREE_F = 400 #계단 3층 채도
+
+setting.ARROW = 'LEFT' #임시로 선언 (채연)
+
 
 
 ########### CURRENT ACT ###########
@@ -60,6 +81,3 @@ cur = Setting()
 # cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
 cur.MAP_DIRECTION = None # (entr) E, W, S, N
 cur.MAP_ARROW = "" # (entr) LEFT, RIGHT
-
-setting.DANGER_H_BLUE = [[82, 87, 30], [130, 255, 120]]
-setting.DANGER_H_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
