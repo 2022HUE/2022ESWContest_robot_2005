@@ -1,47 +1,6 @@
 import cv2 as cv
 import numpy as np
 
-<<<<<<< HEAD
-global DANGER_MILKBOX_BLUE, DANGER_MILKBOX_RED, DANGER_BLACK, ALPHABET_RED, ALPHABET_BLUE, DANGER_RATE, DANGER_ROOM_S, DANGER_ROOM_V, MORPH_kernel, GAUSSIAN_kernel
- 
-# blue 를 찾는 범위 값으로 HSV 이미지 위에 씌울 마스크 생성
-# opencv 에서 hue 값: 0 ~ 180, blue : 120, red : 0 (음수로 내려가면 알아서 변환함)
-# 실제 경기장에서는 어두운 파란색이라 120보다 낮은 100 ~ 115 정도 값인 듯
-DANGER_MILKBOX_BLUE = [[82, 87, 30], [130, 255, 120]]
-DANGER_MILKBOX_RED = [[167, 77, 30], [180, 255, 189]]  # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
-DANGER_BLACK = [[0, 0, 0], [180, 255, 80]]
-
-# 장애물 인식 용도 s(채도) 기준값
-DANGER_MILKBOX_S = 80
-# 장애물 인식 용도 v(명도) 기준값
-DANGER_MILKBOX_V = 150
-
-# 알파벳 hsv 값, 일단 장애물이랑 같게 설정해둠 바꿔야함
-ALPHABET_RED = [[167, 77, 30], [180, 255, 189]]
-ALPHABET_BLUE = [[82, 87, 30], [130, 255, 120]]
-
-# morphology kernel 값
-MORPH_kernel = 3
-
-# 위험/계단 지역 판단하는 비율의 기준
-DANGER_RATE = 10
-# 위험 지역 인식 용도 s(채도) 기준값
-DANGER_ROOM_S = 170
-# 위험 지역 인식 용도 v(명도) 기준값
-DANGER_ROOM_V = 80
-
-# 장애물 들고 있음을 판단하는 비율의 기준
-# 시야에서 없을 경우 HOLDING_RATE 값 0
-# 시야에 있고 들고 있을 경우 파랑은 6 이상, 빨강은 10 이상
-HOLDING_RATE = 5
-
-# ---------------------------
-
-# 로봇 시야에서 장애물의 위치 (9개 구역으로 나누기)
-MILKBOX_POS = [((0, 209), (0, 159)), ((210, 429), (0, 159)), ((430, 639), (0, 159)),
-               ((0, 209), (160, 319)), ((210, 429), (160, 319)), ((430, 639), (160, 319)),
-               ((0, 209), (320, 479)), ((210, 429), (320, 479)), ((430, 639), (320, 479))]
-=======
 from Sensor.Setting import setting
 
 # # blue 를 찾는 범위 값으로 HSV 이미지 위에 씌울 마스크 생성
@@ -82,7 +41,6 @@ from Sensor.Setting import setting
 # MILKBOX_POS = [((0, 209), (0, 159)), ((210, 429), (0, 159)), ((430, 639), (0, 159)),
 #                ((0, 209), (160, 319)), ((210, 429), (160, 319)), ((430, 639), (160, 319)),
 #                ((0, 209), (320, 479)), ((210, 429), (320, 479)), ((430, 639), (320, 479))]
->>>>>>> feature/danger
 
 
 class Danger:
@@ -91,11 +49,7 @@ class Danger:
         pass
 
     def mophorlogy(self, mask):
-<<<<<<< HEAD
-        kernel = np.ones((MORPH_kernel, MORPH_kernel), np.uint8)
-=======
         kernel = np.ones((setting.MORPH_kernel, setting.MORPH_kernel), np.uint8)
->>>>>>> feature/danger
         mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)
         mask = cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel)
         return mask
@@ -114,30 +68,6 @@ class Danger:
         v_bin = self.mophorlogy(v_bin)
         return v_bin
 
-<<<<<<< HEAD
-    def is_holding_milkbox(self, hsv, color):
-        mask = self.get_milkbox_mask(hsv, color)
-        rate = np.count_nonzero(mask) / (640 * 480)
-        rate *= 100
-        # print(rate)
-        return True if rate >= HOLDING_RATE else False
-
-    # 잡고 있는 장애물의 크롭 화면 가져오기
-    # -> 그냥 이 부분 제외하고는 검은색으로 채울 까
-    def get_holding_milkbox_roi(self, hsv):
-        hsv_crop = hsv.copy()[0:179, 0:639]
-        cv.imshow('holding_milkbox_img', hsv_crop)
-        return hsv_crop
-
-    # 장애물 위치 파악을 위한 함수
-    def get_milkbox_pos(self, hsv):
-        # 9개의 구역 중 하나의 구역 리턴 (index로 리턴)
-        idx = 0
-        return idx
-
-    def get_black_mask(self, hsv):
-        return self.get_color_mask(hsv, DANGER_BLACK)
-=======
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
     def is_holding_milkbox(self, hsv, color):
         holding_hsv = self.get_holding_milkbox_roi(hsv)
@@ -181,7 +111,6 @@ class Danger:
 
     def get_black_mask(self, hsv):
         return self.get_color_mask(hsv, setting.DANGER_BLACK)
->>>>>>> feature/danger
 
     def get_color_mask(self, hsv, const):
         lower_hue, upper_hue = np.array(const[0]), np.array(const[1])
@@ -189,19 +118,6 @@ class Danger:
         return mask
 
     def get_alphabet_red_mask(self, hsv):
-<<<<<<< HEAD
-        return self.get_color_mask(hsv, ALPHABET_RED)
-
-    def get_alphabet_blue_mask(self, hsv):
-        return self.get_color_mask(hsv, ALPHABET_BLUE)
-
-    # 장애물이 위험지역에서 벗어났는지 확인
-    def is_out_of_black(self, hsv, visualization=False):
-        begin = (bx, by) = (160, 200)
-        end = (ex, ey) = (480, 420)
-
-        mask = self.get_black_mask(hsv)
-=======
         return self.get_color_mask(hsv, setting.ALPHABET_RED)
 
     def get_alphabet_blue_mask(self, hsv):
@@ -215,51 +131,31 @@ class Danger:
         begin = (bx, by) = (160, 200)
         end = (ex, ey) = (480, 420)
         mask = self.get_black_mask(src[by:ey, bx:ex])
->>>>>>> feature/danger
 
         rate = np.count_nonzero(mask) / ((ex - bx) * (ey - by))
         rate *= 100
 
         if visualization:
-<<<<<<< HEAD
-            cv.imshow("roi", cv.rectangle(hsv, begin, end, (0, 0, 255), 3))  # hsv 말고 src 여야함
-=======
             cv.imshow("roi", cv.rectangle(src, begin, end, (0, 0, 255), 3))  # hsv 말고 src 여야함
->>>>>>> feature/danger
             cv.imshow("mask", mask)
             cv.waitKey(1)
         print(rate)
 
-<<<<<<< HEAD
-        return rate <= 30
-
-    # 방 이름 ROI 찾기
-    def get_alphabet_roi(self, src, option): # [Option] gray, hsv
-=======
         return rate <= setting.OUT_DANGER_RATE
 
     # 파라미터는 src로 받고, hsv로 리턴함
     def get_alphabet_roi(self, src, option): # [option] GRAY, HSV
->>>>>>> feature/danger
         img_copy = src.copy()
         gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
         blur = cv.GaussianBlur(gray, (7, 7), 0)
         val = 0
         add = cv.add(blur, val)
-<<<<<<< HEAD
-        alpha = 1.0
-=======
         alpha = 0.0 # 1.0으로 변경
->>>>>>> feature/danger
 
         dst = np.clip((1 + alpha) * add - 128 * alpha, 0, 255).astype(np.uint8)
         ret, th = cv.threshold(dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
         dst = cv.bitwise_and(dst, dst, mask=th)
-<<<<<<< HEAD
-        # cv.imshow('dst', dst)
-=======
         cv.imshow('dst', dst)
->>>>>>> feature/danger
         kernel = cv.getStructuringElement(cv.MORPH_RECT, (1, 1))
         dst = cv.dilate(dst, kernel, iterations=1)
 
@@ -294,11 +190,7 @@ class Danger:
         else:
             text = src.copy()
             text_gray = cv.cvtColor(text, cv.COLOR_BGR2GRAY)
-<<<<<<< HEAD
             return "Failed" # ROI 인식 실패
-=======
-            return "Failed"
->>>>>>> feature/danger
         ##########################################################################
 
         img_crop = img_copy
@@ -307,18 +199,10 @@ class Danger:
             x, y, w, h = cv.boundingRect(text_cont[pos])
             # print('x, y, w, h:', x, y, w, h)
             img_crop = img_copy[y:y + h, x:x + w]
-<<<<<<< HEAD
-        cv.imshow('img_crop', edges)
-
-        hsv_crop = cv.cvtColor(img_crop, cv.COLOR_BGR2HSV)
-        # return hsv_crop
-        return src
-=======
         cv.imshow('img_crop', img_crop)
 
         hsv_crop = cv.cvtColor(img_crop, cv.COLOR_BGR2HSV)
         return hsv_crop
->>>>>>> feature/danger
 
     def get_alphabet_color(self, src):
         hsv = self.get_alphabet_roi(src)
@@ -328,39 +212,23 @@ class Danger:
         return color
 
     def get_milkbox_mask(self, hsv, color):
-<<<<<<< HEAD
-        lower_hue, upper_hue = np.array(DANGER_MILKBOX_BLUE[0]), np.array(DANGER_MILKBOX_BLUE[1])
-        if color == "RED":
-            lower_hue, upper_hue = np.array(DANGER_MILKBOX_RED[0]), np.array(DANGER_MILKBOX_RED[1])
-=======
         lower_hue, upper_hue = np.array(setting.DANGER_MILKBOX_BLUE[0]), np.array(setting.DANGER_MILKBOX_BLUE[1])
         if color == "RED":
             lower_hue, upper_hue = np.array(setting.DANGER_MILKBOX_RED[0]), np.array(setting.DANGER_MILKBOX_RED[1])
->>>>>>> feature/danger
         h_mask = cv.inRange(hsv, lower_hue, upper_hue)
         # print(color)
         return h_mask  # mask 리턴
 
-<<<<<<< HEAD
-    # 안전 지역인지(False) 위험 지역인지(True) detection
-    def is_danger(self, src):
-        mask_AND = cv.bitwise_and(self.get_s_mask(src, DANGER_ROOM_S), self.get_v_mask(src, DANGER_ROOM_V))
-=======
     # 계단 지역인지(False) 위험 지역인지(True) detection
     def is_danger(self, hsv):
         mask_AND = cv.bitwise_and(self.get_s_mask(hsv, setting.DANGER_ROOM_S), self.get_v_mask(hsv, setting.DANGER_ROOM_V))
->>>>>>> feature/danger
         mask_AND = self.mophorlogy(mask_AND)
         cv.imshow('mask_AND', mask_AND)
         # 계단일 때 채색 비율: 80~200, 위험지역일 때 비율: 0~10
         rate = np.count_nonzero(mask_AND) / (640 * 480)
         rate = int(rate * 1000)
         print(rate)
-<<<<<<< HEAD
-        return "DANGER" if rate <= DANGER_RATE else "STAIR"
-=======
         return "DANGER" if rate <= setting.DANGER_STAIR_RATE else "STAIR"
->>>>>>> feature/danger
 
 
 if __name__ == "__main__":
@@ -369,17 +237,12 @@ if __name__ == "__main__":
     # 알파벳 글자 인식 부분 촬영
     # 파랑
     # 1031 20:56 촬영본은 제대로 안됨
-<<<<<<< HEAD
-    cap = cv.VideoCapture("src/danger/1031_20:56.h264")
-    # cap = cv.VideoCapture("src/danger/1027_23:41.h264")
-=======
     # cap = cv.VideoCapture("src/danger/1031_20:56.h264")
     # cap = cv.VideoCapture("src/danger/1106_20:02.h264")
     # 1106 20:06, 07 완전 모범 결과 출력
     # cap = cv.VideoCapture("src/danger/1106_20:06.h264")
     cap = cv.VideoCapture("src/danger/1106_20:07.h264")
 
->>>>>>> feature/danger
 
     # 빨강
     # cap = cv.VideoCapture("src/danger/1031_20:35.h264")
@@ -390,11 +253,8 @@ if __name__ == "__main__":
     # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
     # cap = cv.VideoCapture("src/danger/1031_20:57.h264")
 
-<<<<<<< HEAD
-=======
     # 장애물 어디있는지 바라볼 때의 시야
     # cap = cv.VideoCapture("src/danger/1031_20:53.h264")
->>>>>>> feature/danger
 
     while cap.isOpened():
         _, src = cap.read()
@@ -403,19 +263,6 @@ if __name__ == "__main__":
             print("ret is false")
             break
         blur = cv.GaussianBlur(src, (5, 5), 0)
-<<<<<<< HEAD
-        danger.get_alphabet_roi(src, "")
-        cv.imshow('src', src)
-
-        hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
-        # black_mask = danger.get_black_mask(hsv)
-        # cv.imshow('danger_region_mask', black_mask)
-
-        # milk_crop = danger.get_holding_milkbox_roi(hsv)
-        # print("들고 있는 중~") if danger.is_holding_milkbox(milk_crop, "BLUE") else print("떨굼")
-
-        if cv.waitKey(10) & 0xFF == ord('q'):
-=======
         cv.imshow('src', src)
 
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
@@ -425,7 +272,6 @@ if __name__ == "__main__":
         print(color)
 
         if cv.waitKey(20) & 0xFF == ord('q'):
->>>>>>> feature/danger
             break
 
 # cap.release()
