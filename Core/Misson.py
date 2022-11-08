@@ -34,6 +34,7 @@ class MissonEntrance:
     def init_robo(self, robo:Robo):
         self.robo = robo
 
+
     # 방위 감지
     def detect_direction(self):
         # 모션 제어
@@ -42,6 +43,7 @@ class MissonEntrance:
         if cur.MAP_DIRECTION:
             self.map_direction = cur.MAP_DIRECTION
         else:
+            
             self.map_direction = self.robo._image_processor.get_direction()
         
         if self.map_direction:
@@ -61,7 +63,7 @@ class MissonEntrance:
             map_arrow = cur.MAP_ARROW
         else:
             map_arrow = self.robo._image_processor.get_arrow()
-        
+
         if map_arrow:
             self.map_arrow = Arrow.LEFT if map_arrow == "LEFT" else Arrow.RIGHT
             return True
@@ -135,6 +137,7 @@ class MissonStair:
     # miss: int = 0
 
 
+
     # def reset(self):
     #     self.act = Act.START
     #     self.init_robo(robo=self.robo)
@@ -162,14 +165,11 @@ class MissonDanger:
     act: Act = Act.START
 
     miss: int = 0
+    room_color: str
 
     def init_robo(self, robo:Robo):
             self.robo = robo  
 
-    
-    
-    def detect_alphabet(self):
-        pass
 
     def go_robo(self):
         act = self.act
@@ -179,16 +179,19 @@ class MissonDanger:
             self.act = Act.DETECT_ALPHABET
         
         elif act == act.DETECT_ALPHABET:
-            if self.detect_alphabet():
-                self.miss = 0
-                # motion
-            elif self.miss > 1:
-                # motion
-                self.detect_alphabet()
-            else:
-                self.miss += 1
+            # motion: 고개 돌리기
 
-            self.act = Act.OUT_OF_DANGER_OBJ
+            pass
+            # if self.detect_alphabet():
+            #     self.miss = 0
+            #     # motion
+            # elif self.miss > 1:
+            #     # motion
+            #     self.detect_alphabet()
+            # else:
+            #     self.miss += 1
+
+            # self.act = Act.OUT_OF_DANGER_OBJ
 
         elif act == act.OUT_OF_DANGER_OBJ:
             self.act = Act.SPEAKING_ALPHABET
