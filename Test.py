@@ -1,3 +1,4 @@
+# Misson Debuging Code
 from Core.Misson import MissonEntrance
 
 def main():
