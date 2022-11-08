@@ -86,6 +86,31 @@ class ImageProccessor:
         th_mask = cv.bitwise_or(th_s, th_v)
         hsv = cv.bitwise_and(hsv, hsv, mask=th_mask)
         return hsv
+    
+    def mophorlogy(self, mask):
+        kernel = np.ones((setting.MORPH_kernel, setting.MORPH_kernel), np.uint8)
+        mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)
+        mask = cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel)
+        return mask
+
+    def get_s_mask(self, hsv, s_value):
+        h, s, v = cv.split(hsv)
+        ret_s, s_bin = cv.threshold(s, s_value, 255, cv.THRESH_BINARY)
+        # morphology 연산으로 노이즈 제거
+        s_bin = self.mophorlogy(s_bin)
+        return s_bin
+
+    def get_v_mask(self, hsv, v_value):
+        h, s, v = cv.split(hsv)
+        ret_v, v_bin = cv.threshold(v, v_value, 255, cv.THRESH_BINARY)
+        # morphology 연산으로 노이즈 제거
+        v_bin = self.mophorlogy(v_bin)
+        return v_bin
+
+    def get_color_mask(self, hsv, const):
+        lower_hue, upper_hue = np.array(const[0]), np.array(const[1])
+        mask = cv.inRange(hsv, lower_hue, upper_hue)
+        return mask
 
     #######################################
 
@@ -244,6 +269,26 @@ class ImageProccessor:
 
 
     ############ DANGER PROCESSING #############
+    # danger_detection 이건 왜 만든 함수죠?!
+    def danger_detection(self, show):
+        img = self.get_img()
+        origin = img.copy()
+
+        img = self.correction(img)
+        hsv = self.hsv_mask(img)
+
+    # 계단 지역인지(False) 위험 지역인지(True) detection
+    def is_danger(self):
+        img = self.get_img()
+        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        return Danger.is_danger(hsv) # [return] DANGER / STAIR
+
+    # 방 이름이 적힌 글자(A, B, C, D)의 색상 판단
+    def get_alphabet_color(self):
+        img = self.get_img()
+        return Danger.get_alphabet_color(img) # [return] RED / BLUE
+
+    # 방 이름(알파벳) 인식
     def get_alphabet_name(self, show):
         img = self.get_img()
 
@@ -259,16 +304,31 @@ class ImageProccessor:
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", roi)
-                # cv.imshow("show", img_crop)
-                cv.waitKey(20) & 0xFF == ord('q')
             ####################################
+            return mt_gray # [return] 인식한 알파벳: A, B, C, D
+        return False # 인식 실패
 
+    # 장애물 들고 위험 지역에서 벗어났는지 확인 (show : imshow() 해줄 건지에 대한 여부)
+    def is_out_of_black(self, show=False):
+        img = self.get_img()
+        return Danger.is_out_of_black(img, show) # [return] T/F
+
+    # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
+    def is_holding_milkbox(self, color):
+        img = self.get_img()
+        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        return Danger.is_holding_milkbox(hsv, color) # [return] T/F
 
     # 장애물 위치 파악을 위한 함수
     def get_milkbox_pos(self, color):
         img = self.get_img()
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         return Danger.get_milkbox_pos(hsv)
+    
+    ############# DANGER PROCESSING #############
+    
+
+
 
 
     ############# STAIR PROCESSING #############
