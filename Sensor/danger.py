@@ -98,7 +98,6 @@ class Danger:
         # 9개의 구역 중 하나의 구역 리턴 (index로 리턴)
         for idx, pos in enumerate(milkbox_pos):
             mask = self.get_milkbox_mask(hsv[pos[1][0]:pos[1][1], pos[0][0]:pos[0][1]], color)
-            cv.imshow('crop mask', mask)
             rate = np.count_nonzero(mask) / ((pos[1][1]-pos[1][0]) * (pos[0][1]-pos[0][0]))
             rate*=100
             print(f"{idx}번째 그냥 rate 값: {rate}")
@@ -111,6 +110,11 @@ class Danger:
             print("지금 장애물 집자!")
 
         if show:
+            # 장애물이 위치한 구역 crop
+            milkbox_crop = img.copy()[milkbox_pos[max_idx][1][0]:milkbox_pos[max_idx][1][1],
+                                              milkbox_pos[max_idx][0][0]:milkbox_pos[max_idx][0][1]]
+            milkbox_crop = cv.putText(milkbox_crop, f"milkbox pos : {max_idx}", (0, 20), cv.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 1)
+            cv.imshow(f'holding milkbox crop', milkbox_crop)
             # x축 구분선 두 개
             img = cv.line(img, (0, 159), (639, 159), (0,0,255), 2)
             img = cv.line(img, (0, 319), (639, 319), (0,0,255), 2)
