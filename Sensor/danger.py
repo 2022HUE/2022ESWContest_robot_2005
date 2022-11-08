@@ -89,7 +89,8 @@ class Danger:
         return True
 
     # 장애물 위치 파악을 위한 함수
-    def get_milkbox_pos(self, hsv, color):
+    def get_milkbox_pos(self, img, color, show=False):
+        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         max_idx = 0
         max_rate = 0
         count = 0
@@ -97,6 +98,7 @@ class Danger:
         # 9개의 구역 중 하나의 구역 리턴 (index로 리턴)
         for idx, pos in enumerate(milkbox_pos):
             mask = self.get_milkbox_mask(hsv[pos[1][0]:pos[1][1], pos[0][0]:pos[0][1]], color)
+            cv.imshow('crop mask', mask)
             rate = np.count_nonzero(mask) / ((pos[1][1]-pos[1][0]) * (pos[0][1]-pos[0][0]))
             rate*=100
             print(f"{idx}번째 그냥 rate 값: {rate}")
@@ -105,8 +107,17 @@ class Danger:
                 max_rate = rate
         print("----------------------------")
         print("max_rate 값: ", max_rate)
-        if (max_idx == 7):
+        if max_idx == 7:
             print("지금 장애물 집자!")
+
+        if show:
+            # x축 구분선 두 개
+            img = cv.line(img, (0, 159), (639, 159), (0,0,255), 2)
+            img = cv.line(img, (0, 319), (639, 319), (0,0,255), 2)
+            # y축 구분선 두 개
+            img = cv.line(img, (209, 0), (209, 479), (0,0,255), 2)
+            img = cv.line(img, (429, 0), (429, 479), (0,0,255), 2)
+            cv.imshow('milkbox_position', img)
         return max_idx, count
 
     def get_black_mask(self, hsv):
@@ -238,7 +249,7 @@ if __name__ == "__main__":
     # cap = cv.VideoCapture("src/danger/1106_20:02.h264")
     # 1106 20:06, 07 완전 모범 결과 출력
     # cap = cv.VideoCapture("src/danger/1106_20:06.h264")
-    cap = cv.VideoCapture("src/danger/1106_20:07.h264")
+    # cap = cv.VideoCapture("src/danger/1106_20:07.h264")
 
 
     # 빨강
@@ -248,10 +259,11 @@ if __name__ == "__main__":
 
     # 장애물 집고 나올 때의 영상
     # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
-    # cap = cv.VideoCapture("src/danger/1031_20:57.h264")
+    cap = cv.VideoCapture("src/danger/1031_20:57.h264")
 
     # 장애물 어디있는지 바라볼 때의 시야
     # cap = cv.VideoCapture("src/danger/1031_20:53.h264")
+    # cap = cv.VideoCapture("src/danger/1106_21:31.h264")
 
     while cap.isOpened():
         _, src = cap.read()
@@ -264,11 +276,9 @@ if __name__ == "__main__":
 
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
         # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
-        # pos_idx, count = danger.get_milkbox_pos(hsv, "BLUE")
-        color = danger.get_alphabet_color(src)
-        print(color)
+        pos_idx, count = danger.get_milkbox_pos(src, "BLUE", True)
 
-        if cv.waitKey(20) & 0xFF == ord('q'):
+        if cv.waitKey(5) & 0xFF == ord('q'):
             break
 
 cap.release()
