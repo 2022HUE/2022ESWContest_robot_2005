@@ -15,7 +15,7 @@ if __name__ == "__main__":
     from Stair import Stair
     from Setting import setting
 
-else:
+else: 
     from Sensor.Line import Line
     from Sensor.Arrow import Arrow
     from Sensor.Direction import Direction
@@ -282,7 +282,7 @@ class ImageProccessor:
         img = self.get_img()
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         return Danger.is_danger(hsv) # [return] DANGER / STAIR
-
+ 
     # 방 이름이 적힌 글자(A, B, C, D)의 색상 판단
     def get_alphabet_color(self):
         img = self.get_img()
