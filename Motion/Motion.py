@@ -13,23 +13,24 @@ from Setting import setting
 # -----------------------------------------------
 class Motion:
     def __init__(self, sleep_time=0):
-        self.serial_use = 1
-        self.serial_port = None
-        self.Read_RX = 0
-        self.receiving_exit = 1
-        self.threading_Time = 0.01
-        self.sleep_time = sleep_time
-        self.lock = Lock()
-        self.distance = 0
-        BPS = 4800  # 4800,9600,14400, 19200,28800, 57600, 115200
-        # ---------local Serial Port : ttyS0 --------
-        # ---------USB Serial Port : ttyAMA0 --------
-        self.serial_port = serial.Serial('/dev/ttyS0', BPS, timeout=0.01)
-        self.serial_port.flush()  # serial cls
-        self.serial_t = Thread(target=self.Receiving, args=(self.serial_port,))
-        self.serial_t.daemon = True
-        self.serial_t.start()
-        time.sleep(0.1)
+        pass
+        # self.serial_use = 1
+        # self.serial_port = None
+        # self.Read_RX = 0
+        # self.receiving_exit = 1
+        # self.threading_Time = 0.01
+        # self.sleep_time = sleep_time
+        # self.lock = Lock()
+        # self.distance = 0
+        # BPS = 4800  # 4800,9600,14400, 19200,28800, 57600, 115200
+        # # ---------local Serial Port : ttyS0 --------
+        # # ---------USB Serial Port : ttyAMA0 --------
+        # self.serial_port = serial.Serial('/dev/ttyS0', BPS, timeout=0.01)
+        # self.serial_port.flush()  # serial cls
+        # self.serial_t = Thread(target=self.Receiving, args=(self.serial_port,))
+        # self.serial_t.daemon = True
+        # self.serial_t.start()
+        # time.sleep(0.1)
 
     # DELAY DECORATOR
     def sleep(self, func):

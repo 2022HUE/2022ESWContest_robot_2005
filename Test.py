@@ -4,6 +4,7 @@ from Core.Misson import MissonEntrance, MissonDanger, MissonStair
 def entrance():
     tmp = MissonEntrance()
     while not MissonEntrance.go_robo(tmp):
+        print("<ENTRANCE>")
         continue
 
 def danger():
