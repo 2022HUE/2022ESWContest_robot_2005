@@ -269,14 +269,6 @@ class ImageProccessor:
 
 
     ############ DANGER PROCESSING #############
-    # danger_detection 이건 왜 만든 함수죠?!
-    def danger_detection(self, show):
-        img = self.get_img()
-        origin = img.copy()
-
-        img = self.correction(img)
-        hsv = self.hsv_mask(img)
-
     # 계단 지역인지(False) 위험 지역인지(True) detection
     def is_danger(self):
         img = self.get_img()
