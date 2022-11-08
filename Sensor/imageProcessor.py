@@ -86,7 +86,7 @@ class ImageProccessor:
         th_mask = cv.bitwise_or(th_s, th_v)
         hsv = cv.bitwise_and(hsv, hsv, mask=th_mask)
         return hsv
-    
+
     def mophorlogy(self, mask):
         kernel = np.ones((setting.MORPH_kernel, setting.MORPH_kernel), np.uint8)
         mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)

@@ -144,8 +144,7 @@ class Danger:
         return rate <= setting.OUT_DANGER_RATE
 
     # 파라미터는 src로 받고, hsv로 리턴함
-    # 방 이름 ROI 찾기
-    def get_alphabet_roi(self, src, option): # [Option] gray, hsv
+    def get_alphabet_roi(self, src, option): # [option] GRAY, HSV
         img_copy = src.copy()
         gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
         blur = cv.GaussianBlur(gray, (7, 7), 0)
@@ -191,7 +190,7 @@ class Danger:
         else:
             text = src.copy()
             text_gray = cv.cvtColor(text, cv.COLOR_BGR2GRAY)
-            return "Failed" # ROI 인식 실패
+            return "Failed"
         ##########################################################################
 
         img_crop = img_copy
