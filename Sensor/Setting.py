@@ -1,11 +1,5 @@
 # Debuging
-<<<<<<< HEAD
-=======
-import os
->>>>>>> feature/danger
 from enum import Enum, auto
-
-print(os.path.abspath('.'))
 
 class LineColor(Enum):
     YELLOW = auto()
@@ -30,14 +24,6 @@ setting.DIR_BLUR = 7
 setting.DIR_KERNEL = 1
 
 
-<<<<<<< HEAD
-########### ENTRANCE PROCESSING ###########
-setting.ARROW_BLUR = 7
-setting.ARROW_BRIGHT = 1.0
-setting.DIR_BLUR = 7
-setting.DIR_KERNEL = 1
-
-=======
 ########### CURRENT ACT ###########
 cur = Setting()
 # cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
@@ -46,7 +32,6 @@ cur.MAP_ARROW = "" # (entr) LEFT, RIGHT
 
 setting.DANGER_H_BLUE = [[82, 87, 30], [130, 255, 120]]
 setting.DANGER_H_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
->>>>>>> feature/danger
 
 ########### DANGER DETECTION ###########
 
@@ -77,9 +62,6 @@ setting.DANGER_MILKBOX_S = 80
 setting.DANGER_MILKBOX_V = 150
 setting.DANGER_H_BLUE = [[82, 87, 30], [130, 255, 120]]
 setting.DANGER_H_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
-<<<<<<< HEAD
-
-=======
 # 장애물 들고 있음을 판단하는 비율의 기준
 # 시야에서 없을 경우 HOLDING_RATE 값 0
 # 시야에 있고 들고 있을 경우 파랑은 최소 15 이상, 빨강은 10 이상
@@ -92,7 +74,6 @@ setting.MILKBOX_POS = [((0, 209), (0, 159)), ((210, 429), (0, 159)), ((430, 639)
 
 # morphology kernel 값
 setting.MORPH_kernel = 3
->>>>>>> feature/danger
 
 ########### STAIR DETECTION ###########
 setting.ROOM_S = 180
@@ -117,8 +98,4 @@ setting.ARROW = 'LEFT' #임시로 선언 (채연)
 cur = Setting()
 # cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
 cur.MAP_DIRECTION = None # (entr) E, W, S, N
-<<<<<<< HEAD
 cur.MAP_ARROW = "" # (entr) LEFT, RIGHT
-=======
-cur.MAP_ARROW = "" # (entr) LEFT, RIGHT
->>>>>>> feature/danger

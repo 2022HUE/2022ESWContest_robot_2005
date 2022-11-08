@@ -20,19 +20,11 @@ class Direction:
         return text_mask
 
 
-<<<<<<< HEAD
     def match_sam(self, sam_l, tar, num):
         target_h, target_w = tar.shape
         ms_score = 100 # matchShape score
         mt_score = 0 # matchTemplate score
         for i in range(num):
-=======
-    def match_sam(self, sam_l, tar):
-        target_h, target_w = tar.shape
-        ms_score = 100 # matchShape score
-        mt_score = 0 # matchTemplate score
-        for i in range(5):
->>>>>>> feature/danger
             sample = sam_l[i]
             h, w = sample.shape
             ratio = w / h
@@ -70,7 +62,6 @@ class Direction:
 
         return mt_score
 
-<<<<<<< HEAD
     def matching(self, sam, tar, params, option): # [Option] "EWSN", "ABCD"
         # sample_img: list
         n = len(sam[0])
@@ -80,16 +71,6 @@ class Direction:
         match4 = (option[3], self.match_sam(self, sam[3], tar, n))
 
         match_list = [match1, match2, match3, match4]
-=======
-    def matching(self, sam, tar, params):
-        # sample_img: list
-        match_e = ('E', self.match_sam(self, sam[0], tar))
-        match_w = ('W', self.match_sam(self, sam[1], tar))
-        match_s = ('S', self.match_sam(self, sam[2], tar))
-        match_n = ('N', self.match_sam(self, sam[3], tar))
-
-        match_list = [match_e, match_w, match_s, match_n]
->>>>>>> feature/danger
         ret_mt = max(match_list, key=lambda x: x[1])[0]
         ret_match_val = round(min(match_list, key=lambda x: x[1])[1], 4)
 
