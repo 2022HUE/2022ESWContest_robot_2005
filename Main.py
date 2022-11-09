@@ -2,7 +2,8 @@
 from Core.Controller import Controller
 
 def main():
-    while not Controller.go_robo():
+    controller = Controller()
+    while not Controller.go_robo(controller):
         continue
 
 

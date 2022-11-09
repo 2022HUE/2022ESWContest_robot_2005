@@ -1,11 +1,11 @@
 from enum import Enum, auto
 from Core.Robo import Robo
-import Robo
+# import Robo
 from Setting import cur, Arrow
 import time
 
 class Act(Enum):
-    START = auto()
+    START = auto() # 공통
     FIND_LINE = auto()
     ### entrance ###
     DETECT_DIRECTION = auto()
@@ -14,13 +14,14 @@ class Act(Enum):
     ### stair ###
 
     ### danger ###
+    # (예시)
     DETECT_ALPHABET = auto() # 방이름 감지
     FIND_OBJ = auto() # 장애물 찾기
     OUT_OF_DANGER_OBJ = auto() # 위험지역 밖으로 장애물 옮기기
     SPEAKING_ALPHABET = auto() # 알파벳 글자 말하기
 
 
-    EXIT = auto()
+    EXIT = auto() # 공통
 
 class MissonEntrance:
     act: Act = Act.START
@@ -158,6 +159,7 @@ class MissonStair:
 
     def go_robo(self):
         act = self.act
+
         
     
     

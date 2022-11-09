@@ -99,3 +99,4 @@ cur = Setting()
 # cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
 cur.MAP_DIRECTION = None # (entr) E, W, S, N
 cur.MAP_ARROW = "" # (entr) LEFT, RIGHT
+cur.AREA = "DANGER" 
