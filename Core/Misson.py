@@ -182,7 +182,7 @@ class MissonDanger:
         
         elif act == act.DETECT_ALPHABET:
             # motion: 고개 돌리기
-
+            self.robo._motion.set_head()
             pass
             # if self.detect_alphabet():
             #     self.miss = 0
@@ -194,7 +194,6 @@ class MissonDanger:
             #     self.miss += 1
 
             # self.act = Act.OUT_OF_DANGER_OBJ
-
         elif act == act.OUT_OF_DANGER_OBJ:
             self.act = Act.SPEAKING_ALPHABET
 
