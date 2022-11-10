@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import cv2 as cv
 import numpy as np
 global ALPHABET_GO,ARROW
@@ -38,33 +39,18 @@ class Stair:
             return True
         elif x<300: #왼쪽의 여백이 부족하다.
             # print("왼쪽 %d걸음 이동하세요"%(x//100))
-<<<<<<< HEAD
-            return 'left',x//100 #뒤의 리턴값은 옮겨야할 걸음 수
-        elif x>350:
-            # print("오른쪽 %d걸음 이동하세요" % (x // 100))
-            return 'right', x // 100 #뒤의 리턴값은 옮겨야할 걸음 수
 
-    #전진 하면서 크기 측정 함수
-    def in_alphabet_size_calc(self,area, rect_x):
-        self.alphabet_center_check(rect_x)
-
-        if area >= 43000:
-            print("정지 후 계단 지역으로 회전하세요.")
-=======
             return 'LEFT',x//100 #뒤의 리턴값은 옮겨야할 걸음 수
         elif x>350:
             # print("오른쪽 %d걸음 이동하세요" % (x // 100))
             return 'RIGHT', x // 100 #뒤의 리턴값은 옮겨야할 걸음 수
 
     #전진 하면서 크기 측정 함수
-    def in_alphabet_size_calc(self, area):
+    def in_alphabet_size_calc(self, area,size):
         # self.alphabet_center_check(rect_x) # (hr comment)
-
-        if area >= 43000:
+        if area >= size:
             print("정지 후 계단 지역으로 회전하세요.") #motion
->>>>>>> origin/develop
             return True
-
         else:
             return False
 
@@ -72,11 +58,8 @@ class Stair:
 
 
     #계단 지역 기준 왼쪽 오른쪽 판단하는 함수 #화살표 방향대로 돌아야 함.
-<<<<<<< HEAD
+
     def in_left_right(self,img_mask,ARROW,x=0,y=0):
-=======
-    def in_left_rignt(self,img_mask,ARROW,x=0,y=0):
->>>>>>> origin/develop
         # rotation = False
         left = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000 )
         x =320;
@@ -84,18 +67,10 @@ class Stair:
 
         if ARROW == 'LEFT':
             # 왼쪽 값이 작아질 때 까지 돌아야되고
-<<<<<<< HEAD
-            ret = left, right
-        elif ARROW == 'RIGHT':
-            ret = right, left
-            # 오른쪽 값이 작아질 때 까지 돌아야되고
-        return ret
-=======
             return left
         elif ARROW == 'RIGHT':
             return right
             # 오른쪽 값이 작아질 때 까지 돌아야되고
->>>>>>> origin/develop
 
     def in_rotation(self,a,comparison,ARROW):
         print(a,comparison,ARROW)
@@ -154,8 +129,6 @@ class Stair:
 
                 # y1 + h == y2 + h 값이 동일함. print("%d  %d"%(y1+h,y2+h))
                 cv.line(img, (x1 + w, y1 + h), (x2 + w, y2 + h), [255, 0, 0], 3)  # 라인 그리기.
-                cv.imshow('img', img)
-                print(y1 + h)
                 if y1 + h < LINE_HIGH:
                     return True
                 elif y1 + h > LINE_HIGH:
@@ -164,8 +137,4 @@ class Stair:
     def in_stair_top(self, hsv, lower_hue, upper_hue):
         y = 200; x = 0; h = 200; w = 640 #ROI 영역 지정을 위해 변수 선언
         mask = cv.inRange(hsv[y:y+h,x:x+w], lower_hue, upper_hue)
-<<<<<<< HEAD
         return mask
-=======
-        return mask
->>>>>>> origin/develop

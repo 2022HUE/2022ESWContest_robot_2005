@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import cv2 as cv
 import numpy as np
 import os
@@ -57,7 +58,6 @@ class ImageProccessor:
             cv.imshow("imageProcessor-get_img", img)
             cv.waitKey(1)
         return img
-
 
     ########### 기본 공용 함수 ###########
     def blur(self, img, val):
@@ -267,11 +267,6 @@ class ImageProccessor:
             return mt_gray
         else: # False
             return ''
-    
-
-
-
-
 
     ############ DANGER PROCESSING #############
     # 계단 지역인지(False) 위험 지역인지(True) detection
@@ -323,17 +318,15 @@ class ImageProccessor:
         return Danger.get_milkbox_pos(hsv)
     
     ############# DANGER PROCESSING #############
-    
-
-
-
 
     ############# STAIR PROCESSING #############
     # 로봇의 회전 완료 여부 반환
-    def alphabet_to_stair_rotation(self, show):  # 계단 지역 기준 왼쪽 오른쪽 판단하는 함수 #화살표 방향대로 돌아야 함.
+    def first_rotation(self, show):  # 알파벳 크기 측정 후 계단 지역으로 회전, 화살표 반대 방향.
         img = img_processor.get_img()
-        s_mask = Stair.in_saturation_measurement(self, img,setting.ROOM_S,setting.ROOM_V)
-        cur_s_val = Stair.in_left_rignt(self,s_mask,setting.ARROW) # (Current_saturation_value) setting.Arrow: 화살표 방향
+        img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
+        s_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V)
+        cv.imshow('smask',s_mask)
+        cur_s_val = Stair.in_left_right(self,s_mask,setting.ARROW) # (Current_saturation_value) setting.Arrow: 화살표 방향
         ret = Stair.in_rotation(self,cur_s_val,setting.ALPHABET_ROTATION, setting.ARROW)
         '''motion
         # T: (회전완료) 머리 아래 30도 변경
@@ -341,11 +334,14 @@ class ImageProccessor:
         # RIGHT: 오른쪽으로 회전
         '''
         print("alphabet_to_stair_rotation", ret) # Debug
+
         return ret
     
-    def stair_to_alphabet_rotation(self, show):  # 계단 지역 기준 왼쪽 오른쪽 판단하는 함수 #화살표 방향대로 돌아야 함.
+    def second_rotation(self, show):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
         img = img_processor.get_img()
-        s_mask = Stair.in_saturation_measurement(self, img,setting.ROOM_S,setting.ROOM_V)
+        cv.imshow('img',img)
+        img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
+        s_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V)
         s_val = int((np.count_nonzero(s_mask) / (640 * 480)) * 1000)
         if setting.ARROW =="LEFT": arrow_ ="RIGHT"
         else: arrow_ = "LEFT"
@@ -380,8 +376,9 @@ class ImageProccessor:
 
     def alphabet_center_check(self,alphabet_area, rect_x):
         is_center = Stair.in_alphabet_center_check(self,rect_x)
+
         if is_center == True: # [return] True
-            sz_check = Stair.in_alphabet_size_calc(self, alphabet_area)
+            sz_check = Stair.in_alphabet_size_calc(self, alphabet_area,setting.STAIR_ALPHABET_SIZE)
             '''motion
             # T: 계단방향으로 회전
             # F: 전진
@@ -401,7 +398,7 @@ class ImageProccessor:
         b_mask = Stair.in_stair_top(self,hsv,lower_hue,upper_hue) # roi blue mask
         top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
         if top_ret >= setting.STAIR_UP:
-            print("2층이다 올라가") #2층->3층 올라가는 모션 실행 후
+            print("2층입니다. 올라가세요") #2층->3층 올라가는 모션 실행 후
             ''' motion
             cnt = 1
             2층->3층 올라가기
@@ -411,16 +408,19 @@ class ImageProccessor:
             잘 올라갔는지 판단
             '''
             #stair_stage_check는 외부에서 계단 올라간거 체크하는 변수 만들어야 함.
+            if img_processor.stair_top() > setting.STAIR_UP :
+                print("정상 도달")
             # if img_processor.stair_top() > setting.STAIR_UP and stair_stage_check ==2 :
             #     print("정상 도달")
             return True
         else:
-            print("샤샤샤샥") # motion: 2층에서 샤샤샥
+            print("2층에서 좁은 보폭") # motion: 2층에서 샤샤샥
             return False
     
     # 계단 내려가기
     def stair_down(self):
         img = img_processor.get_img()
+        img = cv.cvtColor(img,cv.COLOR_RGB2HSV)
         img_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V) # -->s_mask가 50 이면 좋겠어
         ''' motion 
         # T: 방 탈출
@@ -435,20 +435,24 @@ class ImageProccessor:
         roi = img[y:y+h, x:x+w]
         img_canny = cv.Canny(roi, 20, 200)
         lines = cv.HoughLines(img_canny, 0.8, np.pi/20, 100, None, None, min_theta=0, max_theta= 50)
+
+        cv.imshow('img',img)
         if lines is not None:
             line_length=lines[0][0][1]
-
             if line_length>=1 and line_length<=2: #허프라인 짧은 노이즈 직선 제거
-                ret = Stair.in_draw_stair_line(self,lines,img,w,h,setting.LINE_HIGH) 
+                ret = Stair.in_draw_stair_line(self,lines,img,w,h,setting.LINE_HIGH)
+                cv.imshow('line', img)
                 ''' motion 
                 # T: 1층 -> 2층 계단 올라가기 + 샤샤샥 -> draw_stair_line() 재실행
                 # F: 샤샤샥 '''
+                if ret==True:
+                    print("1층에서 올라가세요")
                 return ret # bool(T/F)
             else: 
-                print("라인 추출 실패")
+                # print("라인 추출 실패")
                 return False  # 라인 추출 실패
         else:
-            print("라인 추출 실패")
+            # print("라인 추출 실패")
             # cv.imshow('simg',img_canny)
             return self.stair_top() # 라인 추출 실패
     ############# STAIR PROCESSING #############
@@ -466,20 +470,32 @@ if __name__ == "__main__":
     danger02 = "src/danger/1031_20:56.h264" # C
     danger03 = "src/danger/1027_23:32.h264" # D
     danger04 = "src/danger/1031_20:49.h264" # B
-    img_processor = ImageProccessor(video=danger02)
-    
+
+    stair01 = "src/stair/1106_20:11.h264" # 방 입구 도착해서 위험지역, 계단지역 구분
+    stair02 = "src/stair/1106_20:12.h264" # 알파벳 센터 체크
+    stair03 = "src/stair/1027_23:23.h264" # 알파벳 도착부터 전진까지
+    stair04 = "src/stair/1106_20:13.h264" # 알파벳에서 계단지역쪽으로 회전
+    stair05 = "src/stair/1027_23:24.h264" # 계단 오르기 시작
+    stair06 = "src/stair/1027_23:26.h264" # 계단 내려가기
+
+    img_processor = ImageProccessor(video=stair01)
+
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
         # img_processor.get_direction(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
-        img_processor.get_alphabet_name(show=True)
+        # img_processor.get_alphabet_name(show=True)
 
         ### stair ###
-        img_processor.alphabet_to_stair_rotation(show=False)
+        # img_processor.first_rotation(show=True)
         alphabet_area, rect_x = img_processor.rect()
-        img_processor.alphabet_center_check(rect_x)
-        img_processor.alphabet_size_calc(alphabet_area)
-        img_processor.stair_to_alphabet_rotation(show=False)
-        img_processor.draw_stair_line()
-        img_processor.stair_down()
+        img_processor.alphabet_center_check(alphabet_area,rect_x)
+        # img_processor.second_rotation(show=True)
+        # img_processor.draw_stair_line()
+        # img_processor.stair_down()
+
+        if cv.waitKey(10) & 0xFF == 27:
+            break
+
+cv.destroyAllWindows()
