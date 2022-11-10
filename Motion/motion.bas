@@ -3951,7 +3951,7 @@ D지역:
     WAIT
 
     RETURN
-
+	'********************************************
 집고전진:
     보행속도 = 8
     좌우속도 = 4
@@ -4040,6 +4040,98 @@ D지역:
     SPEED 11
     MOVE G6A,100,  76, 143,  92, 99, 100
     MOVE G6D,100,  76, 143,  92, 99, 100
+    WAIT
+
+    GOTO RX_EXIT
+    
+집고전진2:
+    보행속도 = 8
+    좌우속도 = 4
+    넘어진확인 = 0
+
+    'GOSUB 전방하향18도
+    'DELAY 20
+    SPEED 10
+    GOSUB All_motor_mode3
+    MOVE G6C,185,  10,  60
+    MOVE G6B,185,  10,  60
+    WAIT
+
+    DELAY 20
+    'HIGHSPEED SETON
+
+    SPEED 10
+    MOVE G6A,  90,  74, 142,  94, 109
+    MOVE G6D, 108,  76, 144,  93, 96
+    WAIT
+
+    SPEED 12
+    MOVE G6A,90, 90, 118, 101, 109,99
+    MOVE G6D,108,  76, 145,  92,  96,100
+    WAIT
+
+    'HIGHSPEED SETOFF
+    GOTO 집고전진2_2	
+
+집고전진2_2:
+    MOVE G6D,110,  76, 145,  93, 100,100
+    MOVE G6A,96, 90, 118, 101, 106,99
+    WAIT
+
+집고전진2_3:
+    'ETX 4800,13 '진행코드를 보냄
+
+    SPEED 보행속도
+
+    MOVE G6A, 90,  56, 143, 114, 109
+    MOVE G6D,108,  76, 145,  89,  95
+    WAIT
+
+    SPEED 좌우속도
+    MOVE G6A,108,  76, 145, 89,  97
+    MOVE G6D,90, 100, 140,  68, 107
+    WAIT
+
+    SPEED 보행속도
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO MAIN
+    ENDIF
+
+
+    ERX 4800,A, 집고전진2_4
+    IF A = 11 THEN
+        GOTO 집고전진2_4
+        '    ELSE
+        '    	MOVE G6A, 90, 100, 100, 115, 110,100
+        ' 		MOVE G6D,112,  76, 146,  93,  96,100
+        ' 		MOVE G6B,90
+        ' 		MOVE G6C,110
+        ' 		WAIT
+        ' 		HIGHSPEED SETOFF
+        ' 		SPEED 8
+
+        ' 		MOVE G6D, 106,  76, 146,  93,  96,100		
+        ' 		MOVE G6A,  88,  71, 152,  91, 106,100
+        ' 		MOVE G6C, 100
+        ' 		MOVE G6B, 100
+        ' 		WAIT	
+        ' 		SPEED 8
+        ' 		GOSUB 기본자세2
+
+        ' 		GOTO RX_EXIT
+    ENDIF
+집고전진2_4:
+    SPEED 13
+    MOVE G6D,95, 90, 118, 101, 110,99
+    MOVE G6A,108,  76, 144,  92,  95,99
+    WAIT
+
+    SPEED 11
+    MOVE G6D,100,  76, 143,  92, 99, 100
+    MOVE G6A,100,  76, 143,  92, 99, 100
     WAIT
 
     GOTO RX_EXIT
@@ -6041,7 +6133,7 @@ KEY30: ' ▷
     '***************
 KEY31: ' ▽
     ETX 4800, 31
-    GOSUB 장애물오른쪽앞치우기
+    GOSUB 집고전진2
     GOTO RX_EXIT
     '***************
 
