@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-from Sensor.Setting import setting
+from Setting import setting
 
 # # blue 를 찾는 범위 값으로 HSV 이미지 위에 씌울 마스크 생성
 # # opencv 에서 hue 값: 0 ~ 180, blue : 120, red : 0 (음수로 내려가면 알아서 변환함)

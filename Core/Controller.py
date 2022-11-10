@@ -41,6 +41,7 @@ class Controller:
 
 
     # 위험 지역인지 계단 지역인지 판단
+    @classmethod
     def check_area(self):
         if self.count_area == 0: # 최초 방문
             if cur.AREA:
@@ -74,12 +75,14 @@ class Controller:
             # motion을 어떻게 넣을까요?
             return False
         
-
+    @classmethod
     def go_robo(self):
         act = self.act
-        robo: Robo = Robo
+        robo: Robo = Robo('Sensor/src/entrance/entr03-1.mp4')
+        
 
         if act == act.START:
+            self.robo
             print("ACT: ", act) # Debug
 
             print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
@@ -135,6 +138,8 @@ class Controller:
             # [motion] 로봇 머리만 화살표 방향으로 45도 회전
             # self.robo._motion.set_head()
             self.check_area()
+            print(robo.tmp)
+            # self.robo._motion.set_head()
             print("----Current Area", self.area, "----")
             if self.area == "STAIR":
                 self.act = act.STAIR

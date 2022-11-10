@@ -3,17 +3,7 @@ from Motion.Motion import Motion
 from Setting import LineColor, Arrow, Setting
 
 class Robo:
-    print('robo py')
     def __init__(self, vpath=''):
         self._image_processor = ImageProccessor(video=vpath) # Image Processor
         self._motion = Motion() # Motion
-        self.arrow: Arrow
-        
-        # misson list
-        self.entrance = False
-        self.stair = False
-        self.danger = False
-    
-    
-
-FIXED = Robo()
+        self.arrow: Arrow=Arrow.LEFT
