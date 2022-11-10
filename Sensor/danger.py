@@ -69,23 +69,33 @@ class Danger:
         return v_bin
 
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
-    def is_holding_milkbox(self, hsv, color):
+    def is_holding_milkbox(self, src, color, show=False):
+        hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
         holding_hsv = self.get_holding_milkbox_roi(hsv)
         mask = self.get_milkbox_mask(holding_hsv, color)
         rate = np.count_nonzero(mask) / (180 * 640)
         rate *= 100
         print(rate)
+
+        if show:
+            text = "hold" if rate >= setting.HOLDING_RATE else "miss"
+            color = (0, 255, 0) if rate >= setting.HOLDING_RATE else (0, 0, 255)
+            # 장애물이 위치한 구역 ROI 사각형으로 show
+            src = cv.putText(src, f"{text}", (0, 210), cv.FONT_HERSHEY_SIMPLEX, 1, color, 2)
+            cv.imshow("holding_milkbox_roi", cv.rectangle(src, (0,0), (639, 179), color, 3))  # hsv 말고 src 여야함
+
         return True if rate >= setting.HOLDING_RATE else False
 
     # 잡고 있는 장애물의 크롭 화면 가져오기 (장애물 집었을 때, 최대 y좌표 180)
     # -> 그냥 이 부분 제외하고는 검은색으로 채울 까
     def get_holding_milkbox_roi(self, hsv):
+        # 추후에 들고 있는 우유곽의 범위 조절할 필요 있음 -> 지금보다 작아져야할 듯
         hsv_crop = hsv.copy()[0:179, 0:639]
         # cv.imshow('holding_milkbox_img', hsv_crop)
         return hsv_crop
 
     # 장애물에 충분히 근접했는지 (즉, 이제 장애물 집어도 되는지) 확인
-    def can_hold_milkbox(self, hsv):
+    def is_milkbox_close(self, hsv):
         return True
 
     # 장애물 위치 파악을 위한 함수
@@ -141,8 +151,8 @@ class Danger:
     # 떨어트렸을 때 장애물이 위험지역 내부에 있는 지에 대한 확인
 
 
-    # 장애물 들고 위험지역에서 벗어났는지 확인 (visualization : imshow() 해줄 건지에 대한 여부)
-    def is_out_of_black(self, src, visualization=False):
+    # 장애물 들고 위험지역에서 벗어났는지 확인 (show : imshow() 해줄 건지에 대한 여부)
+    def is_out_of_black(self, src, show=False):
         begin = (bx, by) = (160, 200)
         end = (ex, ey) = (480, 420)
         mask = self.get_black_mask(src[by:ey, bx:ex])
@@ -150,7 +160,7 @@ class Danger:
         rate = np.count_nonzero(mask) / ((ex - bx) * (ey - by))
         rate *= 100
 
-        if visualization:
+        if show:
             text = "OUT of Danger" if rate <= setting.OUT_DANGER_RATE else "IN Danger"
             color = (0, 255, 0) if rate <= setting.OUT_DANGER_RATE else (0, 0, 255)
             src = cv.putText(src, f"{text}", (160, 180), cv.FONT_HERSHEY_SIMPLEX, 1, color, 2)
@@ -265,8 +275,8 @@ if __name__ == "__main__":
     # cap = cv.VideoCapture("src/danger/1027_23:32.h264")
 
     # 장애물 집고 나올 때의 영상
-    # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
-    cap = cv.VideoCapture("src/danger/1031_20:57.h264")
+    cap = cv.VideoCapture("src/danger/1031_20:47.h264")
+    # cap = cv.VideoCapture("src/danger/1031_20:57.h264")
 
     # 장애물 어디있는지 바라볼 때의 시야
     # cap = cv.VideoCapture("src/danger/1031_20:53.h264")
@@ -281,11 +291,11 @@ if __name__ == "__main__":
         blur = cv.GaussianBlur(src, (5, 5), 0)
         cv.imshow('src', src)
 
-        hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
-        print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
+        hsv_origin = cv.cvtColor(src, cv.COLOR_BGR2HSV)
+        # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
         # pos_idx, count = danger.get_milkbox_pos(src, "BLUE", True)
-
-        if cv.waitKey(5) & 0xFF == ord('q'):
+        print("잡고 있음") if danger.is_holding_milkbox(src, "RED", True) else print("우유곽 놓침!")
+        if cv.waitKey(65) & 0xFF == ord('q'):
             break
 
 cap.release()
