@@ -151,7 +151,10 @@ class Danger:
         rate *= 100
 
         if visualization:
-            cv.imshow("roi", cv.rectangle(src, begin, end, (0, 0, 255), 3))  # hsv 말고 src 여야함
+            text = "OUT of Danger" if rate <= setting.OUT_DANGER_RATE else "IN Danger"
+            color = (0, 255, 0) if rate <= setting.OUT_DANGER_RATE else (0, 0, 255)
+            src = cv.putText(src, f"{text}", (160, 180), cv.FONT_HERSHEY_SIMPLEX, 1, color, 2)
+            cv.imshow("roi", cv.rectangle(src, begin, end, color, 3))  # hsv 말고 src 여야함
             cv.imshow("mask", mask)
             cv.waitKey(1)
         print(rate)
@@ -279,8 +282,8 @@ if __name__ == "__main__":
         cv.imshow('src', src)
 
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
-        # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
-        pos_idx, count = danger.get_milkbox_pos(src, "BLUE", True)
+        print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
+        # pos_idx, count = danger.get_milkbox_pos(src, "BLUE", True)
 
         if cv.waitKey(5) & 0xFF == ord('q'):
             break
