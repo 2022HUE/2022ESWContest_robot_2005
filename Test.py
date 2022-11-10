@@ -1,6 +1,5 @@
 # Misson Debuging Code
 from Core.Misson import MissonEntrance, MissonDanger, MissonStair
-from Core.Robo import Robo
 
 def entrance():
     while not MissonEntrance.go_robo():
