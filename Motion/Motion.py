@@ -78,46 +78,57 @@ class Motion:
     ############################################################
     # 기본자세 (100)
     def basic(self):
-        self.TX_data_py2(100)
+        # self.TX_data_py2(100)
+        print('[Current Motion] Basic --------------##') # Debug
     
     # 걷기 (101~120)
     def walk(self):
+        print('[Current Motion] Walk --------------##') # Debug
         pass
     
     # 머리 각도 (121~140)
     def set_head(self):
+        print('[Current Motion] Set Head --------------##') # Debug
         pass
     
     # 돌기 (141~160)
     def turn(self):
+        print('[Current Motion] Turn --------------##') # Debug
         pass
     
     # 옆으로 이동 (161~170)
     def walk_side(self):
+        print('[Current Motion] Walk Side --------------##') # Debug
         pass
     
     # 계단 오르내리기 (171~174) [Stair]
     def stair(self):
+        print('[Current Motion] Stair --------------##') # Debug
         pass
 
     # 장애물 치우기 (175~176) [Line/Stair/Danger]
     def kick(self):
+        print('[Current Motion] Kick --------------##') # Debug
         pass
     
     # 집기 (181~186) [Danger]
     def grab(self):
+        print('[Current Motion] Grab --------------##') # Debug
         pass
     
     # 횟수_집고 전진 (187~188) [Danger]
     def grab_walk(self):
+        print('[Current Motion] Grab Walk --------------##') # Debug
         pass
     
     # 집고 옆으로 (189~192) [Danger]
     def grab_sideway(self):
+        print('[Current Motion] Grab Sideway --------------##') # Debug
         pass
     
     # 집고 턴 (193~) [Danger]
     def grab_turn(self):
+        print('[Current Motion] Grab Turn --------------##') # Debug
         pass
 
 
