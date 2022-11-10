@@ -47,7 +47,12 @@ class Controller:
             if cur.AREA:
                 self.area = cur.AREA
             else:
+                # [motion] 로봇 머리만 화살표 방향으로 45도 회전
+                self.robo._motion.set_head()
                 self.area = self.robo._image_processor.is_danger()
+                # [motion] 로봇 머리만 화살표 반대 방향으로 45도 회전
+                self.robo._motion.set_head()
+
         else:
             if self.area == "STAIR":self.area = "DANGER"
             else: self.area = "STAIR"
@@ -135,11 +140,7 @@ class Controller:
             #         self.goto_rotate = True
             
             # 방 입구 도착 -> 위험/계단지역 판단
-            # [motion] 로봇 머리만 화살표 방향으로 45도 회전
-            # self.robo._motion.set_head()
             self.check_area()
-            print(robo.tmp)
-            # self.robo._motion.set_head()
             print("----Current Area", self.area, "----")
             if self.area == "STAIR":
                 self.act = act.STAIR
