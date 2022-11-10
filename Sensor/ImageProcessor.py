@@ -246,10 +246,10 @@ class ImageProccessor:
 
     def stair_rotation(self,a,comparison,ARROW):  # 계단 지역 기준 왼쪽 오른쪽 판단하는 함수 #화살표 방향대로 돌아야 함.
         return Stair.in_rotation(self,a,comparison,ARROW)
-    def left_rignt(self):
+    def left_right(self):
         img = img_processor.get_img()
         img_mask = Stair.in_saturation_measurement(self, img,setting.ROOM_S,setting.ROOM_V)
-        return Stair.in_left_rignt(self,img_mask,setting.ARROW)
+        return Stair.in_left_right(self,img_mask,setting.ARROW)
 
     def stair_down(self):
         img = img_processor.get_img()
@@ -278,7 +278,7 @@ class ImageProccessor:
 
 if __name__ == "__main__":
     # img_processor = ImageProccessor(video="src/stair/1002_19:56.h264")
-    img_processor = ImageProccessor(video="src/stair/1106_20:12.h264")
+    img_processor = ImageProccessor(video="src/stair/1107_20:56.h264")
     # img_processor = ImageProccessor(video="src/stair/1006_18:40.h264")
     # img_processor = ImageProccessor(video="src/stair/1106_21:06.h264")
     # img_processor = ImageProccessor(video="src/stair/1106_20:14.h264")
@@ -289,7 +289,7 @@ if __name__ == "__main__":
         cv.imshow('img',img)
 
         # # 로봇 처음에 알파벳으로 회전---------------------------------------------------------------
-        # a,b = img_processor.left_rignt() # 오른쪽 왼쪽 채도 확인하는 함수.,
+        # a,b = img_processor.left_right() # 오른쪽 왼쪽 채도 확인하는 함수.,
         # rotation_ret = img_processor.stair_rotation(a,setting.ALPHABET_ROTATION,setting.ARROW) # 미완성시 돌아야 할 방향(LEFT,RIGHT) || 회전완료 => TRUE
         # # ----------------------------------------------------------------------------------------
 
@@ -307,14 +307,14 @@ if __name__ == "__main__":
         # ------------------------------------------------------------------------------------------------------
 
         # # # 알파벳에서 계단 방향으로 회전 (언제까지) -----------------------------------------------------------------------------
-        # stair_saturation_mask = img_processor.saturation_measurement(setting.ROOM_S, setting.ROOM_V)
-        # saturation_num = int((np.count_nonzero(stair_saturation_mask) / (640 * 480)) * 1000)
-        # if setting.ARROW =='LEFT': ARROW='RIGHT'
-        # else: ARROW='LEFT'
-        # stair_rotation_ret = img_processor.stair_rotation(setting.STAIR_ROTATION ,saturation_num, ARROW)
-        #
-        # if stair_rotation_ret==True:
-        #     print("계단 지역으로 회전 완료. 머리를 30도로 낮추세요")
+        stair_saturation_mask = img_processor.saturation_measurement(setting.ROOM_S, setting.ROOM_V)
+        saturation_num = int((np.count_nonzero(stair_saturation_mask) / (640 * 480)) * 1000)
+        if setting.ARROW =='LEFT': ARROW='RIGHT'
+        else: ARROW='LEFT'
+        stair_rotation_ret = img_processor.stair_rotation(setting.STAIR_ROTATION ,saturation_num, ARROW)
+
+        if stair_rotation_ret==True:
+            print("계단 지역으로 회전 완료. 머리를 30도로 낮추세요")
         # # # --------------------------------------------------------------------------------------------
 
         # # 계단 올라가기 -----------------------------------------------------------------------------

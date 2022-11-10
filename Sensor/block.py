@@ -11,12 +11,12 @@ def block(img,contours1):
         rect_y = contours1[pos][0][0][1]  # 가장 위의 y값 좌표
         rect_x = contours1[pos][0][0][0]  # 가장 위의 y값 좌표
         #
-        if points>=4 and peri>=200:
+        if points>=3 and peri>=280 and peri <=1000:
             print(peri)
             cv.drawContours(img, [approx], 0, (0, 255, 255), 2)
             cv.imshow('img',img)
 
-cap = cv.VideoCapture('src/stair/1106_21:06.h264')  # 제일 쓸만함
+cap = cv.VideoCapture('src/stair/1107_20:56.h264')
 
 while(True):
     ret, img = cap.read()
@@ -35,6 +35,7 @@ while(True):
     dst = cv.dilate(dst, kernel, iterations=1)
     cv.imshow('dst',dst)
     contours1, hierarchy1 = cv.findContours(dst, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
+    img = np.clip((1 + 1.0) * img - 128 * 1.0, 0, 255).astype(np.uint8)
     block(img,contours1)
     cv.imshow('img', img)  # 결과 이미지 출력
 
