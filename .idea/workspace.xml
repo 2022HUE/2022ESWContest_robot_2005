@@ -4,213 +4,87 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9da70eb6-a180-431d-9800-36491780e40e" name="Changes" comment="Changes">
-      <change beforePath="$PROJECT_DIR$/.idea/ESWC_chaeyeon.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ESWC_chaeyeon.iml" afterDir="false" />
+    <list default="true" id="65f6b597-7c0b-4b9b-8e31-9f1d6a600a30" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/Core/Controller.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Misson.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Robo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Motion/촬영.obj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/a.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/a0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/a1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/a2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/a3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/b.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/b0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/b1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/b2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/b3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/c.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/c0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/c1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/c2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/c3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/d.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/d0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/d1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/d2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/alphabet_data/d3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_20:00.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_20:02.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_20:06.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_20:07.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_20:08.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_21:30.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_21:31.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_21:32.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_21:34.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_21:35.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_21:36.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_21:37.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_21:40.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_21:53.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_22:12.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_22:25.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_22:26.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/Motion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/Motion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/motion.bas" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/motion.bas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/motion.obj" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/motion.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/motion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/src/entrance/1027_23" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/계단.bas" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/계단.bas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/촬영.bas" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/촬영.bas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Arrow.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Arrow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Danger.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Danger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Direction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Direction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/ImageProcessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/ImageProcessor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Line.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Line.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Setting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Stair.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Stair.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/is_danger.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/milkBox.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/src/danger/1002_15:51.h264" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/src/danger/1002_15:51.h264" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/src/danger/1106_21:38.h264" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_21:38.h264" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/src/entrance/1027_23:14.h264" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_22:10.h264" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/src/entrance/1027_23:19.h264" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/src/danger/1106_22:14.h264" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/src/stair/1006_18:40.h264" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/src/stair/1006_18:40.h264" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/src/stair/1006_18:44.h264" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/src/stair/1006_18:44.h264" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/src/stair/1106_21:06.h264" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/src/stair/1106_21:06.h264" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Setting.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Python Script" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectId" id="2FZjwQqUqSXcfYDdPuaDcMvMmU7" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "/home/chaeyeon/PycharmProjects/ESWC_chaeyeon/Sensor/src/stair",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
-  }
-}]]></component>
-  <component name="PyConsoleOptionsProvider">
-    <option name="myPythonConsoleState">
-      <console-settings sdk-home="$PROJECT_DIR$/venv/bin/python">
-        <option name="mySdkHome" value="$PROJECT_DIR$/venv/bin/python" />
-      </console-settings>
-    </option>
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Sensor/src/stair" />
-      <recent name="$PROJECT_DIR$/Sensor/src/danger" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Sensor" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Python.top">
-    <configuration name="ImageProcessor" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ESWC_chaeyeon" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sensor" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sensor/ImageProcessor.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Stair" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ESWC_chaeyeon" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sensor" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sensor/Stair.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="block" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ESWC_chaeyeon" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sensor" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sensor/block.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="horizontal" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ESWC_chaeyeon" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sensor" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sensor/horizontal.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
-      <module name="ESWC_chaeyeon" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="top" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ESWC_chaeyeon" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sensor" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sensor/top.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <list>
-      <item itemvalue="Python.main" />
-      <item itemvalue="Python.top" />
-      <item itemvalue="Python.block" />
-      <item itemvalue="Python.Stair" />
-      <item itemvalue="Python.horizontal" />
-      <item itemvalue="Python.ImageProcessor" />
-    </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.top" />
-        <item itemvalue="Python.block" />
-        <item itemvalue="Python.ImageProcessor" />
-        <item itemvalue="Python.horizontal" />
-        <item itemvalue="Python.Stair" />
-      </list>
-    </recent_temporary>
-  </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="9da70eb6-a180-431d-9800-36491780e40e" name="Changes" comment="" />
-      <created>1664706738394</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1664706738394</updated>
-    </task>
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

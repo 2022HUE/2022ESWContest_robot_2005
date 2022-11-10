@@ -1,37 +1,36 @@
 # -*- coding: utf-8 -*-
+# Motion code
 import platform
 import argparse
-import cv2
+import cv2 as cv
 import serial
 import time
 import sys
 from threading import Thread, Lock
-#from Constant import const
+from Setting import setting
 
 
 # -----------------------------------------------
 class Motion:
-    head_angle1 = 'UPDOWN_CENTER'
-    head_angle2 = 'LEFTRIGHT_CENTER'
-
     def __init__(self, sleep_time=0):
-        self.serial_use = 1
-        self.serial_port = None
-        self.Read_RX = 0
-        self.receiving_exit = 1
-        self.threading_Time = 0.01
-        self.sleep_time = sleep_time
-        self.lock = Lock()
-        self.distance = 0
-        BPS = 4800  # 4800,9600,14400, 19200,28800, 57600, 115200
-        # ---------local Serial Port : ttyS0 --------
-        # ---------USB Serial Port : ttyAMA0 --------
-        self.serial_port = serial.Serial('/dev/ttyS0', BPS, timeout=0.01)
-        self.serial_port.flush()  # serial cls
-        self.serial_t = Thread(target=self.Receiving, args=(self.serial_port,))
-        self.serial_t.daemon = True
-        self.serial_t.start()
-        time.sleep(0.1)
+        pass
+        # self.serial_use = 1
+        # self.serial_port = None
+        # self.Read_RX = 0
+        # self.receiving_exit = 1
+        # self.threading_Time = 0.01
+        # self.sleep_time = sleep_time
+        # self.lock = Lock()
+        # self.distance = 0
+        # BPS = 4800  # 4800,9600,14400, 19200,28800, 57600, 115200
+        # # ---------local Serial Port : ttyS0 --------
+        # # ---------USB Serial Port : ttyAMA0 --------
+        # self.serial_port = serial.Serial('/dev/ttyS0', BPS, timeout=0.01)
+        # self.serial_port.flush()  # serial cls
+        # self.serial_t = Thread(target=self.Receiving, args=(self.serial_port,))
+        # self.serial_t.daemon = True
+        # self.serial_t.start()
+        # time.sleep(0.1)
 
     # DELAY DECORATOR
     def sleep(self, func):
@@ -60,12 +59,9 @@ class Motion:
             if self.receiving_exit == 0:
                 break
             time.sleep(self.threading_Time)
-            # 수신받은 데이터의 수가 0보다 크면 데이터를 읽고 출력
             while ser.inWaiting() > 0:
-                # Rx, 수신
                 result = ser.read(1)
                 RX = ord(result)
-                # print ("RX=" + str(RX))
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16:
                     self.receiving_exit = 0
@@ -78,49 +74,64 @@ class Motion:
                 elif RX != 200:
                     self.distance = RX
 
-    def test(self):
-        print('test_motion')
-        self.TX_data_py2(32)
-        time.sleep(1)
+
+    ############################################################
+    # 기본자세 (100)
+    def basic(self):
+        # self.TX_data_py2(100)
+        print('[Current Motion] Basic --------------##') # Debug
     
-    def test_arrow(self, arrow):
-        print('test_arrow', arrow)
-        if arrow == 'LEFT':
-            self.TX_data_py2(15)
-            time.sleep(0.3)
-        else: 
-            self.TX_data_py2(20)
-            time.sleep(0.3)
+    # 걷기 (101~120)
+    def walk(self):
+        print('[Current Motion] Walk --------------##') # Debug
+        pass
     
-    def test_text(self, text):
-        print('test_arrow', text)
-        if text == 'E':
-            self.TX_data_py2(32) # 양팔 벌리기
-        elif text == 'W':
-            self.TX_data_py2(32) # 양팔 벌리기
-        elif text == 'S':
-            self.TX_data_py2(32) # 양팔 벌리기
-        elif text == 'N':
-            self.TX_data_py2(32) # 양팔 벌리기
-        time.sleep(0.3)
-        
-#######################################################
+    # 머리 각도 (121~140)
+    def set_head(self):
+        print('[Current Motion] Set Head --------------##') # Debug
+        pass
+    
+    # 돌기 (141~160)
+    def turn(self):
+        print('[Current Motion] Turn --------------##') # Debug
+        pass
+    
+    # 옆으로 이동 (161~170)
+    def walk_side(self):
+        print('[Current Motion] Walk Side --------------##') # Debug
+        pass
+    
+    # 계단 오르내리기 (171~174) [Stair]
+    def stair(self):
+        print('[Current Motion] Stair --------------##') # Debug
+        pass
+
+    # 장애물 치우기 (175~176) [Line/Stair/Danger]
+    def kick(self):
+        print('[Current Motion] Kick --------------##') # Debug
+        pass
+    
+    # 집기 (181~186) [Danger]
+    def grab(self):
+        print('[Current Motion] Grab --------------##') # Debug
+        pass
+    
+    # 횟수_집고 전진 (187~188) [Danger]
+    def grab_walk(self):
+        print('[Current Motion] Grab Walk --------------##') # Debug
+        pass
+    
+    # 집고 옆으로 (189~192) [Danger]
+    def grab_sideway(self):
+        print('[Current Motion] Grab Sideway --------------##') # Debug
+        pass
+    
+    # 집고 턴 (193~) [Danger]
+    def grab_turn(self):
+        print('[Current Motion] Grab Turn --------------##') # Debug
+        pass
+
+
 if __name__ == '__main__':
     motion = Motion()
-    count = 0
-    #motion.TX_data_py2(9)
-    #motion.open_door_turn(dir='LEFT', loop=6)
-    #motion.walk(dir='FORWARD')
-    #motion.open_door(dir='LEFT', loop=15)
-    #motion.notice_direction('S')
-    
-    # start code
-    # motion.test()
-    
-    # for i in range(3):
-    #    count += 1
-    #    motion.walk("LEFT")
-    #    time.sleep(1)
-    #    motion.walk("RIGHT")
-    #    time.sleep(1)
-    #    time.sleep(1)ddd
+    motion.basic()
