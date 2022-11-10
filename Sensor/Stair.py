@@ -26,15 +26,21 @@ class Stair:
             rect_y = contours1[pos][0][0][1] #가장 위의 y값 좌표
             rect_x = contours1[pos][0][0][0]  # 가장 위의 y값 좌표
 
-            if peri >= 300 and peri <= 1000 and points == 4 and rect_y < 150:
+            if peri >= 300 and peri <= 1000 and points == 4 and rect_y < 170:
                 area = area_arr["m00"]
                 cv.drawContours(img_color, [approx], 0, (0, 255, 255), 2)
-                cv.imshow('img',img_color)
+                if (rect_x >= 300 and rect_x <= 340) or rect_x // 100 == 0:
+                    img_color = cv.putText(img_color, "Move Forward", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2,cv.LINE_AA)
+                elif rect_x<300:
+                    img_color = cv.putText(img_color, "Move LEFT", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2,cv.LINE_AA)
+                else:
+                    img_color = cv.putText(img_color, "Move RIGHT", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2,cv.LINE_AA)
+
+                cv.imshow('img_color',img_color)
                 return area, rect_x
 
-
     def in_alphabet_center_check(self,x):
-        if (x >= 310 and x <= 340) or x//100==0:
+        if (x >= 300 and x <= 340) or x//100==0:
             print("전진")   # print("알파벳의 위치는 중앙입니다. 전진하세요")
             return True
         elif x<300: #왼쪽의 여백이 부족하다.
@@ -84,7 +90,7 @@ class Stair:
 
     def in_stair_down(self,img_mask,ONE_F,TWO_F,THREE_F,x=140,y=100):
         saturation = int((np.count_nonzero(img_mask[y:y+380,x:x+500]) / (640 * 480))*1000)
-        cv.imshow('saturation',img_mask[y:y+380,x:x+500])
+        # cv.imshow('saturation',img_mask[y:y+380,x:x+500])
         if saturation>=THREE_F:
             print("3층 입니다.%d"%saturation)
             return False #내려가기

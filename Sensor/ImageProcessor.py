@@ -335,17 +335,33 @@ class ImageProccessor:
         '''
         print("alphabet_to_stair_rotation", ret) # Debug
 
+        ## 필요 없는 부분 ======================================================
+        img = cv.cvtColor(img,cv.COLOR_HSV2BGR)
+        if ret == True:
+            img = cv.putText(img, "Rotation Complete", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
+        else:
+            img = cv.putText(img, "Turn " + ret , (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
+        cv.imshow('img',img)
+        ## ===============================================================================================
+
         return ret
     
     def second_rotation(self, show):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
         img = img_processor.get_img()
-        cv.imshow('img',img)
         img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V)
         s_val = int((np.count_nonzero(s_mask) / (640 * 480)) * 1000)
         if setting.ARROW =="LEFT": arrow_ ="RIGHT"
         else: arrow_ = "LEFT"
         ret = Stair.in_rotation(self,setting.STAIR_ROTATION, s_val, arrow_)
+        img = cv.cvtColor(img,cv.COLOR_HSV2BGR)
+        if ret==True:
+            img = cv.putText(img, "Rotation Complete", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
+        else:
+            img = cv.putText(img, "Turn " + ret, (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
+
+        cv.imshow('img',img)
+
         '''motion
         # T: (회전완료) 머리 아래 30도 변경
         # LEFT: 왼쪽으로 회전
@@ -371,24 +387,30 @@ class ImageProccessor:
 
         contours, hierarchy = cv.findContours(dst, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
         alphabet_area, rect_x = Stair.in_rect(self, img, contours)
-
         return alphabet_area, rect_x
 
     def alphabet_center_check(self,alphabet_area, rect_x):
         is_center = Stair.in_alphabet_center_check(self,rect_x)
+        img = img_processor.get_img()
 
         if is_center == True: # [return] True
-            sz_check = Stair.in_alphabet_size_calc(self, alphabet_area,setting.STAIR_ALPHABET_SIZE)
+            sz_check= Stair.in_alphabet_size_calc(self, alphabet_area,setting.STAIR_ALPHABET_SIZE)
+            if sz_check==True:
+                img = cv.putText(img, "Turn To Stairs", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2,cv.LINE_AA)
+            else:
+                img = cv.putText(img, "Move Forward", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2,cv.LINE_AA)
+            cv.imshow('cccc', img)
+
             '''motion
             # T: 계단방향으로 회전
             # F: 전진
             '''
             return sz_check
-        else: # [return] LEFT, RIGHT
+        else: # [return] (LEFT,걸음 수), (RIGHT, 걸음 수)
             '''motion
             # LEFT: 왼쪽으로 이동
-            # RIGHT: 오른쪽으로 이동
-            '''
+            # RIGHT: 오른쪽으로 이동 '''
+
             return is_center
 
     def stair_top(self):
@@ -398,6 +420,10 @@ class ImageProccessor:
         b_mask = Stair.in_stair_top(self,hsv,lower_hue,upper_hue) # roi blue mask
         top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
         if top_ret >= setting.STAIR_UP:
+            img = cv.putText(img, "Go up to the 3rd floor", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2,
+                             cv.LINE_AA)
+
+            cv.imshow('img',img)
             print("2층입니다. 올라가세요") #2층->3층 올라가는 모션 실행 후
             ''' motion
             cnt = 1
@@ -425,6 +451,12 @@ class ImageProccessor:
         ''' motion 
         # T: 방 탈출
         # F: 계단 내려가기 '''
+        if Stair.in_stair_down(self,img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)==False:
+            img = cv.putText(img, "Go down stairs", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
+        else:
+            img = cv.putText(img, "1st floor arrival", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
+        img = cv.cvtColor(img,cv.COLOR_HSV2BGR)
+        cv.imshow('img',img)
         return Stair.in_stair_down(self,img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)
 
     # 허프라인 잡히면 2층으로 올라가기
@@ -441,19 +473,29 @@ class ImageProccessor:
             line_length=lines[0][0][1]
             if line_length>=1 and line_length<=2: #허프라인 짧은 노이즈 직선 제거
                 ret = Stair.in_draw_stair_line(self,lines,img,w,h,setting.LINE_HIGH)
-                cv.imshow('line', img)
+                if ret == True:
+                    img = cv.putText(img, "Go up to the 2nd floor", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2,cv.LINE_AA)
+                else:
+                    img = cv.putText(img, "Small Step", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2,cv.LINE_AA)
+                cv.imshow('img', img)
                 ''' motion 
                 # T: 1층 -> 2층 계단 올라가기 + 샤샤샥 -> draw_stair_line() 재실행
                 # F: 샤샤샥 '''
-                if ret==True:
-                    print("1층에서 올라가세요")
                 return ret # bool(T/F)
-            else: 
+            else:
+                img = cv.putText(img, "Small Step", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
+                cv.imshow('img', img)
                 # print("라인 추출 실패")
                 return False  # 라인 추출 실패
         else:
             # print("라인 추출 실패")
             # cv.imshow('simg',img_canny)
+            if self.stair_top()==False:
+                img = cv.putText(img, "Small Step", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
+            else:
+                img = cv.putText(img, "arrival at the top", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
+
+            cv.imshow('img', img)
             return self.stair_top() # 라인 추출 실패
     ############# STAIR PROCESSING #############
 
@@ -473,29 +515,32 @@ if __name__ == "__main__":
 
     stair01 = "src/stair/1106_20:11.h264" # 방 입구 도착해서 위험지역, 계단지역 구분
     stair02 = "src/stair/1106_20:12.h264" # 알파벳 센터 체크
-    stair03 = "src/stair/1027_23:23.h264" # 알파벳 도착부터 전진까지
+    stair03 = "src/stair/1027_23:22.h264" # 알파벳 도착부터 전진까지
     stair04 = "src/stair/1106_20:13.h264" # 알파벳에서 계단지역쪽으로 회전
     stair05 = "src/stair/1027_23:24.h264" # 계단 오르기 시작
     stair06 = "src/stair/1027_23:26.h264" # 계단 내려가기
 
-    img_processor = ImageProccessor(video=stair01)
+    img_processor = ImageProccessor(video=stair06)
 
     ### Debug Run ###
     while True:
-        # img_processor.get_arrow(show=True)
+        img_processor.get_arrow(show=True)
         # img_processor.get_direction(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
         # img_processor.get_alphabet_name(show=True)
 
         ### stair ###
         # img_processor.first_rotation(show=True)
-        alphabet_area, rect_x = img_processor.rect()
-        img_processor.alphabet_center_check(alphabet_area,rect_x)
+        # try:
+        #     alphabet_area, rect_x = img_processor.rect()
+        #     img_processor.alphabet_center_check(alphabet_area,rect_x)
+        # except:
+        #     pass
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
         # img_processor.stair_down()
 
-        if cv.waitKey(10) & 0xFF == 27:
+        if cv.waitKey(15) & 0xFF == 27:
             break
 
 cv.destroyAllWindows()
