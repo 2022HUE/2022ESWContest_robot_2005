@@ -454,27 +454,39 @@ if __name__ == "__main__":
     entr01 = "src/entrance/entr03-1.mp4"
     entr02 = "src/entrance/1027_23:14.h264"
     # line
-    line01 = "src/line/1003_line2.mp4"
-    line02 = "src/entrance/1027_23:19.h264"
+    l01 = "src/line/1003_line2.mp4"
+    l02 = "src/entrance/1027_23:19.h264"
+    l03 = "src/line/1106_22:30.h264" # S
+    l04 = "src/line/1106_22:33.h264" # W+arrow
+    l05 = "src/line/1106_22:37.h264" # rotate entrance (조명 이상)
+    l06 = "src/line/1106_22:38.h264" # rotate entrance
+    l07 = "src/line/1106_22:39.h264" # goto_nextroom -> right
+    l08 = "src/line/1106_22:46.h264" # goto_nextroom -> left
+    l09 = "src/line/1106_22:41.h264" # goto_exit
+    l10 = "src/line/1106_22:42.h264" # goto_exit
+    l11 = "src/line/1106_22:43.h264" # goto_exit + object
+    l12 = "src/line/1106_22:44.h264" # goto_exit + object
+    l13 = "src/line/1106_22:45.h264" # exit - right
+    l14 = "src/line/1106_22:47.h264" # exit - left
     # danger
     danger01 = "src/danger/1027_23:41.h264" # A
     danger02 = "src/danger/1031_20:56.h264" # C
     danger03 = "src/danger/1027_23:32.h264" # D
     danger04 = "src/danger/1031_20:49.h264" # B
-    img_processor = ImageProccessor(video=danger02)
+    img_processor = ImageProccessor(video=l07)
     
     ### Debug Run ###
     while True:
-        # img_processor.get_arrow(show=True)
+        img_processor.get_arrow(show=True)
         # img_processor.get_direction(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
-        img_processor.get_alphabet_name(show=True)
+        # img_processor.get_alphabet_name(show=True)
 
         ### stair ###
-        img_processor.alphabet_to_stair_rotation(show=False)
-        alphabet_area, rect_x = img_processor.rect()
-        img_processor.alphabet_center_check(rect_x)
-        img_processor.alphabet_size_calc(alphabet_area)
-        img_processor.stair_to_alphabet_rotation(show=False)
-        img_processor.draw_stair_line()
-        img_processor.stair_down()
+        # img_processor.alphabet_to_stair_rotation(show=False)
+        # alphabet_area, rect_x = img_processor.rect()
+        # img_processor.alphabet_center_check(rect_x)
+        # img_processor.alphabet_size_calc(alphabet_area)
+        # img_processor.stair_to_alphabet_rotation(show=False)
+        # img_processor.draw_stair_line()
+        # img_processor.stair_down()
