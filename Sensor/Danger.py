@@ -89,8 +89,7 @@ class Danger:
         return True
 
     # 장애물 위치 파악을 위한 함수
-    def get_milkbox_pos(self, img, color, show=False):
-        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+    def get_milkbox_pos(self, hsv, color, show=False):
         max_idx = 0
         max_rate = 0
         count = 0
@@ -112,13 +111,13 @@ class Danger:
 
         if show:
             # x축 구분선 두 개
-            img = cv.line(img, (0, 159), (639, 159), (0,0,255), 2)
-            img = cv.line(img, (0, 319), (639, 319), (0,0,255), 2)
+            hsv = cv.line(hsv, (0, 159), (639, 159), (0,0,255), 2)
+            hsv = cv.line(hsv, (0, 319), (639, 319), (0,0,255), 2)
             # y축 구분선 두 개
-            img = cv.line(img, (209, 0), (209, 479), (0,0,255), 2)
-            img = cv.line(img, (429, 0), (429, 479), (0,0,255), 2)
-            cv.imshow('milkbox_position', img)
-        return max_idx, count
+            hsv = cv.line(hsv, (209, 0), (209, 479), (0,0,255), 2)
+            hsv = cv.line(hsv, (429, 0), (429, 479), (0,0,255), 2)
+            cv.imshow('milkbox_position', hsv)
+        return max_idx
 
     def get_black_mask(self, hsv):
         return self.get_color_mask(hsv, setting.DANGER_BLACK)
@@ -279,7 +278,7 @@ if __name__ == "__main__":
 
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
         # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
-        pos_idx, count = danger.get_milkbox_pos(src, "BLUE", True)
+        pos_idx = danger.get_milkbox_pos(hsv, "BLUE", True)
 
         if cv.waitKey(5) & 0xFF == ord('q'):
             break

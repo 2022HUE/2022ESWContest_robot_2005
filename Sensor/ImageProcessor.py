@@ -315,7 +315,7 @@ class ImageProccessor:
     def get_milkbox_pos(self, color):
         img = self.get_img()
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        return Danger.get_milkbox_pos(hsv)
+        return Danger.get_milkbox_pos(hsv) # [return] 0 ~ 8 (장애물 위치 idx 값)
     
     ############# DANGER PROCESSING #############
     
