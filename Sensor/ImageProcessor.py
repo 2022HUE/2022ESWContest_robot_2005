@@ -188,8 +188,11 @@ class ImageProccessor:
         img = self.blur(img, setting.ARROW_BLUR)
         img = self.bright(img, setting.ARROW_BRIGHT)
         _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV)
-        ret_arrow = Arrow.get_arrow_info(self, img)
-        if ret_arrow: print(ret_arrow) # Debug: print arrow
+        ret_arrow = Arrow.get_arrow_info(self, img, origin)
+        if ret_arrow: 
+            print(ret_arrow) # Debug: print arrow
+        # else:
+        #     print("Failed")
 
         ########### [Option] Show ##########
         if show:
@@ -200,11 +203,14 @@ class ImageProccessor:
         return ret_arrow
     
     # 방위 글자 인식 후 방위 리턴
-    def get_direction(self, show):
+    def get_ewsn(self, show):
         img = self.get_img()
+        x, y, w, h = 100, 100, 440, 480
+        img = img[y:y+h, x:x+w]
+
+
         origin = img.copy()
         dir = Direction
-
         gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         dst = self.blur(gray, setting.DIR_BLUR)
 
@@ -223,7 +229,7 @@ class ImageProccessor:
             points = len(approx)
             if peri > 900 and points == 4:
                 roi_contour.append(contours[pos])
-                # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
+                cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
 
         roi_contour_pos = []
         for pos in range(len(roi_contour)):
@@ -233,9 +239,9 @@ class ImageProccessor:
 
         if roi_contour: 
             x, y, w, h = cv.boundingRect(roi_contour[0])
-            img_crop = origin[y:y+h, x:x+h]
+            img_crop = origin[y:y+h, x:x+w]
             text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
-            # text = img_crop.copy()
+            text = img_crop.copy()
 
             '''
             [Issue]
@@ -243,23 +249,23 @@ class ImageProccessor:
             mt_gray, mt_mask가 정확도가 가장 높으며 두 값은 항상 유사한 결과를 가짐.
             font 이미지와 비교한 2가지 값도 정확도가 낮지는 않으나, 가끔 로봇의 고개 각도에 따라 튀는 값이 나올 때가 있음
             '''
-            mt_gray = Direction.matching(self, Direction.sample_list, text_gray, 0.001, "EWSN") # 1. matchTemplate - Gray Scale
-            # mt_mask = dir.matching(dir.sample_list, text_mask, 1, "EWSN") # 2. matchTemplate - Masking
-            # text_mask = dir.text_masking(text)
-            # match_mask_font = dir.match_font(dir.font_img, text_mask) # 3. font <-> masking
-            # match_gray_font = dir.match_font(dir.font_img, text_gray) # 4. font <-> gray scale
+            mt_gray = Direction.matching(dir, Direction.sample_list, text_gray, 0.001, "EWSN") # 1. matchTemplate - Gray Scale
+            text_mask = dir.text_masking(dir, text)
+            mt_mask = dir.matching(dir, dir.sample_list, text_mask, 1, "EWSN") # 2. matchTemplate - Masking
+            match_mask_font = dir.match_font(dir, dir.font_img, text_mask) # 3. font <-> masking
+            match_gray_font = dir.match_font(dir, dir.font_img, text_gray) # 4. font <-> gray scale
             
-            # print('match: ', mt_gray, mt_mask, match_gray_font, match_mask_font) # Debug: printing
-
+            print('match: ', mt_gray, mt_mask, match_gray_font, match_mask_font) # Debug: printing
+            set_ = {mt_gray, mt_mask, match_mask_font, match_gray_font}
+            print(set_)
             ########### [Option] Show ##########
             if show:
-                cv.imshow("show", origin)
+                cv.imshow("show", img)
                 # cv.imshow("show", img_crop)
                 cv.waitKey(1) & 0xFF == ord('q')
             ####################################
-
-            print(mt_gray) # Debug: print return value
-            return mt_gray
+            if len(set_) <= 2: return set_[0]
+            else: return ''
         else: # False
             return ''
     
@@ -451,13 +457,14 @@ class ImageProccessor:
 if __name__ == "__main__":
     ### Debug Path List ###
     # entrance
-    entr01 = "src/entrance/entr03-1.mp4"
-    entr02 = "src/entrance/1027_23:14.h264"
+    e01 = "src/entrance/entr03-1.mp4"
+    e02 = "src/entrance/1027_23:14.h264"
     # line
     l01 = "src/line/1003_line2.mp4"
     l02 = "src/entrance/1027_23:19.h264"
     l03 = "src/line/1106_22:30.h264" # S
     l04 = "src/line/1106_22:33.h264" # W+arrow
+    l04_ = "src/line/1106_22:34.h264" # W+arrow
     l05 = "src/line/1106_22:37.h264" # rotate entrance (조명 이상)
     l06 = "src/line/1106_22:38.h264" # rotate entrance
     l07 = "src/line/1106_22:39.h264" # goto_nextroom -> right
@@ -473,12 +480,12 @@ if __name__ == "__main__":
     danger02 = "src/danger/1031_20:56.h264" # C
     danger03 = "src/danger/1027_23:32.h264" # D
     danger04 = "src/danger/1031_20:49.h264" # B
-    img_processor = ImageProccessor(video=l07)
+    img_processor = ImageProccessor(video=l04)
     
     ### Debug Run ###
     while True:
-        img_processor.get_arrow(show=True)
-        # img_processor.get_direction(show=True)
+        # img_processor.get_arrow(show=True)
+        img_processor.get_ewsn(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
         # img_processor.get_alphabet_name(show=True)
 
