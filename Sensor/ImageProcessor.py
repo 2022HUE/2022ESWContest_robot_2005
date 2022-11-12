@@ -126,52 +126,68 @@ class ImageProccessor:
         line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
         
-        roi_img = Line.ROI(self, line_gray, self.height, self.width)
+        roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
         # get Line
         line_arr = Line.hough_lines(self, roi_img, 1, 1 * np.pi/180, 30, 10, 20) # 허프 변환
         line_arr = np.squeeze(line_arr)
         if line_arr != 'None':
             Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
-
-            # tmp_zero = np.zeros((origin.shape[0], origin.shape[1], 3), dtype=np.uint8)
-            left_line_arr, right_line_arr = Line.slope_filter(self, line_arr)
-            left_line, right_line = Line.find_fitline(self, origin, left_line_arr), Line.find_fitline(self, origin, right_line_arr)
             
+            state, horizon_arr, vertical_arr = Line.slope_filter(self, line_arr)
+            h_line, v_line = Line.get_fitline(self, origin, horizon_arr), Line.get_fitline(self, origin, vertical_arr)
+
             # init
-            horizon = False
-            vertical = False
+            v_slope = None
+            h_slope = None
 
-            # check line "Horizontal or Vericality"
-            if left_line and Line.slope_cal(self, left_line):
-                if Line.slope_cal(self, left_line) < 10:
-                    # print('수평선!입니다!') # Debug
-                    # Line.draw_fitline(self, origin, left_line, [0, 255, 0]) # Debug
-                    horizon = True
-                elif 85 < Line.slope_cal(self, left_line) < 95:
-                    # print('수직선!입니다!') # Debug
-                    # Line.draw_fitline(self, origin, left_line, [0, 255, 255]) # Debug
-                    vertical = True
-
-            if right_line and Line.slope_cal(self, right_line):
-                if Line.slope_cal(self, right_line) < 10:
-                    # print('수평선!입니다!') # Debug
-                    # Line.draw_fitline(self, origin, right_line, [0, 255, 0]) # Debug
-                    horizon = True
-                elif 85 < Line.slope_cal(self, right_line) < 95:
-                    # print('수직선!입니다!') # Debug
-                    # Line.draw_fitline(self, origin, right_line, [0, 255, 255]) # Debug
-                    vertical = True
+            if v_line:
+                Line.draw_fitline(self, origin, v_line, [0, 255, 255]) # Debug
+                v_slope = Line.slope_cal(self, v_line)
+            if h_line:
+                Line.draw_fitline(self, origin, h_line, [0, 255, 0]) # Debug
+                h_slope = Line.slope_cal(self, h_line)
+            
+            # print(v_slope, h_slope)
 
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", origin)
-                cv.waitKey(1) & 0xFF == ord('q')
+                cv.waitKey(20) & 0xFF == ord('q')
             ####################################
-
-            if horizon and vertical: return "BOTH" # 수직, 수평선 둘 다 인식
-            elif horizon: return "HORIZON" # 수직선만 인식
-            elif vertical: return "VERTICAL" # 수평선만 인식
-            else: return False
+            
+            if state == "BOTH":
+                if v_slope and not h_slope: # vertical
+                    if 90 - v_slope > 0:
+                        return "TURN_RIGHT"
+                    else:
+                        return "TURN_LEFT"
+                elif h_slope and not v_slope: # horizon
+                    if h_slope > 90:
+                        return "TURN_RIGHT"
+                    else:
+                        return "TURN_LEFT"
+                else: # 선이 둘 다 인식됨
+                    pass
+            elif state == "VERTICAL" and v_line:
+                if 85 < v_slope < 95: # 수직
+                    is_center = Line.is_center(self, origin, v_line)
+                    print(is_center)
+                    if is_center != True: 
+                        return is_center
+                    return state
+                if 95 <= v_slope:
+                    return "TURN_LEFT"
+                elif v_slope <= 85:
+                    return "TURN_RIGHT"
+            elif state == "HORIZON" and h_line:
+                if h_slope < 10 or 170 < h_slope:
+                    return state
+                if h_slope > 90:
+                    return "TURN_RIGHT"
+                else:
+                    return "TURN_LEFT"
+            else:
+                print("ELSE", state)
 
         else: # 라인 자체를 인식 못할 경우 False 리턴
             return False
@@ -257,14 +273,14 @@ class ImageProccessor:
             
             print('match: ', mt_gray, mt_mask, match_gray_font, match_mask_font) # Debug: printing
             set_ = {mt_gray, mt_mask, match_mask_font, match_gray_font}
-            print(set_)
+            print(list(set_), list(set_)[0])
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", img)
                 # cv.imshow("show", img_crop)
                 cv.waitKey(1) & 0xFF == ord('q')
             ####################################
-            if len(set_) <= 2: return set_[0]
+            if len(set_) <= 2: return list(set_)[0]
             else: return ''
         else: # False
             return ''
@@ -480,13 +496,13 @@ if __name__ == "__main__":
     danger02 = "src/danger/1031_20:56.h264" # C
     danger03 = "src/danger/1027_23:32.h264" # D
     danger04 = "src/danger/1031_20:49.h264" # B
-    img_processor = ImageProccessor(video=l04)
+    img_processor = ImageProccessor(video=l13)
     
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
-        img_processor.get_ewsn(show=True)
-        # img_processor.is_line_horizon_vertical(show=True)
+        # img_processor.get_ewsn(show=True)
+        img_processor.is_line_horizon_vertical(show=True)
         # img_processor.get_alphabet_name(show=True)
 
         ### stair ###

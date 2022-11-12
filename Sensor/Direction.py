@@ -184,7 +184,7 @@ if __name__ == "__main__":
 
         if roi_contour: 
             x, y, w, h = cv.boundingRect(roi_contour[0])
-            img_crop = img_copy[y:y+w, x:x+h]
+            img_crop = img_copy[y:y+h, x:x+w]
             text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
             text = img_crop.copy()
 
