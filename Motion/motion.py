@@ -140,10 +140,11 @@ class Motion:
                 10 : 145, 20 : 146, 45 : 147, 60 : 148
             }
         }
-        if arm and dir == "LEFT" :
-            dir_list[dir][angle] += 7
-        elif arm and dir == "RIGHT" :
-            dir_list[dir][angle] += 6
+        if arm :
+            if dir == "LEFT" :
+                dir_list[dir][angle] += 7
+            elif dir == "RIGHT" :
+                dir_list[dir][angle] += 6
 
         for _ in range(loop):
             self.TX_data_py2(dir_list[dir])
