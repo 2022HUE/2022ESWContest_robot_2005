@@ -84,8 +84,40 @@ class Motion:
         pass
     
     # 머리 각도 (121~140)
-    def set_head(self):
-        pass
+    def set_head(self, dir, angle = 0):
+        """ parameter :
+        dir: {DOWN, LEFT, RIGHT, UPDOWN_CENTER, LEFTRIGHT_CENTER}
+        angle: {DOWN:{20,30,40,50,60,70,80,90,100,110},
+        LEFT:{30,45,60,90},
+        RIGHT:{30,45,60,90}
+        }
+        """
+        if dir == 'DOWN':
+            self.head_angle1 = angle
+        elif dir == 'LEFT' or dir == 'RIGHT':
+            self.head_angle2 = angle
+        elif dir == 'UPDOWN_CENTER':
+            self.head_angle1 = dir
+        elif dir == 'LEFTRIGHT_CENTER':
+            self.head_angle2 = dir
+        center_list = {'UPDOWN_CENTER': 140, 'LEFTRIGHT_CENTER': 135}
+        dir_list = {
+            'DOWN': {
+                20 : 121, 30 : 122, 40 : 123, 50: 124, 60 : 125, 70 : 126, 80 : 127, 90 : 128, 100 : 129, 110 : 130
+            },
+            'LEFT': {
+                30: 134, 45: 133, 60: 132, 90: 131
+            },
+            'RIGHT': {
+                30: 136, 45: 137, 60: 138, 90: 139
+            }
+        }
+        if dir in center_list:
+            self.TX_data_py2(center_list[dir])
+        else:
+            self.TX_data_py2(dir_list[dir][angle])
+        time.sleep(0.3)
+
     
     # 돌기 (141~160)
     def turn(self):
@@ -119,6 +151,11 @@ class Motion:
     def grab_turn(self):
         pass
 
+    #
+
+    #
+
+    #
 
 if __name__ == '__main__':
     motion = Motion()
