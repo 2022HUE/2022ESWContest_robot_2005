@@ -3118,6 +3118,12 @@ Number_Play: '  BUTTON_NO = 숫자대입
 
     '************************************************
     '************************************************
+    
+위험지역:
+	PRINT "OPEN 22GongMo.mrs !"
+    PRINT "SOUND 6 !"
+    GOSUB SOUND_PLAY_CHK
+    RETURN
 
 안전구역:
     PRINT "OPEN 20GongMo.mrs !"
@@ -3135,11 +3141,12 @@ Number_Play: '  BUTTON_NO = 숫자대입
     SPEED 10
     MOVE G6C, 190, 30, 80
     WAIT
-    PRINT "OPEN 20GongMo.mrs !"
-    PRINT "SOUND 0 !"
+    PRINT "open 22GongMo.mrs !"
+    PRINT "SND 0 !"
     GOSUB SOUND_PLAY_CHK
-    DELAY 500
-    PRINT "SOUND 0 !"
+    'DELAY 500
+    PRINT "SND 0 !"
+    GOSUB SOUND_PLAY_CHK
     DELAY 10
     GOSUB 기본자세2
     RETURN
@@ -6064,7 +6071,7 @@ KEY18: ' E
     '***************
 KEY19: 'P2
     ETX 4800, 19
-    GOSUB  계단오른발내리기1cm
+    GOSUB  집고오른쪽턴60
     GOTO RX_EXIT
     '***************
 KEY20: 'B
@@ -6080,10 +6087,7 @@ KEY21: ' △
     '***************
 KEY22: ' *
     ETX 4800, 22
-    '  GOTO 오른쪽턴3
-    'GOTO 오른쪽턴20
-    ' GOTO 집고오른쪽턴45
-    GOTO 계단왼발오르기1cm
+    GOTO 집고왼쪽턴20
     GOTO RX_EXIT
     '***************
 KEY23: 'G
@@ -6093,15 +6097,12 @@ KEY23: 'G
     '***************
 KEY24: '#
     ETX 4800, 24
-    GOSUB 계단오른발오르기1cm
+    GOSUB 집고오른쪽턴20
     GOTO RX_EXIT
     '***************
 KEY25: 'P1
     ETX 4800, 25
-    ' GOTO 집고왼쪽턴45
-    ' GOTO 왼쪽턴3
-    'GOTO 왼쪽턴20
-    GOSUB 계단왼발내리기1cm
+    GOSUB 집고왼쪽턴60
     GOTO RX_EXIT
     '***************
 KEY26: ' ■
@@ -6139,6 +6140,6 @@ KEY31: ' ▽
 
 KEY32: ' F
     ETX 4800, 32
-    GOSUB 전방하향100도
+    GOSUB 위험지역
     GOTO RX_EXIT
     '***************

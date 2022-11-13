@@ -1715,7 +1715,7 @@ GOSUB_RX_EXIT2:
     '******************************************
     '******************************************
     '******************************************
-후진종종걸음:
+횟수_후진종종걸음:
     GOSUB All_motor_mode3
     넘어진확인 = 0
     보행COUNT = 0
@@ -1731,7 +1731,7 @@ GOSUB_RX_EXIT2:
         MOVE G6C,101
         WAIT
 
-        GOTO 후진종종걸음_1
+        GOTO 횟수_후진종종걸음_1
     ELSE
         보행순서 = 0
         MOVE G6D,95,  76, 145,  93, 101
@@ -1740,13 +1740,13 @@ GOSUB_RX_EXIT2:
         MOVE G6C,101
         WAIT
 
-        GOTO 후진종종걸음_4
+        GOTO 횟수_후진종종걸음_4
     ENDIF
 
 
     '**********************
 
-후진종종걸음_1:
+횟수_후진종종걸음_1:
     MOVE G6D,104,  76, 147,  93,  102
     MOVE G6A,95,  95, 120, 95, 104
     MOVE G6B,116
@@ -1755,7 +1755,7 @@ GOSUB_RX_EXIT2:
 
 
 
-후진종종걸음_3:
+횟수_후진종종걸음_3:
     MOVE G6A, 103,  79, 147,  89, 100
     MOVE G6D,95,   65, 147, 103,  102
     WAIT
@@ -1766,10 +1766,10 @@ GOSUB_RX_EXIT2:
         GOTO RX_EXIT
     ENDIF
     보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 후진종종걸음_3_stop
-    ERX 4800,A, 후진종종걸음_4
+    IF 보행COUNT > 보행횟수 THEN  GOTO 횟수_후진종종걸음_3_stop
+    ERX 4800,A, 횟수_후진종종걸음_4
     IF A <> A_old THEN
-후진종종걸음_3_stop:
+횟수_후진종종걸음_3_stop:
         MOVE G6D,95,  85, 130, 100, 104
         MOVE G6A,104,  77, 146,  93,  102
         MOVE G6C, 101
@@ -1787,7 +1787,7 @@ GOSUB_RX_EXIT2:
     ENDIF
     '*********************************
 
-후진종종걸음_4:
+횟수_후진종종걸음_4:
     MOVE G6A,104,  76, 147,  93,  102
     MOVE G6D,95,  95, 120, 95, 104
     MOVE G6C,116
@@ -1795,7 +1795,7 @@ GOSUB_RX_EXIT2:
     WAIT
 
 
-후진종종걸음_6:
+횟수_후진종종걸음_6:
     MOVE G6D, 103,  79, 147,  89, 100
     MOVE G6A,95,   65, 147, 103,  102
     WAIT
@@ -1806,11 +1806,11 @@ GOSUB_RX_EXIT2:
     ENDIF
 
     보행COUNT = 보행COUNT + 1
-    IF 보행COUNT > 보행횟수 THEN  GOTO 후진종종걸음_6_stop
+    IF 보행COUNT > 보행횟수 THEN  GOTO 횟수_후진종종걸음_6_stop
 
     ERX 4800,A, 후진종종걸음_1
     IF A <> A_old THEN  'GOTO 후진종종걸음_멈춤
-후진종종걸음_6_stop:
+횟수_후진종종걸음_6_stop:
         MOVE G6A,95,  85, 130, 100, 104
         MOVE G6D,104,  77, 146,  93,  102
         MOVE G6B, 101
@@ -1827,7 +1827,7 @@ GOSUB_RX_EXIT2:
         GOTO RX_EXIT
     ENDIF
 
-    GOTO 후진종종걸음_1
+    GOTO 횟수_후진종종걸음_1
 
 
 
