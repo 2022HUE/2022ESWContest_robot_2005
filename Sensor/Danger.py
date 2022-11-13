@@ -154,7 +154,7 @@ class Danger:
         return rate <= setting.OUT_DANGER_RATE
 
     # 파라미터는 src로 받고, hsv로 리턴함
-    def get_alphabet_roi(self, src, option): # [option] GRAY, HSV
+    def get_alphabet_roi(self, src, option="HSV"): # [option] GRAY, HSV
         img_copy = src.copy()
         gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
         blur = cv.GaussianBlur(gray, (7, 7), 0)
