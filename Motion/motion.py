@@ -240,14 +240,14 @@ class Motion:
     # 위험지역 인식 (205~206)
     def notice_area(self, area):
         """parameter :
-        area = 'BLACK'
+        area : {BLACK, STAIR}
         """
-        area_list = {'BLACK': 205}
+        area_list = {'BLACK': 205, 'STAIR' : 206}
         self.TX_data_py2(area_list[area])
 
     def notice_alpha(self, ls):
         """parameter :
-        alpha_list : {A, B, C, D}
+        alphabet : {A, B, C, D}
         """
         alpha_list = {'A': 207, 'B': 208, 'C': 209, 'D': 210}
         for i in ls:
