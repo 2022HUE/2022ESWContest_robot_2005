@@ -281,7 +281,7 @@ class ImageProccessor:
         return Danger.get_alphabet_color(img) # [return] RED / BLUE
 
     # 방 이름(알파벳) 인식
-    def get_alphabet_name(self, show):
+    def get_alphabet_name(self, show=False):
         img = self.get_img()
 
         roi = Danger.get_alphabet_roi(self, img, "GRAY")
