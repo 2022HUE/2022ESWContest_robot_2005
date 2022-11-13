@@ -80,8 +80,17 @@ class Motion:
         self.TX_data_py2(100)
     
     # 걷기 (101~120)
-    def walk(self):
-        pass
+    def walk(self, dir, loop = 1, sleep = 0.1, short = False):
+        """ parameter :
+        dir : {FORWARD, BACKWARD}
+        """
+        dir_list = {'FORWARD' : 101, "BACKWORD" : 111}
+        if short :
+            dir_list[dir] += 1
+
+        for _ in range(loop):
+            self.TX_data_py2(dir_list[dir])
+            time.sleep(sleep)
     
     # 머리 각도 (121~140)
     def set_head(self, dir, angle = 0):
@@ -112,6 +121,7 @@ class Motion:
                 30: 136, 45: 137, 60: 138, 90: 139
             }
         }
+
         if dir in center_list:
             self.TX_data_py2(center_list[dir])
         else:
@@ -119,7 +129,7 @@ class Motion:
         time.sleep(0.3)
     
     # 돌기 (141~160)
-    def turn(self, dir, angle, loop = 1, sleep = 0.5, arm = False, IR = False):
+    def turn(self, dir, angle, loop = 1, sleep = 0.5, arm = False):
         """ parameter :
         dir : {LEFT, RIGHT}
         """
@@ -145,8 +155,12 @@ class Motion:
             time.sleep(sleep)
     
     # 옆으로 이동 (161~170)
-    def walk_side(self):
-        pass
+    def walk_side(self, dir):
+        """ parameter :
+        dir : {LEFT, RIGHT}
+        """
+        dir_list = {"LEFT": 161, "RIGHT" : 169}
+        self.TX_data_py2(dir_list[dir])
     
     # 계단 오르내리기 (171~174) [Stair]
     def stair(self):
@@ -161,20 +175,26 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
 
     # 집기 (181~186) [Danger]
-    def grab(self, dir):
-        pass
-    
+    def grab(self):
+        self.TX_data_py2(181)
+
     # 횟수_집고 전진 (187~188) [Danger]
     def grab_walk(self, loop = 1):
-        for i in range(loop) :
+        for _ in range(loop) :
             self.TX_data_py2(187)
             time.sleep(1.5)   # 나중에 보고 초 조정하기
             self.TX_data_py2(188)
         
     
     # 집고 옆으로 (189~192) [Danger]
-    def grab_sideway(self, dir):
-        dir_list = {}
+    def grab_sideway(self, dir, long = False):
+        """ parameter :
+        dir : {LEFT, RIGHT}
+        """
+        dir_list = {"LEFT": 189, "RIGHT" : 191}
+        if long :
+            dir_list[dir] += 1
+        self.TX_data_py2(dir_list[dir])
     
     # 집고 턴 (193~200) [Danger]
     def grab_turn(self, dir, angle, loop = 1, sleep = 0.5, IR = False):
