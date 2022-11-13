@@ -159,7 +159,7 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
     
     # 계단 오르내리기 (171~174) [Stair]
-    def stair(self):
+    def stair(self, dir):
         """parameter :
         dir : {LEFT_UP, RIGHT_UP, LEFT_DOWN, RIGHT_DOWN}
         """

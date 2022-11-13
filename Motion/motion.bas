@@ -1808,7 +1808,7 @@ GOSUB_RX_EXIT2:
     보행COUNT = 보행COUNT + 1
     IF 보행COUNT > 보행횟수 THEN  GOTO 횟수_후진종종걸음_6_stop
 
-    ERX 4800,A, 후진종종걸음_1
+    ERX 4800,A, 횟수_후진종종걸음_1
     IF A <> A_old THEN  'GOTO 후진종종걸음_멈춤
 횟수_후진종종걸음_6_stop:
         MOVE G6A,95,  85, 130, 100, 104
