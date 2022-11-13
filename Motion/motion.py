@@ -240,6 +240,7 @@ class Motion:
         area_list = {'BLACK': 205, 'STAIR' : 206}
         self.TX_data_py2(area_list[area])
 
+    # 알파벳 인식 (207~210)
     def notice_alpha(self, ls):
         """parameter :
         alphabet : {A, B, C, D}
