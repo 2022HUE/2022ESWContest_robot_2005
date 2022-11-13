@@ -119,7 +119,7 @@ class Motion:
         time.sleep(0.3)
     
     # 돌기 (141~160)
-    def turn(self, dir, angle, loop = 1, sleep = 0.5, arm = False, grab = False, IR = False):
+    def turn(self, dir, angle, loop = 1, sleep = 0.5, arm = False, IR = False):
         """ parameter :
         dir : {LEFT, RIGHT}
         """
@@ -139,20 +139,11 @@ class Motion:
             dir_list[dir][angle] += 7
         elif arm and dir == "RIGHT" :
             dir_list[dir][angle] += 6
-        elif grab == True and dir == "LEFT":
-            dir_list[dir][angle] += 52
-        elif grab == True and dir == "RIGHT":
-            dir_list[dir][angle] += 52 
-            
+
         for _ in range(loop):
             # print(dir_list[dir])
             self.TX_data_py2(dir_list[dir])
             time.sleep(sleep)
-
-        if IR:
-            if self.get_IR() > 65:
-                return True
-            return False
     
     # 옆으로 이동 (161~170)
     def walk_side(self):
@@ -174,13 +165,37 @@ class Motion:
     def grab_walk(self):
         pass
     
-    # # 집고 옆으로 (189~192) [Danger]
-    # def grab_sideway(self):
-    #     pass
+    # 집고 옆으로 (189~192) [Danger]
+    def grab_sideway(self):
+        pass
     
-    # # 집고 턴 (193~200) [Danger]
-    # def grab_turn(self):
-    #     pass
+    # 집고 턴 (193~200) [Danger]
+    def grab_turn(self, dir, angle, loop = 1, sleep = 0.5, IR = False):
+        """ parameter :
+        dir : {LEFT, RIGHT}
+        """
+        if dir == "LEFT" : 
+            self.turn_angle1 = angle
+        elif dir == "RIGHT" :
+            self.turn_angle2 = angle
+        dir_list = {
+            "LEFT" : {
+                10 : 193, 20 : 194, 45 : 195, 60 : 196
+            },
+            "RIGHT" : {
+                10 : 197, 20 : 198, 45 : 199, 60 : 200
+            }
+        }
+
+        for _ in range(loop):
+            # print(dir_list[dir])
+            self.TX_data_py2(dir_list[dir])
+            time.sleep(sleep)
+
+        if IR:
+            if self.get_IR() > 65:  # 여기 확인하고 수정하기
+                return True
+            return False
 
     # 방위 인식 (201~204)
     def notice_direction(self, dir):
