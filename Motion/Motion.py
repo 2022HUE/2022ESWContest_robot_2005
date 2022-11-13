@@ -168,7 +168,7 @@ class Motion:
         time.sleep(1)
 
     # 장애물 치우기 (175~176) [Line/Stair/Danger]
-    def kick(self):
+    def kick(self, dir):
         """ parameter :
         dir : {LEFT, RIGHT}
         """
