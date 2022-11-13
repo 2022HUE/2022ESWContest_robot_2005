@@ -125,7 +125,7 @@ class ImageProccessor:
         line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
-        
+
         roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
         # get Line
         line_arr = Line.hough_lines(self, roi_img, 1, 1 * np.pi/180, 30, 10, 20) # 허프 변환
@@ -141,10 +141,10 @@ class ImageProccessor:
             h_slope = None
 
             if v_line:
-                Line.draw_fitline(self, origin, v_line, [0, 255, 255]) # Debug
+                # Line.draw_fitline(self, origin, v_line, [0, 255, 255]) # Debug
                 v_slope = Line.slope_cal(self, v_line)
             if h_line:
-                Line.draw_fitline(self, origin, h_line, [0, 255, 0]) # Debug
+                # Line.draw_fitline(self, origin, h_line, [0, 255, 0]) # Debug
                 h_slope = Line.slope_cal(self, h_line)
             
             # print(v_slope, h_slope)
@@ -152,7 +152,7 @@ class ImageProccessor:
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", origin)
-                cv.waitKey(20) & 0xFF == ord('q')
+                cv.waitKey(1) & 0xFF == ord('q')
             ####################################
             
             if state == "BOTH":
@@ -188,6 +188,9 @@ class ImageProccessor:
                     return "TURN_LEFT"
             else:
                 print("ELSE", state)
+                # 예외처리 추가 데이터 필요
+            
+            
 
         else: # 라인 자체를 인식 못할 경우 False 리턴
             return False
@@ -496,7 +499,7 @@ if __name__ == "__main__":
     danger02 = "src/danger/1031_20:56.h264" # C
     danger03 = "src/danger/1027_23:32.h264" # D
     danger04 = "src/danger/1031_20:49.h264" # B
-    img_processor = ImageProccessor(video=l13)
+    img_processor = ImageProccessor(video=l09)
     
     ### Debug Run ###
     while True:

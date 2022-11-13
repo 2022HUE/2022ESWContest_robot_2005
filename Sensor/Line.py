@@ -100,7 +100,7 @@ class Line:
     
     def slope_filter(self, line_arr):
         # print(len(line_arr))
-        if len(line_arr) <= 4: return "None", "None"
+        if len(line_arr) <= 4: return "None", "None", "None"
         slope = (np.arctan2(line_arr[:,1] - line_arr[:,3], line_arr[:,0] - line_arr[:,2]) * 180) / np.pi
         # print(slope)
         # 수직/수평 필터링

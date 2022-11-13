@@ -87,6 +87,6 @@ setting.ARROW = 'LEFT' #임시로 선언 (채연)
 ########### CURRENT ACT ###########
 cur = Setting()
 # cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
-cur.MAP_DIRECTION = None # (entr) E, W, S, N
+cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
 cur.MAP_ARROW = "LEFT" # (entr) LEFT, RIGHT
 cur.AREA = "DANGER" 
