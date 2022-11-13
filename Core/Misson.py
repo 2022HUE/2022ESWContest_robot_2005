@@ -40,25 +40,18 @@ class MissonEntrance:
         self.robo = robo
 
     # 방위 감지
-    def detect_direction(self):
-        # 모션 제어
-        # self.robo._motion
-        # time.sleep()
+    @classmethod
+    def get_direction(self):
         if cur.MAP_DIRECTION:
             self.map_direction = cur.MAP_DIRECTION
         else:
-            
-            self.map_direction = self.robo._image_processor.get_direction()
+            self.map_direction = self.robo._image_processor.get_ewsn()
         
         if self.map_direction:
-            # 미션 코드 (motion)
+            self.robo._motion.notice_direction(self.map_direction) # 미션 코드 (motion)
             return True
         else: # 인식 실패
-            # motion code
-            self.miss += 1
             return False
-        
-        # 방위 저장할 필요가 있을까??
         
     
     # 화살표 방향 감지
@@ -70,11 +63,9 @@ class MissonEntrance:
             my_arrow = self.robo._image_processor.get_arrow()
 
         if my_arrow:
-            self.robo.arrow = Arrow.LEFT if my_arrow == "LEFT" else Arrow.RIGHT
+            self.robo.arrow = "LEFT" if my_arrow == "LEFT" else "RIGHT"
             return True
         else: # 인식 실패
-            # motion code
-            self.miss += 1
             return False
         
         
@@ -85,34 +76,32 @@ class MissonEntrance:
 
         if act == act.START:
             print('ACT: ', act)
-            # self.act = Act.DETECT_DIRECTION
+            self.act = Act.DETECT_DIRECTION
+
+        # 방위 인식
+        elif act == act.DETECT_DIRECTION:
+            print('ACT: ', act) # Debug
+            # (motion) 고개 올리기 70도 - 방위 보이게
+            self.robo._motion.set_head("DOWN", 70)
+
+            if self.get_direction():
+                self.miss = 0
+            else:
+                # motion? 인식 잘 안될경우 -> 알파벳이 중앙에 있는지 판단하는 알고리즘 연결
+                return False
+
+            # (motion) 고개 올리기 110도 - 화살표 보이게
+            self.robo._motion.set_head("DOWN", 110)
             self.act = Act.DETECT_ARROW
-
-        # # 방위 인식
-        # elif act == act.DETECT_DIRECTION:
-        #     print('ACT: ', act)
-        #     # self.detect_direction()
-        #     if self.detect_direction():
-        #         self.miss = 0
-        #     else:
-        #         # motion
-        #         self.detect_direction()
-        #         return False
-
-        #     # (motion) 고개 올리기 - 화살표 보이게
-        #     self.act = Act.DETECT_ARROW
         
         # 화살표 인식
         elif act == act.DETECT_ARROW:
-            print('ACT: ', act)
-            if self.get_arrow():
-                # (motion) 고개 내리기 - 노란선 보이게
-                self.robo._motion.set_head()
+            print('ACT: ', act) # Debug
+            if self.get_arrow(): # 인식 성공
+                # (motion) 고개 내리기 30 - 노란선 보이게
+                self.robo._motion.set_head("DOWN", 30)
                 self.act = Act.EXIT
             else:
-                # motion
-                self.robo._motion.set_head()
-                self.detect_arrow()
                 return False
 
 

@@ -24,6 +24,7 @@ class Controller:
     # 방문한 미션 지역의 수
     count_area: int=0 # 위험/계단 지역만 카운트합니다.
     count_misson: int=0
+    check_exit: int=0 # 퇴장시 사용
     area: str = ""
 
     miss: int=0
@@ -42,18 +43,15 @@ class Controller:
     # 위험 지역인지 계단 지역인지 판단
     @classmethod
     def check_area(self):
+        self.robo._motion.turn(self.robo.arrow, 45) # [motion] 로봇 화살표 방향으로 45도 회전
         if self.count_area == 0: # 최초 방문
-            if cur.AREA:
+            if cur.AREA: # 고정 값 존재시 (Setting - current)
                 self.area = cur.AREA
             else:
-                # [motion] 로봇 머리만 화살표 방향으로 45도 회전
-                self.robo._motion.set_head()
                 self.area = self.robo._image_processor.is_danger()
-                # [motion] 로봇 머리만 화살표 반대 방향으로 45도 회전
-                self.robo._motion.set_head()
 
         else:
-            if self.area == "STAIR":self.area = "DANGER"
+            if self.area == "STAIR": self.area = "DANGER"
             else: self.area = "STAIR"
 
 
@@ -64,16 +62,17 @@ class Controller:
         else:
             return state
     
-    def line_rotate(self):
+    def line_v_rotate(self): # 수직선이 보일때까지 회전
         state = self.robo._image_processor.is_line_horizon_vertical()
-        if state == "LEFT" or state == "RIGHT":
-            # motion) state 방향으로 회전
-            return False
-        elif state == "VERTICAL" or state == "BOTH":
+        if state == "VERTICAL":
             return True
-        else: # state: "HORIZON"
-            # motion을 어떻게 넣을까요?
-            return False
+        elif state == "MOVE_LEFT":
+            self.robo._motion.walk_side("LEFT")
+        elif state == "MOVE_RIGHT":
+            self.robo._motion.walk_side("RIGHT")
+        else:
+            self.robo._motion.turn(self.robo.arrow, 10)
+        return False
         
     @classmethod
     def go_robo(self):
@@ -84,65 +83,73 @@ class Controller:
         if act == act.START:
             self.robo
             print("ACT: ", act) # Debug
-
             print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
-            # self.act = act.GO_ENTRANCE
-            self.act = act.GO_NEXTROOM # Debug
+            # motion: 고개 내리기 30
+            self.robo._motion.set_head("DOWN", 30)
+            self.act = act.GO_ENTRANCE
             
-        # elif act == act.GO_ENTRANCE:
-        #     # motion: 고개 내리기
-        #     goto_ = self.is_horizon()
-        #     if goto_ is True:
-        #         # motion: 고개 올리기 up
-        #         self.act = act.ENTRANCE
-        #     elif goto_ == "GO":
-        #         # motion: 전진
-        #         return False
-        #     elif goto_ == "LEFT":
-        #         # motion: 왼쪽으로 조금  회전+이동
-        #         return False
-        #     elif goto_ == "RIGHT":
-        #         # motion: 오른쪽으로 조금 회전+이동
-        #         return False
-        #     else:
-        #         # 여기도 전진을 넣어도 될까?
-        #         return False
-
+        elif act == act.GO_ENTRANCE:
+            
+            state = self.robo._image_processor.is_line_horizon_vertical()
+            if state == "HORIZON":
+                self.act = act.ENTRANCE
+            elif state == "VERTICAL":
+                self.robo._motion.walk("FORWARD")
+            elif state == "MOVE_LEFT":
+                self.robo._motion.walk_side("LEFT")
+            elif state == "MOVE_RIGHT":
+                self.robo._motion.walk_side("RIGHT")
+            elif state == "TURN_LEFT":
+                self.robo._motion.turn("LEFT", 10)
+            elif state == "TURN_RIGHT":
+                self.robo._motion.turn("RIGHT", 10)
+            elif state == "BOTH": # 선 둘 다 인식
+                self.robo._motion.walk("FORWARD")
+            else:
+                return False
+            return False
 
         elif act == act.ENTRANCE:
-            if MissonEntrance.go_robo():
+            if self.miss > 0:
+                if self.line_v_rotate():
+                    self.miss = 0
+                    self.act = act.GO_NEXTROOM
+                else: 
+                    self.miss += 1
+                    return False
+            elif MissonEntrance.go_robo():
                 # motion: 회전 (수직선이 보일 때 까지)
-                self.act = act.GO_NEXTROOM
+                self.miss += 1
+                return False
             else:
                 return False
 
         elif act == act.GO_NEXTROOM:
             print("ACT: ", act) # Debug
+            
             state = self.robo._image_processor.is_line_horizon_vertical()
-            if state:
-                if state == "HORIZON":
-                    # 방 입구 도착 -> 위험/계단지역 판단
-                    self.check_area()
-                    print("----Current Area", self.area, "----")
-                    if self.area == "STAIR":
-                        self.act = act.STAIR
-                    else: self.act = act.DANGER
-                elif state == "VERTICAL":
-                    self.robo._motion.walk()
-                elif state == "MOVE_LEFT":
-                    # motion: 왼쪽으로 이동
-                    self.robo._motion.walk()
-                elif state == "MOVE_RIGHT":
-                    # motion: 오른쪽으로 이동
-                    self.robo._motion.walk()
-                elif state == "TURN_RIGHT":
-                    # motion: 오른쪽으로 회전
-                    self.robo._motion.walk()
-                elif state == "TURN_LEFT":
-                    # motion:왼쪽으로 회전
-                    self.robo._motion.walk()
+            if state == "HORIZON":
+                # 방 입구 도착 -> 위험/계단지역 판단
+                self.check_area()
+                print("----Current Area", self.area, "----")
+                if self.area == "STAIR":
+                    self.act = act.STAIR
+                else: self.act = act.DANGER
+            elif state == "VERTICAL":
+                self.robo._motion.walk("FORWARD")
+            elif state == "MOVE_LEFT":
+                self.robo._motion.walk_side("LEFT")
+            elif state == "MOVE_RIGHT":
+                self.robo._motion.walk_side("RIGHT")
+            elif state == "TURN_LEFT":
+                self.robo._motion.turn("LEFT", 10)
+            elif state == "TURN_RIGHT":
+                self.robo._motion.turn("RIGHT", 10)
+            elif state == "BOTH": # 선 둘 다 인식
+                self.robo._motion.walk("FORWARD")
             else:
                 return False
+            return False
 
         elif act == act.STAIR:
             print("ACT: ", act) # Debug
@@ -151,7 +158,7 @@ class Controller:
             if self.count_area < limits: 
                 self.act = act.GO_NEXTROOM
             else:
-                self.act = act.EXIT
+                self.act = act.GO_EXIT
 
         elif act == act.DANGER:
             print("ACT: ", act) # Debug
@@ -160,13 +167,49 @@ class Controller:
             if self.count_area < limits: 
                 self.act = act.GO_NEXTROOM
             else:
-                self.act = act.EXIT
+                self.act = act.GO_EXIT
 
         elif act == act.GO_EXIT:
             print("ACT: ", act) # Debug
-            pass
+            state = self.robo._image_processor.is_line_horizon_vertical()
+            if state == "VERTICAL" and self.check_exit > 0:
+                self.robo._motion.turn(self.robo.arrow, 45, 2)
+                self.act = act.EXIT
+            elif state == "VERTICAL" and self.check_exit == 0:
+                self.robo._motion.walk("FORWARD")
+            elif state == "MOVE_LEFT":
+                self.robo._motion.walk_side("LEFT")
+            elif state == "MOVE_RIGHT":
+                self.robo._motion.walk_side("RIGHT")
+            elif state == "TURN_LEFT":
+                self.robo._motion.turn("LEFT", 10)
+            elif state == "TURN_RIGHT":
+                self.robo._motion.turn("RIGHT", 10)
+            elif state == "BOTH": # 선 둘 다 인식
+                self.check_exit += 1
+                self.robo._motion.walk("FORWARD")
+            # elif state == "HORIZON": # (일단 사용 x) BOTH가 잘 인식 안될경우 사용
+            #     self.check_exit += 1
+            #     self.robo._motion.walk("FORWARD")
+            else:
+                return False
+            return False
 
         else: # EXIT
             print("ACT: ", act) # Debug
-            return True
+            state = self.robo._image_processor.is_line_horizon_vertical()
+            if state == "VERTICAL":
+                self.robo._motion.walk("FORWARD")
+            elif state == "MOVE_LEFT":
+                self.robo._motion.walk_side("LEFT")
+            elif state == "MOVE_RIGHT":
+                self.robo._motion.walk_side("RIGHT")
+            elif state == "TURN_LEFT":
+                self.robo._motion.turn("LEFT", 10)
+            elif state == "TURN_RIGHT":
+                self.robo._motion.turn("RIGHT", 10)
+            else: # 아무것도 인식 X
+                self.robo._motion.notice_alpha(self.robo.alpha)
+                return True
+            return False
         return False

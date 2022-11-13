@@ -167,7 +167,7 @@ class ImageProccessor:
                     else:
                         return "TURN_LEFT"
                 else: # 선이 둘 다 인식됨
-                    pass
+                    return state
             elif state == "VERTICAL" and v_line:
                 if 85 < v_slope < 95: # 수직
                     is_center = Line.is_center(self, origin, v_line)
