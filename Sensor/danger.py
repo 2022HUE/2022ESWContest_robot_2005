@@ -81,7 +81,7 @@ class Danger:
             text = "hold" if rate >= setting.HOLDING_RATE else "miss"
             color = (0, 255, 0) if rate >= setting.HOLDING_RATE else (0, 0, 255)
             # 장애물이 위치한 구역 ROI 사각형으로 show
-            src = cv.putText(src, f"{text}", (0, 210), cv.FONT_HERSHEY_SIMPLEX, 1, color, 2)
+            src = cv.putText(src, "{}".format(text), (0, 210), cv.FONT_HERSHEY_SIMPLEX, 1, color, 2)
             cv.imshow("holding_milkbox_roi", cv.rectangle(src, (0,0), (639, 179), color, 3))  # hsv 말고 src 여야함
 
         return True if rate >= setting.HOLDING_RATE else False
@@ -110,7 +110,7 @@ class Danger:
             mask = self.get_milkbox_mask(hsv[pos[1][0]:pos[1][1], pos[0][0]:pos[0][1]], color)
             rate = np.count_nonzero(mask) / ((pos[1][1]-pos[1][0]) * (pos[0][1]-pos[0][0]))
             rate*=100
-            print(f"{idx}번째 그냥 rate 값: {rate}")
+            print("{}번째 그냥 rate 값: ".format(rate))
             if rate > max_rate:
                 max_idx = idx
                 max_rate = rate
@@ -123,7 +123,7 @@ class Danger:
             # 장애물이 위치한 구역 crop
             milkbox_crop = img.copy()[milkbox_pos[max_idx][1][0]:milkbox_pos[max_idx][1][1],
                                               milkbox_pos[max_idx][0][0]:milkbox_pos[max_idx][0][1]]
-            milkbox_crop = cv.putText(milkbox_crop, f"milkbox pos : {max_idx}", (0, 20), cv.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 1)
+            milkbox_crop = cv.putText(milkbox_crop, "milkbox pos : {}".format(max_idx), (0, 20), cv.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 1)
             cv.imshow(f'holding milkbox crop', milkbox_crop)
             # x축 구분선 두 개
             img = cv.line(img, (0, 159), (639, 159), (0,0,255), 2)
@@ -163,7 +163,7 @@ class Danger:
         if show:
             text = "OUT of Danger" if rate <= setting.OUT_DANGER_RATE else "IN Danger"
             color = (0, 255, 0) if rate <= setting.OUT_DANGER_RATE else (0, 0, 255)
-            src = cv.putText(src, f"{text}", (160, 180), cv.FONT_HERSHEY_SIMPLEX, 1, color, 2)
+            src = cv.putText(src, "{}".format(text), (160, 180), cv.FONT_HERSHEY_SIMPLEX, 1, color, 2)
             cv.imshow("roi", cv.rectangle(src, begin, end, color, 3))  # hsv 말고 src 여야함
             cv.imshow("mask", mask)
             cv.waitKey(1)
@@ -259,7 +259,7 @@ class Danger:
             text = "DANGER" if rate <= setting.DANGER_STAIR_RATE else "STAIR"
             color = (0, 0, 255) if rate <= setting.DANGER_STAIR_RATE else (0, 255, 0)
             # 장애물이 위치한 구역 ROI 사각형으로 show
-            src = cv.putText(src, f"{text}", (10, 30), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
+            src = cv.putText(src, "{}".format(text), (10, 30), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
             cv.imshow("Check is Danger or Stair", src)
         return "DANGER" if rate <= setting.DANGER_STAIR_RATE else "STAIR"
 
@@ -270,10 +270,10 @@ if __name__ == "__main__":
     # 알파벳 글자 인식 부분 촬영
     # 파랑
     # 1031 20:56 촬영본은 제대로 안됨
-    # cap = cv.VideoCapture("src/danger/1031_20:56.h264")
+    cap = cv.VideoCapture("src/danger/1031_20:56.h264")
     # cap = cv.VideoCapture("src/danger/1106_20:02.h264")
     # 1106 20:06, 07 완전 모범 결과 출력
-    cap = cv.VideoCapture("src/danger/1106_20:06.h264")
+    # cap = cv.VideoCapture("src/danger/1106_20:06.h264")
     # cap = cv.VideoCapture("src/danger/1106_20:07.h264")
     # cap = cv.VideoCapture("src/stair/1106_20:11.h264")
 
@@ -305,7 +305,7 @@ if __name__ == "__main__":
         # print("잡고 있음") if danger.is_holding_milkbox(img, "RED", True) else print("우유곽 놓침!")
         print(danger.is_danger(img, True))
 
-        if cv.waitKey(65) & 0xFF == ord('q'):
+        if cv.waitKey(5) & 0xFF == ord('q'):
             break
 
 cap.release()
