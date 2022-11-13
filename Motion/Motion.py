@@ -198,7 +198,7 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
     
     # 집고 턴 (193~200) [Danger]
-    def grab_turn(self, dir, angle, loop = 1, sleep = 0.5, IR = False):
+    def grab_turn(self, dir, angle, loop = 1, sleep = 0.5):
         """ parameter :
         dir : {LEFT, RIGHT}
         """
@@ -219,10 +219,11 @@ class Motion:
             self.TX_data_py2(dir_list[dir])
             time.sleep(sleep)
 
-        if IR:
-            if self.get_IR() > 65:  # 여기 확인하고 수정하기
-                return True
-            return False
+        # 영상처리로 판단하는 것으로 변경 >> parameter에 IR = False 제거
+        # if IR:
+        #     if self.get_IR() > 65:  # 여기 확인하고 수정하기
+        #         return True
+        #     return False
 
     # 방위 인식 (201~204)
     def notice_direction(self, dir):
