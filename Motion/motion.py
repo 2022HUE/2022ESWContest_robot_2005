@@ -1,13 +1,8 @@
 # -*- coding: utf-8 -*-
 # Motion code
-import platform
-import argparse
-import cv2 as cv
 import serial
 import time
-import sys
 from threading import Thread, Lock
-from Setting import setting
 
 
 # -----------------------------------------------
@@ -255,6 +250,7 @@ class Motion:
                 self.TX_data_py2(alpha_list[i])
                 time.sleep(2)
 
+    ############################################################
 
 if __name__ == '__main__':
     motion = Motion()
