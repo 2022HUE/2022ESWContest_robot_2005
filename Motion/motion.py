@@ -147,15 +147,33 @@ class Motion:
     def grab_sideway(self):
         pass
     
-    # 집고 턴 (193~) [Danger]
+    # 집고 턴 (193~200) [Danger]
     def grab_turn(self):
         pass
 
-    #
+    # 방위 인식 (201~204)
+    def notice_direction(self, dir):
+        """dir={'E', 'W', 'S', 'N'}
+        """
+        dir_list = {'E': 201, 'W': 202, 'S': 203, 'N': 204}
+        self.TX_data_py2(dir_list[dir])
+        time.sleep(1)
 
-    #
+    # 위험지역 인식 (205~206)
+    def notice_area(self, area):
+        """parameter 설명
+        area='BLACK'
+        """
+        area_list = {'BLACK': 205}
+        self.TX_data_py2(area_list[area])
 
-    #
+    def notice_alpha(self, ls):
+        alpha_list = {'A': 207, 'B': 208, 'C': 209, 'D': 210}
+        for i in ls:
+            if i in alpha_list:
+                self.TX_data_py2(alpha_list[i])
+                time.sleep(2)
+
 
 if __name__ == '__main__':
     motion = Motion()
