@@ -1318,7 +1318,149 @@ GOSUB_RX_EXIT2:
 
     GOTO 연속후진_1
     '**********************************************
+횟수_후진:
+    넘어진확인 = 0
+    보행속도 = 12
+    좌우속도 = 4
+    GOSUB Leg_motor_mode3
 
+
+
+    IF 보행순서 = 0 THEN
+        보행순서 = 1
+
+        SPEED 4
+        MOVE G6A, 88,  71, 152,  91, 110
+        MOVE G6D,108,  76, 145,  93,  96
+        MOVE G6B,100
+        MOVE G6C,100
+        WAIT
+
+        SPEED 10
+        MOVE G6A, 90, 100, 100, 115, 110
+        MOVE G6D,110,  76, 145,  93,  96
+        MOVE G6B,90
+        MOVE G6C,110
+        WAIT
+
+        GOTO 횟수_후진_1	
+    ELSE
+        보행순서 = 0
+
+        SPEED 4
+        MOVE G6D,  88,  71, 152,  91, 110
+        MOVE G6A, 108,  76, 145,  93,  96
+        MOVE G6C, 100
+        MOVE G6B, 100
+        WAIT
+
+        SPEED 10
+        MOVE G6D, 90, 100, 100, 115, 110
+        MOVE G6A,110,  76, 145,  93,  96
+        MOVE G6C,90
+        MOVE G6B,110
+        WAIT
+
+
+        GOTO 횟수_후진_2
+
+    ENDIF
+
+
+횟수_후진_1:
+    ETX 4800,12 '진행코드를 보냄
+    SPEED 보행속도
+
+    MOVE G6D,110,  76, 145, 93,  96
+    MOVE G6A,90, 98, 145,  69, 110
+    WAIT
+
+    SPEED 좌우속도
+    MOVE G6D, 90,  60, 137, 120, 110
+    MOVE G6A,107,  85, 137,  93,  96
+    WAIT
+
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO MAIN
+    ENDIF
+
+
+    SPEED 11
+
+    MOVE G6D,90, 90, 120, 105, 110
+    MOVE G6A,112,  76, 146,  93, 96
+    MOVE G6B,110
+    MOVE G6C,90
+    WAIT
+
+    ERX 4800,A, 횟수_후진_2
+    IF A <> A_old THEN
+횟수_후진_1_EXIT:
+        HIGHSPEED SETOFF
+        SPEED 5
+
+        MOVE G6A, 106,  76, 145,  93,  96		
+        MOVE G6D,  85,  72, 148,  91, 106
+        MOVE G6B, 100
+        MOVE G6C, 100
+        WAIT	
+
+        SPEED 3
+        GOSUB 기본자세2
+        GOTO RX_EXIT
+    ENDIF
+    '**********
+
+횟수_후진_2:
+    ETX 4800,12 '진행코드를 보냄
+    SPEED 보행속도
+    MOVE G6A,110,  76, 145, 93,  96
+    MOVE G6D,90, 98, 145,  69, 110
+    WAIT
+
+
+    SPEED 좌우속도
+    MOVE G6A, 90,  60, 137, 120, 110
+    MOVE G6D,107  85, 137,  93,  96
+    WAIT
+
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO MAIN
+    ENDIF
+
+
+    SPEED 11
+    MOVE G6A,90, 90, 120, 105, 110
+    MOVE G6D,112,  76, 146,  93,  96
+    MOVE G6B, 90
+    MOVE G6C,110
+    WAIT
+
+
+    ERX 4800,A, 횟수_후진_1
+    IF A <> A_old THEN
+횟수_후진_2_EXIT:
+        HIGHSPEED SETOFF
+        SPEED 5
+
+        MOVE G6D, 106,  76, 145,  93,  96		
+        MOVE G6A,  85,  72, 148,  91, 106
+        MOVE G6B, 100
+        MOVE G6C, 100
+        WAIT	
+
+        SPEED 3
+        GOSUB 기본자세2
+        GOTO RX_EXIT
+    ENDIF  	
+
+    GOTO 횟수_후진_1
     '******************************************
 횟수_전진종종걸음:
     GOSUB All_motor_mode3
