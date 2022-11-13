@@ -125,7 +125,7 @@ class Danger:
             milkbox_crop = img.copy()[milkbox_pos[max_idx][1][0]:milkbox_pos[max_idx][1][1],
                                               milkbox_pos[max_idx][0][0]:milkbox_pos[max_idx][0][1]]
             milkbox_crop = cv.putText(milkbox_crop, "milkbox pos : {}".format(max_idx), (0, 20), cv.FONT_HERSHEY_PLAIN, 1, (0, 0, 255), 1)
-            cv.imshow(f'holding milkbox crop', milkbox_crop)
+            cv.imshow('holding milkbox crop', milkbox_crop)
             # x축 구분선 두 개
             img = cv.line(img, (0, 159), (639, 159), (0,0,255), 2)
             img = cv.line(img, (0, 319), (639, 319), (0,0,255), 2)
@@ -304,8 +304,8 @@ if __name__ == "__main__":
         # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
         # pos_idx, count = danger.get_milkbox_pos(src, "BLUE", True)
         # print("잡고 있음") if danger.is_holding_milkbox(img, "RED", True) else print("우유곽 놓침!")
-        print(danger.is_danger(img, True))
-
+        # print(danger.is_danger(img, True))
+        print(danger.get_alphabet_color(img))
         if cv.waitKey(5) & 0xFF == ord('q'):
             break
 
