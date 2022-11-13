@@ -86,7 +86,7 @@ class Motion:
     # 머리 각도 (121~140)
     def set_head(self, dir, angle = 0):
         """ parameter :
-        dir: {DOWN, LEFT, RIGHT, UPDOWN_CENTER, LEFTRIGHT_CENTER}
+        dir : {DOWN, LEFT, RIGHT, UPDOWN_CENTER, LEFTRIGHT_CENTER}
         angle: {DOWN:{20,30,40,50,60,70,80,90,100,110},
         LEFT:{30,45,60,90},
         RIGHT:{30,45,60,90}
@@ -117,11 +117,42 @@ class Motion:
         else:
             self.TX_data_py2(dir_list[dir][angle])
         time.sleep(0.3)
-
     
     # 돌기 (141~160)
-    def turn(self):
-        pass
+    def turn(self, dir, angle, loop = 1, sleep = 0.5, arm = False, grab = False, IR = False):
+        """ parameter :
+        dir : {LEFT, RIGHT}
+        """
+        if dir == "LEFT" : 
+            self.turn_angle1 = angle
+        elif dir == "RIGHT" :
+            self.turn_angle2 = angle
+        dir_list = {
+            "LEFT" : {
+                10 : 141, 20 : 142, 45 : 143, 60 : 144
+            },
+            "RIGHT" : {
+                10 : 145, 20 : 146, 45 : 147, 60 : 148
+            }
+        }
+        if arm and dir == "LEFT" :
+            dir_list[dir][angle] += 7
+        elif arm and dir == "RIGHT" :
+            dir_list[dir][angle] += 6
+        elif grab == True and dir == "LEFT":
+            dir_list[dir][angle] += 52
+        elif grab == True and dir == "RIGHT":
+            dir_list[dir][angle] += 52 
+            
+        for _ in range(loop):
+            # print(dir_list[dir])
+            self.TX_data_py2(dir_list[dir])
+            time.sleep(sleep)
+
+        if IR:
+            if self.get_IR() > 65:
+                return True
+            return False
     
     # 옆으로 이동 (161~170)
     def walk_side(self):
@@ -143,17 +174,18 @@ class Motion:
     def grab_walk(self):
         pass
     
-    # 집고 옆으로 (189~192) [Danger]
-    def grab_sideway(self):
-        pass
+    # # 집고 옆으로 (189~192) [Danger]
+    # def grab_sideway(self):
+    #     pass
     
-    # 집고 턴 (193~200) [Danger]
-    def grab_turn(self):
-        pass
+    # # 집고 턴 (193~200) [Danger]
+    # def grab_turn(self):
+    #     pass
 
     # 방위 인식 (201~204)
     def notice_direction(self, dir):
-        """dir={'E', 'W', 'S', 'N'}
+        """parameter :
+        dir={'E', 'W', 'S', 'N'}
         """
         dir_list = {'E': 201, 'W': 202, 'S': 203, 'N': 204}
         self.TX_data_py2(dir_list[dir])
@@ -161,7 +193,7 @@ class Motion:
 
     # 위험지역 인식 (205~206)
     def notice_area(self, area):
-        """parameter 설명
+        """parameter :
         area='BLACK'
         """
         area_list = {'BLACK': 205}
