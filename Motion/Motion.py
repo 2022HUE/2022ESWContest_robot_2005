@@ -88,6 +88,7 @@ class Motion:
         for _ in range(loop):
             self.TX_data_py2(dir_list[dir])
             time.sleep(sleep)
+        print('[Current Motion] Walk --------------##') # Debug
     
     # 머리 각도 (121~140)
     def set_head(self, dir, angle = 0):
@@ -118,6 +119,7 @@ class Motion:
                 30: 136, 45: 137, 60: 138, 90: 139
             }
         }
+        print('[Current Motion] Set Head --------------##') # Debug
 
         if dir in center_list:
             self.TX_data_py2(center_list[dir])
@@ -151,6 +153,7 @@ class Motion:
         for _ in range(loop):
             self.TX_data_py2(dir_list[dir])
             time.sleep(sleep)
+        print('[Current Motion] Turn --------------##') # Debug
     
     # 옆으로 이동 (161~170)
     def walk_side(self, dir):
@@ -159,6 +162,7 @@ class Motion:
         """
         dir_list = {"LEFT": 161, "RIGHT" : 169}
         self.TX_data_py2(dir_list[dir])
+        print('[Current Motion] Walk Side --------------##') # Debug
     
     # 계단 오르내리기 (171~174) [Stair]
     def stair(self, dir):
@@ -168,6 +172,7 @@ class Motion:
         dir_list = {'LEFT_UP': 171, 'RIGHT_UP': 172, 'LEFT_DOWN': 173, 'RIGHT_DOWN': 174}
         self.TX_data_py2(dir_list[dir])
         time.sleep(1)
+        print('[Current Motion] Stair --------------##') # Debug
 
     # 장애물 치우기 (175~176) [Line/Stair/Danger]
     def kick(self, dir):
@@ -177,9 +182,12 @@ class Motion:
         dir_list = {"LEFT": 174, "RIGHT" : 175}
         self.TX_data_py2(dir_list[dir])
 
+        print('[Current Motion] Kick --------------##') # Debug
+
     # 집기 (181~186) [Danger]
     def grab(self):
         self.TX_data_py2(181)
+        print('[Current Motion] Grab --------------##') # Debug
 
     # 횟수_집고 전진 (187~188) [Danger]
     def grab_walk(self, loop = 1):
@@ -187,6 +195,7 @@ class Motion:
             self.TX_data_py2(187)
             time.sleep(1.5)   # 나중에 보고 초 조정하기
             self.TX_data_py2(188)
+        print('[Current Motion] Grab Walk --------------##') # Debug
         
     
     # 집고 옆으로 (189~192) [Danger]
@@ -198,6 +207,8 @@ class Motion:
         if long :
             dir_list[dir] += 1
         self.TX_data_py2(dir_list[dir])
+
+        print('[Current Motion] Grab Sideway --------------##') # Debug
     
     # 집고 턴 (193~200) [Danger]
     def grab_turn(self, dir, angle, loop = 1, sleep = 0.5):
@@ -220,6 +231,8 @@ class Motion:
         for _ in range(loop):
             self.TX_data_py2(dir_list[dir])
             time.sleep(sleep)
+        
+        print('[Current Motion] Grab Turn --------------##') # Debug
 
         # 영상처리로 판단하는 것으로 변경 >> parameter에 IR = False 제거
         # if IR:
@@ -236,6 +249,8 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
         time.sleep(1)
 
+        print('[Current Motion] Notice direction --------------##') # Debug
+
     # 위험지역 인식 (205~206)
     def notice_area(self, area):
         """parameter :
@@ -243,6 +258,8 @@ class Motion:
         """
         area_list = {'BLACK': 205, 'STAIR' : 206}
         self.TX_data_py2(area_list[area])
+
+        print('[Current Motion] Notice Area --------------##') # Debug
 
     # 알파벳 인식 (207~210)
     def notice_alpha(self, ls):
@@ -254,6 +271,8 @@ class Motion:
             if i in alpha_list:
                 self.TX_data_py2(alpha_list[i])
                 time.sleep(2)
+            
+        print('[Current Motion] Notice Alpha --------------##') # Debug
 
     ############################################################
 
