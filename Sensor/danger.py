@@ -245,7 +245,8 @@ class Danger:
         return h_mask  # mask 리턴
 
     # 계단 지역인지(False) 위험 지역인지(True) detection
-    def is_danger(self, hsv):
+    def is_danger(self, src, show=False):
+        hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
         mask_AND = cv.bitwise_and(self.get_s_mask(hsv, setting.DANGER_ROOM_S), self.get_v_mask(hsv, setting.DANGER_ROOM_V))
         mask_AND = self.mophorlogy(mask_AND)
         cv.imshow('mask_AND', mask_AND)
@@ -253,6 +254,13 @@ class Danger:
         rate = np.count_nonzero(mask_AND) / (640 * 480)
         rate = int(rate * 1000)
         print(rate)
+
+        if show:
+            text = "DANGER" if rate <= setting.DANGER_STAIR_RATE else "STAIR"
+            color = (0, 0, 255) if rate <= setting.DANGER_STAIR_RATE else (0, 255, 0)
+            # 장애물이 위치한 구역 ROI 사각형으로 show
+            src = cv.putText(src, f"{text}", (10, 30), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
+            cv.imshow("Check is Danger or Stair", src)
         return "DANGER" if rate <= setting.DANGER_STAIR_RATE else "STAIR"
 
 
@@ -265,9 +273,9 @@ if __name__ == "__main__":
     # cap = cv.VideoCapture("src/danger/1031_20:56.h264")
     # cap = cv.VideoCapture("src/danger/1106_20:02.h264")
     # 1106 20:06, 07 완전 모범 결과 출력
-    # cap = cv.VideoCapture("src/danger/1106_20:06.h264")
+    cap = cv.VideoCapture("src/danger/1106_20:06.h264")
     # cap = cv.VideoCapture("src/danger/1106_20:07.h264")
-
+    # cap = cv.VideoCapture("src/stair/1106_20:11.h264")
 
     # 빨강
     # cap = cv.VideoCapture("src/danger/1031_20:35.h264")
@@ -275,7 +283,7 @@ if __name__ == "__main__":
     # cap = cv.VideoCapture("src/danger/1027_23:32.h264")
 
     # 장애물 집고 나올 때의 영상
-    cap = cv.VideoCapture("src/danger/1031_20:47.h264")
+    # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
     # cap = cv.VideoCapture("src/danger/1031_20:57.h264")
 
     # 장애물 어디있는지 바라볼 때의 시야
@@ -283,18 +291,20 @@ if __name__ == "__main__":
     # cap = cv.VideoCapture("src/danger/1106_21:31.h264")
 
     while cap.isOpened():
-        _, src = cap.read()
+        _, img = cap.read()
 
         if not _:
             print("ret is false")
             break
-        blur = cv.GaussianBlur(src, (5, 5), 0)
-        cv.imshow('src', src)
+        blur = cv.GaussianBlur(img, (5, 5), 0)
+        cv.imshow('src', img)
 
-        hsv_origin = cv.cvtColor(src, cv.COLOR_BGR2HSV)
+        hsv_origin = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
         # pos_idx, count = danger.get_milkbox_pos(src, "BLUE", True)
-        print("잡고 있음") if danger.is_holding_milkbox(src, "RED", True) else print("우유곽 놓침!")
+        # print("잡고 있음") if danger.is_holding_milkbox(img, "RED", True) else print("우유곽 놓침!")
+        print(danger.is_danger(img, True))
+
         if cv.waitKey(65) & 0xFF == ord('q'):
             break
 
