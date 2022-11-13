@@ -141,7 +141,6 @@ class Motion:
             dir_list[dir][angle] += 6
 
         for _ in range(loop):
-            # print(dir_list[dir])
             self.TX_data_py2(dir_list[dir])
             time.sleep(sleep)
     
@@ -155,19 +154,27 @@ class Motion:
 
     # 장애물 치우기 (175~176) [Line/Stair/Danger]
     def kick(self):
-        pass
-    
+        """ parameter :
+        dir : {LEFT, RIGHT}
+        """
+        dir_list = {"LEFT": 174, "RIGHT" : 175}
+        self.TX_data_py2(dir_list[dir])
+
     # 집기 (181~186) [Danger]
-    def grab(self):
+    def grab(self, dir):
         pass
     
     # 횟수_집고 전진 (187~188) [Danger]
-    def grab_walk(self):
-        pass
+    def grab_walk(self, loop = 1):
+        for i in range(loop) :
+            self.TX_data_py2(187)
+            time.sleep(1.5)   # 나중에 보고 초 조정하기
+            self.TX_data_py2(188)
+        
     
     # 집고 옆으로 (189~192) [Danger]
-    def grab_sideway(self):
-        pass
+    def grab_sideway(self, dir):
+        dir_list = {}
     
     # 집고 턴 (193~200) [Danger]
     def grab_turn(self, dir, angle, loop = 1, sleep = 0.5, IR = False):
@@ -188,7 +195,6 @@ class Motion:
         }
 
         for _ in range(loop):
-            # print(dir_list[dir])
             self.TX_data_py2(dir_list[dir])
             time.sleep(sleep)
 
