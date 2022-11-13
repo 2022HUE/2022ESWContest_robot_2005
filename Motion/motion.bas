@@ -3118,16 +3118,15 @@ Number_Play: '  BUTTON_NO = 숫자대입
 
     '************************************************
     '************************************************
-
-안전구역:
-    PRINT "OPEN 20GongMo.mrs !"
-    PRINT "SOUND 4 !"
+위험지역:
+    PRINT "OPEN 22GongMo.mrs !"
+    PRINT "SOUND 6 !"
     GOSUB SOUND_PLAY_CHK
     RETURN
 
-확진구역:
-    PRINT "OPEN 20GongMo.mrs !"
-    PRINT "SOUND 5 !"
+구조요청:
+    PRINT "OPEN 22GongMo.mrs !"
+    PRINT "SOUND 7 !"
     GOSUB SOUND_PLAY_CHK
     RETURN
 
@@ -3135,11 +3134,11 @@ Number_Play: '  BUTTON_NO = 숫자대입
     SPEED 10
     MOVE G6C, 190, 30, 80
     WAIT
-    PRINT "OPEN 20GongMo.mrs !"
+    PRINT "OPEN 22GongMo.mrs !"
     PRINT "SOUND 0 !"
     GOSUB SOUND_PLAY_CHK
-    DELAY 500
     PRINT "SOUND 0 !"
+    GOSUB SOUND_PLAY_CHK
     DELAY 10
     GOSUB 기본자세2
     RETURN
@@ -3148,11 +3147,11 @@ Number_Play: '  BUTTON_NO = 숫자대입
     SPEED 10
     MOVE G6B, 190, 30, 80
     WAIT
-    PRINT "OPEN 20GongMo.mrs !"
+    PRINT "OPEN 22GongMo.mrs !"
     PRINT "SOUND 1 !"
     GOSUB SOUND_PLAY_CHK
-    DELAY 500
     PRINT "SOUND 1 !"
+    GOSUB SOUND_PLAY_CHK
     DELAY 10
     GOSUB 기본자세2	
     RETURN
@@ -3161,11 +3160,11 @@ Number_Play: '  BUTTON_NO = 숫자대입
     MOVE G6B, 30, 30, 80
     MOVE G6C, 30, 30, 80
     WAIT
-    PRINT "OPEN 20GongMo.mrs !"
+    PRINT "OPEN 22GongMo.mrs !"
     PRINT "SOUND 2 !"
     GOSUB SOUND_PLAY_CHK
-    DELAY 500
     PRINT "SOUND 2 !"
+    GOSUB SOUND_PLAY_CHK
     DELAY 10
     GOSUB 기본자세2
     RETURN
@@ -3174,31 +3173,30 @@ Number_Play: '  BUTTON_NO = 숫자대입
     MOVE G6B, 190, 30, 80
     MOVE G6C, 190, 30, 80
     WAIT
-    PRINT "OPEN 20GongMo.mrs !"
+    PRINT "OPEN 22GongMo.mrs !"
     PRINT "SOUND 3 !"
-    DELAY 500
+    GOSUB SOUND_PLAY_CHK
     PRINT "SOUND 3 !"
-    DELAY 10
     GOSUB SOUND_PLAY_CHK
     GOSUB 기본자세2
     RETURN
     '******************************************
 
 A지역:
-    PRINT "OPEN M_ABCD.mrs !"
-    PRINT "SOUND 0 !"
+    PRINT "OPEN 22GongMo.mrs !"
+    PRINT "SOUND 8 !
     RETURN
 B지역:
-    PRINT "OPEN M_ABCD.mrs !"
-    PRINT "SOUND 1 !"
+    PRINT "OPEN 22GongMo.mrs !"
+    PRINT "SOUND 9 !
     RETURN
 C지역:
-    PRINT "OPEN M_ABCD.mrs !"
-    PRINT "SOUND 2 !"
+    PPRINT "OPEN 22GongMo.mrs !"
+    PRINT "SOUND 10 !
     RETURN
 D지역:
-    PRINT "OPEN M_ABCD.mrs !"
-    PRINT "SOUND 3 !"
+    PRINT "OPEN 22GongMo.mrs !"
+    PRINT "SOUND 11 !
     RETURN
 
 전방하향110도:
@@ -5373,10 +5371,6 @@ D지역:
     GOSUB All_motor_mode3
     보행COUNT = 0
     SPEED 13
-    'HIGHSPEED로 안 하면 뒤로 감... 미친놈인 듯
-    'HIGHSPEED SETON
-    '..... 이거 하면 다음 모션들까지 다 개빨라지는데 복귀를 어떻게 하는지 모르겠음
-
 
     IF 보행순서 = 0 THEN
         보행순서 = 1
@@ -5483,7 +5477,7 @@ D지역:
         'DELAY 400
         GOTO RX_EXIT
     ENDIF
-		GOTO 좁은보폭1
+		GOTO 횟수_좁은보폭1
 		
 	'*****************************************
 뒤로좁은보폭:
