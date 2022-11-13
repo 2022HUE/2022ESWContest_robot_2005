@@ -208,7 +208,7 @@ class Controller:
                 self.robo._motion.turn("LEFT", 10)
             elif state == "TURN_RIGHT":
                 self.robo._motion.turn("RIGHT", 10)
-            else: # 아무것도 인식 X
+            else: # 아무것도 인식 X -> 종료 조건
                 self.robo._motion.notice_alpha(self.robo.alpha)
                 return True
             return False
