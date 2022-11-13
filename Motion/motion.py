@@ -164,7 +164,12 @@ class Motion:
     
     # 계단 오르내리기 (171~174) [Stair]
     def stair(self):
-        pass
+        """parameter :
+        dir : {LEFT_UP, RIGHT_UP, LEFT_DOWN, RIGHT_DOWN}
+        """
+        dir_list = {'LEFT_UP': 171, 'RIGHT_UP': 172, 'LEFT_DOWN': 173, 'RIGHT_DOWN': 174}
+        self.TX_data_py2(dir_list[dir])
+        time.sleep(1)
 
     # 장애물 치우기 (175~176) [Line/Stair/Danger]
     def kick(self):
@@ -226,7 +231,7 @@ class Motion:
     # 방위 인식 (201~204)
     def notice_direction(self, dir):
         """parameter :
-        dir={'E', 'W', 'S', 'N'}
+        dir : {E, W, S, N}
         """
         dir_list = {'E': 201, 'W': 202, 'S': 203, 'N': 204}
         self.TX_data_py2(dir_list[dir])
@@ -235,12 +240,15 @@ class Motion:
     # 위험지역 인식 (205~206)
     def notice_area(self, area):
         """parameter :
-        area='BLACK'
+        area = 'BLACK'
         """
         area_list = {'BLACK': 205}
         self.TX_data_py2(area_list[area])
 
     def notice_alpha(self, ls):
+        """parameter :
+        alpha_list : {A, B, C, D}
+        """
         alpha_list = {'A': 207, 'B': 208, 'C': 209, 'D': 210}
         for i in ls:
             if i in alpha_list:
