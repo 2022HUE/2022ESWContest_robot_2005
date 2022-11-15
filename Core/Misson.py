@@ -169,7 +169,7 @@ class MissonDanger:
     milkbox_pos: int
     head_angle: int = 70
     holding: bool
-    first_milkbox_pos: int
+    first_milkbox_pos: int = cur.FIRST_MILKBOX_POS
 
     def init_robo(self, robo: Robo):
         self.robo = robo
