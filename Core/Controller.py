@@ -25,7 +25,6 @@ class Controller:
     # 방문한 미션 지역의 수
     count_area: int=0 # 위험/계단 지역만 카운트합니다.
     count_misson: int=0
-    goto_rotate: bool = False
     area: str = ""
     stair_level: int=0 #계단을 오른 횟수
 
@@ -58,17 +57,13 @@ class Controller:
             else: self.area = "STAIR"
 
 
-    def is_horizon(self):
+    def check_line(self):
         state = self.robo._image_processor.is_line_horizon_vertical()
-        if state == "HORIZON":
-            return True
-        elif state == "VERTICAL":
-            return "GO"
-        elif state == "LEFT" or state == "RIGHT":
-            return state
-        else:
+        if not state:
             return False
-        
+        else:
+            return state
+    
     def line_rotate(self):
         state = self.robo._image_processor.is_line_horizon_vertical()
         if state == "LEFT" or state == "RIGHT":
@@ -113,40 +108,40 @@ class Controller:
         #         return False
 
 
-        # elif act == act.ENTRANCE:
-        #     if MissonEntrance.go_robo():
-        #         self.check_cur_area()
-        #         if self.area == "STAIR":
-        #             self.act = act.GO_STAIR
-        #         else:
-        #             self.act = act.GO_DANGER
-        #     else:
-        #         return False
+        elif act == act.ENTRANCE:
+            if MissonEntrance.go_robo():
+                # motion: 회전 (수직선이 보일 때 까지)
+                self.act = act.GO_NEXTROOM
+            else:
+                return False
 
         elif act == act.GO_NEXTROOM:
             print("ACT: ", act) # Debug
-
-            # motion: 화살표 방향으로 회전
-            # if self.goto_rotate: 
-            #     goto_ = self.is_horizon()
-            # else: 
-            #     goto_ = self.line_rotate()
-            # if goto_:
-            #     # motion 전진
-            #     if self.goto_rotate:
-            #         self.act = act.STAIR
-            #     else:
-            #         self.goto_rotate = True
-            
-            # 방 입구 도착 -> 위험/계단지역 판단
-            self.check_area()
-            print("----Current Area", self.area, "----")
-            if self.area == "STAIR":
-                self.act = act.STAIR
-            else: self.act = act.DANGER
-
-            # else:
-            #     return False
+            state = self.robo._image_processor.is_line_horizon_vertical()
+            if state:
+                if state == "HORIZON":
+                    # 방 입구 도착 -> 위험/계단지역 판단
+                    self.check_area()
+                    print("----Current Area", self.area, "----")
+                    if self.area == "STAIR":
+                        self.act = act.STAIR
+                    else: self.act = act.DANGER
+                elif state == "VERTICAL":
+                    self.robo._motion.walk()
+                elif state == "MOVE_LEFT":
+                    # motion: 왼쪽으로 이동
+                    self.robo._motion.walk()
+                elif state == "MOVE_RIGHT":
+                    # motion: 오른쪽으로 이동
+                    self.robo._motion.walk()
+                elif state == "TURN_RIGHT":
+                    # motion: 오른쪽으로 회전
+                    self.robo._motion.walk()
+                elif state == "TURN_LEFT":
+                    # motion:왼쪽으로 회전
+                    self.robo._motion.walk()
+            else:
+                return False
 
         elif act == act.STAIR:
             print("ACT: ", act) # Debug

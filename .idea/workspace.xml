@@ -5,10 +5,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="65f6b597-7c0b-4b9b-8e31-9f1d6a600a30" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1002_16" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1002_17" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1002_19" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1027_23" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/danger/1031_20" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/entrance/1027_23:14.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:30.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:33.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:34.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:35.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:37.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:38.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:39.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:41.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:42.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:43.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:44.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:45.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:46.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1106_22:47.h264" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Misson.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Misson.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Robo.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Robo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/Motion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/Motion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/motion.bas" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/motion.bas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/motion.obj" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/motion.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/계단.bas" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/계단.bas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/촬영.bas" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/촬영.bas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/촬영.obj" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/촬영.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Arrow.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Arrow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Direction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Direction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sensor/ImageProcessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/ImageProcessor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Line.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Line.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Setting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/src/danger/1027_23:38.h264" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/src/danger/1027_23:38.h264" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/src/entrance/1027_23" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/src/danger/1002_15" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/src/entrance/1027_23:19.h264" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/src/entrance/1027_23:19.h264" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/src/stair/0925_18:19.mp4" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/src/stair/0925_18:19.mp4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Setting.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

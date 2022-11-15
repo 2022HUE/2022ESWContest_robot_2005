@@ -23,16 +23,6 @@ setting.ARROW_BRIGHT = 1.0
 setting.DIR_BLUR = 7
 setting.DIR_KERNEL = 1
 
-
-########### CURRENT ACT ###########
-cur = Setting()
-# cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
-cur.MAP_DIRECTION = None # (entr) E, W, S, N
-cur.MAP_ARROW = "" # (entr) LEFT, RIGHT
-
-setting.DANGER_H_BLUE = [[82, 87, 30], [130, 255, 120]]
-setting.DANGER_H_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
-
 ########### DANGER DETECTION ###########
 
 # 장애물 파란색 색상 마스크 lower, upper의 [h, s, v] 값
@@ -97,6 +87,6 @@ setting.ARROW = 'LEFT' #임시로 선언 (채연)
 ########### CURRENT ACT ###########
 cur = Setting()
 # cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
-cur.MAP_DIRECTION = None # (entr) E, W, S, N
+cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
 cur.MAP_ARROW = "LEFT" # (entr) LEFT, RIGHT
 cur.AREA = "DANGER" 
