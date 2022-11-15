@@ -197,10 +197,6 @@ class Motion:
         """ parameter :
         dir : {LEFT, RIGHT}
         """
-        if dir == "LEFT" : 
-            self.turn_angle1 = angle
-        elif dir == "RIGHT" :
-            self.turn_angle2 = angle
         dir_list = {
             "LEFT" : {
                 10 : 193, 20 : 194, 45 : 195, 60 : 196
