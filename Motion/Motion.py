@@ -176,8 +176,12 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
 
     # 집기 (181~186) [Danger]
-    def grab(self):
-        self.TX_data_py2(181)
+    def grab(self, dir):
+        """ parameter :
+        dir : {UP, DOWN}
+        """
+        dir_list = {"UP" : 181, "DOWN" : 186}
+        self.TX_data_py2(dir_list[dir])
 
     # 횟수_집고 전진 (187~188) [Danger]
     def grab_walk(self, loop = 1):
