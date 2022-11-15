@@ -84,7 +84,6 @@ class Controller:
     def go_robo(self):
         act = self.act
         robo: Robo = Robo('Sensor/src/entrance/entr03-1.mp4')
-        
 
         if act == act.START:
             self.robo

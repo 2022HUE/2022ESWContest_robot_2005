@@ -34,10 +34,11 @@ class ImageProccessor:
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
-            if platform.system() == "Linux":
-                self._cam = WebcamVideoStream(src=-1).start()
-            else:
-                self._cam = WebcamVideoStream(src=0).start()
+            print('ermkesm')
+            # if platform.system() == "Linux":
+            #     self._cam = WebcamVideoStream(src=-1).start()
+            # else:
+            #     self._cam = WebcamVideoStream(src=0).start()
 
         self.fps = FPS()  # FPS
         print(self.fps)  # debuging: fps
@@ -321,7 +322,7 @@ class ImageProccessor:
 
     ############# STAIR PROCESSING #############
     # 로봇의 회전 완료 여부 반환
-    def first_rotation(self, show):  # 알파벳 크기 측정 후 계단 지역으로 회전, 화살표 반대 방향.
+    def first_rotation(self):  # 알파벳 크기 측정 후 계단 지역으로 회전, 화살표 반대 방향.
         img = img_processor.get_img()
         img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V)
@@ -332,20 +333,20 @@ class ImageProccessor:
         # False 일 때는 LEFT, RIGHT 반환
         # LEFT: 왼쪽으로 회전, RIGHT: 오른쪽으로 회전
         '''
-        print("alphabet_to_stair_rotation", ret) # Debug
-
-        ## 필요 없는 부분 ======================================================
-        img = cv.cvtColor(img,cv.COLOR_HSV2BGR)
-        if ret == True:
-            img = cv.putText(img, "Rotation Complete", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
-        else:
-            img = cv.putText(img, "Turn " + ret , (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
-        cv.imshow('img',img)
-        ## ===============================================================================================
+        # print("alphabet_to_stair_rotation", ret) # Debug
+        #
+        # ## 필요 없는 부분 ======================================================
+        # img = cv.cvtColor(img,cv.COLOR_HSV2BGR)
+        # if ret == True:
+        #     img = cv.putText(img, "Rotation Complete", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
+        # else:
+        #     img = cv.putText(img, "Turn " + ret , (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
+        # cv.imshow('img',img)
+        # ## ===============================================================================================
 
         return ret
     
-    def second_rotation(self, show):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
+    def second_rotation(self):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
         img = img_processor.get_img()
         img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V)
