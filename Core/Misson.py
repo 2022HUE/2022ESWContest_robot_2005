@@ -173,7 +173,7 @@ class MissonDanger:
 
     @classmethod
     def set_milkbox_pos_to_7(self):
-
+        pass
 
     @classmethod
     def go_robo(self):
@@ -227,9 +227,7 @@ class MissonDanger:
             while True:
                 self.milkbox_idx = self.robo._image_processor.get_milkbox_pos(cur.ALPHABET_COLOR)
                 if self.milkbox_idx == 7:
-
-                pass
-                if
+                    pass
 
             # self.act = Act.OUT_OF_DANGER_OBJ
         elif act == act.OUT_OF_DANGER:
@@ -237,7 +235,6 @@ class MissonDanger:
             while not self.robo._image_processor.is_out_of_black():
                 if not self.robo._image_processor.is_holding_milkbox():
                     self.act = Act.WALK_TO_MILKBOX
-
 
             self.act = Act.SPEAKING_ALPHABET
 
