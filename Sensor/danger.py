@@ -271,7 +271,7 @@ if __name__ == "__main__":
     # 알파벳 글자 인식 부분 촬영
     # 파랑
     # 1031 20:56 촬영본은 제대로 안됨
-    cap = cv.VideoCapture("src/danger/1031_20:56.h264")
+    # cap = cv.VideoCapture("src/danger/1031_20:56.h264")
     # cap = cv.VideoCapture("src/danger/1106_20:02.h264")
     # 1106 20:06, 07 완전 모범 결과 출력
     # cap = cv.VideoCapture("src/danger/1106_20:06.h264")
@@ -291,6 +291,30 @@ if __name__ == "__main__":
     # cap = cv.VideoCapture("src/danger/1031_20:53.h264")
     # cap = cv.VideoCapture("src/danger/1106_21:31.h264")
 
+    # ----- 보고서용 영상 -----------
+
+    # 글자 + 위험지역 확인 (영상 자체가 글자보고 먼저 고개 70도로 해버림, 영상 시작을 위험지역 보고 있는 것부터 하면 될 듯)
+    # print(danger.is_danger(img, True))
+    # print(danger.get_alphabet_color(img))
+    cap = cv.VideoCapture("src/danger/1110_22:27.h264")
+    # cap = cv.VideoCapture("src/danger/1110_22:29.h264")
+
+    # 장애물 접근 화면 (글자 + 위험지역 확인 + 접근 + 잡고 한발자국)
+    # pos_idx, count = danger.get_milkbox_pos(img, "RED", True)
+    # cap = cv.VideoCapture("src/danger/1110_22:29.h264")
+
+    # 장애물 들고 위험 지역 밖으로
+    # print("위험 지역 탈출") if danger.is_out_of_black(img, True) else print("아직 위험 지역")
+    # print("잡고 있음") if danger.is_holding_milkbox(img, "RED", True) else print("우유곽 놓침!")
+    # cap = cv.VideoCapture("src/danger/1110_22:32.h264")
+    # 장애물 내려 놓기
+    # cap = cv.VideoCapture("src/danger/1110_22:33.h264")
+
+    # 장애물 위험 지역 밖으로 내보낸 다음 노란 코너점 찾아서 걸어가기
+    # cap = cv.VideoCapture("src/danger/1110_22:34.h264")
+    # cap = cv.VideoCapture("src/danger/1110_22:39.h264")
+
+
     while cap.isOpened():
         _, img = cap.read()
 
@@ -301,11 +325,12 @@ if __name__ == "__main__":
         cv.imshow('src', img)
 
         hsv_origin = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
-        # pos_idx, count = danger.get_milkbox_pos(src, "BLUE", True)
+        # print("위험 지역 탈출") if danger.is_out_of_black(img, True) else print("아직 위험 지역")
+        # pos_idx, count = danger.get_milkbox_pos(img, "RED", True)
         # print("잡고 있음") if danger.is_holding_milkbox(img, "RED", True) else print("우유곽 놓침!")
-        # print(danger.is_danger(img, True))
-        print(danger.get_alphabet_color(img))
+        print(danger.is_danger(img, True))
+        # print(danger.get_alphabet_color(img))
+
         if cv.waitKey(5) & 0xFF == ord('q'):
             break
 
