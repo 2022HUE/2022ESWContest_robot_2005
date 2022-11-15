@@ -322,8 +322,8 @@ class ImageProccessor:
 
     ############# STAIR PROCESSING #############
     # 로봇의 회전 완료 여부 반환
-    def first_rotation(self):  # 알파벳 크기 측정 후 계단 지역으로 회전, 화살표 반대 방향.
-        img = img_processor.get_img()
+    def first_rotation(self,show):  # 알파벳 크기 측정 후 계단 지역으로 회전, 화살표 반대 방향.
+        img = self.get_img(True)
         img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V)
         cur_s_val = Stair.in_left_right(self,s_mask,setting.ARROW) # (Current_saturation_value) setting.Arrow: 화살표 방향
@@ -347,7 +347,7 @@ class ImageProccessor:
         return ret
     
     def second_rotation(self):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
-        img = img_processor.get_img()
+        img = self.get_img()
         img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V)
         # cv.imshow('Stair Mask',s_mask)
@@ -372,7 +372,7 @@ class ImageProccessor:
         return ret
     
     def rect(self):
-        img = img_processor.get_img()
+        img = self.get_img()
         img_gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 
         blur = cv.GaussianBlur(img_gray, (9, 9), 0)
@@ -390,7 +390,7 @@ class ImageProccessor:
         return contours
 
     def alphabet_center_check(self):
-        img = img_processor.get_img()
+        img = self.get_img()
         contours = self.rect()
 
         try:
@@ -432,7 +432,7 @@ class ImageProccessor:
             return 'fail'
     def stair_top(self):
         stair_level=0
-        img = img_processor.get_img()
+        img = self.get_img()
         hsv = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         lower_hue, upper_hue = np.array(setting.STAIR_BLUE[0]), np.array(setting.STAIR_BLUE[1])
         b_mask = Stair.in_stair_top(self,hsv,lower_hue,upper_hue) # roi blue mask
@@ -466,7 +466,7 @@ class ImageProccessor:
     
     # 계단 내려가기
     def stair_down(self):
-        img = img_processor.get_img()
+        img = self.get_img()
         img = cv.cvtColor(img,cv.COLOR_RGB2HSV)
         img_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V) # -->s_mask가 50 이면 좋겠어
         ''' motion 
@@ -482,7 +482,7 @@ class ImageProccessor:
 
     # 허프라인 잡히면 2층으로 올라가기
     def draw_stair_line(self):
-        img = img_processor.get_img()
+        img = self.get_img()
         x, y, w, h = 0, 200, 640, 200
         # x=0; y=200; w = 640; h = 200  # 계단 영역 ROI지정
         roi = img[y:y+h, x:x+w]
@@ -534,8 +534,8 @@ if __name__ == "__main__":
     stair04 = "src/stair/1106_20:13.h264" # 알파벳에서 계단지역쪽으로 회전
     stair05 = "src/stair/1114_21:20.h264" # 계단 오르기 시작
     stair06 = "src/stair/1114_21:26.h264" # 계단 내려가기
-
-    img_processor = ImageProccessor(video=stair06)
+    test = "Sensor/src/stair/1114_22:24.h264"
+    img_processor = ImageProccessor(video=test)
 
     ### Debug Run ###
     while True:

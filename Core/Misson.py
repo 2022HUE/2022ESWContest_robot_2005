@@ -129,9 +129,6 @@ class MissonEntrance:
 
         return False
 
-
-
-
 #############################################################
 
 class MissonStair:
@@ -156,8 +153,8 @@ class MissonStair:
         self.robo = robo
 
     def first_rotation(self):
-        # return self.robo._image_processor.first_rotation()
-        return True
+        return self.robo._image_processor.first_rotation(True)
+        # return True
     def center_and_forward(self):
         # return self.robo._image_processor.alphabet_center_check()
         return True

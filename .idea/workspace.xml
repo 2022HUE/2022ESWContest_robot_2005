@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="65f6b597-7c0b-4b9b-8e31-9f1d6a600a30" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Misson.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Misson.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Robo.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Robo.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Sensor/ImageProcessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/ImageProcessor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +31,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "/home/chaeyeon/PycharmProjects/chaeyeon_cv",
+    "last_opened_file_path": "/home/chaeyeon/PycharmProjects/ESWC_chaeyeon",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
@@ -158,9 +156,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.Test" />
-        <item itemvalue="Python.Misson" />
-        <item itemvalue="Python.Robo" />
         <item itemvalue="Python.ImageProcessor" />
+        <item itemvalue="Python.Robo" />
+        <item itemvalue="Python.Misson" />
         <item itemvalue="Python.Stair" />
       </list>
     </recent_temporary>
