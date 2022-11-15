@@ -124,7 +124,7 @@ class Motion:
         time.sleep(0.3)
     
     # 돌기 (141~160)
-    def turn(self, dir, angle, loop = 1, sleep = 0.5, arm = False):
+    def turn(self, dir, angle, loop = 1, sleep = 0.5):
         """ parameter :
         dir : {LEFT, RIGHT}
         """
@@ -140,12 +140,7 @@ class Motion:
                 10 : 145, 20 : 146, 45 : 147, 60 : 148
             }
         }
-        if arm :
-            if dir == "LEFT" :
-                dir_list[dir][angle] += 7
-            elif dir == "RIGHT" :
-                dir_list[dir][angle] += 6
-
+        
         for _ in range(loop):
             self.TX_data_py2(dir_list[dir])
             time.sleep(sleep)

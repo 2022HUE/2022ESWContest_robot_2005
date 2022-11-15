@@ -117,9 +117,6 @@ PRINT "VOLUME 200 !"
 GOSUB All_motor_mode3
 
 
-
-
-
 GOTO MAIN	'시리얼 수신 루틴으로 가기
 
 '************************************************
@@ -6004,8 +6001,9 @@ MAIN_2:
 
     '**** 입력된 A값이 0 이면 MAIN 라벨로 가고
     '**** 1이면 	 라벨, 2이면 key2로... 가는문
-    ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18 ,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28 ,KEY29,KEY30,KEY31,KEY32
-
+    ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18 ,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28 ,KEY29,KEY30,KEY31,KEY32,KEY33,KEY34,KEY35,KEY36,KEY37,KEY38,KEY39,KEY40,KEY41,KEY42,KEY43,KEY44,KEY45,KEY46,KEY47,KEY48,KEY49,KEY50,KEY51,KEY52,KEY53,KEY54,KEY55,KEY56,KEY57,KEY58,KEY59,KEY60,KEY61,KEY62,KEY63,KEY64,KEY65,KEY66,KEY67,KEY68,KEY69,KEY70,KEY71,KEY72,KEY73,KEY74,KEY75,KEY76,KEY77,KEY78,KEY79,KEY80,KEY81,KEY82,KEY83,KEY84,KEY85,KEY86,KEY87,KEY88,KEY89,KEY90,KEY91,KEY92,KEY93,KEY94,KEY95,KEY96,KEY97,KEY98,KEY99,KEY100,KEY101,KEY102,KEY103,KEY104,KEY105,KEY106,KEY107,KEY108,KEY109,KEY110,KEY111,KEY112,KEY113,KEY114,KEY115,KEY116,KEY117,KEY118,KEY119,KEY120
+	'ON A GOTO MAIN KEY121
+	
 
     IF A > 100 AND A < 110 THEN
         BUTTON_NO = A - 100
@@ -6276,3 +6274,416 @@ KEY32: ' F
     GOSUB 전방하향100도
     GOTO RX_EXIT
     '***************
+KEY33:
+    ETX 4800, 33
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY34:
+    ETX 4800, 34
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY35:
+    ETX 4800, 35
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY36:
+    ETX 4800, 36
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+    '***************
+
+    'KEY37 ~ KEY54: 머리 각도 조절
+KEY37:
+    ETX 4800, 37
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY38:
+    ETX 4800, 38
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY39:
+    ETX 4800, 39
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY40:
+    ETX 4800, 40
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY41:
+    ETX 4800, 41
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY42:
+    ETX 4800, 42
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY43:
+    ETX 4800, 43
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY44:
+    ETX 4800, 44
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY45:
+    ETX 4800, 45
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY46:
+    ETX 4800, 46
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY47:
+    ETX 4800, 47
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY48:
+    ETX 4800, 48
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY49:
+    ETX 4800, 49
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY50:
+    ETX 4800, 50
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY51:
+    ETX 4800, 51
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY52:
+    ETX 4800, 52
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY53:
+    ETX 4800, 53
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY54:
+    ETX 4800, 54
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY55:
+    ETX 4800, 55
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY56:
+    ETX  4800,56
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+    '***************
+KEY57:
+    ETX  4800,57
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY58:
+    ETX 4800, 58
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY59:
+    ETX 4800, 59
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY60:
+    ETX 4800, 60
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY61:
+    ETX 4800, 61
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY62:
+    ETX 4800, 62
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY63:
+    ETX 4800, 63
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY64:
+    ETX 4800, 64
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY65:
+    ETX 4800,  65
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY66:
+    ETX 4800, 66
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY67:
+    ETX 4800, 67
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY68:
+    ETX 4800, 68
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY69:
+    ETX 4800, 69
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY70:
+    ETX 4800, 70
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY71:
+    ETX 4800, 71
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY72:
+    ETX 4800, 72
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY73:
+    ETX 4800, 73
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY74:
+    ETX 4800, 74
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+KEY75:
+    ETX  4800,75
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY76:
+    ETX  4800,76
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY77:
+    ETX  4800,77
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+    '***************
+KEY78:
+    ETX  4800,78
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+    '***************
+KEY79:
+    ETX 4800, 79
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY80:
+    ETX 4800, 80
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY81:
+    ETX 4800, 81
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY82:
+    ETX 4800, 82
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY83:
+    ETX 4800, 83
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY84:
+    ETX 4800, 84
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY85:
+    ETX 4800, 85
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY86:
+    ETX 4800, 86
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY87:
+    ETX 4800, 87
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY88:
+    ETX 4800, 88
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY89:
+    ETX 4800, 89
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY90:
+    ETX 4800, 90
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY91:
+    ETX 4800, 91
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+KEY92:
+    ETX  4800,92
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+    '***************
+KEY93:
+    ETX  4800,93
+    GOTO 고개중앙기본자세
+    GOTO RX_EXIT
+    '***************
+KEY94:
+    ETX  4800,94
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+
+KEY95:
+    ETX  4800,95
+
+    보행횟수 = 1
+    GOTO 문열기걷기후진
+
+
+    GOTO RX_EXIT
+    '***************
+
+KEY96:
+    ETX 4800, 96
+    GOTO 왼쪽옆으로70연속
+    GOTO RX_EXIT
+
+KEY97:
+    ETX 4800, 97
+    GOTO 오른쪽옆으로70연속
+    GOTO RX_EXIT
+KEY98:
+    ETX  4800,98
+    GOSUB 한걸음걷기
+    GOTO RX_EXIT
+KEY99:
+    ETX  4800,99
+    GOTO 문열고왼쪽턴20
+
+
+    GOTO RX_EXIT
+    '***************
+KEY100:
+    ETX  4800,100
+    GOTO 문열고오른쪽턴20
+
+    GOTO RX_EXIT
+KEY101:
+    ETX  4800,101
+    GOTO 집고왼쪽턴20
+
+
+    GOTO RX_EXIT
+KEY102:
+    ETX  4800,102
+    GOTO 집고오른쪽턴20
+
+
+    GOTO RX_EXIT
+KEY103:
+    ETX  4800,103
+    GOTO 집고왼쪽턴45
+
+
+    GOTO RX_EXIT
+    '***************
+KEY104:
+    ETX  4800,104
+    GOTO 집고오른쪽턴45
+
+
+    GOTO RX_EXIT
+KEY105:
+    ETX  4800,105
+    GOTO 왼쪽턴45
+
+
+    GOTO RX_EXIT
+    '***************
+KEY106:
+    ETX  4800,106
+    GOTO 오른쪽턴45
+
+
+    GOTO RX_EXIT
+KEY107:
+    ETX  4800,107
+    GOTO 문열고왼쪽턴45
+
+
+    GOTO RX_EXIT
+    '***************
+KEY108:
+    ETX  4800,108
+    GOTO 문열고오른쪽턴45
+
+
+    GOTO RX_EXIT
+
+KEY109:
+    ETX 4800,109
+    GOTO 집고왼쪽옆으로2
+    GOTO RX_EXIT
+
+KEY110:
+    ETX 4800,110
+    GOTO 집고오른쪽옆으로2
+    GOTO RX_EXIT
+
+KEY111:
+    ETX 4800,111
+    GOTO 양팔앞으로왼쪽걷기
+    GOTO RX_EXIT
+
+KEY112:
+    ETX 4800,112
+    GOTO 양팔앞으로오른쪽걷기
+    GOTO RX_EXIT
+KEY113:
+    ETX  4800,113
+    GOSUB 우유깍잡기걷기_1
+    GOTO RX_EXIT
+KEY114:
+    ETX  4800,114
+    GOSUB 우유깍잡기걷기_2
+    GOTO RX_EXIT
+KEY115:
+    ETX  4800,115
+    GOSUB 우유깍잡기걷기_3
+    GOTO RX_EXIT
+KEY116:
+    ETX 4800, 116
+    GOTO 우유깍잡기왼쪽돌기1
+    GOTO RX_EXIT
+KEY117:
+    ETX 4800, 117
+    GOTO 우유깍잡기오른쪽돌기1
+    GOTO RX_EXIT
+KEY118:
+    ETX 4800, 118
+    GOTO 우유깍잡기왼쪽옆으로
+    GOTO RX_EXIT
+KEY119:
+    ETX 4800, 119
+    GOTO 우유깍잡기오른쪽옆으로
+    GOTO RX_EXIT
+KEY120:
+    ETX  4800,120
+    'GOSUB 우유깍잡기_2
+    'GOSUB 전방하향90도
+    GOSUB 자이로ON
+    GOTO 문열고전진달리기50
+    GOSUB 자이로OFF
+    GOTO RX_EXIT
