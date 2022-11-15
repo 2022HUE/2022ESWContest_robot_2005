@@ -6536,7 +6536,7 @@ KEY97:
     GOTO RX_EXIT
 KEY98:
     ETX  4800,98
-    GOSUB 고개중앙기본자세기
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY99:
     ETX  4800,99
@@ -6545,113 +6545,104 @@ KEY99:
     
     
    	' **************************** 여기부터 모션 코드 시작 *********************
+   	
 KEY100:
     ETX  4800,100
-    GOTO 고개중앙기본자세
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
+    
+    '********** walk - BACKWARD*************
 KEY101:
     ETX  4800,101
     보행횟수 = 1
     GOSUB 횟수_전진종종걸음
     GOTO RX_EXIT
+    '***************
 KEY102:
     ETX  4800,102
-    GOTO 집고오른쪽턴20
-
-
-    GOTO RX_EXIT
-KEY103:
-    ETX  4800,103
-    GOTO 집고왼쪽턴45
-
-
+    보행횟수 = 1
+    GOSUB 횟수_좁은보폭
     GOTO RX_EXIT
     '***************
+    
+KEY103:
+    ETX  4800,103
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
 KEY104:
     ETX  4800,104
-    GOTO 집고오른쪽턴45
-
-
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY105:
     ETX  4800,105
-    GOTO 왼쪽턴45
-
-
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
-    '***************
 KEY106:
     ETX  4800,106
-    GOTO 오른쪽턴45
-
-
+	GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY107:
     ETX  4800,107
-    GOTO 문열고왼쪽턴45
-
-
+	GOSUB 고개중앙기본자세
     GOTO RX_EXIT
-    '***************
 KEY108:
     ETX  4800,108
-    GOTO 문열고오른쪽턴45
-
-
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
-
 KEY109:
     ETX 4800,109
-    GOTO 집고왼쪽옆으로2
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
-
 KEY110:
     ETX 4800,110
-    GOTO 집고오른쪽옆으로2
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 
+	'********** walk - FORWARD*************
 KEY111:
     ETX 4800,111
-    GOTO 양팔앞으로왼쪽걷기
+    보행횟수 = 1
+    GOSUB 횟수_후진
     GOTO RX_EXIT
-
+	'***************
 KEY112:
     ETX 4800,112
-    GOTO 양팔앞으로오른쪽걷기
+    보행횟수 = 1
+    GOSUB 횟수_뒤로좁은보폭
     GOTO RX_EXIT
+    '***************
 KEY113:
     ETX  4800,113
-    GOSUB 우유깍잡기걷기_1
+    보행횟수 = 1
+    GOSUB 횟수_후진종종걸음
     GOTO RX_EXIT
+    '***************
+    
 KEY114:
     ETX  4800,114
-    GOSUB 우유깍잡기걷기_2
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY115:
     ETX  4800,115
-    GOSUB 우유깍잡기걷기_3
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY116:
     ETX 4800, 116
-    GOTO 우유깍잡기왼쪽돌기1
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY117:
     ETX 4800, 117
-    GOTO 우유깍잡기오른쪽돌기1
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY118:
     ETX 4800, 118
-    GOTO 우유깍잡기왼쪽옆으로
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY119:
     ETX 4800, 119
-    GOTO 우유깍잡기오른쪽옆으로
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY120:
     ETX  4800,120
-    'GOSUB 우유깍잡기_2
-    'GOSUB 전방하향90도
-    GOSUB 자이로ON
-    GOTO 문열고전진달리기50
-    GOSUB 자이로OFF
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
