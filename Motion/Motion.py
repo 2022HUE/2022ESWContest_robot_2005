@@ -128,10 +128,6 @@ class Motion:
         """ parameter :
         dir : {LEFT, RIGHT}
         """
-        if dir == "LEFT" : 
-            self.turn_angle1 = angle
-        elif dir == "RIGHT" :
-            self.turn_angle2 = angle
         dir_list = {
             "LEFT" : {
                 10 : 141, 20 : 142, 45 : 143, 60 : 144
@@ -142,7 +138,7 @@ class Motion:
         }
         
         for _ in range(loop):
-            self.TX_data_py2(dir_list[dir])
+            self.TX_data_py2(dir_list[dir][angle])
             time.sleep(sleep)
     
     # 옆으로 이동 (161~170)
@@ -215,7 +211,7 @@ class Motion:
         }
 
         for _ in range(loop):
-            self.TX_data_py2(dir_list[dir])
+            self.TX_data_py2(dir_list[dir][angle])
             time.sleep(sleep)
 
         # 영상처리로 판단하는 것으로 변경 >> parameter에 IR = False 제거
