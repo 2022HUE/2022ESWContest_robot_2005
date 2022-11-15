@@ -387,7 +387,7 @@ class ImageProccessor:
         else:
             img = cv.putText(img, "Turn " + ret, (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
 
-        cv.imshow('img',img)
+        # cv.imshow('img',img)
 
         '''motion
         # T: (회전완료) 머리 아래 30도 변경
@@ -416,7 +416,7 @@ class ImageProccessor:
         return contours
 
     def alphabet_center_check(self):
-        img = self.get_img()
+        img = self.get_img(True)
         contours = self.rect()
 
         try:
@@ -458,7 +458,7 @@ class ImageProccessor:
             return 'fail'
     def stair_top(self):
         stair_level=0
-        img = self.get_img()
+        img = self.get_img(True)
         hsv = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         lower_hue, upper_hue = np.array(setting.STAIR_BLUE[0]), np.array(setting.STAIR_BLUE[1])
         b_mask = Stair.in_stair_top(self,hsv,lower_hue,upper_hue) # roi blue mask
@@ -573,7 +573,7 @@ if __name__ == "__main__":
     stair04 = "src/stair/1106_20:13.h264" # 알파벳에서 계단지역쪽으로 회전
     stair05 = "src/stair/1114_21:20.h264" # 계단 오르기 시작
     stair06 = "src/stair/1114_21:26.h264" # 계단 내려가기
-    test = "Sensor/src/stair/1114_22:24.h264"
+    test = "Sensor/src/stair/1114_22:26.h264"
     img_processor = ImageProccessor(video=test)
 
     ### Debug Run ###
@@ -586,10 +586,10 @@ if __name__ == "__main__":
         ### stair ###
         # img_processor.first_rotation(show=True)
         # conto = img_processor.rect()
-        # img_processor.alphabet_center_check()
+        img_processor.alphabet_center_check()
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
-        img_processor.stair_down()
+        # img_processor.stair_down()
 
         if cv.waitKey(1) & 0xFF == 27:
             break

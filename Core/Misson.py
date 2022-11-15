@@ -66,8 +66,7 @@ class MissonEntrance:
             return False
         
         # 방위 저장할 필요가 있을까??
-        
-    
+
     # 화살표 방향 감지
     @classmethod
     def get_arrow(self):
@@ -153,8 +152,8 @@ class MissonStair:
         self.robo = robo
 
     def first_rotation(self):
-        return self.robo._image_processor.first_rotation(True)
-        # return True
+        # return self.robo._image_processor.first_rotation(True)
+        return True
     def center_and_forward(self):
         # return self.robo._image_processor.alphabet_center_check()
         return True

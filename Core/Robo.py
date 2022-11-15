@@ -5,6 +5,6 @@ from Setting import LineColor, Arrow, Setting
 
 class Robo:
     def __init__(self, vpath=''):
-        self._image_processor = ImageProccessor(video="Sensor/src/stair/1114_22:24.h264") # Image Processor
+        self._image_processor = ImageProccessor(video="Sensor/src/stair/1114_21:26.h264") # Image Processor
         self._motion = Motion() # Motion
         self.arrow: Arrow=Arrow.LEFT
