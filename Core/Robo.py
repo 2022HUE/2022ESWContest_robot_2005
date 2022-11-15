@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Sensor.ImageProcessor import ImageProccessor
 from Motion.Motion import Motion
 from Setting import LineColor, Arrow, Setting

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from enum import Enum, auto
 from Core.Robo import Robo
 from Core.Misson import MissonEntrance, MissonStair, MissonDanger
@@ -26,6 +27,7 @@ class Controller:
     count_misson: int=0
     goto_rotate: bool = False
     area: str = ""
+    stair_level: int=0 #계단을 오른 횟수
 
     miss: int=0
 
@@ -37,8 +39,6 @@ class Controller:
     MissonEntrance.init_robo(_entr, robo)
     MissonStair.init_robo(_stair, robo)
     MissonDanger.init_robo(_danger, robo)
-
-
 
     # 위험 지역인지 계단 지역인지 판단
     @classmethod
