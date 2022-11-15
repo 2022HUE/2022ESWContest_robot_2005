@@ -43,7 +43,6 @@ from Sensor.Setting import setting
 #                ((0, 209), (160, 319)), ((210, 429), (160, 319)), ((430, 639), (160, 319)),
 #                ((0, 209), (320, 479)), ((210, 429), (320, 479)), ((430, 639), (320, 479))]
 
-
 class Danger:
 
     def __init__(self):
@@ -111,7 +110,7 @@ class Danger:
             mask = self.get_milkbox_mask(hsv[pos[1][0]:pos[1][1], pos[0][0]:pos[0][1]], color)
             rate = np.count_nonzero(mask) / ((pos[1][1]-pos[1][0]) * (pos[0][1]-pos[0][0]))
             rate*=100
-            print("{}번째 그냥 rate 값: ".format(rate))
+            print("{}번째 그냥 rate 값: {}".format(idx, rate))
             if rate > max_rate:
                 max_idx = idx
                 max_rate = rate
