@@ -68,9 +68,10 @@ class Line:
     # 대표선 찾기
     def get_fitline(self, img, f_lines): 
         lines = np.squeeze(f_lines)
-        if len(lines) == 0: return False
+        print(lines)
+        if lines.size == 0: return False
         else:
-            if len(lines) > 8:
+            if lines.size > 8:
                 lines = lines.reshape(lines.shape[0]*2,2)
                 output = cv.fitLine(lines,cv.DIST_L2,0, 0.01, 0.01)
                 vx, vy, x, y = output[0], output[1], output[2], output[3]
@@ -79,6 +80,7 @@ class Line:
                 res = [x1,y1,x2,y2]
                 return res
             else: return False
+            
     
     def is_center(self, img, line):
         x1, y1, x2, y2 = line[0], line[1], line[2], line[3]

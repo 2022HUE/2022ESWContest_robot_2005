@@ -130,6 +130,10 @@ class ImageProccessor:
         # get Line
         line_arr = Line.hough_lines(self, roi_img, 1, 1 * np.pi/180, 30, 10, 20) # 허프 변환
         line_arr = np.squeeze(line_arr)
+        print(line_arr)
+        # if show:
+        #     cv.imshow("show", origin)
+        #     cv.waitKey(1) & 0xFF == ord('q')
         if line_arr != 'None':
             Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
             
@@ -499,7 +503,7 @@ if __name__ == "__main__":
     danger02 = "src/danger/1031_20:56.h264" # C
     danger03 = "src/danger/1027_23:32.h264" # D
     danger04 = "src/danger/1031_20:49.h264" # B
-    img_processor = ImageProccessor(video=l09)
+    img_processor = ImageProccessor(video=l11)
     
     ### Debug Run ###
     while True:
