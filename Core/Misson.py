@@ -133,8 +133,6 @@ class MissonEntrance:
 class MissonStair:
     act: Act = Act.START
     robo: Robo = Robo()
-
-    map_arrow: 'RIGHT' # 화살표
     # robo._image_processor("Sensor/src/stair/1114_21:21.h264")
 
     # room_name: str # 방 이름
