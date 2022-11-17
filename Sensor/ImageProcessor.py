@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import cv2 as cv
 import numpy as np
 import os
@@ -146,49 +147,62 @@ class ImageProccessor:
 
             if v_line:
                 # Line.draw_fitline(self, origin, v_line, [0, 255, 255]) # Debug
-                v_slope = Line.slope_cal(self, v_line)
+                v_slope = int(Line.slope_cal(self, v_line))
             if h_line:
                 # Line.draw_fitline(self, origin, h_line, [0, 255, 0]) # Debug
-                h_slope = Line.slope_cal(self, h_line)
+                h_slope = int(Line.slope_cal(self, h_line))
             
             # print(v_slope, h_slope)
 
+            
+
+
+            cv.putText(origin, "state: {}".format(state), (50, 210), cv.FONT_HERSHEY_SIMPLEX, 1, [255,255,0], 2)
+            cv.putText(origin, "v_slope: {}".format(v_slope), (50, 100), cv.FONT_HERSHEY_SIMPLEX, 0.5, [0,0,0], 2)
+            cv.putText(origin, "h_slope: {}".format(h_slope), (50, 130), cv.FONT_HERSHEY_SIMPLEX, 0.5, [0,0,0], 2)
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", origin)
                 cv.waitKey(1) & 0xFF == ord('q')
             ####################################
-            
             if state == "BOTH":
                 if v_slope and not h_slope: # vertical
-                    if 90 - v_slope > 0:
+                    if 90 - v_slope < 0:
+                        cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                         return "TURN_RIGHT"
                     else:
+                        cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                         return "TURN_LEFT"
                 elif h_slope and not v_slope: # horizon
-                    if h_slope > 90:
+                    if h_slope < 90:
+                        cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                         return "TURN_RIGHT"
                     else:
+                        cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                         return "TURN_LEFT"
                 else: # 선이 둘 다 인식됨
                     return state
             elif state == "VERTICAL" and v_line:
-                if 85 < v_slope < 95: # 수직
-                    is_center = Line.is_center(self, origin, v_line)
-                    print(is_center)
-                    if is_center != True: 
-                        return is_center
+                is_center = Line.is_center(self, origin, v_line)
+                cv.putText(origin, "center: {}".format(is_center), (260, 80), cv.FONT_HERSHEY_SIMPLEX, 0.8, [0,255,100], 2)
+                if is_center != True:
+                    return is_center
+                if 80 < v_slope < 100: # 수직
                     return state
-                if 95 <= v_slope:
+                if v_slope <= 80:
+                    # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_LEFT"
-                elif v_slope <= 85:
+                elif 100 <= v_slope:
+                    # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_RIGHT"
             elif state == "HORIZON" and h_line:
                 if h_slope < 10 or 170 < h_slope:
                     return state
-                if h_slope > 90:
+                if h_slope < 90:
+                    # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_RIGHT"
                 else:
+                    # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_LEFT"
             else:
                 print("ELSE", state)
@@ -197,6 +211,7 @@ class ImageProccessor:
             
 
         else: # 라인 자체를 인식 못할 경우 False 리턴
+            print("FALSE")
             return False
         
 
@@ -214,8 +229,9 @@ class ImageProccessor:
         ret_arrow = Arrow.get_arrow_info(self, img, origin)
         if ret_arrow: 
             print(ret_arrow) # Debug: print arrow
-        # else:
-        #     print("Failed")
+        else:
+            print("Failed")
+        cv.putText(origin, "arrow: {}".format(ret_arrow), (50, 210), cv.FONT_HERSHEY_SIMPLEX, 1, [255,255,0], 2)
 
         ########### [Option] Show ##########
         if show:
@@ -252,7 +268,7 @@ class ImageProccessor:
             points = len(approx)
             if peri > 900 and points == 4:
                 roi_contour.append(contours[pos])
-                cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
+                # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
 
         roi_contour_pos = []
         for pos in range(len(roi_contour)):
@@ -284,10 +300,18 @@ class ImageProccessor:
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", img)
-                # cv.imshow("show", img_crop)
+                cv.imshow("showw", img_crop)
                 cv.waitKey(1) & 0xFF == ord('q')
             ####################################
-            if len(set_) <= 2: return list(set_)[0]
+            if len(set_) <= 2: 
+                cv.putText(img, "direction: {}".format(match_mask_font), (100, 250), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
+                ########### [Option] Show ##########
+                if show:
+                    cv.imshow("show", img)
+                    # cv.imshow("show", img_crop)
+                    cv.waitKey(1) & 0xFF == ord('q')
+                ####################################
+                return match_mask_font
             else: return ''
         else: # False
             return ''
@@ -498,18 +522,32 @@ if __name__ == "__main__":
     l12 = "src/line/1106_22:44.h264" # goto_exit + object
     l13 = "src/line/1106_22:45.h264" # exit - right
     l14 = "src/line/1106_22:47.h264" # exit - left
+    # 1114 #
+    l15 = "src/line/1114_21:51.h264" # entrance
+    l16 = "src/line/1114_21:53.h264" # entrance
+    l19 = "src/line/1114_21:56.h264" # E+arrow -> ISSUE!
+    l20 = "src/line/1114_21:57.h264" # goto
+    l21 = "src/line/1114_21:58.h264" # is_danger -> stair
+    # 녹화 비디오
+    l22 = "src/line/1114_22:01.h264" # entrance
+    l23 = "src/line/1114_22:02.h264" # S+arrow
+    l24 = "src/line/1114_22:03.h264" # goto
+    l25 = "src/line/1114_22:05.h264" # exit - right
+    l26 = "src/line/1114_22:10.h264" # exit - object
+    img_processor = ImageProccessor(video=l23)
+
+
     # danger
     danger01 = "src/danger/1027_23:41.h264" # A
     danger02 = "src/danger/1031_20:56.h264" # C
     danger03 = "src/danger/1027_23:32.h264" # D
     danger04 = "src/danger/1031_20:49.h264" # B
-    img_processor = ImageProccessor(video=l11)
     
     ### Debug Run ###
     while True:
-        # img_processor.get_arrow(show=True)
+        img_processor.get_arrow(show=True)
         # img_processor.get_ewsn(show=True)
-        img_processor.is_line_horizon_vertical(show=True)
+        # img_processor.is_line_horizon_vertical(show=True)
         # img_processor.get_alphabet_name(show=True)
 
         ### stair ###
