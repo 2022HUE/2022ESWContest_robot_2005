@@ -119,6 +119,8 @@ class Controller:
                     return False
             elif MissonEntrance.go_robo():
                 # motion: 회전 (수직선이 보일 때 까지)
+                self.robo._motion.turn(robo.arrow, 45, 3)
+                self.robo._motion.turn(robo.arrow, 10)
                 self.miss += 1
                 return False
             else:
@@ -173,7 +175,8 @@ class Controller:
             print("ACT: ", act) # Debug
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL" and self.check_exit > 0:
-                self.robo._motion.turn(self.robo.arrow, 45, 2)
+                self.robo._motion.turn(self.robo.arrow, 45, 3)
+                self.robo._motion.turn(self.robo.arrow, 20, 1)
                 self.act = act.EXIT
             elif state == "VERTICAL" and self.check_exit == 0:
                 self.robo._motion.walk("FORWARD")
