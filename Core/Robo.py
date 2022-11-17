@@ -8,4 +8,4 @@ class Robo:
     disarrow: str = 'RIGHT'
     def __init__(self, vpath=''):
         self._image_processor = ImageProccessor(video="Sensor/src/stair/1114_21:26.h264") # Image Processor
-        self._motion = Motion() # Motion
+        # self._motion = Motion() # Motion
