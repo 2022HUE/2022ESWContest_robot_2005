@@ -6,8 +6,8 @@ class Robo:
     arrow: Arrow = Arrow.LEFT
     dis_arrow: str = 'RIGHT'
     black_room_list = []
-    alphabet_color: str
+    alphabet_color: str = "RED"
 
     def __init__(self, vpath='Sensor/src/danger/1110_22:29.h264'):
         self._image_processor = ImageProccessor(video=vpath) # Image Processor
-        # self._motion = Motion() # Motion
+        self._motion = Motion() # Motion
