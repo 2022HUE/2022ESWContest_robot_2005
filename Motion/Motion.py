@@ -177,7 +177,7 @@ class Motion:
         """ parameter :
         dir : {UP, DOWN}
         """
-        dir_list = {"UP" : 181, "DOWN" : 186}
+        dir_list = {"UP" : 181, "DOWN" : 185}
         self.TX_data_py2(dir_list[dir])
 
     # 횟수_집고 전진 (187~188) [Danger]
@@ -187,7 +187,6 @@ class Motion:
             time.sleep(1.5)   # 나중에 보고 초 조정하기
             self.TX_data_py2(188)
         
-    
     # 집고 옆으로 (189~192) [Danger]
     def grab_sideway(self, dir, long = False):
         """ parameter :
