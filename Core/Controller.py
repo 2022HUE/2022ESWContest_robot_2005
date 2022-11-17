@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from enum import Enum, auto
 from Core.Robo import Robo
 from Core.Misson import MissonEntrance, MissonStair, MissonDanger
@@ -8,6 +9,7 @@ limits: int=2
 
 class Act(Enum): # 맵 전체 수행 순서도
     # (미션)이 적혀진 순서에서는 Misson.py에서 과제를 수행합니다.
+
     START = auto() # 시작
     GO_ENTRANCE = auto() # 입장
     ENTRANCE = auto() # (미션)입장
@@ -26,6 +28,7 @@ class Controller:
     count_misson: int=0
     check_exit: int=0 # 퇴장시 사용
     area: str = ""
+    stair_level: int=0 #계단을 오른 횟수
 
     miss: int=0
 
@@ -37,8 +40,6 @@ class Controller:
     MissonEntrance.init_robo(_entr, robo)
     MissonStair.init_robo(_stair, robo)
     MissonDanger.init_robo(_danger, robo)
-
-
 
     # 위험 지역인지 계단 지역인지 판단
     @classmethod
@@ -78,7 +79,6 @@ class Controller:
     def go_robo(self):
         act = self.act
         robo: Robo = Robo('Sensor/src/entrance/entr03-1.mp4')
-        
 
         if act == act.START:
             self.robo

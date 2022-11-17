@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Misson Debuging Code
 from Core.Misson import MissonEntrance, MissonDanger, MissonStair
 
