@@ -328,10 +328,10 @@ Arm_motor_mode3:
     RETURN
     '******************************************	
 만세자세:
-    MOVE G6A,100, 56, 182, 76, 100, 100
-    MOVE G6D,100, 56, 182, 76, 100, 100
-    MOVE G6B,100,  180,  80,
-    MOVE G6C,100,  180,  80
+    MOVE G6A,100,  76, 145,  93, 100, 100
+    MOVE G6D,100,  76, 145,  93, 100, 100
+    MOVE G6B,100,  190,  95,
+    MOVE G6C,100,  190,  95
     WAIT
     mode = 2
     RETURN
@@ -2515,9 +2515,10 @@ GOSUB_RX_EXIT2:
     MOTORMODE G6D,3,3,3,3,2
     MOVE G6B, 100, 180,  80,  ,  ,
     MOVE G6C, 100, 180,  80,  ,  ,
+    
+    
 
 팔들면서오른쪽턴45_LOOP:
-
     SPEED 10
     MOVE G6A,95,  46, 145,  123, 105, 100
     MOVE G6D,95,  106, 145,  63, 105, 100
@@ -2527,6 +2528,7 @@ GOSUB_RX_EXIT2:
     MOVE G6A,93,  46, 145,  123, 105, 100
     MOVE G6D,93,  106, 145,  63, 105, 100
     WAIT
+
 
     SPEED 8
     GOSUB 기본자세2
@@ -2581,6 +2583,155 @@ GOSUB_RX_EXIT2:
     GOTO RX_EXIT
 
     '************************************************
+    '************************************************
+팔들고왼쪽턴20:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    MOVE G6B, 100, 190,  95,  ,  ,
+    MOVE G6C, 100, 190,  95,  ,  ,
+
+    SPEED 8
+    MOVE G6A,95,  96, 145,  73, 105, 100
+    MOVE G6D,95,  56, 145,  113, 105, 100
+    MOVE G6B,110
+    MOVE G6C,90, 
+    WAIT
+
+    SPEED 12
+    MOVE G6A,93,  96, 145,  73, 105, 100
+    MOVE G6D,93,  56, 145,  113, 105, 100
+    WAIT
+
+    SPEED 6
+    MOVE G6A,101,  76, 146,  93, 98, 100
+    MOVE G6D,101,  76, 146,  93, 98, 100
+
+    WAIT
+
+    GOSUB 만세자세
+
+    GOTO RX_EXIT
+    '**********************************************
+팔들고오른쪽턴20:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    MOVE G6B, 100, 190,  95,  ,  ,
+    MOVE G6C, 100, 190,  95,  ,  ,
+
+    SPEED 8
+    MOVE G6A,95,  56, 145,  113, 105, 100
+    MOVE G6D,95,  96, 145,  73, 105, 100
+    MOVE G6B,90
+    MOVE G6C,110
+    WAIT
+
+    SPEED 12
+    MOVE G6A,93,  56, 145,  113, 105, 100
+    MOVE G6D,93,  96, 145,  73, 105, 100
+    WAIT
+
+    SPEED 6
+    MOVE G6A,101,  76, 146,  93, 98, 100
+    MOVE G6D,101,  76, 146,  93, 98, 100
+
+    WAIT
+
+    GOSUB 만세자세
+
+    GOTO RX_EXIT
+    '**********************************************
+팔들고왼쪽턴45:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    MOVE G6B, 100, 190,  95,  ,  ,
+    MOVE G6C, 100, 190,  95,  ,  ,
+
+팔들고왼쪽턴45_LOOP:
+
+    SPEED 10
+    MOVE G6A,95,  106, 145,  63, 105, 100
+    MOVE G6D,95,  46, 145,  123, 105, 100
+    WAIT
+
+    SPEED 12
+    MOVE G6A,93,  106, 145,  63, 105, 100
+    MOVE G6D,93,  46, 145,  123, 105, 100
+    WAIT
+
+    SPEED 8
+    GOSUB 만세자세
+    '
+    GOTO RX_EXIT
+    '**********************************************
+팔들고서오른쪽턴45:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    MOVE G6B, 100, 190,  95,  ,  ,
+    MOVE G6C, 100, 190,  95,  ,  ,
+
+팔들고오른쪽턴45_LOOP:
+    SPEED 10
+    MOVE G6A,95,  46, 145,  123, 105, 100
+    MOVE G6D,95,  106, 145,  63, 105, 100
+    WAIT
+
+    SPEED 12
+    MOVE G6A,93,  46, 145,  123, 105, 100
+    MOVE G6D,93,  106, 145,  63, 105, 100
+    WAIT
+
+
+    SPEED 8
+    GOSUB 만세자세
+
+    GOTO RX_EXIT
+
+    '************************************************
+팔들고왼쪽턴60:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    MOVE G6B, 100, 190,  95,  ,  ,
+    MOVE G6C, 100, 190,  95,  ,  ,
+팔들고왼쪽턴60_LOOP:
+
+    SPEED 15
+    MOVE G6A,95,  116, 145,  53, 105, 100
+    MOVE G6D,95,  36, 145,  133, 105, 100
+    WAIT
+
+    SPEED 15
+    MOVE G6A,90,  116, 145,  53, 105, 100
+    MOVE G6D,90,  36, 145,  133, 105, 100
+    WAIT
+
+    SPEED 10
+    GOSUB 만세자세
+
+    GOTO RX_EXIT
+
+    '**********************************************
+팔들고오른쪽턴60:
+    MOTORMODE G6A,3,3,3,3,2
+    MOTORMODE G6D,3,3,3,3,2
+    MOVE G6B, 100, 190,  95,  ,  ,
+    MOVE G6C, 100, 190,  95,  ,  ,
+팔들고오른쪽턴60_LOOP:
+
+    SPEED 15
+    MOVE G6A,95,  36, 145,  133, 105, 100
+    MOVE G6D,95,  116, 145,  53, 105, 100
+    WAIT
+
+    SPEED 15
+    MOVE G6A,90,  36, 145,  133, 105, 100
+    MOVE G6D,90,  116, 145,  53, 105, 100
+
+    WAIT
+
+    SPEED 10
+    GOSUB 만세자세
+
+    GOTO RX_EXIT
 
     ''************************************************
     '************************************************
@@ -6002,7 +6153,7 @@ MAIN_2:
     '**** 입력된 A값이 0 이면 MAIN 라벨로 가고
     '**** 1이면 	 라벨, 2이면 key2로... 가는문
     ON A GOTO MAIN,KEY1,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,KEY9,KEY10,KEY11,KEY12,KEY13,KEY14,KEY15,KEY16,KEY17,KEY18 ,KEY19,KEY20,KEY21,KEY22,KEY23,KEY24,KEY25,KEY26,KEY27,KEY28 ,KEY29,KEY30,KEY31,KEY32,KEY33,KEY34,KEY35,KEY36,KEY37,KEY38,KEY39,KEY40,KEY41,KEY42,KEY43,KEY44,KEY45,KEY46,KEY47,KEY48,KEY49,KEY50,KEY51,KEY52,KEY53,KEY54,KEY55,KEY56,KEY57,KEY58,KEY59,KEY60,KEY61,KEY62,KEY63,KEY64,KEY65,KEY66,KEY67,KEY68,KEY69,KEY70,KEY71,KEY72,KEY73,KEY74,KEY75,KEY76,KEY77,KEY78,KEY79,KEY80,KEY81,KEY82,KEY83,KEY84,KEY85,KEY86,KEY87,KEY88,KEY89,KEY90,KEY91,KEY92,KEY93,KEY94,KEY95,KEY96,KEY97,KEY98,KEY99,KEY100,KEY101,KEY102,KEY103,KEY104,KEY105,KEY106,KEY107,KEY108,KEY109,KEY110,KEY111,KEY112,KEY113,KEY114,KEY115,KEY116,KEY117,KEY118,KEY119,KEY120,KEY121,KEY122,KEY123,KEY124,KEY125,KEY126,KEY127,KEY128,KEY129,KEY130,KEY131,KEY132,KEY133,KEY134,KEY135,KEY136,KEY137,KEY138,KEY139,KEY140,KEY141,KEY142,KEY143,KEY144,KEY145,KEY146,KEY147,KEY148,KEY149,KEY150,KEY151,KEY152,KEY153,KEY154,KEY155,KEY156,KEY157,KEY158,KEY159,KEY160,KEY161,KEY162,KEY163,KEY164,KEY165,KEY166,KEY167,KEY168,KEY169,KEY170,KEY171,KEY172,KEY173,KEY174,KEY175,KEY176,KEY177,KEY178,KEY179,KEY180,KEY181,KEY182,KEY183,KEY184,KEY185,KEY186,KEY187,KEY188,KEY189,KEY190,KEY191,KEY192,KEY193,KEY194,KEY195,KEY196,KEY197,KEY198,KEY199,KEY200,KEY201,KEY202,KEY203,KEY204,KEY205,KEY206,KEY207,KEY208,KEY209,KEY210
-	
+
 
     IF A > 100 AND A < 110 THEN
         BUTTON_NO = A - 100
@@ -6274,7 +6425,7 @@ KEY32: ' F
     GOSUB 전방하향100도
     GOTO RX_EXIT
     '***************
-    
+
 KEY33:
     ETX 4800, 33
     GOSUB 고개중앙기본자세
@@ -6542,15 +6693,15 @@ KEY99:
     ETX  4800,99
     GOTO 고개중앙기본자세
     GOTO RX_EXIT
-    
-    
-   	' **************************** 여기부터 모션 코드 시작 *********************
-   	
+
+
+    ' **************************** 여기부터 모션 코드 시작 *********************
+
 KEY100:
     ETX  4800,100
     GOSUB 고개중앙기본자세
     GOTO RX_EXIT
-    
+
     '********** walk - BACKWARD*************
 KEY101:
     ETX  4800,101
@@ -6563,7 +6714,7 @@ KEY102:
     GOSUB 횟수_좁은보폭
     GOTO RX_EXIT
     '***************
-    
+
 KEY103:
     ETX  4800,103
     GOSUB 고개중앙기본자세
@@ -6578,11 +6729,11 @@ KEY105:
     GOTO RX_EXIT
 KEY106:
     ETX  4800,106
-	GOSUB 고개중앙기본자세
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY107:
     ETX  4800,107
-	GOSUB 고개중앙기본자세
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY108:
     ETX  4800,108
@@ -6597,7 +6748,7 @@ KEY110:
     GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 
-	'********** walk - FORWARD*************
+    '********** walk - FORWARD*************
 KEY111:
     ETX 4800,111
     보행횟수 = 1
@@ -6614,7 +6765,7 @@ KEY113:
     GOSUB 횟수_후진종종걸음
     GOTO RX_EXIT
     '***************
-    
+
 KEY114:
     ETX  4800,114
     GOSUB 고개중앙기본자세
@@ -6643,8 +6794,8 @@ KEY120:
     ETX  4800,120
     GOSUB 고개중앙기본자세
     GOTO RX_EXIT
-    
- 	'**************** set_head ********************
+
+    '**************** set_head ********************
 KEY121:
     ETX  4800,120
     GOSUB 전방하향20도
@@ -6685,7 +6836,7 @@ KEY130:
     ETX 4800, 130
     GOSUB 전방하향110도
     GOTO RX_EXIT
-    
+
     '******************************
 
 KEY131:
@@ -6728,7 +6879,7 @@ KEY140:
     ETX 4800, 140
     GOSUB 머리상하정면
     GOTO RX_EXIT
-    
+
     '**************** turn ********************
 KEY141:
     ETX 4800, 141
@@ -6769,7 +6920,7 @@ KEY149:
 KEY150:
     ETX 4800, 150
     GOSUB 팔들면서왼쪽턴45
-    GOTO RX_EXIT  
+    GOTO RX_EXIT
 KEY151:
     ETX 4800, 151
     GOSUB 팔들면서왼쪽턴60
@@ -6788,35 +6939,29 @@ KEY154:
     GOTO RX_EXIT
 KEY155:
     ETX 4800, 155
-    'GOSUB 팔들고왼쪽턴20
-    GOSUB 고개중앙기본자세
+    GOSUB 팔들고왼쪽턴20
     GOTO RX_EXIT
 KEY156:
     ETX 4800, 156
-    'GOSUB 팔들고왼쪽턴45
-    GOSUB 고개중앙기본자세
+    GOSUB 팔들고왼쪽턴45
     GOTO RX_EXIT
 KEY157:
     ETX 4800, 157
-    'GOSUB 팔들고왼쪽턴60
-    GOSUB 고개중앙기본자세
+    GOSUB 팔들고왼쪽턴60
     GOTO RX_EXIT
 KEY158:
     ETX 4800, 158
-    'GOSUB 팔들고오른쪽턴20
-    GOSUB 고개중앙기본자세
+    GOSUB 팔들고오른쪽턴20
     GOTO RX_EXIT
 KEY159:
     ETX 4800, 159
-    'GOSUB 팔들고오른쪽턴45
-    GOSUB 고개중앙기본자세
+    GOSUB 팔들고오른쪽턴45
     GOTO RX_EXIT
 KEY160:
     ETX 4800, 160
-    'GOSUB 팔들고오른쪽턴60
-    GOSUB 고개중앙기본자세
+    GOSUB 팔들고오른쪽턴60
     GOTO RX_EXIT
-    
+
     '**************** walk_side ********************
 KEY161:
     ETX 4800, 161
@@ -6858,7 +7003,7 @@ KEY170:
     ETX 4800, 170
     GOSUB 고개중앙기본자세
     GOTO RX_EXIT
-    
+
     '**************** stair ********************
 KEY171:
     ETX 4800, 171
@@ -6876,7 +7021,7 @@ KEY174:
     ETX 4800, 174
     GOSUB 계단오른발내리기1cm
     GOTO RX_EXIT
-    
+
     '**************** kick ********************
 KEY175:
     ETX 4800, 175
@@ -6902,7 +7047,7 @@ KEY180:
     ETX 4800, 180
     GOSUB 고개중앙기본자세
     GOTO RX_EXIT
-    
+
     '**************** grab ********************
 KEY181:
     ETX 4800, 181
@@ -6921,15 +7066,15 @@ KEY184:
     GOSUB 물건집기_4
     GOTO RX_EXIT
 KEY185:
-    ETX 4800, 185 
+    ETX 4800, 185
     GOSUB 물건놓기
     GOTO RX_EXIT
-    
+
 KEY186:
     ETX 4800, 186
     GOSUB 고개중앙기본자세
     GOTO RX_EXIT
-    
+
     '**************** grab_walk ********************
 KEY187:
     ETX 4800, 187
@@ -6941,7 +7086,7 @@ KEY188:
     보행횟수 = 1
     GOSUB 집고전진2
     GOTO RX_EXIT
-    
+
     '**************** grab_sidewalk ********************
 KEY189:
     ETX 4800, 189
@@ -6950,7 +7095,7 @@ KEY189:
 KEY190:
     ETX 4800, 190
     GOSUB 집고왼쪽옆으로2
-    GOTO RX_EXIT    
+    GOTO RX_EXIT
 KEY191:
     ETX 4800, 191
     GOSUB 집고오른쪽옆으로
@@ -6959,7 +7104,7 @@ KEY192:
     ETX 4800, 192
     GOSUB 집고오른쪽옆으로2
     GOTO RX_EXIT
-    
+
     '**************** grab_turn ********************
 KEY193:
     ETX 4800, 193
@@ -6993,7 +7138,7 @@ KEY200:
     ETX 4800, 200
     GOSUB 집고오른쪽턴60
     GOTO RX_EXIT
-    
+
     '**************** notice ********************
 KEY201:
     ETX 4800, 201
