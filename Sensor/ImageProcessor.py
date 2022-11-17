@@ -34,11 +34,11 @@ class ImageProccessor:
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
-            print('ermkesm')
-            # if platform.system() == "Linux":
-            #     self._cam = WebcamVideoStream(src=-1).start()
-            # else:
-            #     self._cam = WebcamVideoStream(src=0).start()
+            # print('ermkesm')
+            if platform.system() == "Linux":
+                self._cam = WebcamVideoStream(src=-1).start()
+            else:
+                self._cam = WebcamVideoStream(src=0).start()
 
         self.fps = FPS()  # FPS
         print(self.fps)  # debuging: fps

@@ -152,8 +152,8 @@ class MissonStair:
         self.robo = robo
 
     def first_rotation(self):
-        # return self.robo._image_processor.first_rotation(True)
-        return True
+        return self.robo._image_processor.first_rotation(True)
+        # return True
     def center_and_forward(self):
         # return self.robo._image_processor.alphabet_center_check()
         return True
@@ -190,8 +190,9 @@ class MissonStair:
             if self.first_rotation(self)==True: #True 회전완료
                 self.act = Act.CENTER_AND_FORWARD
             else: #LEFT, RIGHT 로 반환됨
-                # self.robo._motion.turn(self,Robo.arrow,60,arm=True) #화살표 방향으로 회전해야함
-                pass
+                self.robo._motion.turn(self,Robo.arrow,60,arm=True) #화살표 방향으로 회전해야함
+                # pass
+
         elif act == act.CENTER_AND_FORWARD:
             print('Act = %s'%act)
 

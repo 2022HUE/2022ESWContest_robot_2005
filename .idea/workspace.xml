@@ -8,6 +8,13 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Misson.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Misson.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Robo.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Robo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Arrow.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Arrow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Danger.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Danger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Direction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Direction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/ImageProcessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/ImageProcessor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Line.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Line.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Setting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
