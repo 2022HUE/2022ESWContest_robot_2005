@@ -30,10 +30,11 @@ class ImageProccessor:
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
-            if platform.system() == "Linux":
-                self._cam = WebcamVideoStream(src=-1).start()
-            else:
-                self._cam = WebcamVideoStream(src=0).start()
+            print('ermkesm')
+            # if platform.system() == "Linux":
+            #     self._cam = WebcamVideoStream(src=-1).start()
+            # else:
+            #     self._cam = WebcamVideoStream(src=0).start()
 
         self.fps = FPS()  # FPS
         print(self.fps)  # debuging: fps
@@ -499,6 +500,7 @@ if __name__ == "__main__":
     danger02 = "src/danger/1031_20:56.h264" # C
     danger03 = "src/danger/1027_23:32.h264" # D
     danger04 = "src/danger/1031_20:49.h264" # B
+    danger05 = "src/danger/1110_22:29.h264" # 위험지역 확인과 알파벳 확인
     img_processor = ImageProccessor(video=l09)
     
     ### Debug Run ###
@@ -516,3 +518,9 @@ if __name__ == "__main__":
         # img_processor.stair_to_alphabet_rotation(show=False)
         # img_processor.draw_stair_line()
         # img_processor.stair_down()
+
+        ### danger ###
+        # img_processor.is_danger()
+
+        if cv.waitKey(5) & 0xFF == ord('q'):
+            break

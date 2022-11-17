@@ -8,6 +8,6 @@ class Robo:
     black_room_list = []
     alphabet_color: str
 
-    def __init__(self, vpath=''):
+    def __init__(self, vpath='Sensor/src/danger/1110_22:29.h264'):
         self._image_processor = ImageProccessor(video=vpath) # Image Processor
-        self._motion = Motion() # Motion
+        # self._motion = Motion() # Motion
