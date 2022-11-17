@@ -325,19 +325,22 @@ class ImageProccessor:
     # 계단 지역인지(False) 위험 지역인지(True) detection
     def is_danger(self):
         img = self.get_img()
-        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        return Danger.is_danger(hsv) # [return] DANGER / STAIR
+        return Danger.is_danger(img) # [return] DANGER / STAIR
  
     # 방 이름이 적힌 글자(A, B, C, D)의 색상 판단
     def get_alphabet_color(self):
         img = self.get_img()
-        return Danger.get_alphabet_color(img) # [return] RED / BLUE
+        hsv = Danger.get_alphabet_roi(img)
+        if hsv == "Failed":
+            return False
+        else:
+            return Danger.get_alphabet_color(hsv) # [return] RED / BLUE
 
     # 방 이름(알파벳) 인식
     def get_alphabet_name(self, show=False):
         img = self.get_img()
 
-        roi = Danger.get_alphabet_roi(self, img, "GRAY")
+        roi = Danger.get_alphabet_roi(img, "GRAY")
         arr_a = [cv.imread('src/alphabet_data/a{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
         arr_b = [cv.imread('src/alphabet_data/b{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
         arr_c = [cv.imread('src/alphabet_data/c{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
@@ -361,14 +364,12 @@ class ImageProccessor:
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
     def is_holding_milkbox(self, color):
         img = self.get_img()
-        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        return Danger.is_holding_milkbox(hsv, color) # [return] T/F
+        return Danger.is_holding_milkbox(img, color) # [return] T/F
 
     # 장애물 위치 파악을 위한 함수
     def get_milkbox_pos(self, color):
         img = self.get_img()
-        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        return Danger.get_milkbox_pos(hsv) # [return] 0 ~ 8 (장애물 위치 idx 값)
+        return Danger.get_milkbox_pos(img, color) # [return] 0 ~ 8 (장애물 위치 idx 값)
     
     ############# DANGER PROCESSING #############
 
@@ -616,7 +617,7 @@ if __name__ == "__main__":
     stair06 = "src/stair/1114_21:26.h264" # 계단 내려가기
     test = "Sensor/src/stair/1114_22:26.h264"
     img_processor = ImageProccessor(video=test)
-
+    
     ### Debug Run ###
     while True:
         img_processor.get_arrow(show=True)
@@ -633,7 +634,7 @@ if __name__ == "__main__":
         # img_processor.stair_down()
 
         ### danger ###
-        # img_processor.is_danger()
+        img_processor.get_alphabet_color()
 
         if cv.waitKey(5) & 0xFF == ord('q'):
             break

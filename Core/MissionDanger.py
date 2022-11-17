@@ -39,19 +39,19 @@ class MissionDanger:
     def is_okay_grab_milkbox(self):
         if self.head_angle == 70:
             self.head_angle = 45
-            # motion : 고개 각도 45도로 설정
-            self.robo._motion.set_head("DOWN", 45)
+            # # motion : 고개 각도 45도로 설정
+            # self.robo._motion.set_head("DOWN", 45)
             return False
         elif self.head_angle == 45:
             self.head_angle = 30
-            # motion : 고개 각도 30도로 설정
-            self.robo._motion.set_head("DOWN", 30)
+            # # motion : 고개 각도 30도로 설정
+            # self.robo._motion.set_head("DOWN", 30)
             return False
         else:
-            # motion : 장애물 잡기 동작 수행
-            self.robo._motion.grab("UP")
-            # motion : 장애물 집고 앞으로 한번 걷기 동작 수행
-            self.robo._motion.grab_walk()
+            # # motion : 장애물 잡기 동작 수행
+            # self.robo._motion.grab("UP")
+            # # motion : 장애물 집고 앞으로 한번 걷기 동작 수행
+            # self.robo._motion.grab_walk()
             return True
 
     @classmethod
@@ -126,7 +126,7 @@ class MissionDanger:
                 # 9개 구역에 따라 다른 모션 수행
                 if self.milkbox_pos == 7:
                     if self.is_okay_grab_milkbox():
-                        self.act = Act.OUT_OF_DANGER_OBJ
+                        self.act = Act.OUT_OF_DANGER
                         break
                 # elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
                 #     # motion : 앞으로 걷기 1번 수행 -> short 옵션 넣어줘야하나요?
@@ -146,14 +146,12 @@ class MissionDanger:
                     self.miss += 1
                     return False
 
-            self.act = Act.OUT_OF_DANGER
-
 
         elif act == act.OUT_OF_DANGER:
             print("OUT_OF_DANGER")
             # 장애물을 들고 있는 채로 위험지역 밖을 벗어날 때까지 아래 과정 반복
             while True:
-                if not self.robo._image_processor.is_holding_milkbox():
+                if not self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
                     # # motion : 장애물 내려놓기 동작 수행
                     # self.robo._motion.grab("DOWN")
                     self.act = Act.WALK_TO_MILKBOX
