@@ -34,7 +34,7 @@ class ImageProccessor:
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
-            # print('ermkesm')
+            print('ermkesm')
             if platform.system() == "Linux":
                 self._cam = WebcamVideoStream(src=-1).start()
             else:
@@ -42,7 +42,6 @@ class ImageProccessor:
 
         self.fps = FPS()  # FPS
         print(self.fps)  # debuging: fps
-
         shape = (self.height, self.width, _) = self.get_img().shape
         print(shape)  # debuging: image shape => height, width
         time.sleep(2)
