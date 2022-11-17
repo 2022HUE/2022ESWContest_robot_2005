@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from enum import Enum, auto
 from Core.Robo import Robo
-from Setting import cur, Arrow
+from Setting import cur
 import time
 
 
@@ -31,7 +31,7 @@ class Act(Enum):
     EXIT = auto()  # 공통
 
 
-class MissonEntrance:
+class MissionEntrance:
     act: Act = Act.START
     robo: Robo = Robo()
     # print(robo)
@@ -121,7 +121,7 @@ class MissonEntrance:
 
 #############################################################
 
-class MissonStair:
+class MissionStair:
     act: Act = Act.START
     robo: Robo = Robo()
     # robo._image_processor("Sensor/src/stair/1114_21:21.h264")
@@ -247,7 +247,7 @@ class MissonStair:
 
         return False
 
-class MissonDanger:
+class MissionDanger:
     act: Act = Act.START
     robo: Robo = Robo()
     miss: int = 0

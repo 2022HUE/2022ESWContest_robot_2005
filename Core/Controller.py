@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from enum import Enum, auto
 from Core.Robo import Robo
-from Core.Misson import MissonEntrance, MissonStair, MissonDanger
+from Core.Mission import MissionEntrance, MissionStair, MissionDanger
 from Setting import cur
 import time
 
@@ -33,13 +33,13 @@ class Controller:
     miss: int=0
 
     # Misson.py
-    _entr: MissonEntrance = MissonEntrance
-    _stair: MissonStair = MissonStair
-    _danger: MissonDanger = MissonDanger
+    _entr: MissionEntrance = MissionEntrance
+    _stair: MissionStair = MissionStair
+    _danger: MissionDanger = MissionDanger
 
-    MissonEntrance.init_robo(_entr, robo)
-    MissonStair.init_robo(_stair, robo)
-    MissonDanger.init_robo(_danger, robo)
+    MissionEntrance.init_robo(_entr, robo)
+    MissionStair.init_robo(_stair, robo)
+    MissionDanger.init_robo(_danger, robo)
 
     # 위험 지역인지 계단 지역인지 판단
     @classmethod
@@ -117,7 +117,7 @@ class Controller:
                 else: 
                     self.miss += 1
                     return False
-            elif MissonEntrance.go_robo():
+            elif MissionEntrance.go_robo():
                 # motion: 회전 (수직선이 보일 때 까지)
                 self.robo._motion.turn(robo.arrow, 45, 3)
                 self.robo._motion.turn(robo.arrow, 10)
