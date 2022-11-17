@@ -149,6 +149,24 @@ class Motion:
             self.TX_data_py2(dir_list[dir][angle])
             time.sleep(sleep)
     
+    # 팔 들고 돌기 (141~160)
+    def arm_turn(self, dir, angle, loop = 1, sleep = 0.5):
+        """ parameter :
+        dir : {LEFT, RIGHT}
+        """
+        dir_list = {
+            "LEFT" : {
+                20 : 155, 45 : 156, 60 : 157
+            },
+            "RIGHT" : {
+                20 : 158, 45 : 159, 60 : 160
+            }
+        }
+        
+        for _ in range(loop):
+            self.TX_data_py2(dir_list[dir][angle])
+            time.sleep(sleep)
+
     # 옆으로 이동 (161~170)
     def walk_side(self, dir):
         """ parameter :
