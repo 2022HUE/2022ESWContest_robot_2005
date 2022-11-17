@@ -76,14 +76,14 @@ class Danger:
             mask = self.get_milkbox_mask(hsv[pos[1][0]:pos[1][1], pos[0][0]:pos[0][1]], color)
             rate = np.count_nonzero(mask) / ((pos[1][1] - pos[1][0]) * (pos[0][1] - pos[0][0]))
             rate *= 100
-            print("{}번째 그냥 rate 값: {}".format(idx, rate))
+            # print("{}번째 그냥 rate 값: {}".format(idx, rate))
             if rate > max_rate:
                 max_idx = idx
                 max_rate = rate
-        print("----------------------------")
-        print("max_rate 값: ", max_rate)
-        if max_idx == 7:
-            print("지금 장애물 집자!")
+        # print("----------------------------")
+        # print("max_rate 값: ", max_rate)
+        # if max_idx == 7:
+        #     print("지금 장애물 집자!")
 
         if show:
             # 장애물이 위치한 구역 crop
