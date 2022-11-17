@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import cv2 as cv
 import numpy as np
 
@@ -81,6 +82,7 @@ class Line:
                 res = [x1,y1,x2,y2]
                 return res
             else: return False
+            
     
     def is_center(self, img, line):
         x1, y1, x2, y2 = line[0], line[1], line[2], line[3]

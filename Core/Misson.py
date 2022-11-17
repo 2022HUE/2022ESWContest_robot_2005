@@ -1,64 +1,66 @@
+# -*- coding: utf-8 -*-
 from enum import Enum, auto
 from Core.Robo import Robo
 from Setting import cur, Arrow
 import time
 
+
 class Act(Enum):
-    START = auto() # 공통
+    START = auto()  # 공통
     FIND_LINE = auto()
     ### entrance ###
     DETECT_DIRECTION = auto()
     DETECT_ARROW = auto()
 
     ### stair ###
+    FIRST_ROTATION = auto()
+    CENTER_AND_FORWARD = auto()
+    SECOND_ROTATION = auto()
+
+    DRAW_STAIR_LINE = auto()
+    STAIR_DOWN = auto()
 
     ### danger ###
-    # (예시)
-    DETECT_ALPHABET = auto() # 방이름 감지
-    FIND_OBJ = auto() # 장애물 찾기
-    OUT_OF_DANGER_OBJ = auto() # 위험지역 밖으로 장애물 옮기기
-    SPEAKING_ALPHABET = auto() # 알파벳 글자 말하기
+    # (예시)출
+    SPEAK_DANGER = auto()
+    DETECT_ALPHABET = auto()  # 방이름 감지
+    WALK_TO_MILKBOX = auto()  # 장애물 찾기
+    OUT_OF_DANGER = auto()  # 위험지역 밖으로 장애물 옮기기
+    REGRAB_MILKBOX = auto() # 떨어진 장애물 다시 잡기 -> WALK_TO_MILKBOX로 충분할 것 같아서 일단 안씀
+    KICK_MILKBOX = auto() # 자꾸 장애물을 떨어트릴 경우 이 방법 사용 (발로 차거나 치우기 동작 수행)
+    EXIT = auto()  # 공통
 
-
-    EXIT = auto() # 공통
 
 class MissonEntrance:
     act: Act = Act.START
     robo: Robo = Robo()
-    print(robo)
-    print(robo._motion)
-    print('##########################')
+    # print(robo)
+    # print(robo._motion)
+    # print('##########################')
     # robo._image_processor("src/entrance/entr03-1.mp4")
 
-    map_arrow: str # 화살표
-    map_direction: str # 방위
+    map_arrow: str  # 화살표
+    map_direction: str  # 방위
 
     miss: int = 0
 
     @classmethod
-    def init_robo(self, robo:Robo):
+    def init_robo(self, robo: Robo):
         self.robo = robo
 
     # 방위 감지
-    def detect_direction(self):
-        # 모션 제어
-        # self.robo._motion
-        # time.sleep()
+    @classmethod
+    def get_direction(self):
         if cur.MAP_DIRECTION:
             self.map_direction = cur.MAP_DIRECTION
         else:
-            
-            self.map_direction = self.robo._image_processor.get_direction()
+            self.map_direction = self.robo._image_processor.get_ewsn()
         
         if self.map_direction:
-            # 미션 코드 (motion)
+            self.robo._motion.notice_direction(self.map_direction) # 미션 코드 (motion)
             return True
         else: # 인식 실패
-            # motion code
-            self.miss += 1
             return False
-        
-        # 방위 저장할 필요가 있을까??
         
     
     # 화살표 방향 감지
@@ -70,14 +72,11 @@ class MissonEntrance:
             my_arrow = self.robo._image_processor.get_arrow()
 
         if my_arrow:
-            self.robo.arrow = Arrow.LEFT if my_arrow == "LEFT" else Arrow.RIGHT
+            self.robo.arrow = "LEFT" if my_arrow == "LEFT" else "RIGHT"
             return True
         else: # 인식 실패
-            # motion code
-            self.miss += 1
             return False
-        
-        
+
     @classmethod
     # 입장 미션 순서도
     def go_robo(self):
@@ -85,50 +84,47 @@ class MissonEntrance:
 
         if act == act.START:
             print('ACT: ', act)
-            # self.act = Act.DETECT_DIRECTION
+            self.act = Act.DETECT_DIRECTION
+
+        # 방위 인식
+        elif act == act.DETECT_DIRECTION:
+            print('ACT: ', act) # Debug
+            # (motion) 고개 올리기 70도 - 방위 보이게
+            self.robo._motion.set_head("DOWN", 70)
+
+            if self.get_direction():
+                self.miss = 0
+            else:
+                # motion? 인식 잘 안될경우 -> 알파벳이 중앙에 있는지 판단하는 알고리즘 연결
+                return False
+
+            # (motion) 고개 올리기 110도 - 화살표 보이게
+            self.robo._motion.set_head("DOWN", 110)
             self.act = Act.DETECT_ARROW
-
-        # # 방위 인식
-        # elif act == act.DETECT_DIRECTION:
-        #     print('ACT: ', act)
-        #     # self.detect_direction()
-        #     if self.detect_direction():
-        #         self.miss = 0
-        #     else:
-        #         # motion
-        #         self.detect_direction()
-        #         return False
-
-        #     # (motion) 고개 올리기 - 화살표 보이게
-        #     self.act = Act.DETECT_ARROW
         
         # 화살표 인식
         elif act == act.DETECT_ARROW:
-            print('ACT: ', act)
-            if self.get_arrow():
-                # (motion) 고개 내리기 - 노란선 보이게
-                self.robo._motion.set_head()
+            print('ACT: ', act) # Debug
+            if self.get_arrow(): # 인식 성공
+                # (motion) 고개 내리기 30 - 노란선 보이게
+                self.robo._motion.set_head("DOWN", 30)
                 self.act = Act.EXIT
             else:
-                # motion
-                self.robo._motion.set_head()
-                self.detect_arrow()
                 return False
 
 
-        else: # EXIT
+        else:  # EXIT
             print('ACT: ', act)
             return True
 
         return False
 
-
-
-
 #############################################################
 
 class MissonStair:
     act: Act = Act.START
+    robo: Robo = Robo()
+    # robo._image_processor("Sensor/src/stair/1114_21:21.h264")
 
     # room_name: str # 방 이름
     # room_color: str # 방 이름 색상
@@ -136,71 +132,315 @@ class MissonStair:
 
     # miss: int = 0
 
-
-
     # def reset(self):
     #     self.act = Act.START
     #     self.init_robo(robo=self.robo)
     #     self.miss = 0
-    
+
     def init_robo(self, robo:Robo):
         self.robo = robo
-    
+
+    def first_rotation(self):
+        return self.robo._image_processor.first_rotation(True)
+        # return True
+    def center_and_forward(self):
+        # return self.robo._image_processor.alphabet_center_check()
+        return True
+
+    def second_rotation(self):
+        # return self.robo._image_processor.second_rotation()
+        return True
+
+    def stair_up(self):
+        # return self.robo._image_processor.draw_stair_line()
+        return 'Top'
+
+    def stair_down(self):
+        return self.robo._image_processor.stair_down()
+        # return True
+
     # def init_debug(self, room_name, room_color, room_area):
     #     self.room_name = room_name
     #     self.room_color = room_color
     #     self.room_area
-    
-    # # 지역(계단/위험) 확인하는 함수
-    # def chk_room_area(self):
-    #     # 모션 제어 코드
-    #     pass 
 
     @classmethod
     def go_robo(self):
         act = self.act
-
-        
-    
-    
-class MissonDanger:
-    act: Act = Act.START
-
-    miss: int = 0
-    room_color: str
-
-    def init_robo(self, robo:Robo):
-            self.robo = robo  
-
-    @classmethod
-    def go_robo(self):
-        act = self.act
-        robo: Robo = Robo
 
         if act == act.START:
+            print('Act = %s'%act)
+            self.act = Act.FIRST_ROTATION
+
+        #현재 상태: 계단을 70도로 바라보고 계단임이 판단됨.
+        elif act == act.FIRST_ROTATION: #현재 머리각도 70
+            print('Act = %s'%act)
+
+            if self.first_rotation(self)==True: #True 회전완료
+                self.act = Act.CENTER_AND_FORWARD
+            else: #LEFT, RIGHT 로 반환됨
+                self.robo._motion.turn(self,Robo.arrow,60,arm=True) #화살표 방향으로 회전해야함
+                # pass
+
+        elif act == act.CENTER_AND_FORWARD:
+            print('Act = %s'%act)
+
+            ret = self.center_and_forward(self)
+            if ret == True:
+                self.act = Act.SECOND_ROTATION
+            elif ret == False: #전진
+                pass
+                # self.robo._motion.walk(self,'FORWARD',loop=2)
+            elif ret == 'Fail':
+                pass
+                # self.robo._motion.turn(self,Robo.arrow,20,arm=True) #화살표 방향
+            else: #return= LEFT or RIGHT
+                pass
+                # self.robo._motion.turn(self,ret,20,arm=True) #return 값대로 turn
+
+
+        elif act == act.SECOND_ROTATION:
+            print('Act = %s'%act)
+
+            if self.second_rotation(self)==True:
+                # self.robo._motion.set_head(self,'DOWN',angle=30) #30도
+                # self.robo._motion.walk(self,'FORWARD',loop=4) # 3회 정도
+                # self.robo._motion.walk(self,'FORWARD',loop=4,short=True) #좁은 보폭
+                self.act = Act.DRAW_STAIR_LINE
+            else:
+                # turn 인자값 = self.second_rotation()
+                # self.robo._motion.turn(self,Robo.disarrow,45) #화살표 반대 방향으로
+                pass
+
+        elif act == act.DRAW_STAIR_LINE:
+            print('Act = %s'%act)
+
+            ret = self.stair_up(self)
+            if ret == True: #1->2로 up, 샤샥 & 2->3로 up 할 때도
+                # self.robo._motion.stair(self,'LEFT_UP') # up
+                # self.robo._motion.walk(self,'FORWARD',loop=4,short=True) #좁은 보폭
+                pass
+            elif ret == False: #선이 안 잡힌 경우 샤샥, 2층에서 중앙 아래에 선이 잡힌 경우
+                # self.robo._motion.walk(self,'FORWARD',loop=4,short=True) #좁은 보폭
+                pass
+            elif ret == 'Top':
+                # self.robo._motion.walk(self,'FORWARD',loop=4)
+                # self.robo._motion.walk_side(self,Robo.arrow,loop=4)
+                # self.robo._motion.turn(self,Robo.disarrow,20,loop=2,arm=True)#손들고 턴으로 2회
+                self.act = Act.STAIR_DOWN
+
+        elif act == act.STAIR_DOWN:
+            print('Act = %s'%act)
+
+            if self.stair_down(self)==True: #1층임
+                # self.robo._motion.walk(self,'FORWARD',loop=2) #전진 2회
+                # self.robo._motion.turn(self,Robo.disarrow,45,loop=2 ) #화살표 반대 방향으로
+                # self.robo._motion.set_head(self,'DOWN',angle=45) #45도
+                self.act = Act.EXIT
+            else:
+                # self.robo._motion.stair(self,'LEFT_DOWN') #down
+                pass
+
+        elif act == act.EXIT:
+            print('Act = %s'%act)
+            return True
+
+        return False
+
+class MissonDanger:
+    act: Act = Act.START
+    robo: Robo = Robo()
+    miss: int = 0
+    limits: int = 3
+    alphabet_color: str
+    alphabet_name: str
+    milkbox_pos: int
+    head_angle: int = 70
+    holding: bool
+    first_milkbox_pos: int = cur.FIRST_MILKBOX_POS
+
+    def init_robo(self, robo: Robo):
+        self.robo = robo
+
+    @classmethod
+    def is_okay_grab_milkbox(self):
+        if self.head_angle == 70:
+            self.head_angle = 45
+            # motion : 고개 각도 45도로 설정
+            self.robo._motion.set_head("DOWN", 45)
+            return False
+        elif self.head_angle == 45:
+            self.head_angle = 30
+            # motion : 고개 각도 30도로 설정
+            self.robo._motion.set_head("DOWN", 30)
+            return False
+        else:
+            # motion : 장애물 잡기 동작 수행
+            self.robo._motion.grab("UP")
+            # motion : 장애물 집고 앞으로 한번 걷기 동작 수행
+            self.robo._motion.grab_walk()
+            return True
+
+    @classmethod
+    def go_robo(self):
+        act = self.act
+
+        if act == act.START:
+            print("START")
+            self.act = Act.SPEAK_DANGER
+
+        elif act == act.SPEAK_DANGER:
+            print("SPEAK_DANGER")
+            # # motion : "위험지역" 음성 말하기
+            # self.robo._motion.notice_area("BLACK")
+            # # motion: 화살표 반대 방향으로 고개 돌리기
+            # self.robo._motion.set_head(Robo.dis_arrow, 45)
+
             self.act = Act.DETECT_ALPHABET
-        
+
         elif act == act.DETECT_ALPHABET:
-            # motion: 고개 돌리기
-            self.robo._motion.set_head()
-            pass
-            # if self.detect_alphabet():
-            #     self.miss = 0
-            #     # motion
-            # elif self.miss > 1:
-            #     # motion
-            #     self.detect_alphabet()
-            # else:
-            #     self.miss += 1
+            print("DETECT_ALPHABET")
+            # 방 알파벳 색상 인식 -> 보기 불편해서 함수로 빼는 게 좋을 듯
+            # 색상 고정이면 이렇게 하고 싶은데 위험 지역 2개 돌 경우,
+            # 이전 세팅에 저장되어있는 값 사용하게 되어 다른 색상을 집을 수 있는 문제 발생
+            if cur.ALPHABET_COLOR:
+                Robo.alphabet_color = cur.ALPHABET_COLOR
+            else:
+                self.alphabet_color = self.robo._image_processor.get_alphabet_color()
+                if self.alphabet_color:
+                    self.miss = 0
+                    Robo.alphabet_color = self.alphabet_color
+                elif self.miss >= self.limits:
+                    # 계속 못찾으면 그냥 빨강으로 지정
+                    self.alphabet_color = "RED"
+                    Robo.alphabet_color = self.alphabet_color
+                # 아직 get_alphabet_color miss 처리 안했음
+                else:
+                    self.miss += 1
+                    return False
 
-            # self.act = Act.OUT_OF_DANGER_OBJ
-        elif act == act.OUT_OF_DANGER_OBJ:
-            self.act = Act.SPEAKING_ALPHABET
+            if cur.BLACK_ROOM_LIST:
+                # self.robo 다 Robo로 바꿔야 할 듯 -> self.robo로 하면 각 미션에서 쓰는 robo 인스턴스에 저장하는 거라서 각자 다를 듯
+                Robo.black_room_list = cur.BLACK_ROOM_LIST
+            else:
+                # 방 알파벳 글자 인식
+                self.alphabet_name = self.robo._image_processor.get_alphabet_name()
+                if self.alphabet_name:
+                    self.miss = 0
+                    Robo.black_room_list.append(self.alphabet_name)
+                elif self.miss >= self.limits:
+                    # 계속 못찾으면 그냥 글자 B로 지정
+                    self.alphabet_name = 'B'
+                    Robo.black_room_list.append(self.alphabet_name)
+                else:
+                    self.miss += 1
+                    return False
 
-        elif act == act.SPEAKING_ALPHABET:
-            # motion
+            # # motion : 정면(위험지역) 바라보기
+            # self.robo._motion.set_head("LEFTRIGHT_CENTER")
+
+            self.act = Act.WALK_TO_MILKBOX
+
+        elif act == act.WALK_TO_MILKBOX:
+            print("WALK_TO_MILKBOX")
+            if cur.FIRST_MILKBOX_POS:
+                self.first_milkbox_pos = cur.FIRST_MILKBOX_POS
+            else:
+                # 장애물 처음 위치 저장 -> 선언 위치가 여기가 맞을 지 모르겠지만 일단 여기에 둠
+                self.first_milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
+            while True:
+                self.milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
+                # 9개 구역에 따라 다른 모션 수행
+                if self.milkbox_pos == 7:
+                    if self.is_okay_grab_milkbox():
+                        self.act = Act.OUT_OF_DANGER_OBJ
+                        break
+                # elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
+                #     # motion : 앞으로 걷기 1번 수행 -> short 옵션 넣어줘야하나요?
+                #     self.robo._motion.walk()
+                # elif self.milkbox_pos == 0 or self.milkbox_pos == 3 or self.milkbox_pos == 6:
+                #     # motion : 왼쪽으로 20도 회전 수행
+                #     self.robo._motion.turn("LEFT", 20)
+                # elif self.milkbox_pos == 2 or self.milkbox_pos == 5 or self.milkbox_pos == 8:
+                #     # motion : 오른쪽으로 20도 회전 수행
+                #     self.robo._motion.turn("RIGHT", 20)
+
+                # milkbox_pos 를 가져오지 못한 경우
+                elif self.miss >= self.limits:
+                    # 계속 못찾으면 그냥 시민 대피 미션 포기 (실패할 경우 EXIT 버전 하나 더 만들어야할 듯)
+                    self.act = Act.EXIT
+                else:
+                    self.miss += 1
+                    return False
+
+            self.act = Act.OUT_OF_DANGER
+
+
+        elif act == act.OUT_OF_DANGER:
+            print("OUT_OF_DANGER")
+            # 장애물을 들고 있는 채로 위험지역 밖을 벗어날 때까지 아래 과정 반복
+            while True:
+                if not self.robo._image_processor.is_holding_milkbox():
+                    # # motion : 장애물 내려놓기 동작 수행
+                    # self.robo._motion.grab("DOWN")
+                    self.act = Act.WALK_TO_MILKBOX
+                    return False
+                if self.robo._image_processor.is_out_of_black():
+                    # # motion : 장애물 내려놓기 동작 수행
+                    # self.robo._motion.grab("DOWN")
+                    break
+            #     # 무한 루프 갇힐 경우에 대한 예외처리 아직 안함
+            #     else:
+            #         if self.first_milkbox_pos == 0:
+            #             # motion: 장애물 집고 왼쪽으로 45도 돌기 동작 수행
+            #             self.robo._motion.grab_turn("LEFT", 45)
+            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 수행
+            #             self.robo._motion.grab_walk()
+            #         elif self.first_milkbox_pos == 1:
+            #             # motion: 장애물 집고 왼쪽으로 45도 돌기 동작 수행
+            #             self.robo._motion.grab_turn("LEFT", 45)
+            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+            #             self.robo._motion.grab_walk(2)
+            #         elif self.first_milkbox_pos == 2:
+            #             # motion: 장애물 집고 오른쪽으로 45도 돌기 동작 수행
+            #             self.robo._motion.grab_turn("RIGHT", 45)
+            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+            #             self.robo._motion.grab_walk(2)
+            #         elif self.first_milkbox_pos == 3:
+            #             # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
+            #             self.robo._motion.grab_turn("LEFT", 60)
+            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+            #             self.robo._motion.grab_walk(2)
+            #         elif self.first_milkbox_pos == 4:
+            #             # motion: 장애물 집고 왼쪽으로 45도 돌기 동작 수행
+            #             self.robo._motion.grab_turn("LEFT", 45)
+            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+            #             self.robo._motion.grab_walk(2)
+            #         elif self.first_milkbox_pos == 5:
+            #             # motion: 장애물 집고 오른쪽으로 60도 돌기 동작 수행
+            #             self.robo._motion.grab_turn("RIGHT", 60)
+            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+            #             self.robo._motion.grab_walk(2)
+            #         elif self.first_milkbox_pos == 6:
+            #             # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
+            #             self.robo._motion.grab_turn("LEFT", 60)
+            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 수행
+            #             self.robo._motion.grab_walk()
+            #         elif self.first_milkbox_pos == 7:
+            #             # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
+            #             self.robo._motion.grab_turn("LEFT", 60)
+            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+            #             self.robo._motion.grab_walk(2)
+            #         elif self.first_milkbox_pos == 8:
+            #             # motion: 장애물 집고 오른쪽으로 60도 돌기 동작 수행
+            #             self.robo._motion.grab_turn("RIGHT", 60)
+            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+            #             self.robo._motion.grab_walk(2)
 
             self.act = Act.EXIT
-        
-        else: # EXIT
+
+        else:  # EXIT
+            print("EXIT")
             return True
+
+        return False
