@@ -4,7 +4,6 @@ import serial
 import time
 from threading import Thread, Lock
 
-
 # -----------------------------------------------
 class Motion:
     def __init__(self, sleep_time=0):
@@ -67,7 +66,6 @@ class Motion:
                         continue
                 elif RX != 200:
                     self.distance = RX
-
 
     ############################################################
     # 기본자세 (100)
