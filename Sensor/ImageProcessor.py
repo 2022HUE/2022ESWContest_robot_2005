@@ -31,10 +31,11 @@ class ImageProccessor:
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
-            if platform.system() == "Linux":
-                self._cam = WebcamVideoStream(src=-1).start()
-            else:
-                self._cam = WebcamVideoStream(src=0).start()
+            print('ermkesm')
+            # if platform.system() == "Linux":
+            #     self._cam = WebcamVideoStream(src=-1).start()
+            # else:
+            #     self._cam = WebcamVideoStream(src=0).start()
 
         self.fps = FPS()  # FPS
         print(self.fps)  # debuging: fps
@@ -334,7 +335,7 @@ class ImageProccessor:
         return Danger.get_alphabet_color(img) # [return] RED / BLUE
 
     # 방 이름(알파벳) 인식
-    def get_alphabet_name(self, show):
+    def get_alphabet_name(self, show=False):
         img = self.get_img()
 
         roi = Danger.get_alphabet_roi(self, img, "GRAY")
@@ -368,7 +369,7 @@ class ImageProccessor:
     def get_milkbox_pos(self, color):
         img = self.get_img()
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        return Danger.get_milkbox_pos(hsv)
+        return Danger.get_milkbox_pos(hsv) # [return] 0 ~ 8 (장애물 위치 idx 값)
     
     ############# DANGER PROCESSING #############
     
@@ -534,7 +535,6 @@ if __name__ == "__main__":
     l24 = "src/line/1114_22:03.h264" # goto
     l25 = "src/line/1114_22:05.h264" # exit - right
     l26 = "src/line/1114_22:10.h264" # exit - object
-    img_processor = ImageProccessor(video=l23)
 
 
     # danger
@@ -542,6 +542,8 @@ if __name__ == "__main__":
     danger02 = "src/danger/1031_20:56.h264" # C
     danger03 = "src/danger/1027_23:32.h264" # D
     danger04 = "src/danger/1031_20:49.h264" # B
+    danger05 = "src/danger/1110_22:29.h264" # 위험지역 확인과 알파벳 확인
+    img_processor = ImageProccessor(video=l09)
     
     ### Debug Run ###
     while True:
@@ -558,3 +560,9 @@ if __name__ == "__main__":
         # img_processor.stair_to_alphabet_rotation(show=False)
         # img_processor.draw_stair_line()
         # img_processor.stair_down()
+
+        ### danger ###
+        # img_processor.is_danger()
+
+        if cv.waitKey(5) & 0xFF == ord('q'):
+            break
