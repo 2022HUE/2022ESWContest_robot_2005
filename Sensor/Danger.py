@@ -48,12 +48,14 @@ class Danger:
     def __init__(self):
         pass
 
+    @classmethod
     def mophorlogy(self, mask):
         kernel = np.ones((setting.MORPH_kernel, setting.MORPH_kernel), np.uint8)
         mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)
         mask = cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel)
         return mask
 
+    @classmethod
     def get_s_mask(self, hsv, s_value):
         h, s, v = cv.split(hsv)
         ret_s, s_bin = cv.threshold(s, s_value, 255, cv.THRESH_BINARY)
@@ -61,6 +63,7 @@ class Danger:
         s_bin = self.mophorlogy(s_bin)
         return s_bin
 
+    @classmethod
     def get_v_mask(self, hsv, v_value):
         h, s, v = cv.split(hsv)
         ret_v, v_bin = cv.threshold(v, v_value, 255, cv.THRESH_BINARY)
@@ -69,6 +72,7 @@ class Danger:
         return v_bin
 
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
+    @classmethod
     def is_holding_milkbox(self, hsv, color):
         holding_hsv = self.get_holding_milkbox_roi(hsv)
         mask = self.get_milkbox_mask(holding_hsv, color)
@@ -79,16 +83,19 @@ class Danger:
 
     # 잡고 있는 장애물의 크롭 화면 가져오기 (장애물 집었을 때, 최대 y좌표 180)
     # -> 그냥 이 부분 제외하고는 검은색으로 채울 까
+    @classmethod
     def get_holding_milkbox_roi(self, hsv):
         hsv_crop = hsv.copy()[0:179, 0:639]
         # cv.imshow('holding_milkbox_img', hsv_crop)
         return hsv_crop
 
     # 장애물에 충분히 근접했는지 (즉, 이제 장애물 집어도 되는지) 확인
+    @classmethod
     def can_hold_milkbox(self, hsv):
         return True
 
     # 장애물 위치 파악을 위한 함수
+    @classmethod
     def get_milkbox_pos(self, hsv, color, show=False):
         max_idx = 0
         max_rate = 0
@@ -119,17 +126,21 @@ class Danger:
             cv.imshow('milkbox_position', hsv)
         return max_idx
 
+    @classmethod
     def get_black_mask(self, hsv):
         return self.get_color_mask(hsv, setting.DANGER_BLACK)
 
+    @classmethod
     def get_color_mask(self, hsv, const):
         lower_hue, upper_hue = np.array(const[0]), np.array(const[1])
         mask = cv.inRange(hsv, lower_hue, upper_hue)
         return mask
 
+    @classmethod
     def get_alphabet_red_mask(self, hsv):
         return self.get_color_mask(hsv, setting.ALPHABET_RED)
 
+    @classmethod
     def get_alphabet_blue_mask(self, hsv):
         return self.get_color_mask(hsv, setting.ALPHABET_BLUE)
 
@@ -137,6 +148,7 @@ class Danger:
 
 
     # 장애물 들고 위험지역에서 벗어났는지 확인 (visualization : imshow() 해줄 건지에 대한 여부)
+    @classmethod
     def is_out_of_black(self, src, visualization=False):
         begin = (bx, by) = (160, 200)
         end = (ex, ey) = (480, 420)
@@ -154,6 +166,7 @@ class Danger:
         return rate <= setting.OUT_DANGER_RATE
 
     # 파라미터는 src로 받고, hsv로 리턴함
+    @classmethod
     def get_alphabet_roi(self, src, option="HSV"): # [option] GRAY, HSV
         img_copy = src.copy()
         gray = cv.cvtColor(src, cv.COLOR_BGR2GRAY)
@@ -214,6 +227,7 @@ class Danger:
         hsv_crop = cv.cvtColor(img_crop, cv.COLOR_BGR2HSV)
         return hsv_crop
 
+    @classmethod
     def get_alphabet_color(self, src):
         hsv = self.get_alphabet_roi(src)
         red_mask = self.get_alphabet_red_mask(hsv)
@@ -221,6 +235,7 @@ class Danger:
         color = "RED" if np.count_nonzero(red_mask) > np.count_nonzero(blue_mask) else "BLUE"
         return color
 
+    @classmethod
     def get_milkbox_mask(self, hsv, color):
         lower_hue, upper_hue = np.array(setting.DANGER_MILKBOX_BLUE[0]), np.array(setting.DANGER_MILKBOX_BLUE[1])
         if color == "RED":
@@ -230,6 +245,7 @@ class Danger:
         return h_mask  # mask 리턴
 
     # 계단 지역인지(False) 위험 지역인지(True) detection
+    @classmethod
     def is_danger(self, hsv):
         mask_AND = cv.bitwise_and(self.get_s_mask(hsv, setting.DANGER_ROOM_S), self.get_v_mask(hsv, setting.DANGER_ROOM_V))
         mask_AND = self.mophorlogy(mask_AND)
