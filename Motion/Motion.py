@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 # Motion code
+import platform
+import argparse
+import cv2
+import sys
 import serial
 import time
 from threading import Thread, Lock

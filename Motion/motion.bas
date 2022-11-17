@@ -6081,7 +6081,8 @@ KEY7:
     '***************
 KEY8:
     ETX  4800,8
-    GOSUB 연속후진
+    보행횟수 = 1
+    GOSUB 횟수_후진
     GOTO RX_EXIT
     '***************
 KEY9:
@@ -6787,27 +6788,33 @@ KEY154:
     GOTO RX_EXIT
 KEY155:
     ETX 4800, 155
-    GOSUB 팔들고왼쪽턴20
+    'GOSUB 팔들고왼쪽턴20
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY156:
     ETX 4800, 156
-    GOSUB 팔들고왼쪽턴45
+    'GOSUB 팔들고왼쪽턴45
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY157:
     ETX 4800, 157
-    GOSUB 팔들고왼쪽턴60
+    'GOSUB 팔들고왼쪽턴60
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY158:
     ETX 4800, 158
-    GOSUB 팔들고오른쪽턴20
+    'GOSUB 팔들고오른쪽턴20
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY159:
     ETX 4800, 159
-    GOSUB 팔들고오른쪽턴45
+    'GOSUB 팔들고오른쪽턴45
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY160:
     ETX 4800, 160
-    GOSUB 팔들고오른쪽턴60
+    'GOSUB 팔들고오른쪽턴60
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
     
     '**************** walk_side ********************
@@ -6918,16 +6925,21 @@ KEY185:
     GOSUB 물건놓기
     GOTO RX_EXIT
     
+KEY186:
+    ETX 4800, 186
+    GOSUB 고개중앙기본자세
+    GOTO RX_EXIT
+    
     '**************** grab_walk ********************
 KEY187:
     ETX 4800, 187
     보행횟수 = 1
-    GOSUB 횟수_집고전진1
+    GOSUB 집고전진
     GOTO RX_EXIT
 KEY188:
     ETX 4800, 188
     보행횟수 = 1
-    GOSUB 횟수_집고전진2
+    GOSUB 집고전진2
     GOTO RX_EXIT
     
     '**************** grab_sidewalk ********************
@@ -7009,17 +7021,17 @@ KEY206:
     GOTO RX_EXIT
 KEY207:
     ETX 4800, 207
-    GOSUB A
+    GOSUB A지역
     GOTO RX_EXIT
 KEY208:
     ETX 4800, 208
-    GOSUB B
+    GOSUB B지역
     GOTO RX_EXIT
 KEY209:
     ETX 4800, 209
-    GOSUB C
+    GOSUB C지역
     GOTO RX_EXIT
 KEY210:
     ETX 4800, 210
-    GOSUB D
+    GOSUB D지역
     GOTO RX_EXIT
