@@ -168,11 +168,6 @@ class MissonStair:
         return self.robo._image_processor.stair_down()
         # return True
 
-    # def init_debug(self, room_name, room_color, room_area):
-    #     self.room_name = room_name
-    #     self.room_color = room_color
-    #     self.room_area
-
     @classmethod
     def go_robo(self):
         act = self.act
@@ -199,8 +194,8 @@ class MissonStair:
                 self.act = Act.SECOND_ROTATION
             elif ret == False: #전진
                 # pass
-                self.robo._motion.walk('FORWARD',loop=2)
-            elif ret == 'Fail':
+                self.robo._motion.walk('FORWARD')
+            elif ret == 'fail':
                 # pass
                 self.robo._motion.turn(Robo.arrow,20) #화살표 방향
             else: #return= LEFT or RIGHT
