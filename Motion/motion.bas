@@ -6559,7 +6559,6 @@ KEY101:
     보행횟수 = 1
     GOSUB 횟수_전진종종걸음
     GOTO RX_EXIT
-    '***************
 KEY102:
     ETX  4800,102
     보행횟수 = 1
@@ -6606,13 +6605,11 @@ KEY111:
     보행횟수 = 1
     GOSUB 횟수_후진
     GOTO RX_EXIT
-	'***************
 KEY112:
     ETX 4800,112
     보행횟수 = 1
     GOSUB 횟수_뒤로좁은보폭
     GOTO RX_EXIT
-    '***************
 KEY113:
     ETX  4800,113
     보행횟수 = 1
@@ -6652,328 +6649,380 @@ KEY120:
  	'**************** set_head ********************
 KEY121:
     ETX  4800,120
-    GOSUB 고개중앙기본자세
+    GOSUB 전방하향20도
     GOTO RX_EXIT
 KEY122:
     ETX 4800, 122
-    GOSUB
+    GOSUB 전방하향30도
     GOTO RX_EXIT
 KEY123:
     ETX 4800, 123
-    GOSUB
+    GOSUB 전방하향40도
     GOTO RX_EXIT
 KEY124:
     ETX 4800, 124
-    GOSUB
+    GOSUB 전방하향45도
     GOTO RX_EXIT
 KEY125:
     ETX 4800, 125
-    GOSUB
+    GOSUB 전방하향60도
     GOTO RX_EXIT
 KEY126:
     ETX 4800, 126
-    GOSUB
+    GOSUB 전방하향70도
     GOTO RX_EXIT
 KEY127:
     ETX 4800, 127
-    GOSUB
+    GOSUB 전방하향80도
     GOTO RX_EXIT
 KEY128:
     ETX 4800, 128
-    GOSUB
+    GOSUB 전방하향90도
     GOTO RX_EXIT
 KEY129:
     ETX 4800, 129
-    GOSUB
+    GOSUB 전방하향100도
     GOTO RX_EXIT
 KEY130:
     ETX 4800, 130
-    GOSUB
+    GOSUB 전방하향110도
     GOTO RX_EXIT
+    
+    '******************************
 
 KEY131:
     ETX 4800, 131
-    GOSUB
+    GOSUB 머리왼쪽90도
     GOTO RX_EXIT
 KEY132:
     ETX 4800, 132
-    GOSUB
+    GOSUB 머리왼쪽60도
     GOTO RX_EXIT
 KEY133:
     ETX 4800, 133
-    GOSUB
+    GOSUB 머리왼쪽45도
     GOTO RX_EXIT
 KEY134:
     ETX 4800, 134
-    GOSUB
+    GOSUB 머리왼쪽30도
     GOTO RX_EXIT
 KEY135:
     ETX 4800, 135
-    GOSUB
+    GOSUB 머리좌우중앙
     GOTO RX_EXIT
 KEY136:
     ETX 4800, 136
-    GOSUB
+    GOSUB 머리오른쪽30도
     GOTO RX_EXIT
 KEY137:
     ETX 4800, 137
-    GOSUB
+    GOSUB 머리오른쪽45도
     GOTO RX_EXIT
 KEY138:
     ETX 4800, 138
-    GOSUB
+    GOSUB 머리오른쪽60도
     GOTO RX_EXIT
 KEY139:
     ETX 4800, 139
-    GOSUB
+    GOSUB 머리오른쪽90도
     GOTO RX_EXIT
 KEY140:
     ETX 4800, 140
-    GOSUB
+    GOSUB 머리상하정면
     GOTO RX_EXIT
     
+    '**************** turn ********************
 KEY141:
     ETX 4800, 141
-    GOSUB
+    GOSUB 왼쪽턴10
     GOTO RX_EXIT
 KEY142:
     ETX 4800, 142
-    GOSUB
+    GOSUB 왼쪽턴20
     GOTO RX_EXIT
 KEY143:
     ETX 4800, 143
-    GOSUB
+    GOSUB 왼쪽턴45
     GOTO RX_EXIT
 KEY144:
     ETX 4800, 144
-    GOSUB
+    GOSUB 왼쪽턴60
     GOTO RX_EXIT
 KEY145:
     ETX 4800, 145
-    GOSUB
+    GOSUB 오른쪽턴10
     GOTO RX_EXIT
 KEY146:
     ETX 4800, 146
-    GOSUB
+    GOSUB 오른쪽턴20
     GOTO RX_EXIT
 KEY147:
     ETX 4800, 147
-    GOSUB
+    GOSUB 오른쪽턴45
     GOTO RX_EXIT
 KEY148:
     ETX 4800, 148
-    GOSUB
+    GOSUB 오른쪽턴60
     GOTO RX_EXIT
 KEY149:
     ETX 4800, 149
-    GOSUB
+    GOSUB 팔들면서왼쪽턴20
     GOTO RX_EXIT
 KEY150:
     ETX 4800, 150
-    GOSUB
-    GOTO RX_EXIT
-    
+    GOSUB 팔들면서왼쪽턴45
+    GOTO RX_EXIT  
 KEY151:
     ETX 4800, 151
-    GOSUB
+    GOSUB 팔들면서왼쪽턴60
     GOTO RX_EXIT
 KEY152:
     ETX 4800, 152
-    GOSUB
+    GOSUB 팔들면서오른쪽턴20
     GOTO RX_EXIT
 KEY153:
     ETX 4800, 153
-    GOSUB
+    GOSUB 팔들면서오른쪽턴45
     GOTO RX_EXIT
 KEY154:
     ETX 4800, 154
-    GOSUB
+    GOSUB 팔들면서오른쪽턴60
     GOTO RX_EXIT
 KEY155:
     ETX 4800, 155
-    GOSUB
+    GOSUB 팔들고왼쪽턴20
     GOTO RX_EXIT
 KEY156:
     ETX 4800, 156
-    GOSUB
+    GOSUB 팔들고왼쪽턴45
     GOTO RX_EXIT
 KEY157:
     ETX 4800, 157
-    GOSUB
+    GOSUB 팔들고왼쪽턴60
     GOTO RX_EXIT
 KEY158:
     ETX 4800, 158
-    GOSUB
+    GOSUB 팔들고오른쪽턴20
     GOTO RX_EXIT
 KEY159:
     ETX 4800, 159
-    GOSUB
+    GOSUB 팔들고오른쪽턴45
     GOTO RX_EXIT
 KEY160:
     ETX 4800, 160
-    GOSUB
+    GOSUB 팔들고오른쪽턴60
     GOTO RX_EXIT
     
+    '**************** walk_side ********************
 KEY161:
     ETX 4800, 161
-    GOSUB
+    GOSUB 왼쪽옆으로20
     GOTO RX_EXIT
 KEY162:
     ETX 4800, 162
-    GOSUB
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY163:
     ETX 4800, 163
-    GOSUB
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY164:
     ETX 4800, 164
-    GOSUB
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY165:
     ETX 4800, 165
-    GOSUB
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY166:
     ETX 4800, 166
-    GOSUB
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY167:
     ETX 4800, 167
-    GOSUB
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY168:
     ETX 4800, 168
-    GOSUB
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY169:
     ETX 4800, 169
-    GOSUB
+    GOSUB 오른쪽옆으로20
     GOTO RX_EXIT
 KEY170:
     ETX 4800, 170
-    GOSUB
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
     
+    '**************** stair ********************
 KEY171:
     ETX 4800, 171
-    GOSUB
+    GOSUB 계단왼발오르기1cm
     GOTO RX_EXIT
 KEY172:
     ETX 4800, 172
-    GOSUB
+    GOSUB 계단오른발오르기1cm
     GOTO RX_EXIT
 KEY173:
     ETX 4800, 173
-    GOSUB
+    GOSUB 계단왼발내리기1cm
     GOTO RX_EXIT
 KEY174:
     ETX 4800, 174
-    GOSUB
+    GOSUB 계단오른발내리기1cm
     GOTO RX_EXIT
+    
+    '**************** kick ********************
 KEY175:
     ETX 4800, 175
-    GOSUB
+    GOSUB 장애물왼쪽앞치우기
     GOTO RX_EXIT
 KEY176:
     ETX 4800, 176
-    GOSUB
+    GOSUB 장애물오른쪽앞치우기
     GOTO RX_EXIT
 KEY177:
     ETX 4800, 177
-    GOSUB
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY178:
     ETX 4800, 178
-    GOSUB
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY179:
     ETX 4800, 179
-    GOSUB
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 KEY180:
     ETX 4800, 180
-    GOSUB
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
     
+    '**************** grab ********************
+KEY181:
+    ETX 4800, 181
+    GOSUB 물건집기
+    GOTO RX_EXIT
+KEY182:
+    ETX 4800, 182
+    GOSUB 물건집기_2
+    GOTO RX_EXIT
+KEY183:
+    ETX 4800, 183
+    GOSUB 물건집기_3
+    GOTO RX_EXIT
+KEY184:
+    ETX 4800, 184
+    GOSUB 물건집기_4
+    GOTO RX_EXIT
+KEY185:
+    ETX 4800, 185 
+    GOSUB 물건놓기
+    GOTO RX_EXIT
+    
+    '**************** grab_walk ********************
+KEY187:
+    ETX 4800, 187
+    보행횟수 = 1
+    GOSUB 횟수_집고전진1
+    GOTO RX_EXIT
+KEY188:
+    ETX 4800, 188
+    보행횟수 = 1
+    GOSUB 횟수_집고전진2
+    GOTO RX_EXIT
+    
+    '**************** grab_sidewalk ********************
+KEY189:
+    ETX 4800, 189
+    GOSUB 집고왼쪽옆으로
+    GOTO RX_EXIT
+KEY190:
+    ETX 4800, 190
+    GOSUB 집고왼쪽옆으로2
+    GOTO RX_EXIT    
 KEY191:
     ETX 4800, 191
-    GOSUB
+    GOSUB 집고오른쪽옆으로
     GOTO RX_EXIT
 KEY192:
     ETX 4800, 192
-    GOSUB
+    GOSUB 집고오른쪽옆으로2
     GOTO RX_EXIT
+    
+    '**************** grab_turn ********************
 KEY193:
     ETX 4800, 193
-    GOSUB
+    GOSUB 집고왼쪽턴10
     GOTO RX_EXIT
 KEY194:
     ETX 4800, 194
-    GOSUB
+    GOSUB 집고왼쪽턴20
     GOTO RX_EXIT
 KEY195:
     ETX 4800, 195
-    GOSUB
+    GOSUB 집고왼쪽턴45
     GOTO RX_EXIT
 KEY196:
     ETX 4800, 196
-    GOSUB
+    GOSUB 집고왼쪽턴60
     GOTO RX_EXIT
 KEY197:
     ETX 4800, 197
-    GOSUB
+    GOSUB 집고오른쪽턴10
     GOTO RX_EXIT
 KEY198:
     ETX 4800, 198
-    GOSUB
+    GOSUB 집고오른쪽턴20
     GOTO RX_EXIT
 KEY199:
     ETX 4800, 199
-    GOSUB
+    GOSUB 집고오른쪽턴45
     GOTO RX_EXIT
 KEY200:
     ETX 4800, 200
-    GOSUB
+    GOSUB 집고오른쪽턴60
     GOTO RX_EXIT
     
+    '**************** notice ********************
 KEY201:
     ETX 4800, 201
-    GOSUB
+    GOSUB 동쪽
     GOTO RX_EXIT
 KEY202:
     ETX 4800, 202
-    GOSUB
+    GOSUB 서쪽
     GOTO RX_EXIT
 KEY203:
     ETX 4800, 203
-    GOSUB
+    GOSUB 남쪽
     GOTO RX_EXIT
 KEY204:
     ETX 4800, 204
-    GOSUB
+    GOSUB 북쪽
     GOTO RX_EXIT
 KEY205:
     ETX 4800, 205
-    GOSUB
+    GOSUB 위험지역
     GOTO RX_EXIT
 KEY206:
     ETX 4800, 206
-    GOSUB
+    GOSUB 구조요청
     GOTO RX_EXIT
 KEY207:
     ETX 4800, 207
-    GOSUB
+    GOSUB A
     GOTO RX_EXIT
 KEY208:
     ETX 4800, 208
-    GOSUB
+    GOSUB B
     GOTO RX_EXIT
 KEY209:
     ETX 4800, 209
-    GOSUB
+    GOSUB C
     GOTO RX_EXIT
 KEY210:
     ETX 4800, 210
-    GOSUB
+    GOSUB D
     GOTO RX_EXIT
