@@ -520,7 +520,7 @@ if __name__ == "__main__":
         # img_processor.stair_down()
 
         ### danger ###
-        # img_processor.is_danger()
+        img_processor.get_alphabet_color()
 
         if cv.waitKey(5) & 0xFF == ord('q'):
             break
