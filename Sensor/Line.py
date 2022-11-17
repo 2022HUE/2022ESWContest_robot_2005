@@ -38,6 +38,8 @@ class Line:
                                 minLineLength=min_line_len, maxLineGap=max_line_gap)
         if type(lines) == type(None):
             return 'None'
+        elif lines.size < 8:
+            return 'None'
         else: 
             return lines
 
@@ -68,9 +70,9 @@ class Line:
     # 대표선 찾기
     def get_fitline(self, img, f_lines): 
         lines = np.squeeze(f_lines)
-        if len(lines) == 0: return False
+        if lines.size == 0: return False
         else:
-            if len(lines) > 8:
+            if lines.size > 8:
                 lines = lines.reshape(lines.shape[0]*2,2)
                 output = cv.fitLine(lines,cv.DIST_L2,0, 0.01, 0.01)
                 vx, vy, x, y = output[0], output[1], output[2], output[3]
@@ -82,11 +84,11 @@ class Line:
     
     def is_center(self, img, line):
         x1, y1, x2, y2 = line[0], line[1], line[2], line[3]
-        cv.rectangle(img,(260,100),(420-1,480-1),[0,255,0],2) # roi
-        if 260 <= x1 < 420 and 260 <= x2 < 420:
+        cv.rectangle(img,(300,100),(390-1,480-1),[0,255,0],2) # roi
+        if 290 <= x1 < 390 and 290 <= x2 < 390:
             return True
         else:
-            if x1 < 260 or x2 < 260:
+            if x1 < 290 or x2 < 290:
                 return "MOVE_LEFT" # 왼쪽으로 이동 필요
             else:
                 return "MOVE_RIGHT" # 오른쪽로 이동 필요
@@ -119,13 +121,13 @@ class Line:
         tmp = np.abs(slope)<120
         if set(list(tmp)) == {True}: 
             state = "VERTICAL"
-            print('수직')
+            # print('수직')
         elif set(list(tmp)) == {False}:
             state = "HORIZON" 
-            print('수평')
+            # print('수평')
         else:
             state = "BOTH"
-            print("BOTH")
+            # print("BOTH")
         # print(tmp)
         slope_ = np.abs(slope)
         horizon_arr = line_arr[(slope_>169),:]
