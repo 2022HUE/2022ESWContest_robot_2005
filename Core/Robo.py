@@ -11,6 +11,5 @@ class Robo:
     _image_processor = ImageProccessor(video="") # Image Processor
 
     def __init__(self, vpath=''):
-        self._motion = None
         self._image_processor = ImageProccessor(video=vpath) # Image Processor
         # self._motion = Motion() # Motion
