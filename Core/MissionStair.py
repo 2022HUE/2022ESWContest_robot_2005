@@ -55,8 +55,8 @@ class MissionStair:
 
     @classmethod
     def stair_down(self):
-        return self.robo._image_processor.stair_down()
-        # return True
+        # return self.robo._image_processor.stair_down()
+        return True
 
     @classmethod
     def go_robo(self):
@@ -110,24 +110,24 @@ class MissionStair:
 
             ret = self.stair_up()
             if ret == True: #1->2로 up, 샤샥 & 2->3로 up 할 때도
-                # self.robo._motion.stair(self,'LEFT_UP') # up
-                # self.robo._motion.walk(self,'FORWARD',loop=4,short=True) #좁은 보폭
-                # Robo.stair_level+=1 #2층이 됨
+                self.robo._motion.stair(self,'LEFT_UP') # up
+                self.robo._motion.walk(self,'FORWARD',loop=4,short=True) #좁은 보폭
+                Robo.stair_level+=1 #2층이 됨
                 pass
             elif ret == False: #선이 안 잡힌 경우 샤샥, 2층에서 중앙 아래에 선이 잡힌 경우
-                # self.robo._motion.walk(self,'FORWARD',loop=4,short=True) #좁은 보폭
+                self.robo._motion.walk(self,'FORWARD',loop=4,short=True) #좁은 보폭
                 pass
             elif ret == 'Top':
-                # self.robo._motion.walk(self,'FORWARD',loop=4) #3층 도착해서 전진
-                # self.robo._motion.walk_side(self,Robo.arrow,loop=4) #옆으로 이동
-                # self.robo._motion.turn(self,Robo.dis_arrow,20,loop=2,arm=True)#손들고 턴으로 2회
-                # Robo.stair_level = 3 #3층이 됨
-                # if Robo.stair_level==3:
-                #     self.act = Act.STAIR_DOWN
-                # elif Robo.stair_level>3:
-                #     Robo.stair_level=1 # 넘어졌다고 판단
-                #     Robo.stair_level=2 # 못 올라갔다고 판단
-                pass
+                # pass
+                self.robo._motion.walk(self,'FORWARD',loop=4) #3층 도착해서 전진
+                self.robo._motion.walk_side(self,Robo.arrow,loop=4) #옆으로 이동
+                self.robo._motion.turn(self,Robo.dis_arrow,20,loop=2,arm=True)#손들고 턴으로 2회
+                Robo.stair_level = 3 #3층이 됨
+                if Robo.stair_level==3:
+                    self.act = Act.STAIR_DOWN
+                elif Robo.stair_level>3:
+                    Robo.stair_level=1 # 넘어졌다고 판단
+                    Robo.stair_level=2 # 못 올라갔다고 판단
 
         elif act == act.STAIR_DOWN:
             print('Act = %s'%act)
