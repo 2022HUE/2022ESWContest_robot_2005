@@ -8,13 +8,13 @@ import sys
 from threading import Thread, Lock
 #from Constant import const
 
-
 # -----------------------------------------------
 class Motion:
     head_angle1 = 'UPDOWN_CENTER'
     head_angle2 = 'LEFTRIGHT_CENTER'
 
     def __init__(self, sleep_time=0):
+
         self.serial_use = 1
         self.serial_port = None
         self.Read_RX = 0

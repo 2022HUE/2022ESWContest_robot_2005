@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import cv2 as cv
 import numpy as np
 global ALPHABET_GO,ARROW
@@ -24,33 +25,26 @@ class Stair:
             # x = contours1[pos][0][0][0]  # 알파벳 위치의 x값 좌표 --> 알파벳 중앙에 오게할 때 필요
             rect_y = contours1[pos][0][0][1] #가장 위의 y값 좌표
             rect_x = contours1[pos][0][0][0]  # 가장 위의 y값 좌표
-
-            if peri >= 300 and peri <= 1000 and points == 4 and rect_y < 150:
+            if peri >= 350 and peri <= 1500 and points == 4 and rect_y < 160:
                 area = area_arr["m00"]
                 cv.drawContours(img_color, [approx], 0, (0, 255, 255), 2)
-                cv.imshow('img',img_color)
                 return area, rect_x
 
 
     def in_alphabet_center_check(self,x):
-        if (x >= 310 and x <= 340) or x//100==0:
-            print("전진")   # print("알파벳의 위치는 중앙입니다. 전진하세요")
+        if (x >= 250 and x <= 390): #전진
             return True
-        elif x<300: #왼쪽의 여백이 부족하다.
-            # print("왼쪽 %d걸음 이동하세요"%(x//100))
-            return 'left',x//100 #뒤의 리턴값은 옮겨야할 걸음 수
+        elif x<250: #왼쪽의 여백이 부족하다.
+            return 'LEFT' #,x//100 #뒤의 리턴값은 옮겨야할 걸음 수
         elif x>350:
-            # print("오른쪽 %d걸음 이동하세요" % (x // 100))
-            return 'right', x // 100 #뒤의 리턴값은 옮겨야할 걸음 수
+            return 'RIGHT' #, x // 100 #뒤의 리턴값은 옮겨야할 걸음 수
 
     #전진 하면서 크기 측정 함수
-    def in_alphabet_size_calc(self,area, rect_x):
-        self.alphabet_center_check(rect_x)
-
-        if area >= 43000:
-            print("정지 후 계단 지역으로 회전하세요.")
+    def in_alphabet_size_calc(self, area,size):
+        # self.alphabet_center_check(rect_x) # (hr comment)
+        if area >= size:
+            print("정지 후 계단 지역으로 회전하세요.") #motion
             return True
-
         else:
             return False
 
@@ -58,6 +52,7 @@ class Stair:
 
 
     #계단 지역 기준 왼쪽 오른쪽 판단하는 함수 #화살표 방향대로 돌아야 함.
+
     def in_left_right(self,img_mask,ARROW,x=0,y=0):
         # rotation = False
         left = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000 )
@@ -66,11 +61,10 @@ class Stair:
 
         if ARROW == 'LEFT':
             # 왼쪽 값이 작아질 때 까지 돌아야되고
-            ret = left, right
+            return left
         elif ARROW == 'RIGHT':
-            ret = right, left
+            return right
             # 오른쪽 값이 작아질 때 까지 돌아야되고
-        return ret
 
     def in_rotation(self,a,comparison,ARROW):
         print(a,comparison,ARROW)
@@ -84,7 +78,6 @@ class Stair:
 
     def in_stair_down(self,img_mask,ONE_F,TWO_F,THREE_F,x=140,y=100):
         saturation = int((np.count_nonzero(img_mask[y:y+380,x:x+500]) / (640 * 480))*1000)
-        cv.imshow('saturation',img_mask[y:y+380,x:x+500])
         if saturation>=THREE_F:
             print("3층 입니다.%d"%saturation)
             return False #내려가기
@@ -129,14 +122,13 @@ class Stair:
 
                 # y1 + h == y2 + h 값이 동일함. print("%d  %d"%(y1+h,y2+h))
                 cv.line(img, (x1 + w, y1 + h), (x2 + w, y2 + h), [255, 0, 0], 3)  # 라인 그리기.
-                cv.imshow('img', img)
-                print(y1 + h)
                 if y1 + h < LINE_HIGH:
                     return True
                 elif y1 + h > LINE_HIGH:
                     return False
 
     def in_stair_top(self, hsv, lower_hue, upper_hue):
-        y = 200; x = 0; h = 200; w = 640 #ROI 영역 지정을 위해 변수 선언
+        y = 200; x = 0; h = 280; w = 640 #ROI 영역 지정을 위해 변수 선언
         mask = cv.inRange(hsv[y:y+h,x:x+w], lower_hue, upper_hue)
+        # cv.imshow('mask',mask)
         return mask
