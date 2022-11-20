@@ -25,7 +25,7 @@ class Stair:
             # x = contours1[pos][0][0][0]  # 알파벳 위치의 x값 좌표 --> 알파벳 중앙에 오게할 때 필요
             rect_y = contours1[pos][0][0][1] #가장 위의 y값 좌표
             rect_x = contours1[pos][0][0][0]  # 가장 위의 y값 좌표
-            if peri >= 350 and peri <= 1500 and points == 4 and rect_y < 160:
+            if peri >= 350 and peri <= 1500 and points == 4 and rect_y < 170 :
                 area = area_arr["m00"]
                 cv.drawContours(img_color, [approx], 0, (0, 255, 255), 2)
                 return area, rect_x
