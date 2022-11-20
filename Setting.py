@@ -42,7 +42,7 @@ setting.DANGER_BLACK = [[0, 0, 0], [180, 255, 80]]
 # 위험/계단 지역 판단하는 비율의 기준
 setting.DANGER_STAIR_RATE = 10
 # 위험 지역 벗어났음을 판단하는 비율의 기준
-setting.OUT_DANGER_RATE = 30
+setting.OUT_DANGER_RATE = 20
 # 위험 지역 인식 용도 s(채도) 기준값
 setting.DANGER_ROOM_S = 170
 # 위험 지역 인식 용도 v(명도) 기준값
@@ -56,7 +56,7 @@ setting.DANGER_H_RED = [[167, 77, 30], [180, 255, 189]] # 실제로 hue값 가�
 # 장애물 들고 있음을 판단하는 비율의 기준
 # 시야에서 없을 경우 HOLDING_RATE 값 0
 # 시야에 있고 들고 있을 경우 파랑은 최소 15 이상, 빨강은 10 이상
-setting.HOLDING_RATE = 5
+setting.HOLDING_RATE = 2
 
 # 로봇 시야에서 장애물의 위치 (9개 구역으로 나누기)
 setting.MILKBOX_POS = [((0, 209), (0, 159)), ((210, 429), (0, 159)), ((430, 639), (0, 159)),
@@ -88,6 +88,10 @@ setting.ARROW = 'RIGHT' #임시로 선언 (채연)
 ########### CURRENT ACT ###########
 cur = Setting()
 # cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
-cur.MAP_DIRECTION = None # (entr) E, W, S, N
+cur.MAP_DIRECTION = "S" # (entr) E, W, S, N
 cur.MAP_ARROW = "LEFT" # (entr) LEFT, RIGHT
 cur.AREA = "DANGER"
+cur.ALPHABET_COLOR = None # (danger) RED, BLUE
+cur.ALPHABET_NAME = None # (danger) A, B, C, D
+cur.BLACK_ROOM_LIST = [] # (exit) 지나온 위험지역 방 이름 리스트
+cur.FIRST_MILKBOX_POS = 7 # (danger) 0 ~ 8
