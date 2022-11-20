@@ -4,7 +4,6 @@ from Core.Robo import Robo
 from Setting import cur
 import time
 
-
 class Act(Enum):
     START = auto()  # 공통
     FIND_LINE = auto()
@@ -61,7 +60,6 @@ class MissionStair:
 
     @classmethod
     def go_robo(self):
-        self.init()
         act = self.act
 
         if act == act.START:
@@ -72,7 +70,7 @@ class MissionStair:
         elif act == act.FIRST_ROTATION: #현재 머리각도 70
             print('Act = %s'%act)
 
-            if self.first_rotation(self)==True: #True 회전완료
+            if self.first_rotation()==True: #True 회전완료
                 self.act = Act.CENTER_AND_FORWARD
             else: #LEFT, RIGHT 로 반환됨
                 # self.robo._motion.turn(Robo.arrow,45) #화살표 방향으로 회전해야함
@@ -81,7 +79,7 @@ class MissionStair:
         elif act == act.CENTER_AND_FORWARD:
             print('Act = %s'%act)
 
-            ret = self.center_and_forward(self)
+            ret = self.center_and_forward()
             if ret == True:
                 self.act = Act.SECOND_ROTATION
             elif ret == False: #전진
@@ -98,7 +96,7 @@ class MissionStair:
         elif act == act.SECOND_ROTATION:
             print('Act = %s'%act)
 
-            if self.second_rotation(self)==True:
+            if self.second_rotation()==True:
                 # self.robo._motion.set_head(self,'DOWN',angle=30) #30도
                 # self.robo._motion.walk(self,'FORWARD',loop=4) # 3회 정도
                 # self.robo._motion.walk(self,'FORWARD',loop=4,short=True) #좁은 보폭
@@ -111,7 +109,7 @@ class MissionStair:
         elif act == act.DRAW_STAIR_LINE:
             print('Act = %s'%act)
 
-            ret = self.stair_up(self)
+            ret = self.stair_up()
             if ret == True: #1->2로 up, 샤샥 & 2->3로 up 할 때도
                 # self.robo._motion.stair(self,'LEFT_UP') # up
                 # self.robo._motion.walk(self,'FORWARD',loop=4,short=True) #좁은 보폭
@@ -128,7 +126,7 @@ class MissionStair:
         elif act == act.STAIR_DOWN:
             print('Act = %s'%act)
 
-            if self.stair_down(self)==True: #1층임
+            if self.stair_down()==True: #1층임
                 # self.robo._motion.walk(self,'FORWARD',loop=2) #전진 2회
                 # self.robo._motion.turn(self,Robo.disarrow,45,loop=2 ) #화살표 반대 방향으로
                 # self.robo._motion.set_head(self,'DOWN',angle=45) #45도

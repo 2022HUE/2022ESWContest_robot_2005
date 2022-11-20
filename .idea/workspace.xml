@@ -29,6 +29,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/Core/Controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Controller.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/MissionStair.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/MissionStair.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/Misson.py" beforeDir="false" />
@@ -70,6 +71,11 @@
       <change beforePath="$PROJECT_DIR$/Sensor/Setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Setting.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Setting.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/Core/MissionStair.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/MissionStair.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Robo.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Robo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/ImageProcessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/ImageProcessor.py" afterDir="false" />
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +98,11 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+<<<<<<< HEAD
     "last_opened_file_path": "/home/chaeyeon/PycharmProjects/robot/venv/bin/python",
+=======
+    "last_opened_file_path": "/home/chaeyeon/PycharmProjects/ESWC_chaeyeon",
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
@@ -102,18 +112,27 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.Test">
+<<<<<<< HEAD
     <configuration name="ImageProcessor" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="ESWC_chaeyeon" />
+=======
+    <configuration name="ImageProcessor" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
+<<<<<<< HEAD
       <option name="SDK_HOME" value="$PROJECT_DIR$/../robot/venv/bin/python" />
+=======
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../pythonProject/venv/bin/python" />
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sensor" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sensor/ImageProcessor.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -123,18 +142,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+<<<<<<< HEAD
     <configuration name="Misson" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="ESWC_chaeyeon" />
+=======
+    <configuration name="Misson" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
+<<<<<<< HEAD
       <option name="SDK_HOME" value="$PROJECT_DIR$/../robot/venv/bin/python" />
+=======
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../pythonProject/venv/bin/python" />
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Core" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Core/Misson.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -144,18 +172,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+<<<<<<< HEAD
     <configuration name="Robo" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="ESWC_chaeyeon" />
+=======
+    <configuration name="Robo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
+<<<<<<< HEAD
       <option name="SDK_HOME" value="$PROJECT_DIR$/../robot/venv/bin/python" />
+=======
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../pythonProject/venv/bin/python" />
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Core" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Core/Robo.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -166,17 +203,21 @@
       <method v="2" />
     </configuration>
     <configuration name="Stair" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="ESWC_chaeyeon" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
+<<<<<<< HEAD
       <option name="SDK_HOME" value="$PROJECT_DIR$/../robot/venv/bin/python" />
+=======
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../pythonProject/venv/bin/python" />
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sensor" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sensor/Stair.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -217,6 +258,12 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.Test" />
+<<<<<<< HEAD
+=======
+        <item itemvalue="Python.Robo" />
+        <item itemvalue="Python.ImageProcessor" />
+        <item itemvalue="Python.Misson" />
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
         <item itemvalue="Python.Stair" />
       </list>
     </recent_temporary>
