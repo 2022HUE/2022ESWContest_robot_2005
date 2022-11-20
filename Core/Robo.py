@@ -10,6 +10,7 @@ class Robo:
     dis_arrow: str = "RIGHT"
     black_room_list = []
     alphabet_color: str
+    stair_level: int = 1
     # _image_processor = ImageProccessor(video="") # Image Processor
 
     def __init__(self, vpath='Sensor/src/stair/1114_21:20.h264'):
