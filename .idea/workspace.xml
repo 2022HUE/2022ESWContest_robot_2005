@@ -147,11 +147,11 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.ImageProcessor" />
       <item itemvalue="Python.Misson" />
       <item itemvalue="Python.Robo" />
-      <item itemvalue="Python.Test" />
       <item itemvalue="Python.Stair" />
-      <item itemvalue="Python.ImageProcessor" />
+      <item itemvalue="Python.Test" />
     </list>
     <recent_temporary>
       <list>
