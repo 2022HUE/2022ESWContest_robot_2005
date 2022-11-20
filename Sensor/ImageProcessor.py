@@ -584,11 +584,11 @@ class ImageProccessor:
     ############# STAIR PROCESSING #############
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video=DataPath.test)
+    img_processor = ImageProccessor(video=DataPath.danger05)
     
     ### Debug Run ###
     while True:
-        img_processor.get_arrow(show=True)
+        # img_processor.get_arrow(show=True)
         # img_processor.get_ewsn(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
         # img_processor.get_alphabet_name(show=True)
@@ -596,7 +596,7 @@ if __name__ == "__main__":
         ### stair ###
         # img_processor.first_rotation(show=True)
         # conto = img_processor.rect()
-        img_processor.alphabet_center_check()
+        # img_processor.alphabet_center_check()
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
         # img_processor.stair_down()
