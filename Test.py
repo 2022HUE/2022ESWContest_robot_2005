@@ -2,14 +2,6 @@
 # Misson Debuging Code
 
 from Core.Misson import  MissonStair
-# def entrance():
-#     while not MissonEntrance.go_robo():
-#         print("<ENTRANCE>")
-#         continue
-#
-# def danger():
-#     while not MissonDanger.go_robo():
-#         continue
 
 def stair():
     while not MissonStair.go_robo():

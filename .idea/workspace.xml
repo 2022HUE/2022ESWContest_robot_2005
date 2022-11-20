@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="65f6b597-7c0b-4b9b-8e31-9f1d6a600a30" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sensor/Setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Setting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Setting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Misson.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Misson.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Robo.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Robo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/ImageProcessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/ImageProcessor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -147,11 +148,11 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.ImageProcessor" />
       <item itemvalue="Python.Misson" />
       <item itemvalue="Python.Robo" />
-      <item itemvalue="Python.Stair" />
       <item itemvalue="Python.Test" />
+      <item itemvalue="Python.Stair" />
+      <item itemvalue="Python.ImageProcessor" />
     </list>
     <recent_temporary>
       <list>
@@ -184,5 +185,17 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="NONE" type="python-line">
+          <url>file://$PROJECT_DIR$/Core/Misson.py</url>
+          <line>7</line>
+          <log-expression expression="###### entrance ######&#10;    DETECT_DIRECTION = auto()&#10;    DETECT_ARROW = auto()" language="Python" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

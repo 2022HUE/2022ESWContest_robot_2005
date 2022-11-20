@@ -8,9 +8,7 @@ class Act(Enum):
     START = auto() # 공통
 
     FIND_LINE = auto()
-    ### entrance ###
-    DETECT_DIRECTION = auto()
-    DETECT_ARROW = auto()
+
 
     ### stair ###
     FIRST_ROTATION = auto()
@@ -20,115 +18,7 @@ class Act(Enum):
     DRAW_STAIR_LINE = auto()
     STAIR_DOWN = auto()
 
-    ### danger ###
-    # (예시)
-    DETECT_ALPHABET = auto() # 방이름 감지
-    FIND_OBJ = auto() # 장애물 찾기
-    OUT_OF_DANGER_OBJ = auto() # 위험지역 밖으로 장애물 옮기기
-    SPEAKING_ALPHABET = auto() # 알파벳 글자 말하기
-
-
     EXIT = auto() # 공통
-
-# class MissonEntrance:
-#     act: Act = Act.START
-#     robo: Robo = Robo()
-#     print("MissionEntrance")
-#     print(robo)
-#     # print(robo._motion)
-#     # robo._image_processor("src/entrance/entr03-1.mp4")
-#
-#     map_arrow: str # 화살표
-#     map_direction: str # 방위
-#
-#     miss: int = 0
-#
-#     @classmethod
-#     def init_robo(self, robo:Robo):
-#         self.robo = robo
-#
-#     # 방위 감지
-#     def detect_direction(self):
-#         # 모션 제어
-#         # self.robo._motion
-#         # time.sleep()
-#         if cur.MAP_DIRECTION:
-#             self.map_direction = cur.MAP_DIRECTION
-#         else:
-#             self.map_direction = self.robo._image_processor.get_direction()
-#
-#         if self.map_direction:
-#             # 미션 코드 (motion)
-#             return True
-#         else: # 인식 실패
-#             # motion code
-#             self.miss += 1
-#             return False
-#
-#         # 방위 저장할 필요가 있을까??
-#
-#     # 화살표 방향 감지
-#     @classmethod
-#     def get_arrow(self):
-#         if cur.MAP_ARROW:
-#             my_arrow = cur.MAP_ARROW
-#         else:
-#             my_arrow = self.robo._image_processor.get_arrow()
-#
-#         if my_arrow:
-#             self.robo.arrow = Arrow.LEFT if my_arrow == "LEFT" else Arrow.RIGHT
-#             return True
-#         else: # 인식 실패
-#             # motion code
-#             self.miss += 1
-#             return False
-#
-#
-#     @classmethod
-#     # 입장 미션 순서도
-#     def go_robo(self):
-#         act = self.act
-#
-#         if act == act.START:
-#             print('ACT: ', act)
-#             # self.act = Act.DETECT_DIRECTION
-#             self.act = Act.DETECT_ARROW
-#
-#         # # 방위 인식
-#         # elif act == act.DETECT_DIRECTION:
-#         #     print('ACT: ', act)
-#         #     # self.detect_direction()
-#         #     if self.detect_direction():
-#         #         self.miss = 0
-#         #     else:
-#         #         # motion
-#         #         self.detect_direction()
-#         #         return False
-#
-#         #     # (motion) 고개 올리기 - 화살표 보이게
-#         #     self.act = Act.DETECT_ARROW
-#
-#         # 화살표 인식
-#         elif act == act.DETECT_ARROW:
-#             print('ACT: ', act)
-#             if self.get_arrow():
-#                 # (motion) 고개 내리기 - 노란선 보이게
-#                 self.robo._motion.set_head()
-#                 self.act = Act.EXIT
-#             else:
-#                 # motion
-#                 self.robo._motion.set_head()
-#                 self.detect_arrow()
-#                 return False
-#
-#
-#         else: # EXIT
-#             print('ACT: ', act)
-#             return True
-#
-#         return False
-#
-# #############################################################
 
 class MissonStair:
     act: Act = Act.START
@@ -193,14 +83,14 @@ class MissonStair:
             if ret == True:
                 self.act = Act.SECOND_ROTATION
             elif ret == False: #전진
-                # pass
-                self.robo._motion.walk('FORWARD')
+                pass
+                # self.robo._motion.walk('FORWARD')
             elif ret == 'fail':
-                # pass
-                self.robo._motion.turn(Robo.arrow,20) #화살표 방향
+                pass
+                # self.robo._motion.turn(Robo.arrow,20) #화살표 방향
             else: #return= LEFT or RIGHT
-                # pass
-                self.robo._motion.turn(ret,20) #return 값대로 turn
+                pass
+                # self.robo._motion.turn(ret,20) #return 값대로 turn
 
 
         elif act == act.SECOND_ROTATION:
@@ -250,45 +140,3 @@ class MissonStair:
             return True
 
         return False
-
-# class MissonDanger:
-#     act: Act = Act.START
-#
-#     miss: int = 0
-#     room_color: str
-#
-#     def init_robo(self, robo:Robo):
-#             self.robo = robo
-#
-#     @classmethod
-#     def go_robo(self):
-#         act = self.act
-#         robo: Robo = Robo
-#
-#         if act == act.START:
-#             self.act = Act.DETECT_ALPHABET
-#
-#         elif act == act.DETECT_ALPHABET:
-#             # motion: 고개 돌리기
-#             self.robo._motion.set_head()
-#             pass
-#             # if self.detect_alphabet():
-#             #     self.miss = 0
-#             #     # motion
-#             # elif self.miss > 1:
-#             #     # motion
-#             #     self.detect_alphabet()
-#             # else:
-#             #     self.miss += 1
-#
-#             # self.act = Act.OUT_OF_DANGER_OBJ
-#         elif act == act.OUT_OF_DANGER_OBJ:
-#             self.act = Act.SPEAKING_ALPHABET
-#
-#         elif act == act.SPEAKING_ALPHABET:
-#             # motion
-#
-#             self.act = Act.EXIT
-#
-#         else: # EXIT
-#             return True
