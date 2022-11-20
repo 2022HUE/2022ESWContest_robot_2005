@@ -35,8 +35,8 @@ class MissionStair:
 
     @classmethod
     def first_rotation(self):
-        return self.robo._image_processor.first_rotation(True)
-        # return True
+        # return self.robo._image_processor.first_rotation(True)
+        return True
 
     @classmethod
     def center_and_forward(self):
@@ -50,8 +50,8 @@ class MissionStair:
 
     @classmethod
     def stair_up(self):
-        # return self.robo._image_processor.draw_stair_line()
-        return 'Top'
+        return self.robo._image_processor.draw_stair_line()
+        # return 'Top'
 
     @classmethod
     def stair_down(self):
@@ -73,12 +73,11 @@ class MissionStair:
             if self.first_rotation()==True: #True 회전완료
                 self.act = Act.CENTER_AND_FORWARD
             else: #LEFT, RIGHT 로 반환됨
-                # self.robo._motion.turn(Robo.arrow,45) #화살표 방향으로 회전해야함
+                # self.robo._motion.turn(Robo.arrow,20) #화살표 방향으로 회전해야함
                 pass
 
         elif act == act.CENTER_AND_FORWARD:
             print('Act = %s'%act)
-
             ret = self.center_and_forward()
             if ret == True:
                 self.act = Act.SECOND_ROTATION

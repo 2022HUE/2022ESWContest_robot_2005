@@ -596,9 +596,9 @@ if __name__ == "__main__":
         ### stair ###
         # img_processor.first_rotation(show=True)
         # conto = img_processor.rect()
-        img_processor.alphabet_center_check()
+        # img_processor.alphabet_center_check()
         # img_processor.second_rotation(show=True)
-        # img_processor.draw_stair_line()
+        img_processor.draw_stair_line()
         # img_processor.stair_down()
 
         ### danger ###
