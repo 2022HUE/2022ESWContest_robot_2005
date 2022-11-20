@@ -34,14 +34,16 @@ print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
 
 class ImageProccessor:
     def __init__(self, video: str = ""):
+        print(video)
+        print(os.path.exists(video))
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
             print('# image processoe #')
-            if platform.system() == "Linux":
-                self._cam = WebcamVideoStream(src=-1).start()
-            else:
-                self._cam = WebcamVideoStream(src=0).start()
+            # if platform.system() == "Linux":
+            #     self._cam = WebcamVideoStream(src=-1).start()
+            # else:
+            #     self._cam = WebcamVideoStream(src=0).start()
 
         self.fps = FPS()  # FPS
         print(self.fps)  # debuging: fps
