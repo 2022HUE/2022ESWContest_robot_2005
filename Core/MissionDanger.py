@@ -93,7 +93,6 @@ class MissionDanger:
                     return False
 
             if cur.BLACK_ROOM_LIST:
-                # self.robo 다 Robo로 바꿔야 할 듯 -> self.robo로 하면 각 미션에서 쓰는 robo 인스턴스에 저장하는 거라서 각자 다를 듯
                 Robo.black_room_list = cur.BLACK_ROOM_LIST
             else:
                 # 방 알파벳 글자 인식
