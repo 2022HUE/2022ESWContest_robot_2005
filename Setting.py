@@ -77,7 +77,7 @@ setting.STAIR_UP = 290 #계단 올라갈 때 채도값 설정
 setting.ALPHABET_ROTATION = 50 #알파벳 방향으로 회전할 때 알파벳 부분의 채도가 이거 이하여야 함.
 setting.STAIR_ROTATION = 400 #계단 지역으로 회전할 때 채도
 
-setting.STAIR_ALPHABET_SIZE = 43000
+setting.STAIR_ALPHABET_SIZE = 39000
 
 setting.ONE_F = 90 #계단 1층 채도
 setting.TWO_F = 100 #계단 2층 채도
