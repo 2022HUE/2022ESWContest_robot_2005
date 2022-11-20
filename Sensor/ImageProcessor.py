@@ -541,12 +541,6 @@ class ImageProccessor:
         ''' motion 
         # T: 방 탈출
         # F: 계단 내려가기 '''
-        # img = cv.cvtColor(img,cv.COLOR_HSV2BGR)
-        # if Stair.in_stair_down(self,img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)==False:
-        #     img = cv.putText(img, "Go down stairs", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
-        # else:
-        #     img = cv.putText(img, "1st floor arrival", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
-        # cv.imshow('img',img)
         return Stair.in_stair_down(self,img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)
 
     # 허프라인 잡히면 2층으로 올라가기
@@ -571,8 +565,6 @@ class ImageProccessor:
             else:
                 return False  # 라인 추출 실패
         else:
-            # print("라인 추출 실패")
-            # cv.imshow('simg',img_canny)
             if self.stair_top()==False:
                 img = cv.putText(img, "Small Step", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
             else:
@@ -602,7 +594,7 @@ if __name__ == "__main__":
         # img_processor.stair_down()
 
         ### danger ###
-        img_processor.get_alphabet_color()
+        # img_processor.get_alphabet_color()
 
         if cv.waitKey(5) & 0xFF == ord('q'):
             break
