@@ -7,7 +7,10 @@ import platform
 from imutils.video import WebcamVideoStream
 from imutils.video import FileVideoStream
 from imutils.video import FPS
-  
+
+print('code: ImageProcessor.py - ## Debug')
+
+
 if __name__ == "__main__":
     from Line import Line
     from Stair import Stair #파일명 / class이름
@@ -30,14 +33,13 @@ else:
     from Sensor.Setting import setting
     from Sensor.DataPath import DataPath
 
-print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
-
 class ImageProccessor:
     def __init__(self, video: str = ""):
+        print("init_imgprocessor")
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
-            print('# image processoe #')
+            print('# image processor #', platform.system())
             if platform.system() == "Linux":
                 self._cam = WebcamVideoStream(src=-1).start()
             else:
@@ -46,7 +48,7 @@ class ImageProccessor:
         self.fps = FPS()  # FPS
         print(self.fps)  # debuging: fps
         shape = (self.height, self.width, _) = self.get_img().shape
-        print(shape)  # debuging: image shape => height, width
+        print("Shape :: ", shape)  # debuging: image shape => height, width
         time.sleep(2)
 
     ########### 이미지 불러오기 ###########

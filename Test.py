@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # Misson Debuging Code
-# from Core.MissionStair import MissionStair
+from Core.MissionStair import MissionStair
 from Core.MissionEntrance import MissionEntrance
-# from Core.MissionDanger import MissionDanger
+from Core.MissionDanger import MissionDanger
 
 def entrance():
     while not MissionEntrance.go_robo():
