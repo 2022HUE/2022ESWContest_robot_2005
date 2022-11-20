@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import cv2 as cv
 import numpy as np
+from Sensor.DataPath import DataPath
 
 class Direction:
     def __init__(self): 
         self.matching_num: int
   
+    @classmethod
     def text_masking(self, text):
         hsv = cv.cvtColor(text, cv.COLOR_BGR2HSV)
         h, s, v = cv.split(hsv)
@@ -20,7 +22,7 @@ class Direction:
 
         return text_mask
 
-
+    @classmethod
     def match_sam(self, sam_l, tar, num):
         target_h, target_w = tar.shape
         ms_score = 100 # matchShape score
@@ -63,6 +65,7 @@ class Direction:
 
         return mt_score
 
+    @classmethod
     def matching(self, sam, tar, params, option): # [Option] "EWSN", "ABCD"
         # sample_img: list
         n = len(sam[0])
@@ -79,7 +82,10 @@ class Direction:
         else: return ret_mt
 
     # font_img matching
-    font_img = [cv.imread('./src/entrance/direction_data/font_img/{}.jpg'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    # font_img = [cv.imread('src/entrance/direction_data/font_img/{}.jpg'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    
+    @classmethod
     def match_font(self, font_img,tar):
         target_h, target_w = tar.shape
         match = 100
@@ -132,14 +138,19 @@ class Direction:
         else: return None
     
 
-    # sample E
-    sample_e = [cv.imread('src/entrance/direction_data/sam_e0{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    # sample W
-    sample_w = [cv.imread('./src/entrance/direction_data/sam_w0{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    # sample N
-    sample_n = [cv.imread('./src/entrance/direction_data/sam_s0{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    # sample S
-    sample_s = [cv.imread('./src/entrance/direction_data/sam_n0{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    # # sample E
+    # sample_e = [cv.imread('src/entrance/direction_data/sam_e0{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    # # sample W
+    # sample_w = [cv.imread('./src/entrance/direction_data/sam_w0{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    # # sample N
+    # sample_n = [cv.imread('./src/entrance/direction_data/sam_s0{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    # # sample S
+    # sample_s = [cv.imread('./src/entrance/direction_data/sam_n0{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+
+    sample_e = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    sample_w = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    sample_n = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    sample_s = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
 
     sample_list = [sample_e, sample_w, sample_s, sample_n]
 
