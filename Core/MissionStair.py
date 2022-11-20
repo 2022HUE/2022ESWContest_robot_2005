@@ -8,26 +8,11 @@ import time
 class Act(Enum):
     START = auto()  # 공통
     FIND_LINE = auto()
-    ### entrance ###
-    DETECT_DIRECTION = auto()
-    DETECT_ARROW = auto()
-
-    ### stair ###
     FIRST_ROTATION = auto()
     CENTER_AND_FORWARD = auto()
     SECOND_ROTATION = auto()
-
     DRAW_STAIR_LINE = auto()
     STAIR_DOWN = auto()
-
-    ### danger ###
-    # (예시)출
-    SPEAK_DANGER = auto()
-    DETECT_ALPHABET = auto()  # 방이름 감지
-    WALK_TO_MILKBOX = auto()  # 장애물 찾기
-    OUT_OF_DANGER = auto()  # 위험지역 밖으로 장애물 옮기기
-    REGRAB_MILKBOX = auto() # 떨어진 장애물 다시 잡기 -> WALK_TO_MILKBOX로 충분할 것 같아서 일단 안씀
-    KICK_MILKBOX = auto() # 자꾸 장애물을 떨어트릴 경우 이 방법 사용 (발로 차거나 치우기 동작 수행)
     EXIT = auto()  # 공통
 
 

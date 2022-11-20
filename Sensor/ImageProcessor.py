@@ -17,6 +17,7 @@ if __name__ == "__main__":
 
     from Stair import Stair
     from Setting import setting
+    from DataPath import DataPath
 
 else:
     from Sensor.Stair import Stair
@@ -27,6 +28,8 @@ else:
     from Sensor.Danger import Danger
     from Sensor.Stair import Stair
     from Sensor.Setting import setting
+    from Sensor.DataPath import DataPath
+
 print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
 
 class ImageProccessor:
@@ -34,7 +37,7 @@ class ImageProccessor:
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
-            print('ermkesm')
+            print('# image processoe #')
             if platform.system() == "Linux":
                 self._cam = WebcamVideoStream(src=-1).start()
             else:
@@ -222,7 +225,7 @@ class ImageProccessor:
 
     ########### ENTRANCE PROCESSING ###########
     # 화살표 방향 인식 후 리턴
-    def get_arrow(self, show):
+    def get_arrow(self, show=False):
         img = self.get_img()
         origin = img.copy()
 
@@ -246,7 +249,7 @@ class ImageProccessor:
         return ret_arrow
 
     # 방위 글자 인식 후 방위 리턴
-    def get_ewsn(self, show):
+    def get_ewsn(self, show=False):
         img = self.get_img()
         x, y, w, h = 100, 100, 440, 480
         img = img[y:y+h, x:x+w]
@@ -293,11 +296,20 @@ class ImageProccessor:
             font 이미지와 비교한 2가지 값도 정확도가 낮지는 않으나, 가끔 로봇의 고개 각도에 따라 튀는 값이 나올 때가 있음
             '''
 
-            mt_gray = Direction.matching(dir, Direction.sample_list, text_gray, 0.001, "EWSN") # 1. matchTemplate - Gray Scale
-            text_mask = dir.text_masking(dir, text)
-            mt_mask = dir.matching(dir, dir.sample_list, text_mask, 1, "EWSN") # 2. matchTemplate - Masking
-            match_mask_font = dir.match_font(dir, dir.font_img, text_mask) # 3. font <-> masking
-            match_gray_font = dir.match_font(dir, dir.font_img, text_gray) # 4. font <-> gray scale
+
+            e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+            w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+            n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+            s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+            font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+            sample_list = [e_,w_,s_,n_]
+
+
+            mt_gray = Direction.matching(sample_list, text_gray, 0.001, "EWSN") # 1. matchTemplate - Gray Scale
+            text_mask = Direction.text_masking(text)
+            mt_mask = Direction.matching(sample_list, text_mask, 1, "EWSN") # 2. matchTemplate - Masking
+            match_mask_font = Direction.match_font(font_img, text_mask) # 3. font <-> masking
+            match_gray_font = Direction.match_font(font_img, text_gray) # 4. font <-> gray scale
             
             print('match: ', mt_gray, mt_mask, match_gray_font, match_mask_font) # Debug: printing
             set_ = {mt_gray, mt_mask, match_mask_font, match_gray_font}
@@ -341,10 +353,14 @@ class ImageProccessor:
         img = self.get_img()
 
         roi = Danger.get_alphabet_roi(img, "GRAY")
-        arr_a = [cv.imread('src/alphabet_data/a{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        arr_b = [cv.imread('src/alphabet_data/b{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        arr_c = [cv.imread('src/alphabet_data/c{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        arr_d = [cv.imread('src/alphabet_data/d{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        # arr_a = [cv.imread('src/alphabet_data/a{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        # arr_b = [cv.imread('src/alphabet_data/b{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        # arr_c = [cv.imread('src/alphabet_data/c{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        # arr_d = [cv.imread('src/alphabet_data/d{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        arr_b = [cv.imread('{}b{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        arr_c = [cv.imread('{}c{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        arr_d = [cv.imread('{}d{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
         arr = [arr_a, arr_b, arr_c, arr_d]
         if roi != "Failed":
             mt_gray = Direction.matching(Direction, arr, roi, 0.001, "ABCD")
@@ -568,55 +584,7 @@ class ImageProccessor:
     ############# STAIR PROCESSING #############
 
 if __name__ == "__main__":
-    ### Debug Path List ###
-    # entrance
-    e01 = "src/entrance/entr03-1.mp4"
-    e02 = "src/entrance/1027_23:14.h264"
-    # line
-    l01 = "src/line/1003_line2.mp4"
-    l02 = "src/entrance/1027_23:19.h264"
-    l03 = "src/line/1106_22:30.h264" # S
-    l04 = "src/line/1106_22:33.h264" # W+arrow
-    l04_ = "src/line/1106_22:34.h264" # W+arrow
-    l05 = "src/line/1106_22:37.h264" # rotate entrance (조명 이상)
-    l06 = "src/line/1106_22:38.h264" # rotate entrance
-    l07 = "src/line/1106_22:39.h264" # goto_nextroom -> right
-    l08 = "src/line/1106_22:46.h264" # goto_nextroom -> left
-    l09 = "src/line/1106_22:41.h264" # goto_exit
-    l10 = "src/line/1106_22:42.h264" # goto_exit
-    l11 = "src/line/1106_22:43.h264" # goto_exit + object
-    l12 = "src/line/1106_22:44.h264" # goto_exit + object
-    l13 = "src/line/1106_22:45.h264" # exit - right
-    l14 = "src/line/1106_22:47.h264" # exit - left
-    # 1114 #
-    l15 = "src/line/1114_21:51.h264" # entrance
-    l16 = "src/line/1114_21:53.h264" # entrance
-    l19 = "src/line/1114_21:56.h264" # E+arrow -> ISSUE!
-    l20 = "src/line/1114_21:57.h264" # goto
-    l21 = "src/line/1114_21:58.h264" # is_danger -> stair
-    # 녹화 비디오
-    l22 = "src/line/1114_22:01.h264" # entrance
-    l23 = "src/line/1114_22:02.h264" # S+arrow
-    l24 = "src/line/1114_22:03.h264" # goto
-    l25 = "src/line/1114_22:05.h264" # exit - right
-    l26 = "src/line/1114_22:10.h264" # exit - object
-
-
-    # danger
-    danger01 = "src/danger/1027_23:41.h264" # A
-    danger02 = "src/danger/1031_20:56.h264" # C
-    danger03 = "src/danger/1027_23:32.h264" # D
-    danger04 = "src/danger/1031_20:49.h264" # B
-    danger05 = "src/danger/1110_22:29.h264" # 위험지역 확인과 알파벳 확인
-
-    stair01 = "src/stair/1114_22:24.h264" # 방 입구 도착해서 위험지역, 계단지역 구분
-    stair02 = "src/stair/1114_21:18.h264" # 알파벳 센터 체크 & 전진
-    stair03 = "src/stair/1027_23:22.h264" # 알파벳 도착부터 전진까지
-    stair04 = "src/stair/1106_20:13.h264" # 알파벳에서 계단지역쪽으로 회전
-    stair05 = "src/stair/1114_21:20.h264" # 계단 오르기 시작
-    stair06 = "src/stair/1114_21:26.h264" # 계단 내려가기
-    test = "Sensor/src/stair/1114_22:26.h264"
-    img_processor = ImageProccessor(video=test)
+    img_processor = ImageProccessor(video=DataPath.test)
     
     ### Debug Run ###
     while True:
