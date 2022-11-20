@@ -8,7 +8,6 @@ import sys
 from threading import Thread, Lock
 #from Constant import const
 
-
 # -----------------------------------------------
 class Motion:
     head_angle1 = 'UPDOWN_CENTER'
