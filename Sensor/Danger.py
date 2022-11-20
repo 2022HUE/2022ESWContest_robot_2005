@@ -251,7 +251,7 @@ if __name__ == "__main__":
     # cap = cv.VideoCapture("src/danger/1106_20:02.h264")
     # 1106 20:06, 07 완전 모범 결과 출력
     # cap = cv.VideoCapture("src/danger/1106_20:06.h264")
-    cap = cv.VideoCapture("src/danger/1106_20:07.h264")
+    # cap = cv.VideoCapture("src/danger/1106_20:07.h264")
 
     # 빨강
     # cap = cv.VideoCapture("src/danger/1031_20:35.h264")
@@ -261,6 +261,7 @@ if __name__ == "__main__":
     # 장애물 집고 나올 때의 영상
     # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
     # cap = cv.VideoCapture("src/danger/1031_20:57.h264")
+    cap = cv.VideoCapture("src/danger/1110_22:29.h264")
 
     # 장애물 어디있는지 바라볼 때의 시야
     # cap = cv.VideoCapture("src/danger/1031_20:53.h264")
@@ -278,13 +279,16 @@ if __name__ == "__main__":
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
         # pos_idx = danger.get_milkbox_pos(img, "BLUE", True)
-        alpha_hsv = danger.get_alphabet_roi(img)
-        if alpha_hsv == "Failed":
-            print("Failed")
-        else:
-            print(danger.get_alphabet_color(alpha_hsv))
+        # alpha_hsv = danger.get_alphabet_roi(img)
+        # if alpha_hsv == "Failed":
+        #     print("Failed")
+        # else:
+        #     print(danger.get_alphabet_color(alpha_hsv))
+
+        milk_mask = danger.get_milkbox_mask(hsv, "RED")
+        cv.imshow('milk_mask', milk_mask)
 
         if cv.waitKey(5) & 0xFF == ord('q'):
             break
 
-# cap.release(
+# cap.release()
