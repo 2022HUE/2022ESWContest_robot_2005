@@ -1,18 +1,23 @@
+# -*- coding: utf-8 -*-
 # Misson Debuging Code
-from Core.Misson import MissonDanger
+# from Core.MissionStair import MissionStair
+# from Core.MissionEntrance import MissionEntrance
+from Core.MissionDanger import MissionDanger
 
 # def entrance():
-#     while not MissonEntrance.go_robo():
+#     while not MissionEntrance.go_robo():
 #         print("<ENTRANCE>")
 #         continue
 
 def danger():
-    while not MissonDanger.go_robo():
+    while not MissionDanger.go_robo():
         print("<DANGER>")
         continue
 
 # def stair():
-#     while not MissonStair.go_robo():
+#     # stair_ = MissionStair.go_robo()
+#     while not MissionStair.go_robo():
+#         print("<STAIR>")
 #         continue
 
 
