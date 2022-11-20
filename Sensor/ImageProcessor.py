@@ -363,7 +363,7 @@ class ImageProccessor:
         arr_d = [cv.imread('{}d{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
         arr = [arr_a, arr_b, arr_c, arr_d]
         if roi != "Failed":
-            mt_gray = Direction.matching(Direction, arr, roi, 0.001, "ABCD")
+            mt_gray = Direction.matching(arr, roi, 0.001, "ABCD")
             print(mt_gray)
             ########### [Option] Show ##########
             if show:
