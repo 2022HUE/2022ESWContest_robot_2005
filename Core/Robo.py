@@ -12,6 +12,6 @@ class Robo:
     alphabet_color: str
     _image_processor = ImageProccessor(video="") # Image Processor
 
-    # def __init__(self, vpath=''):
-    #     self._image_processor = ImageProccessor(video=vpath) # Image Processor
-    #     # self._motion = Motion() # Motion
+    def __init__(self, vpath=''):
+        #self._image_processor = ImageProccessor(video=vpath) # Image Processor
+        self._motion = Motion() # Motion
