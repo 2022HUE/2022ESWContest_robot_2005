@@ -2,6 +2,7 @@
 from Sensor.ImageProcessor import ImageProccessor
 from Motion.Motion import Motion
 from Setting import Setting
+from Sensor.DataPath import DataPath
 
 print('code: Robo.py - ## Debug')
 
@@ -10,6 +11,7 @@ class Robo:
     dis_arrow: str = "RIGHT"
     black_room_list = list = []
     alphabet_color: str
+    # _image_processor 이거 없어도 되는 거 맞쥬?
     _image_processor = ImageProccessor(video="") # Image Processor
 
     def __init__(self, vpath=''):

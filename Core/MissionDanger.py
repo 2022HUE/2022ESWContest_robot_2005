@@ -87,7 +87,6 @@ class MissionDanger:
                     # 계속 못찾으면 그냥 빨강으로 지정
                     self.alphabet_color = "RED"
                     Robo.alphabet_color = self.alphabet_color
-                # 아직 get_alphabet_color miss 처리 안했음
                 else:
                     self.miss += 1
                     return False
@@ -109,7 +108,8 @@ class MissionDanger:
                     self.miss += 1
                     return False
 
-            # # motion : 정면(위험지역) 바라보기
+            print(Robo.black_room_list[0])
+            # motion : 정면(위험지역) 바라보기
             # self.robo._motion.set_head("LEFTRIGHT_CENTER")
 
             self.act = Act.WALK_TO_MILKBOX
@@ -128,15 +128,18 @@ class MissionDanger:
                     if self.is_okay_grab_milkbox():
                         self.act = Act.OUT_OF_DANGER
                         break
-                # elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
-                #     # motion : 앞으로 걷기 1번 수행 -> short 옵션 넣어줘야하나요?
-                #     self.robo._motion.walk()
-                # elif self.milkbox_pos == 0 or self.milkbox_pos == 3 or self.milkbox_pos == 6:
-                #     # motion : 왼쪽으로 20도 회전 수행
-                #     self.robo._motion.turn("LEFT", 20)
-                # elif self.milkbox_pos == 2 or self.milkbox_pos == 5 or self.milkbox_pos == 8:
-                #     # motion : 오른쪽으로 20도 회전 수행
-                #     self.robo._motion.turn("RIGHT", 20)
+                elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
+                    # motion : 장애물 접근 걸어가기
+                    # self.robo._motion.walk("FORWARD")
+                    pass
+                elif self.milkbox_pos == 0 or self.milkbox_pos == 3 or self.milkbox_pos == 6:
+                    # motion : 왼쪽으로 20도 회전 수행
+                    # self.robo._motion.turn("LEFT", 20)
+                    pass
+                elif self.milkbox_pos == 2 or self.milkbox_pos == 5 or self.milkbox_pos == 8:
+                    # motion : 오른쪽으로 20도 회전 수행
+                    # self.robo._motion.turn("RIGHT", 20)
+                    pass
 
                 # milkbox_pos 를 가져오지 못한 경우
                 elif self.miss >= self.limits:
@@ -150,16 +153,16 @@ class MissionDanger:
         elif act == act.OUT_OF_DANGER:
             print("OUT_OF_DANGER")
             # 장애물을 들고 있는 채로 위험지역 밖을 벗어날 때까지 아래 과정 반복
-            while True:
-                if not self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
-                    # # motion : 장애물 내려놓기 동작 수행
-                    # self.robo._motion.grab("DOWN")
-                    self.act = Act.WALK_TO_MILKBOX
-                    return False
-                if self.robo._image_processor.is_out_of_black():
-                    # # motion : 장애물 내려놓기 동작 수행
-                    # self.robo._motion.grab("DOWN")
-                    break
+            # while True:
+            #     if not self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
+            #         # motion : 장애물 내려놓기 동작 수행
+            #         self.robo._motion.grab("DOWN")
+            #         self.act = Act.WALK_TO_MILKBOX
+            #         return False
+            #     if self.robo._image_processor.is_out_of_black():
+            #         # motion : 장애물 내려놓기 동작 수행
+            #         self.robo._motion.grab("DOWN")
+            #         break
             #     # 무한 루프 갇힐 경우에 대한 예외처리 아직 안함
             #     else:
             #         if self.first_milkbox_pos == 0:

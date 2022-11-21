@@ -560,7 +560,7 @@ class ImageProccessor:
         # else:
         #     img = cv.putText(img, "1st floor arrival", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
         # cv.imshow('img',img)
-        return Stair.in_stair_down(self,img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)
+        return Stair.in_stair_down(self, img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)
 
     # 허프라인 잡히면 2층으로 올라가기
     def draw_stair_line(self):
