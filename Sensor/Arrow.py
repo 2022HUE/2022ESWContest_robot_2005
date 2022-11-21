@@ -23,11 +23,13 @@ class Arrow:
                 # area 값 조절로 인식 조절
                 cv.rectangle(debug,(50,100),(540-1,480-1),[0,255,0],2)
                 cv.drawContours(debug, [approx], 0, (0, 255, 0), 3)
-                if 20000< area < 26000 and vertices == 7:
+                print(area, vertices)
+                if 26000< area < 42000 and vertices == 7:
                     # print(cnt_arrow)
                     # Debug: drea contours
-                    # cv.drawContours(debug, [approx], 0, (0, 255, 0), 3)
-
+                    #cv.drawContours(debug, [approx], 0, (0, 255, 0), 3)
+                
+                    ####################################
 
                     x_loc = []
                     for i in range(len(approx)):

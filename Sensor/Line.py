@@ -87,10 +87,10 @@ class Line:
     def is_center(self, img, line):
         x1, y1, x2, y2 = line[0], line[1], line[2], line[3]
         cv.rectangle(img,(300,100),(390-1,480-1),[0,255,0],2) # roi
-        if 290 <= x1 < 390 and 290 <= x2 < 390:
+        if 300 <= x1 < 380 and 300 <= x2 < 380:
             return True
         else:
-            if x1 < 290 or x2 < 290:
+            if x1 < 300 or x2 < 300:
                 return "MOVE_LEFT" # 왼쪽으로 이동 필요
             else:
                 return "MOVE_RIGHT" # 오른쪽로 이동 필요

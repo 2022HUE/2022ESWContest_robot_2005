@@ -7,7 +7,13 @@ import platform
 from imutils.video import WebcamVideoStream
 from imutils.video import FileVideoStream
 from imutils.video import FPS
-  
+
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning) # FutureWarning 제거
+
+print('code: ImageProcessor.py - ## Debug')
+
+
 if __name__ == "__main__":
     from Line import Line
     from Stair import Stair #파일명 / class이름
@@ -30,23 +36,25 @@ else:
     from Sensor.Setting import setting
     from Sensor.DataPath import DataPath
 
-print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
-
 class ImageProccessor:
     def __init__(self, video: str = ""):
+        print("init_imgprocessor")
+        
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
-            print('# image processoe #')
+            print('# image processor #', platform.system())
             if platform.system() == "Linux":
+                print('eee')
                 self._cam = WebcamVideoStream(src=-1).start()
             else:
                 self._cam = WebcamVideoStream(src=0).start()
+            print('effwe')  
 
         self.fps = FPS()  # FPS
         print(self.fps)  # debuging: fps
         shape = (self.height, self.width, _) = self.get_img().shape
-        print(shape)  # debuging: image shape => height, width
+        print("Shape :: ", shape)  # debuging: image shape => height, width
         time.sleep(2)
 
     ########### 이미지 불러오기 ###########
@@ -123,7 +131,7 @@ class ImageProccessor:
 
     ########### LINE DETECTION ###########
     # 라인이 수평선인지 수직선인지 return해줌
-    def is_line_horizon_vertical(self, show):
+    def is_line_horizon_vertical(self, show=False):
         img = self.get_img()
         origin = img.copy()
         img = self.correction(img, 7)
@@ -138,7 +146,7 @@ class ImageProccessor:
         # get Line
         line_arr = Line.hough_lines(self, roi_img, 1, 1 * np.pi/180, 30, 10, 20) # 허프 변환
         line_arr = np.squeeze(line_arr)
-        print(line_arr)
+        # print(line_arr)
         # if show:
         #     cv.imshow("show", origin)
         #     cv.waitKey(1) & 0xFF == ord('q')
@@ -174,6 +182,10 @@ class ImageProccessor:
 
             ####################################
             if state == "BOTH":
+                # is_center = Line.is_center(self, origin, v_line)
+                # cv.putText(origin, "center: {}".format(is_center), (260, 80), cv.FONT_HERSHEY_SIMPLEX, 0.8, [0,255,100], 2)
+                # if is_center != True:
+                    # return is_center
                 if v_slope and not h_slope: # vertical
                     if 90 - v_slope < 0:
                         cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
@@ -232,21 +244,21 @@ class ImageProccessor:
         img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         img = self.blur(img, setting.ARROW_BLUR)
         img = self.bright(img, setting.ARROW_BRIGHT)
-        _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV)
-        ret_arrow = Arrow.get_arrow_info(self, img, origin)
-        if ret_arrow: 
-            print(ret_arrow) # Debug: print arrow
-        else:
-            print("Failed")
-        cv.putText(origin, "arrow: {}".format(ret_arrow), (50, 210), cv.FONT_HERSHEY_SIMPLEX, 1, [255,255,0], 2)
-
+        _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        
+        ret = Arrow.get_arrow_info(self, img, origin)
         ########### [Option] Show ##########
         if show:
-            cv.imshow("show", origin)
+            cv.imshow("show", img)
             cv.waitKey(1) & 0xFF == ord('q')
         ####################################
-
-        return ret_arrow
+        
+        if not ret: 
+            _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV)
+            ret = Arrow.get_arrow_info(self, img, origin)
+        
+        print(ret) # Debug: print arrow
+        return ret
 
     # 방위 글자 인식 후 방위 리턴
     def get_ewsn(self, show=False):
@@ -500,7 +512,7 @@ class ImageProccessor:
         except:
             return 'fail'
     def stair_top(self):
-        stair_level=0
+        
         img = self.get_img(True)
         hsv = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         lower_hue, upper_hue = np.array(setting.STAIR_BLUE[0]), np.array(setting.STAIR_BLUE[1])
@@ -524,11 +536,7 @@ class ImageProccessor:
             '''
             #stair_stage_check는 외부에서 계단 올라간거 체크하는 변수 만들어야 함.
 
-            if stair_level == 1:
-                return True #올라가라
-            elif stair_level ==2:
-                print("정상 도달")
-                return 'Top'
+            return True #올라가라
 
         print("2층에서 좁은 보폭") # motion: 2층에서 샤샤샥
         return False
@@ -558,7 +566,7 @@ class ImageProccessor:
         img_canny = cv.Canny(roi, 20, 200)
         # try:
 
-        lines = cv.HoughLines(img_canny, 0.8, np.pi/20, 100, None, None,None, min_theta=0, max_theta= 50)
+        lines = cv.HoughLines(img_canny, 0.8, np.pi/20, 100,min_theta=0, max_theta= 50)
 
         if lines is not None:
             line_length=lines[0][0][1]
@@ -584,11 +592,13 @@ class ImageProccessor:
     ############# STAIR PROCESSING #############
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video=DataPath.test)
-    
+    # img_processor = ImageProccessor(video=DataPath.test)
+    img_processor = ImageProccessor()
+
+
     ### Debug Run ###
     while True:
-        img_processor.get_arrow(show=True)
+        # img_processor.get_arrow(show=True)
         # img_processor.get_ewsn(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
         # img_processor.get_alphabet_name(show=True)
@@ -596,13 +606,13 @@ if __name__ == "__main__":
         ### stair ###
         # img_processor.first_rotation(show=True)
         # conto = img_processor.rect()
-        img_processor.alphabet_center_check()
+        # img_processor.alphabet_center_check()
         # img_processor.second_rotation(show=True)
-        # img_processor.draw_stair_line()
+        img_processor.draw_stair_line()
         # img_processor.stair_down()
 
         ### danger ###
-        img_processor.get_alphabet_color()
+        # img_processor.get_alphabet_color()
 
         if cv.waitKey(5) & 0xFF == ord('q'):
             break

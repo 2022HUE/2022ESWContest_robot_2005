@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+
 from enum import Enum, auto
 from Core.Robo import Robo
 from Setting import cur
-import time
 
 
 class Act(Enum):
@@ -13,11 +13,11 @@ class Act(Enum):
     EXIT = auto()  # 공통
 
 
-print('d')
+print('code: MissonEntrance.py - ## Debug')
 class MissionEntrance:
+    print('# entrance #')
     act: Act = Act.START
     robo: Robo = Robo()
-    print('# entrance #')
     # print(robo)
     # print(robo._motion)
     # print('##########################')
@@ -52,7 +52,7 @@ class MissionEntrance:
         if cur.MAP_ARROW:
             my_arrow = cur.MAP_ARROW
         else:
-            my_arrow = self.robo._image_processor.get_arrow()
+            my_arrow = self.robo._image_processor.get_arrow(show=True)
 
         if my_arrow:
             self.robo.arrow = "LEFT" if my_arrow == "LEFT" else "RIGHT"
