@@ -68,10 +68,10 @@ class Direction:
     def matching(self, sam, tar, params, option): # [Option] "EWSN", "ABCD"
         # sample_img: list
         n = len(sam[0])
-        match1 = (option[0], self.match_sam(self, sam[0], tar, n))
-        match2 = (option[1], self.match_sam(self, sam[1], tar, n))
-        match3 = (option[2], self.match_sam(self, sam[2], tar, n))
-        match4 = (option[3], self.match_sam(self, sam[3], tar, n))
+        match1 = (option[0], self.match_sam(sam[0], tar, n))
+        match2 = (option[1], self.match_sam(sam[1], tar, n))
+        match3 = (option[2], self.match_sam(sam[2], tar, n))
+        match4 = (option[3], self.match_sam(sam[3], tar, n))
 
         match_list = [match1, match2, match3, match4]
         ret_mt = max(match_list, key=lambda x: x[1])[0]
@@ -87,7 +87,7 @@ class Direction:
         mt_score = 0
         self.matching_num = 99
         for i in range(4):
-            sample = self.font_img[i]
+            sample = font_img[i]
             h, w = sample.shape[:2]
             ratio = w / h
 

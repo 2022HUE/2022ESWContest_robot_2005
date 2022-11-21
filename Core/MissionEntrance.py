@@ -39,11 +39,12 @@ class MissionEntrance:
         if cur.MAP_DIRECTION:
             self.map_direction = cur.MAP_DIRECTION
         else:
+            print('check direction')
             self.map_direction = self.robo._image_processor.get_ewsn()
         
         if self.map_direction:
             self.robo._motion.notice_direction(self.map_direction)
-            time.sleep(2) # Lock
+            time.sleep(2.5) # Lock
             return True
         else: # 인식 실패
             return False
@@ -57,7 +58,7 @@ class MissionEntrance:
             my_arrow = self.robo._image_processor.get_arrow()
 
         if my_arrow:
-            self.robo.arrow = "LEFT" if my_arrow == "LEFT" else "RIGHT"
+            Robo.arrow = "LEFT" if my_arrow == "LEFT" else "RIGHT"
             return True
         else: # 인식 실패
             return False
@@ -72,6 +73,7 @@ class MissionEntrance:
         if act == act.START:
             print('ACT: ', act)
             # (motion) 고개 올리기 70도 - 방위 보이게
+            time.sleep(1)
             self.robo._motion.set_head("DOWN", 70)
 
             self.act = Act.DETECT_DIRECTION

@@ -282,6 +282,7 @@ class ImageProccessor:
 
     # 방위 글자 인식 후 방위 리턴
     def get_ewsn(self, show=False):
+        print('get_ewsn')
         img = self.get_img()
         x, y, w, h = 100, 100, 440, 480
         img = img[y:y+h, x:x+w]
@@ -309,9 +310,14 @@ class ImageProccessor:
                 roi_contour.append(contours[pos])
                 # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
 
+        if show:
+            cv.imshow("show", dst)
+            cv.waitKey(1) & 0xFF == ord('q')
+        ####################################
         roi_contour_pos = []
         for pos in range(len(roi_contour)):
             area = cv.contourArea(roi_contour[pos])
+            print(area)
             if area > 20000:
                 roi_contour_pos.append(pos)
 

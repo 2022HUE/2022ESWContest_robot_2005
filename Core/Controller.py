@@ -48,6 +48,7 @@ class Controller:
     # 위험 지역인지 계단 지역인지 판단
     @classmethod
     def check_area(self):
+        time.sleep(1)
         self.robo._motion.turn(self.robo.arrow, 45) # [motion] 로봇 화살표 방향으로 45도 회전
         if self.count_area == 0: # 최초 방문
             if cur.AREA: # 고정 값 존재시 (Setting - current)
@@ -91,8 +92,8 @@ class Controller:
             # motion: 고개 내리기 30
             self.robo._motion.set_head("DOWN", 30)
             time.sleep(0.5)
-            #self.act = act.GO_ENTRANCE
-            act.GO_NEXTROOM
+            self.act = act.GO_ENTRANCE
+            # act.GO_NEXTROOM
             
         elif act == act.GO_ENTRANCE:
             print("ACT: ", act) # Debug
