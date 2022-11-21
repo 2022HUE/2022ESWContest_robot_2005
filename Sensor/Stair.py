@@ -52,7 +52,6 @@ class Stair:
     #계단 지역 기준 왼쪽 오른쪽 판단하는 함수 #화살표 방향대로 돌아야 함.
 
     def in_left_right(self,img_mask,ARROW,x=0,y=0):
-        # rotation = False
         left = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000 )
         x =320;
         right = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000)

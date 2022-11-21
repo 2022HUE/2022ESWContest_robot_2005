@@ -414,12 +414,12 @@ class ImageProccessor:
 
     ############# STAIR PROCESSING #############
     # 로봇의 회전 완료 여부 반환
-    def first_rotation(self,show):  # 알파벳 크기 측정 후 계단 지역으로 회전, 화살표 반대 방향.
+    def first_rotation(self,Arrow,show):  # 알파벳 크기 측정 후 계단 지역으로 회전, 화살표 반대 방향.
         img = self.get_img(True)
         img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V)
-        cur_s_val = Stair.in_left_right(self,s_mask,setting.ARROW) # (Current_saturation_value) setting.Arrow: 화살표 방향
-        ret = Stair.in_rotation(self,cur_s_val,setting.ALPHABET_ROTATION, setting.ARROW)
+        cur_s_val = Stair.in_left_right(self,s_mask,Arrow) # (Current_saturation_value)
+        ret = Stair.in_rotation(self,cur_s_val,setting.ALPHABET_ROTATION, Arrow)
         '''motion
         # T: (회전완료) 머리 아래 30도 변경
         # False 일 때는 LEFT, RIGHT 반환
@@ -428,29 +428,22 @@ class ImageProccessor:
 
         return ret
     
-    def second_rotation(self):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
+    def second_rotation(self,Arrow):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
         img = self.get_img()
         img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V)
-        # cv.imshow('Stair Mask',s_mask)
-        s_val = int((np.count_nonzero(s_mask) / (640 * 480)) * 1000)
-        if setting.ARROW =="LEFT": arrow_ ="RIGHT"
-        else: arrow_ = "LEFT"
-        ret = Stair.in_rotation(self,setting.STAIR_ROTATION, s_val, arrow_)
-        img = cv.cvtColor(img,cv.COLOR_HSV2BGR)
-        if ret==True:
-            img = cv.putText(img, "Rotation Complete", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
-        else:
-            img = cv.putText(img, "Turn " + ret, (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
 
-        # cv.imshow('img',img)
+        s_val = int((np.count_nonzero(s_mask) / (640 * 480)) * 1000)
+
+        ret = Stair.in_rotation(self,setting.STAIR_ROTATION, s_val, Arrow)
 
         '''motion
         # T: (회전완료) 머리 아래 30도 변경
         # LEFT: 왼쪽으로 회전
         # RIGHT: 오른쪽으로 회전
         '''
-        print("stair_to_alphabet_rotation", ret) # Debug
+        # print("stair_to_alphabet_rotation", ret) # Debug
+        cv.imshow('img',img)
         return ret
     
     def rect(self):
@@ -585,11 +578,11 @@ if __name__ == "__main__":
         # conto = img_processor.rect()
         # img_processor.alphabet_center_check()
         # img_processor.second_rotation(show=True)
-        img_processor.draw_stair_line()
+        # img_processor.draw_stair_line()
         # img_processor.stair_down()
 
         ### danger ###
         # img_processor.get_alphabet_color()
 
-        if cv.waitKey(5) & 0xFF == ord('q'):
+        if cv.waitKey(20) & 0xFF == ord('q'):
             break
