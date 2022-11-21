@@ -344,6 +344,7 @@ class ImageProccessor:
         img = self.get_img()
         hsv = Danger.get_alphabet_roi(img)
         if hsv == "Failed":
+            print("get_alphabet_color 실패")
             return False
         else:
             return Danger.get_alphabet_color(hsv) # [return] RED / BLUE
@@ -370,6 +371,7 @@ class ImageProccessor:
                 cv.imshow("show", roi)
             ####################################
             return mt_gray # [return] 인식한 알파벳: A, B, C, D
+        print("get_alphabet_name 실패")
         return False # 인식 실패
 
     # 장애물 들고 위험 지역에서 벗어났는지 확인 (show : imshow() 해줄 건지에 대한 여부)

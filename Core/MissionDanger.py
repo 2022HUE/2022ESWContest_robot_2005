@@ -39,11 +39,13 @@ class MissionDanger:
     def is_okay_grab_milkbox(self):
         if self.head_angle == 70:
             self.head_angle = 45
+            time.sleep(0.2)
             # motion : 고개 각도 45도로 설정
             self.robo._motion.set_head("DOWN", 45)
             return False
         elif self.head_angle == 45:
             self.head_angle = 30
+            time.sleep(0.2)
             # motion : 고개 각도 30도로 설정
             self.robo._motion.set_head("DOWN", 30)
             return False
@@ -52,6 +54,7 @@ class MissionDanger:
             time.sleep(1)
             # motion : 장애물 잡기 동작 수행
             self.robo._motion.grab("UP")
+            time.sleep(1)
             # motion : 장애물 집고 앞으로 한번 걷기 동작 수행
             self.robo._motion.grab_walk()
             return True
@@ -68,7 +71,7 @@ class MissionDanger:
             print("SPEAK_DANGER")
             # motion : "위험지역" 음성 말하기
             self.robo._motion.notice_area("BLACK")
-            time.sleep(2)
+            time.sleep(0.2)
             # motion: 화살표 반대 방향으로 고개 돌리기
             self.robo._motion.set_head(Robo.dis_arrow, 45)
 
@@ -76,9 +79,10 @@ class MissionDanger:
 
         elif act == act.DETECT_ALPHABET:
             print("DETECT_ALPHABET")
-            # 방 알파벳 색상 인식 -> 보기 불편해서 함수로 빼는 게 좋을 듯
-            # 색상 고정이면 이렇게 하고 싶은데 위험 지역 2개 돌 경우,
-            # 이전 세팅에 저장되어있는 값 사용하게 되어 다른 색상을 집을 수 있는 문제 발생
+
+            # 계속 알파벳 ROI를 못가져오는 듯해서 sleep을 줌
+            time.sleep(4)
+
             if cur.ALPHABET_COLOR:
                 print(cur.ALPHABET_COLOR)
                 Robo.alphabet_color = cur.ALPHABET_COLOR
@@ -89,7 +93,7 @@ class MissionDanger:
                     Robo.alphabet_color = self.alphabet_color
                 elif self.miss >= self.limits:
                     # 계속 못찾으면 그냥 빨강으로 지정
-                    self.alphabet_color = "BLUE"
+                    self.alphabet_color = "RED"
                     Robo.alphabet_color = self.alphabet_color
                 # 아직 get_alphabet_color miss 처리 안했음
                 else:

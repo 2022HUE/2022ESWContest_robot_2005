@@ -171,6 +171,7 @@ class Danger:
                 text_cont.append(contours1[pos])
                 cv.drawContours(src, [approx], 0, (0, 255, 255), 1)
 
+        cv.imshow('draw_contour', src)
         contour_pos = []
         for pos in range(len(text_cont)):
             area = cv.contourArea(text_cont[pos])
