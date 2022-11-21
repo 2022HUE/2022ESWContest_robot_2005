@@ -77,19 +77,19 @@ setting.STAIR_UP = 290 #계단 올라갈 때 채도값 설정
 setting.ALPHABET_ROTATION = 50 #알파벳 방향으로 회전할 때 알파벳 부분의 채도가 이거 이하여야 함.
 setting.STAIR_ROTATION = 400 #계단 지역으로 회전할 때 채도
 
-setting.STAIR_ALPHABET_SIZE = 43000
+setting.STAIR_ALPHABET_SIZE = 39000
 
 setting.ONE_F = 90 #계단 1층 채도
 setting.TWO_F = 100 #계단 2층 채도
 setting.THREE_F = 400 #계단 3층 채도
 
-setting.ARROW = 'RIGHT' #임시로 선언 (채연) -> 지워야함 (사용중인지 체크 필요)
+# setting.ARROW = 'RIGHT' #임시로 선언 (채연) -> 지워야함 (사용중인지 체크 필요)
 
 ########### CURRENT ACT ###########
 cur = Setting()
-cur.MAP_DIRECTION = "S" # (entr) E, W, S, N
+cur.MAP_DIRECTION = "" # (entr) E, W, S, N
 cur.MAP_ARROW = "" # (entr) LEFT, RIGHT
-cur.AREA = "DANGER"
+cur.AREA = ""
 cur.ALPHABET_COLOR = None # (danger) RED, BLUE
 cur.ALPHABET_NAME = None # (danger) A, B, C, D
 cur.BLACK_ROOM_LIST = [] # (exit) 지나온 위험지역 방 이름 리스트

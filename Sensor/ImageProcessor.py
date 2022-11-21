@@ -419,16 +419,6 @@ class ImageProccessor:
         # False 일 때는 LEFT, RIGHT 반환
         # LEFT: 왼쪽으로 회전, RIGHT: 오른쪽으로 회전
         '''
-        # print("alphabet_to_stair_rotation", ret) # Debug
-        #
-        # ## 필요 없는 부분 ======================================================
-        # img = cv.cvtColor(img,cv.COLOR_HSV2BGR)
-        # if ret == True:
-        #     img = cv.putText(img, "Rotation Complete", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
-        # else:
-        #     img = cv.putText(img, "Turn " + ret , (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
-        # cv.imshow('img',img)
-        # ## ===============================================================================================
 
         return ret
     
@@ -501,18 +491,6 @@ class ImageProccessor:
                 '''motion
                 # LEFT: 왼쪽으로 이동
                 # RIGHT: 오른쪽으로 이동 '''
-                # print(rect_x)
-                # if (rect_x >= 250 and rect_x <= 390) or rect_x // 100 == 0:
-                #     img_color = cv.putText(img, "Move Forward", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2,
-                #                            cv.LINE_AA)
-                # elif rect_x < 250:
-                #     img_color = cv.putText(img, "Move LEFT", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2,
-                #                            cv.LINE_AA)
-                # else:
-                #     img_color = cv.putText(img, "Move RIGHT", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2,
-                #                            cv.LINE_AA)
-                #
-                # cv.imshow('img_color', img_color)
                 return is_center
         except:
             return 'fail'
@@ -526,22 +504,21 @@ class ImageProccessor:
         print(top_ret, setting.STAIR_UP)
 
         if top_ret >= setting.STAIR_UP:
-            # img = cv.putText(img, "Go up to the 3rd floor", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2,
-            #                  cv.LINE_AA)
-            #
-            # cv.imshow('img',img)
-            print("2층입니다. 올라가세요") #2층->3층 올라가는 모션 실행 후
             ''' motion
-            cnt = 1
+            cnt = 2
             2층->3층 올라가기
             샤샤샥 
 
-            cnt = 2
+            cnt = 3
             잘 올라갔는지 판단
             '''
             #stair_stage_check는 외부에서 계단 올라간거 체크하는 변수 만들어야 함.
-
-            return True #올라가라
+            if setting.STAIR_LEVEL<3:
+                print("2층입니다. 올라가세요")
+                return True #올라가라
+            elif setting.STAIR_LEVEL ==3:
+                print("정상 도달")
+                return 'Top'
 
         print("2층에서 좁은 보폭") # motion: 2층에서 샤샤샥
         return False
@@ -554,13 +531,7 @@ class ImageProccessor:
         ''' motion 
         # T: 방 탈출
         # F: 계단 내려가기 '''
-        # img = cv.cvtColor(img,cv.COLOR_HSV2BGR)
-        # if Stair.in_stair_down(self,img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)==False:
-        #     img = cv.putText(img, "Go down stairs", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
-        # else:
-        #     img = cv.putText(img, "1st floor arrival", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
-        # cv.imshow('img',img)
-        return Stair.in_stair_down(self, img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)
+        return Stair.in_stair_down(self,img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)
 
     # 허프라인 잡히면 2층으로 올라가기
     def draw_stair_line(self):
@@ -571,7 +542,7 @@ class ImageProccessor:
         img_canny = cv.Canny(roi, 20, 200)
         # try:
 
-        lines = cv.HoughLines(img_canny, 0.8, np.pi/20, 100,min_theta=0, max_theta= 50)
+        lines = cv.HoughLines(img_canny, 0.8, np.pi/20, 100, min_theta=0, max_theta= 50)
 
         if lines is not None:
             line_length=lines[0][0][1]
@@ -584,16 +555,11 @@ class ImageProccessor:
             else:
                 return False  # 라인 추출 실패
         else:
-            # print("라인 추출 실패")
-            # cv.imshow('simg',img_canny)
-            if self.stair_top()==False:
-                img = cv.putText(img, "Small Step", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
+            if self.stair_top()==True:
+                return True
             else:
-                img = cv.putText(img, "arrival at the top", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
+                return 'Top'
 
-            cv.imshow('img', img)
-            return self.stair_top() # 라인 추출 실패
-        # except:pass
     ############# STAIR PROCESSING #############
 
 if __name__ == "__main__":
