@@ -23,7 +23,8 @@ class Arrow:
                 # area 값 조절로 인식 조절
                 cv.rectangle(debug,(50,100),(540-1,480-1),[0,255,0],2)
                 cv.drawContours(debug, [approx], 0, (0, 255, 0), 3)
-                print(area, vertices)
+                # print(area, vertices)
+                # 11/20 area값 변경
                 if 26000< area < 42000 and vertices == 7:
                     # print(cnt_arrow)
                     # Debug: drea contours
@@ -42,19 +43,6 @@ class Arrow:
                     b = x_loc[len(approx)-2:]
                     a_diff = a[1] - a[0]
                     b_diff = b[1] - b[0]
-                    # cnt_arrow += 1
-                    # if cnt_arrow == 30:
-                    #     # motion 통신
-                    #     # if a_diff > b_diff: Motion.test_arrow(motion, 'LEFT')
-                    #     # else: Motion.test_arrow(motion, 'RIGHT')
-
-                    #     # local test code
-                    #     if a_diff > b_diff: print('LEFT')
-                    #     else: print('RIGHT')
-                    #     break
-                    # return: 화살표 방향: str
-
-
                     if a_diff > b_diff: return 'LEFT'
                     else: return 'RIGHT'
                 else:
@@ -63,7 +51,7 @@ class Arrow:
             return ''
 
         else:
-            return None
+            return ''
 
 
 # Debug

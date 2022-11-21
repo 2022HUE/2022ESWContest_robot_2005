@@ -25,6 +25,16 @@ if __name__ == "__main__":
     from Setting import setting
     from DataPath import DataPath
 
+    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.d_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.d_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.d_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.d_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_a = [cv.imread('{}a{}.png'.format(DataPath.d_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_b = [cv.imread('{}b{}.png'.format(DataPath.d_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_c = [cv.imread('{}c{}.png'.format(DataPath.d_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_d = [cv.imread('{}d{}.png'.format(DataPath.d_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+
 else:
     from Sensor.Stair import Stair
     from Sensor.Line import Line
@@ -35,6 +45,16 @@ else:
     from Sensor.Stair import Stair
     from Sensor.Setting import setting
     from Sensor.DataPath import DataPath
+
+    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_b = [cv.imread('{}b{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_c = [cv.imread('{}c{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_d = [cv.imread('{}d{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
 
 class ImageProccessor:
     def __init__(self, video: str = ""):
@@ -308,15 +328,7 @@ class ImageProccessor:
             font 이미지와 비교한 2가지 값도 정확도가 낮지는 않으나, 가끔 로봇의 고개 각도에 따라 튀는 값이 나올 때가 있음
             '''
 
-
-            e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-            w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-            n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-            s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-            font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
             sample_list = [e_,w_,s_,n_]
-
-
             mt_gray = Direction.matching(sample_list, text_gray, 0.001, "EWSN") # 1. matchTemplate - Gray Scale
             text_mask = Direction.text_masking(text)
             mt_mask = Direction.matching(sample_list, text_mask, 1, "EWSN") # 2. matchTemplate - Masking
@@ -365,14 +377,7 @@ class ImageProccessor:
         img = self.get_img()
 
         roi = Danger.get_alphabet_roi(img, "GRAY")
-        # arr_a = [cv.imread('src/alphabet_data/a{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        # arr_b = [cv.imread('src/alphabet_data/b{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        # arr_c = [cv.imread('src/alphabet_data/c{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        # arr_d = [cv.imread('src/alphabet_data/d{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        arr_b = [cv.imread('{}b{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        arr_c = [cv.imread('{}c{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        arr_d = [cv.imread('{}d{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        
         arr = [arr_a, arr_b, arr_c, arr_d]
         if roi != "Failed":
             mt_gray = Direction.matching(Direction, arr, roi, 0.001, "ABCD")

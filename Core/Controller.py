@@ -114,8 +114,6 @@ class Controller:
             else:
                 if self.check_entrance > 0:
                     self.robo._motion.walk("FORWARD")
-                    print("END")
-                    self.robo._motion.set_head("DOWN", 110)
                     # return True # Debug
                     self.act = act.ENTRANCE
                 else:

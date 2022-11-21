@@ -87,10 +87,9 @@ setting.ARROW = 'RIGHT' #임시로 선언 (채연)
 
 ########### CURRENT ACT ###########
 cur = Setting()
-# cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
-cur.MAP_DIRECTION = "S" # (entr) E, W, S, N
-cur.MAP_ARROW = "LEFT" # (entr) LEFT, RIGHT
-cur.AREA = "DANGER"
+cur.MAP_DIRECTION = "" # (entr) E, W, S, N
+cur.MAP_ARROW = "" # (entr) LEFT, RIGHT
+cur.AREA = ""
 cur.ALPHABET_COLOR = None # (danger) RED, BLUE
 cur.ALPHABET_NAME = None # (danger) A, B, C, D
 cur.BLACK_ROOM_LIST = [] # (exit) 지나온 위험지역 방 이름 리스트

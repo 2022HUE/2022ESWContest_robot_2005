@@ -48,6 +48,13 @@ class DataPath:
     stair06 = "src/stair/1114_21:26.h264" # 계단 내려가기
     test = "Sensor/src/stair/1114_22:26.h264"
 
+    # debug in image processor
+    d_alpha = 'src/alphabet_data/' # robot path
+    d_dirfont = 'src/entrance/direction_data/font_img' # robot path
+    d_dirimg = 'src/entrance/direction_data/' # robot path
+    
+
+
     # robot path
     r_alpha = 'Sensor/src/alphabet_data/' # robot path
     r_dirfont = 'Sensor/src/entrance/direction_data/font_img' # robot path
