@@ -397,7 +397,6 @@ class ImageProccessor:
         s_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V)
         cur_s_val = Stair.in_left_right(self,s_mask,Arrow) # (Current_saturation_value)
         ret = Stair.in_rotation(self,cur_s_val,setting.ALPHABET_ROTATION, Arrow)
-        cv.imshow('img',img)
         '''motion
         # T: (회전완료) 머리 아래 30도 변경
         # False 일 때는 LEFT, RIGHT 반환

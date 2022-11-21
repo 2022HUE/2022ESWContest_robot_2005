@@ -86,8 +86,6 @@ setting.ONE_F = 90 #계단 1층 채도
 setting.TWO_F = 100 #계단 2층 채도
 setting.THREE_F = 400 #계단 3층 채도
 
-setting.ARROW = 'RIGHT' #임시로 선언 (채연)
-
 ########### CURRENT ACT ###########
 cur = Setting()
 # cur.MAP_DIRECTION = "E" # (entr) E, W, S, N
