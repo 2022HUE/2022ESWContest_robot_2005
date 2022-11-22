@@ -258,12 +258,12 @@ class ImageProccessor:
                 # cv.putText(origin, "center: {}".format(is_center), (260, 80), cv.FONT_HERSHEY_SIMPLEX, 0.8, [0,255,100], 2)
                 if is_center != True:
                     return is_center
-                if 80 < v_slope < 100:  # 수직
+                if 88 < v_slope < 96:  # 수직
                     return state
-                if v_slope <= 80:
+                if v_slope <= 88:
                     # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_LEFT"
-                elif 100 <= v_slope:
+                elif 95 <= v_slope:
                     # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_RIGHT"
             elif state == "HORIZON" and h_line:

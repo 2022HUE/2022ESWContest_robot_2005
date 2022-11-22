@@ -70,6 +70,7 @@ class Controller:
         
     @classmethod
     def line_v_rotate(self): # 수직선이 보일때까지 회전
+        self.robo._motion.turn(Robo.arrow, 10)
         state = self.robo._image_processor.is_line_horizon_vertical()
         if state == "VERTICAL":
             return True
@@ -78,7 +79,10 @@ class Controller:
         elif state == "MOVE_RIGHT":
             self.robo._motion.walk_side("RIGHT")
         else:
-            self.robo._motion.turn(self.robo.arrow, 10)
+            self.robo._motion.turn(Robo.arrow, 20)
+            self.robo._motion.walk("FORWARD")
+            return True
+            # self.robo._motion.turn(self.robo.arrow, 10)
         return False
         
     @classmethod
@@ -92,7 +96,8 @@ class Controller:
             # motion: 고개 내리기 30
             self.robo._motion.set_head("DOWN", 30)
             time.sleep(0.5)
-            self.act = act.GO_ENTRANCE
+            # self.act = act.GO_ENTRANCE
+            self.act = act.ENTRANCE
             # act.GO_NEXTROOM
             
         elif act == act.GO_ENTRANCE:
@@ -114,7 +119,7 @@ class Controller:
                 self.robo._motion.walk("FORWARD")
             else:
                 if self.check_entrance > 0:
-                    self.robo._motion.walk("FORWARD")
+                    self.robo._motion.walk("FORWARD",3)
                     # return True # Debug
                     self.act = act.ENTRANCE
                 else:
@@ -123,19 +128,28 @@ class Controller:
 
         elif act == act.ENTRANCE:
             if self.miss > 0:
+                print("MISS MISS MISS MISS MISS MISS MISS MISS")
                 if self.line_v_rotate():
                     self.miss = 0
+                    time.sleep(1)
                     self.robo._motion.set_head(30)
+                    print('TRUE?')
                     self.act = act.GO_NEXTROOM
                 else: 
+                    print('수직선 못찾음')
+                    self.robo._motion.walk_side("RIGHT")
+                    self.robo._motion.walk("FORWARD")
                     self.miss += 1
                     return False
             elif MissionEntrance.go_robo():
                 print(self.robo.arrow) # Debug
 
                 # motion: 회전 (수직선이 보일 때 까지)
-                self.robo._motion.turn(robo.arrow, 45, 3)
-                self.robo._motion.turn(robo.arrow, 10)
+                self.robo._motion.turn(robo.arrow, 45,3)
+                self.robo._motion.walk_side(Robo.arrow)
+                self.robo._motion.walk_side(Robo.arrow)
+                self.robo._motion.turn(robo.arrow, 10,2)
+                # self.robo._motion.walk("FORWARD")
                 self.miss += 1
                 return False
             else:
@@ -169,6 +183,8 @@ class Controller:
             else:
                 if self.check_nextroom> 0:
                     self.robo._motion.walk("FORWARD")
+                    self.robo._motion.walk("FORWARD")
+                    time.sleep(0.5)
                     self.robo._motion.set_head("DOWN", 70)
                     print("END")
                     # 방 입구 도착 -> 위험/계단지역 판단
