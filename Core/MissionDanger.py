@@ -71,7 +71,7 @@ class MissionDanger:
             print("SPEAK_DANGER")
             # motion : "위험지역" 음성 말하기
             self.robo._motion.notice_area("BLACK")
-            time.sleep(0.2)
+            time.sleep(2)
             # motion: 화살표 반대 방향으로 고개 돌리기
             self.robo._motion.set_head(Robo.dis_arrow, 45)
 
@@ -81,7 +81,7 @@ class MissionDanger:
             print("DETECT_ALPHABET")
 
             # 계속 알파벳 ROI를 못가져오는 듯해서 sleep을 줌
-            time.sleep(4)
+            # time.sleep(4)
 
             if cur.ALPHABET_COLOR:
                 print(cur.ALPHABET_COLOR)
@@ -161,11 +161,13 @@ class MissionDanger:
                 if not self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
                     # motion : 장애물 내려놓기 동작 수행
                     self.robo._motion.grab("DOWN")
+                    time.sleep(3)
                     self.act = Act.WALK_TO_MILKBOX
                     return False
                 if self.robo._image_processor.is_out_of_black():
                     # motion : 장애물 내려놓기 동작 수행
                     self.robo._motion.grab("DOWN")
+                    time.sleep(3)
                     break
                 # 무한 루프 갇힐 경우에 대한 예외처리 아직 안함
                 else:
