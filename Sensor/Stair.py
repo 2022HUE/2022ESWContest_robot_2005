@@ -25,7 +25,7 @@ class Stair:
             # x = contours1[pos][0][0][0]  # 알파벳 위치의 x값 좌표 --> 알파벳 중앙에 오게할 때 필요
             rect_y = contours1[pos][0][0][1] #가장 위의 y값 좌표
             rect_x = contours1[pos][0][0][0]  # 가장 위의 y값 좌표
-            if peri >= 350 and peri <= 1500 and points == 4 and rect_y < 160:
+            if peri >= 350 and peri <= 1500 and points == 4 and rect_y < 170 :
                 area = area_arr["m00"]
                 cv.drawContours(img_color, [approx], 0, (0, 255, 255), 2)
                 return area, rect_x
@@ -48,13 +48,10 @@ class Stair:
         else:
             return False
 
-        cv.imshow('img', img_color)
-
 
     #계단 지역 기준 왼쪽 오른쪽 판단하는 함수 #화살표 방향대로 돌아야 함.
 
     def in_left_right(self,img_mask,ARROW,x=0,y=0):
-        # rotation = False
         left = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000 )
         x =320;
         right = int((np.count_nonzero(img_mask[y:y+480,x:x+320]) / (640 * 480))*1000)
@@ -66,7 +63,7 @@ class Stair:
             return right
             # 오른쪽 값이 작아질 때 까지 돌아야되고
 
-    def in_rotation(self,a,comparison,ARROW):
+    def in_rotation(self,a,comparison,ARROW): #first_turn, second_turn 에서 쓴다
         print(a,comparison,ARROW)
         if a <= comparison:  # 이부분 다시 확인.
             return True
@@ -90,7 +87,7 @@ class Stair:
 
     def in_HoughLine(self,img_canny,linecount=-1):
         # 허프라인 두번째 인자 rho, 세번째 인자 theta , 두 값은 작을수록 오래걸리지만 정교하다.
-        lines = cv.HoughLines(img_canny, 0.8, np.pi/20, 100, None, None, min_theta=0, max_theta= 50)
+        lines = cv.HoughLines(img_canny, 0.8, np.pi/20, 100, min_theta=0, max_theta= 50)
         if lines is not None:
             #우선 이 부분은 라인에서 처음 인식 되는 라인이 길이가 일정 길이 이상이면 표현하도록 구현됨.
             linecount+=1

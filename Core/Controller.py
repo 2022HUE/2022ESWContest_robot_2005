@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from enum import Enum, auto
 from Core.Robo import Robo
-from Core.Mission import MissionEntrance, MissionStair, MissionDanger
+from Core.MissionStair import MissionStair
+from Core.MissionEntrance import MissionEntrance
+from Core.MissionDanger import MissionDanger
 from Setting import cur
 import time
 
@@ -20,30 +22,33 @@ class Act(Enum): # 맵 전체 수행 순서도
     EXIT = auto() # 종료
 
 class Controller:
-    robo: Robo = Robo
+    robo: Robo = Robo()
     act: Act = Act.START
 
     # 방문한 미션 지역의 수
     count_area: int=0 # 위험/계단 지역만 카운트합니다.
     count_misson: int=0
     check_exit: int=0 # 퇴장시 사용
+    check_entrance: int=0 # 입장시 사용
+    check_nextroom: int=0 # 방 이동시 사용
     area: str = ""
     stair_level: int=0 #계단을 오른 횟수
 
     miss: int=0
 
     # Misson.py
-    _entr: MissionEntrance = MissionEntrance
-    _stair: MissionStair = MissionStair
-    _danger: MissionDanger = MissionDanger
+    _entr: MissionEntrance = MissionEntrance()
+    _stair: MissionStair = MissionStair()
+    _danger: MissionDanger = MissionDanger()
 
-    MissionEntrance.init_robo(_entr, robo)
-    MissionStair.init_robo(_stair, robo)
-    MissionDanger.init_robo(_danger, robo)
+    # MissionEntrance.init_robo(_entr, robo)
+    # MissionStair.init_robo(_stair, robo)
+    # MissionDanger.init_robo(_danger, robo)
 
     # 위험 지역인지 계단 지역인지 판단
     @classmethod
     def check_area(self):
+        time.sleep(1)
         self.robo._motion.turn(self.robo.arrow, 45) # [motion] 로봇 화살표 방향으로 45도 회전
         if self.count_area == 0: # 최초 방문
             if cur.AREA: # 고정 값 존재시 (Setting - current)
@@ -62,7 +67,8 @@ class Controller:
             return False
         else:
             return state
-    
+        
+    @classmethod
     def line_v_rotate(self): # 수직선이 보일때까지 회전
         state = self.robo._image_processor.is_line_horizon_vertical()
         if state == "VERTICAL":
@@ -78,22 +84,22 @@ class Controller:
     @classmethod
     def go_robo(self):
         act = self.act
-        robo: Robo = Robo('Sensor/src/entrance/entr03-1.mp4')
+        robo: Robo = Robo()
 
         if act == act.START:
-            self.robo
             print("ACT: ", act) # Debug
             print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
             # motion: 고개 내리기 30
             self.robo._motion.set_head("DOWN", 30)
+            time.sleep(0.5)
             self.act = act.GO_ENTRANCE
+            # act.GO_NEXTROOM
             
         elif act == act.GO_ENTRANCE:
+            print("ACT: ", act) # Debug
             
             state = self.robo._image_processor.is_line_horizon_vertical()
-            if state == "HORIZON":
-                self.act = act.ENTRANCE
-            elif state == "VERTICAL":
+            if state == "VERTICAL":
                 self.robo._motion.walk("FORWARD")
             elif state == "MOVE_LEFT":
                 self.robo._motion.walk_side("LEFT")
@@ -104,20 +110,29 @@ class Controller:
             elif state == "TURN_RIGHT":
                 self.robo._motion.turn("RIGHT", 10)
             elif state == "BOTH": # 선 둘 다 인식
+                self.check_entrance += 1
                 self.robo._motion.walk("FORWARD")
             else:
-                return False
+                if self.check_entrance > 0:
+                    self.robo._motion.walk("FORWARD")
+                    # return True # Debug
+                    self.act = act.ENTRANCE
+                else:
+                    return False
             return False
 
         elif act == act.ENTRANCE:
             if self.miss > 0:
                 if self.line_v_rotate():
                     self.miss = 0
+                    self.robo._motion.set_head(30)
                     self.act = act.GO_NEXTROOM
                 else: 
                     self.miss += 1
                     return False
             elif MissionEntrance.go_robo():
+                print(self.robo.arrow) # Debug
+
                 # motion: 회전 (수직선이 보일 때 까지)
                 self.robo._motion.turn(robo.arrow, 45, 3)
                 self.robo._motion.turn(robo.arrow, 10)
@@ -131,13 +146,14 @@ class Controller:
             
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "HORIZON":
-                # 방 입구 도착 -> 위험/계단지역 판단
-                self.check_area()
-                print("----Current Area", self.area, "----")
-                if self.area == "STAIR":
-                    self.act = act.STAIR
-                else: self.act = act.DANGER
-            elif state == "VERTICAL":
+                # # 방 입구 도착 -> 위험/계단지역 판단
+                # self.check_area()
+                # print("----Current Area", self.area, "----")
+                # if self.area == "STAIR":
+                #     self.act = act.STAIR
+                # else: self.act = act.DANGER
+                self.robo._motion.walk("FORWARD")
+            if state == "VERTICAL":
                 self.robo._motion.walk("FORWARD")
             elif state == "MOVE_LEFT":
                 self.robo._motion.walk_side("LEFT")
@@ -148,9 +164,23 @@ class Controller:
             elif state == "TURN_RIGHT":
                 self.robo._motion.turn("RIGHT", 10)
             elif state == "BOTH": # 선 둘 다 인식
+                self.check_nextroom += 1
                 self.robo._motion.walk("FORWARD")
             else:
-                return False
+                if self.check_nextroom> 0:
+                    self.robo._motion.walk("FORWARD")
+                    self.robo._motion.set_head("DOWN", 70)
+                    print("END")
+                    # 방 입구 도착 -> 위험/계단지역 판단
+                    self.check_nextroom = 0 # init
+                    self.check_area()
+                    print("----Current Area", self.area, "----") # Debug
+                    if self.area == "STAIR":
+                        self.act = act.STAIR
+                    else: self.act = act.DANGER
+                    # return True # Debug
+                else:
+                    return False
             return False
 
         elif act == act.STAIR:

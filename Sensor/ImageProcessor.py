@@ -7,7 +7,13 @@ import platform
 from imutils.video import WebcamVideoStream
 from imutils.video import FileVideoStream
 from imutils.video import FPS
-  
+
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning) # FutureWarning 제거
+
+print('code: ImageProcessor.py - ## Debug')
+
+
 if __name__ == "__main__":
     from Line import Line
     from Stair import Stair #파일명 / class이름
@@ -18,6 +24,16 @@ if __name__ == "__main__":
     from Stair import Stair
     from Setting import setting
     from DataPath import DataPath
+
+    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.d_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.d_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.d_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.d_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_a = [cv.imread('{}a{}.png'.format(DataPath.d_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_b = [cv.imread('{}b{}.png'.format(DataPath.d_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_c = [cv.imread('{}c{}.png'.format(DataPath.d_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_d = [cv.imread('{}d{}.png'.format(DataPath.d_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
 
 else:
     from Sensor.Stair import Stair
@@ -30,23 +46,35 @@ else:
     from Sensor.Setting import setting
     from Sensor.DataPath import DataPath
 
-print(setting.YELLOW_DATA[0], setting.YELLOW_DATA[1])
+    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_b = [cv.imread('{}b{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_c = [cv.imread('{}c{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_d = [cv.imread('{}d{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
 
 class ImageProccessor:
     def __init__(self, video: str = ""):
+        print("init_imgprocessor")
+        
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
-            print('# image processoe #')
+            print('# image processor #', platform.system())
             if platform.system() == "Linux":
+                print('eee')
                 self._cam = WebcamVideoStream(src=-1).start()
             else:
                 self._cam = WebcamVideoStream(src=0).start()
+            print('effwe')  
 
         self.fps = FPS()  # FPS
         print(self.fps)  # debuging: fps
         shape = (self.height, self.width, _) = self.get_img().shape
-        print(shape)  # debuging: image shape => height, width
+        print("Shape :: ", shape)  # debuging: image shape => height, width
         time.sleep(2)
 
     ########### 이미지 불러오기 ###########
@@ -123,7 +151,7 @@ class ImageProccessor:
 
     ########### LINE DETECTION ###########
     # 라인이 수평선인지 수직선인지 return해줌
-    def is_line_horizon_vertical(self, show):
+    def is_line_horizon_vertical(self, show=False):
         img = self.get_img()
         origin = img.copy()
         img = self.correction(img, 7)
@@ -138,7 +166,7 @@ class ImageProccessor:
         # get Line
         line_arr = Line.hough_lines(self, roi_img, 1, 1 * np.pi/180, 30, 10, 20) # 허프 변환
         line_arr = np.squeeze(line_arr)
-        print(line_arr)
+        # print(line_arr)
         # if show:
         #     cv.imshow("show", origin)
         #     cv.waitKey(1) & 0xFF == ord('q')
@@ -174,6 +202,10 @@ class ImageProccessor:
 
             ####################################
             if state == "BOTH":
+                # is_center = Line.is_center(self, origin, v_line)
+                # cv.putText(origin, "center: {}".format(is_center), (260, 80), cv.FONT_HERSHEY_SIMPLEX, 0.8, [0,255,100], 2)
+                # if is_center != True:
+                    # return is_center
                 if v_slope and not h_slope: # vertical
                     if 90 - v_slope < 0:
                         cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
@@ -232,24 +264,25 @@ class ImageProccessor:
         img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         img = self.blur(img, setting.ARROW_BLUR)
         img = self.bright(img, setting.ARROW_BRIGHT)
-        _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV)
-        ret_arrow = Arrow.get_arrow_info(self, img, origin)
-        if ret_arrow: 
-            print(ret_arrow) # Debug: print arrow
-        else:
-            print("Failed")
-        cv.putText(origin, "arrow: {}".format(ret_arrow), (50, 210), cv.FONT_HERSHEY_SIMPLEX, 1, [255,255,0], 2)
-
+        _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        
+        ret = Arrow.get_arrow_info(self, img, origin)
         ########### [Option] Show ##########
         if show:
-            cv.imshow("show", origin)
+            cv.imshow("show", img)
             cv.waitKey(1) & 0xFF == ord('q')
         ####################################
-
-        return ret_arrow
+        
+        if not ret: 
+            _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV)
+            ret = Arrow.get_arrow_info(self, img, origin)
+        
+        print(ret) # Debug: print arrow
+        return ret
 
     # 방위 글자 인식 후 방위 리턴
     def get_ewsn(self, show=False):
+        print('get_ewsn')
         img = self.get_img()
         x, y, w, h = 100, 100, 440, 480
         img = img[y:y+h, x:x+w]
@@ -276,10 +309,16 @@ class ImageProccessor:
             if peri > 900 and points == 4:
                 roi_contour.append(contours[pos])
                 # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
+            
 
+        if show:
+            cv.imshow("show", dst)
+            cv.waitKey(1) & 0xFF == ord('q')
+        ####################################
         roi_contour_pos = []
         for pos in range(len(roi_contour)):
             area = cv.contourArea(roi_contour[pos])
+            print(area)
             if area > 20000:
                 roi_contour_pos.append(pos)
 
@@ -296,15 +335,7 @@ class ImageProccessor:
             font 이미지와 비교한 2가지 값도 정확도가 낮지는 않으나, 가끔 로봇의 고개 각도에 따라 튀는 값이 나올 때가 있음
             '''
 
-
-            e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-            w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-            n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-            s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-            font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
             sample_list = [e_,w_,s_,n_]
-
-
             mt_gray = Direction.matching(sample_list, text_gray, 0.001, "EWSN") # 1. matchTemplate - Gray Scale
             text_mask = Direction.text_masking(text)
             mt_mask = Direction.matching(sample_list, text_mask, 1, "EWSN") # 2. matchTemplate - Masking
@@ -332,6 +363,7 @@ class ImageProccessor:
             else: return ''
         else: # False
             return ''
+    
 
     ############ DANGER PROCESSING #############
     # 계단 지역인지(False) 위험 지역인지(True) detection
@@ -344,6 +376,7 @@ class ImageProccessor:
         img = self.get_img()
         hsv = Danger.get_alphabet_roi(img)
         if hsv == "Failed":
+            print("get_alphabet_color 실패")
             return False
         else:
             return Danger.get_alphabet_color(hsv) # [return] RED / BLUE
@@ -353,23 +386,17 @@ class ImageProccessor:
         img = self.get_img()
 
         roi = Danger.get_alphabet_roi(img, "GRAY")
-        # arr_a = [cv.imread('src/alphabet_data/a{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        # arr_b = [cv.imread('src/alphabet_data/b{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        # arr_c = [cv.imread('src/alphabet_data/c{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        # arr_d = [cv.imread('src/alphabet_data/d{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        arr_b = [cv.imread('{}b{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        arr_c = [cv.imread('{}c{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-        arr_d = [cv.imread('{}d{}.png'.format(DataPath.r_alpha,x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+        
         arr = [arr_a, arr_b, arr_c, arr_d]
         if roi != "Failed":
-            mt_gray = Direction.matching(Direction, arr, roi, 0.001, "ABCD")
+            mt_gray = Direction.matching(arr, roi, 0.001, "ABCD")
             print(mt_gray)
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", roi)
             ####################################
             return mt_gray # [return] 인식한 알파벳: A, B, C, D
+        print("get_alphabet_name 실패")
         return False # 인식 실패
 
     # 장애물 들고 위험 지역에서 벗어났는지 확인 (show : imshow() 해줄 건지에 대한 여부)
@@ -391,53 +418,36 @@ class ImageProccessor:
 
     ############# STAIR PROCESSING #############
     # 로봇의 회전 완료 여부 반환
-    def first_rotation(self,show):  # 알파벳 크기 측정 후 계단 지역으로 회전, 화살표 반대 방향.
+    def first_rotation(self,Arrow,show):  # 알파벳 크기 측정 후 계단 지역으로 회전, 화살표 반대 방향.
         img = self.get_img(True)
         img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V)
-        cur_s_val = Stair.in_left_right(self,s_mask,setting.ARROW) # (Current_saturation_value) setting.Arrow: 화살표 방향
-        ret = Stair.in_rotation(self,cur_s_val,setting.ALPHABET_ROTATION, setting.ARROW)
+        cur_s_val = Stair.in_left_right(self,s_mask,Arrow) # (Current_saturation_value)
+        ret = Stair.in_rotation(self,cur_s_val,setting.ALPHABET_ROTATION, Arrow)
         '''motion
         # T: (회전완료) 머리 아래 30도 변경
         # False 일 때는 LEFT, RIGHT 반환
         # LEFT: 왼쪽으로 회전, RIGHT: 오른쪽으로 회전
         '''
-        # print("alphabet_to_stair_rotation", ret) # Debug
-        #
-        # ## 필요 없는 부분 ======================================================
-        # img = cv.cvtColor(img,cv.COLOR_HSV2BGR)
-        # if ret == True:
-        #     img = cv.putText(img, "Rotation Complete", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
-        # else:
-        #     img = cv.putText(img, "Turn " + ret , (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
-        # cv.imshow('img',img)
-        # ## ===============================================================================================
 
         return ret
     
-    def second_rotation(self):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
+    def second_rotation(self,Arrow):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
         img = self.get_img()
         img = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(self, img,setting.STAIR_S,setting.ROOM_V)
-        # cv.imshow('Stair Mask',s_mask)
-        s_val = int((np.count_nonzero(s_mask) / (640 * 480)) * 1000)
-        if setting.ARROW =="LEFT": arrow_ ="RIGHT"
-        else: arrow_ = "LEFT"
-        ret = Stair.in_rotation(self,setting.STAIR_ROTATION, s_val, arrow_)
-        img = cv.cvtColor(img,cv.COLOR_HSV2BGR)
-        if ret==True:
-            img = cv.putText(img, "Rotation Complete", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
-        else:
-            img = cv.putText(img, "Turn " + ret, (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
 
-        # cv.imshow('img',img)
+        s_val = int((np.count_nonzero(s_mask) / (640 * 480)) * 1000)
+
+        ret = Stair.in_rotation(self,setting.STAIR_ROTATION, s_val, Arrow)
 
         '''motion
         # T: (회전완료) 머리 아래 30도 변경
         # LEFT: 왼쪽으로 회전
         # RIGHT: 오른쪽으로 회전
         '''
-        print("stair_to_alphabet_rotation", ret) # Debug
+        # print("stair_to_alphabet_rotation", ret) # Debug
+        cv.imshow('img',img)
         return ret
     
     def rect(self):
@@ -484,23 +494,11 @@ class ImageProccessor:
                 '''motion
                 # LEFT: 왼쪽으로 이동
                 # RIGHT: 오른쪽으로 이동 '''
-                # print(rect_x)
-                # if (rect_x >= 250 and rect_x <= 390) or rect_x // 100 == 0:
-                #     img_color = cv.putText(img, "Move Forward", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2,
-                #                            cv.LINE_AA)
-                # elif rect_x < 250:
-                #     img_color = cv.putText(img, "Move LEFT", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2,
-                #                            cv.LINE_AA)
-                # else:
-                #     img_color = cv.putText(img, "Move RIGHT", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2,
-                #                            cv.LINE_AA)
-                #
-                # cv.imshow('img_color', img_color)
                 return is_center
         except:
             return 'fail'
     def stair_top(self):
-        stair_level=0
+        
         img = self.get_img(True)
         hsv = cv.cvtColor(img,cv.COLOR_BGR2HSV)
         lower_hue, upper_hue = np.array(setting.STAIR_BLUE[0]), np.array(setting.STAIR_BLUE[1])
@@ -509,24 +507,19 @@ class ImageProccessor:
         print(top_ret, setting.STAIR_UP)
 
         if top_ret >= setting.STAIR_UP:
-            # img = cv.putText(img, "Go up to the 3rd floor", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2,
-            #                  cv.LINE_AA)
-            #
-            # cv.imshow('img',img)
-            print("2층입니다. 올라가세요") #2층->3층 올라가는 모션 실행 후
             ''' motion
-            cnt = 1
+            cnt = 2
             2층->3층 올라가기
             샤샤샥 
 
-            cnt = 2
+            cnt = 3
             잘 올라갔는지 판단
             '''
             #stair_stage_check는 외부에서 계단 올라간거 체크하는 변수 만들어야 함.
-
-            if stair_level == 1:
+            if setting.STAIR_LEVEL<3:
+                print("2층입니다. 올라가세요")
                 return True #올라가라
-            elif stair_level ==2:
+            elif setting.STAIR_LEVEL ==3:
                 print("정상 도달")
                 return 'Top'
 
@@ -541,13 +534,7 @@ class ImageProccessor:
         ''' motion 
         # T: 방 탈출
         # F: 계단 내려가기 '''
-        # img = cv.cvtColor(img,cv.COLOR_HSV2BGR)
-        # if Stair.in_stair_down(self,img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)==False:
-        #     img = cv.putText(img, "Go down stairs", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
-        # else:
-        #     img = cv.putText(img, "1st floor arrival", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
-        # cv.imshow('img',img)
-        return Stair.in_stair_down(self, img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)
+        return Stair.in_stair_down(self,img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)
 
     # 허프라인 잡히면 2층으로 올라가기
     def draw_stair_line(self):
@@ -558,7 +545,7 @@ class ImageProccessor:
         img_canny = cv.Canny(roi, 20, 200)
         # try:
 
-        lines = cv.HoughLines(img_canny, 0.8, np.pi/20, 100, None, None,None, min_theta=0, max_theta= 50)
+        lines = cv.HoughLines(img_canny, 0.8, np.pi/20, 100, min_theta=0, max_theta= 50)
 
         if lines is not None:
             line_length=lines[0][0][1]
@@ -571,21 +558,18 @@ class ImageProccessor:
             else:
                 return False  # 라인 추출 실패
         else:
-            # print("라인 추출 실패")
-            # cv.imshow('simg',img_canny)
-            if self.stair_top()==False:
-                img = cv.putText(img, "Small Step", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2, cv.LINE_AA)
+            if self.stair_top()==True:
+                return True
             else:
-                img = cv.putText(img, "arrival at the top", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 255, 0], 2, cv.LINE_AA)
+                return 'Top'
 
-            cv.imshow('img', img)
-            return self.stair_top() # 라인 추출 실패
-        # except:pass
     ############# STAIR PROCESSING #############
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video=DataPath.danger05)
-    
+    # img_processor = ImageProccessor(video=DataPath.test)
+    img_processor = ImageProccessor()
+
+
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
@@ -602,7 +586,7 @@ if __name__ == "__main__":
         # img_processor.stair_down()
 
         ### danger ###
-        img_processor.get_alphabet_color()
+        # img_processor.get_alphabet_color()
 
-        if cv.waitKey(5) & 0xFF == ord('q'):
+        if cv.waitKey(20) & 0xFF == ord('q'):
             break

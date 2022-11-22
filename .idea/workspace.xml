@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="65f6b597-7c0b-4b9b-8e31-9f1d6a600a30" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/Core/MissionDanger.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/MissionEntrance.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/DataPath.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1114_21:51.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1114_21:53.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1114_21:54.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1114_21:55.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1114_21:56.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1114_21:57.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1114_21:58.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1114_22:01.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1114_22:02.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1114_22:03.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1114_22:05.h264" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Sensor/src/line/1114_22:10.h264" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ESWC_chaeyeon.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/Core/Controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/MissionStair.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/MissionStair.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Misson.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Robo.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Robo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/Motion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/Motion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/motion.bas" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/motion.bas" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Motion/motion.obj" beforeDir="false" afterPath="$PROJECT_DIR$/Motion/motion.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Danger.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Danger.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Direction.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Direction.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/font_img/0.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/font_img/1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/font_img/2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/font_img/3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_e01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_e02.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_e03.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_e04.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_e05.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_e06.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_n01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_n02.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_n03.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_n04.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_n05.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_s01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_s02.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_s03.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_s04.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_s05.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_w01.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_w02.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_w03.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_w04.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/DirectionData/sam_w05.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/ImageProcessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/ImageProcessor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Line.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Line.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Motion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Motion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/Setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/Setting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/Setting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test.py" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/Core/MissionStair.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/MissionStair.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Robo.py" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Robo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sensor/ImageProcessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/Sensor/ImageProcessor.py" afterDir="false" />
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2HXW6XHPblGEYIWCzmA7QSprkEs" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+<<<<<<< HEAD
+    "last_opened_file_path": "/home/chaeyeon/PycharmProjects/robot/venv/bin/python",
+=======
+    "last_opened_file_path": "/home/chaeyeon/PycharmProjects/ESWC_chaeyeon",
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Sensor/src/stair" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.Test">
+<<<<<<< HEAD
+    <configuration name="ImageProcessor" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="ESWC_chaeyeon" />
+=======
+    <configuration name="ImageProcessor" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+<<<<<<< HEAD
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../robot/venv/bin/python" />
+=======
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../pythonProject/venv/bin/python" />
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sensor" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sensor/ImageProcessor.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+<<<<<<< HEAD
+    <configuration name="Misson" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="ESWC_chaeyeon" />
+=======
+    <configuration name="Misson" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+<<<<<<< HEAD
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../robot/venv/bin/python" />
+=======
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../pythonProject/venv/bin/python" />
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Core" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Core/Misson.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+<<<<<<< HEAD
+    <configuration name="Robo" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="ESWC_chaeyeon" />
+=======
+    <configuration name="Robo" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+<<<<<<< HEAD
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../robot/venv/bin/python" />
+=======
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../pythonProject/venv/bin/python" />
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Core" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Core/Robo.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Stair" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+<<<<<<< HEAD
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../robot/venv/bin/python" />
+=======
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../pythonProject/venv/bin/python" />
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Sensor" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Sensor/Stair.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="ESWC_chaeyeon" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="$PROJECT_DIR$/../robot/venv/bin/python" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.ImageProcessor" />
+      <item itemvalue="Python.Misson" />
+      <item itemvalue="Python.Robo" />
+      <item itemvalue="Python.Test" />
+      <item itemvalue="Python.Stair" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.Test" />
+<<<<<<< HEAD
+=======
+        <item itemvalue="Python.Robo" />
+        <item itemvalue="Python.ImageProcessor" />
+        <item itemvalue="Python.Misson" />
+>>>>>>> e6926d1ccdcfdc4d5978213973194e43e730757e
+        <item itemvalue="Python.Stair" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="65f6b597-7c0b-4b9b-8e31-9f1d6a600a30" name="변경" comment="" />
+      <created>1668431733559</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1668431733559</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
