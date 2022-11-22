@@ -34,7 +34,7 @@ class Danger:
 
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
     @classmethod
-    def is_holding_milkbox(self, src, color, show=False):
+    def is_holding_milkbox(self, src, color, show):
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
         holding_hsv = self.get_holding_milkbox_roi(hsv)
         mask = self.get_milkbox_mask(holding_hsv, color)
@@ -65,7 +65,7 @@ class Danger:
 
     # 장애물 위치 파악을 위한 함수
     @classmethod
-    def get_milkbox_pos(self, src, color, show=False):
+    def get_milkbox_pos(self, src, color, show):
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
         max_idx = 0
         max_rate = 0
@@ -222,7 +222,7 @@ class Danger:
 
     # 계단 지역인지(False) 위험 지역인지(True) detection
     @classmethod
-    def is_danger(self, src, show=False):
+    def is_danger(self, src, show):
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
         mask_AND = cv.bitwise_and(self.get_s_mask(hsv, setting.DANGER_ROOM_S),
                                   self.get_v_mask(hsv, setting.DANGER_ROOM_V))

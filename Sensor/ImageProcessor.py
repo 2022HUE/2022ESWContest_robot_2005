@@ -367,9 +367,9 @@ class ImageProccessor:
 
     ############ DANGER PROCESSING #############
     # 계단 지역인지(False) 위험 지역인지(True) detection
-    def is_danger(self):
+    def is_danger(self, show=False):
         img = self.get_img()
-        return Danger.is_danger(img) # [return] DANGER / STAIR
+        return Danger.is_danger(img, show) # [return] DANGER / STAIR
  
     # 방 이름이 적힌 글자(A, B, C, D)의 색상 판단
     def get_alphabet_color(self):
@@ -405,14 +405,14 @@ class ImageProccessor:
         return Danger.is_out_of_black(img, show) # [return] T/F
 
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
-    def is_holding_milkbox(self, color):
+    def is_holding_milkbox(self, color, show=False):
         img = self.get_img()
-        return Danger.is_holding_milkbox(img, color) # [return] T/F
+        return Danger.is_holding_milkbox(img, color, show) # [return] T/F
 
     # 장애물 위치 파악을 위한 함수
-    def get_milkbox_pos(self, color):
+    def get_milkbox_pos(self, color, show=False):
         img = self.get_img()
-        return Danger.get_milkbox_pos(img, color) # [return] 0 ~ 8 (장애물 위치 idx 값)
+        return Danger.get_milkbox_pos(img, color, show) # [return] 0 ~ 8 (장애물 위치 idx 값)
     
     ############# DANGER PROCESSING #############
 
@@ -566,8 +566,9 @@ class ImageProccessor:
     ############# STAIR PROCESSING #############
 
 if __name__ == "__main__":
-    # img_processor = ImageProccessor(video=DataPath.test)
-    img_processor = ImageProccessor()
+    print(DataPath.danger05)
+    img_processor = ImageProccessor(DataPath.danger05)
+    # img_processor = ImageProccessor()
 
 
     ### Debug Run ###
@@ -575,7 +576,8 @@ if __name__ == "__main__":
         # img_processor.get_arrow(show=True)
         # img_processor.get_ewsn(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
-        # img_processor.get_alphabet_name(show=True)
+        # print(img_processor.get_alphabet_name(show=True))
+        img_processor.get_milkbox_pos("RED", True)
 
         ### stair ###
         # img_processor.first_rotation(show=True)
