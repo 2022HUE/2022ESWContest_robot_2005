@@ -184,9 +184,13 @@ class Controller:
                 print("MISS MISS MISS MISS MISS MISS MISS MISS")
                 if self.line_v_rotate():
                     self.miss = 0
+<<<<<<< HEAD
                     time.sleep(1)
                     self.robo._motion.set_head("DOWN", 30)
                     print('TRUE?')
+=======
+                    self.robo._motion.set_head("DOWN", 30)
+>>>>>>> b990fdb (Fix: 모션 파라미터 수정)
                     self.act = act.GO_NEXTROOM
                 else: 
                     print('수직선 못찾음')
