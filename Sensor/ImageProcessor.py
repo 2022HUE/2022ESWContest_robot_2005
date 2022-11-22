@@ -338,6 +338,7 @@ class ImageProccessor:
             if peri > 900 and points == 4:
                 roi_contour.append(contours[pos])
                 # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
+            
 
         if show:
             cv.imshow("show", dst)
@@ -398,6 +399,7 @@ class ImageProccessor:
                 return ''
         else:  # False
             return ''
+    
 
     ############ DANGER PROCESSING #############
     # 계단 지역인지(False) 위험 지역인지(True) detection

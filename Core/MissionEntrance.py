@@ -46,7 +46,7 @@ class MissionEntrance:
             self.robo._motion.notice_direction(self.map_direction)
             time.sleep(2.5) # Lock
             return True
-        else: # 인식 실패
+        else: # 인식 실패 
             return False
         
     # 화살표 방향 감지
