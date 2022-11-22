@@ -125,6 +125,7 @@ class Controller:
             if self.miss > 0:
                 if self.line_v_rotate():
                     self.miss = 0
+                    self.robo._motion.set_head(30)
                     self.act = act.GO_NEXTROOM
                 else: 
                     self.miss += 1
