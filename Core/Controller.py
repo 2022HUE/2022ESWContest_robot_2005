@@ -31,10 +31,13 @@ class Controller:
     check_exit: int=0 # 퇴장시 사용
     check_entrance: int=0 # 입장시 사용
     check_nextroom: int=0 # 방 이동시 사용
+    check_danger: int=0
     area: str = ""
     stair_level: int=0 #계단을 오른 횟수
     
     danger_right_out = [2,5,8] # 위험지역 오른쪽 탈출
+    danger_turn_flag: int=0
+    danger_line_flag: int=0
     
 
     miss: int=0
@@ -92,6 +95,43 @@ class Controller:
             return True
             # self.robo._motion.turn(self.robo.arrow, 10)
         return False
+
+    @classmethod
+    def danger_to_line(self, option): # option: L, R
+        state = self.robo._image_processor.is_line_horizon_vertical()
+        if option == "L":
+            if state == "VERTICAL":
+                return True
+            elif state == "MOVE_LEFT":
+                self.robo._motion.walk_side("LEFT")
+            elif state == "MOVE_RIGHT":
+                self.robo._motion.walk_side("RIGHT")
+            elif state == "TURN_LEFT":
+                self.robo._motion.turn("LEFT", 10)
+            elif state == "TURN_RIGHT":
+                self.robo._motion.turn("RIGHT", 10)
+            elif state == "BOTH": # 선 둘 다 인식
+                self.robo._motion.walk_side("LEFT")
+            elif state == "HORIZON":
+                self.robo._motion.walk_side("LEFT")
+            else:
+                self.robo._motion.walk("FORWARD")
+            return False
+        else:
+            if state == "HORIZON":
+                return True
+            elif state == "MOVE_LEFT":
+                self.robo._motion.walk_side("LEFT")
+            elif state == "MOVE_RIGHT":
+                self.robo._motion.walk_side("RIGHT")
+            elif state == "TURN_LEFT":
+                self.robo._motion.turn("LEFT", 10)
+            elif state == "TURN_RIGHT":
+                self.robo._motion.turn("RIGHT", 10)
+            
+            elif state == "BOTH": # 선 둘 다 인식
+                self.robo._motion.walk_side("RIGHT")
+                
         
     @classmethod
     def go_robo(self):
@@ -228,24 +268,49 @@ class Controller:
                 
 
         elif act == act.DANGER:
-            print("ACT: ", act) # Debug
+            print("ACT-controller: ", act) # Debug
 
             self.count_area += 1
-            if MissionDanger.go_robo():
-                self.count_area += 1
+            if self.check_danger > 0:
                 
-                if Robo.box_pos in self.danger_right_out:
-                    self.robo._motion.turn("RIGHT", 45,2,0.8)
+                if self.danger_line_flag > 0:
+                    if self.line_v_rotate():
+                        print('-------TRUE?------')
+                        return True # debug
+                        if self.count_area < limits: 
+                            self.act = act.GO_NEXTROOM
+                        else:
+                            self.act = act.GO_EXIT
+                    else: 
+                        print('수직선 못찾음')
+                        self.robo._motion.turn(Robo.arrow, 10)
+                        return False
                 else:
-                    self.robo._motion.turn("LEFT", 45,2,0.8)
+                    if Robo.box_pos in self.danger_right_out:
+                        if self.danger_turn_flag < 1:
+                            self.robo._motion.turn("RIGHT", 60,2,0.8)
+                            self.danger_turn_flag += 1
+                            return False
+                        else:
+                            if self.danger_to_line("R"): # horizion is True
+                                self.danger_line_flag += 1
+                            else: return False
+                    else:
+                        print('tutututuutu')
+                        if self.danger_turn_flag < 1:
+                            time.sleep(2.5)
+                            self.robo._motion.turn("LEFT", 45,2,0.8)
+                            self.danger_turn_flag += 1
+                            return False
+                        else:
+                            if self.danger_to_line("L"): # vertical is True
+                                self.danger_line_flag += 1
+                            else: return False
                     
-                    
-                    
-                return True # debug
-                if self.count_area < limits: 
-                    self.act = act.GO_NEXTROOM
-                else:
-                    self.act = act.GO_EXIT
+            elif MissionDanger.go_robo():
+                self.count_area += 1
+                self.check_danger += 1
+                return False
             else:
                 return False
 

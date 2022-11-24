@@ -613,7 +613,7 @@ class ImageProccessor:
 
 if __name__ == "__main__":
     print(DataPath.danger05)
-    img_processor = ImageProccessor(DataPath.danger05)
+    img_processor = ImageProccessor()
     # img_processor = ImageProccessor()
 
     ### Debug Run ###
@@ -622,7 +622,7 @@ if __name__ == "__main__":
         # img_processor.get_ewsn(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
         # print(img_processor.get_alphabet_name(show=True))
-        img_processor.get_milkbox_pos("RED", True)
+        # img_processor.get_milkbox_pos("RED", True)
 
         ### stair ###
         # img_processor.first_rotation(show=True)
@@ -631,7 +631,7 @@ if __name__ == "__main__":
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
         # img_processor.stair_down()
-
+        img_processor.get_milkbox_pos("BLUE", True)
         ### danger ###
         # img_processor.get_alphabet_color()
 
