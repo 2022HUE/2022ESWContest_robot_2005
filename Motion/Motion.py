@@ -82,7 +82,7 @@ class Motion:
         self.TX_data_py2(100)
 
     # 걷기 (101~120)
-    def walk(self, dir, loop=1, sleep=1.5, short=False):
+    def walk(self, dir, loop=1, sleep=0.1, short=False):
         """ parameter :
         dir : {FORWARD, BACKWARD}
         """
@@ -131,7 +131,7 @@ class Motion:
         time.sleep(0.3)
 
     # 돌기 (141~160)
-    def turn(self, dir, angle, loop=1, sleep=0.5, arm=False):  # sleep 0.5 -> 1
+    def turn(self, dir, angle, loop=1, sleep=0.5, arm=False):
         """ parameter :
         dir : {LEFT, RIGHT}
         """

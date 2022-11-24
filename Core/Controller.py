@@ -49,10 +49,12 @@ class Controller:
     @classmethod
     def check_area(self):
         time.sleep(1)
-        self.robo._motion.turn(self.robo.arrow, 45,3,0.8) # [motion] 로봇 화살표 방향으로 45도 회전
+        self.robo._motion.turn(self.robo.arrow, 45,2,0.8) # [motion] 로봇 화살표 방향으로 45도 회전
+        time.sleep(0.5)
         self.robo._motion.walk_side(Robo.dis_arrow)
         time.sleep(1)
         self.robo._motion.set_head("DOWN", 70)
+        time.sleep(1)
         if self.count_area == 0: # 최초 방문
             if cur.AREA: # 고정 값 존재시 (Setting - current)
                 self.area = cur.AREA
@@ -97,14 +99,16 @@ class Controller:
             print("ACT: ", act) # Debug
             # print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
             # motion: 고개 내리기 30
-            self.robo._motion.set_head("DOWN", 30)
-            time.sleep(0.5)
-            self.act = act.GO_ENTRANCE
+            # self.robo._motion.set_head("DOWN", 30)
+            # time.sleep(0.5)
+            # self.act = act.GO_ENTRANCE
             
             ### debug
             # self.act = act.ENTRANCE
             # self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
+            self.robo._motion.set_head("DOWN", 70)
+            self.act = act.STAIR
             
         elif act == act.GO_ENTRANCE:
             print("ACT: ", act) # Debug
@@ -151,7 +155,7 @@ class Controller:
                 print(self.robo.arrow) # Debug
 
                 # motion: 회전 (수직선이 보일 때 까지)
-                self.robo._motion.turn(robo.arrow, 45,3,0.8)
+                self.robo._motion.turn(robo.arrow, 45,2,0.8)
                 self.robo._motion.walk_side(Robo.arrow)
                 self.robo._motion.walk_side(Robo.arrow)
                 self.robo._motion.turn(robo.arrow, 10,3)
@@ -197,7 +201,7 @@ class Controller:
                     self.check_nextroom = 0 # init
                     self.check_area()
                     print("----Current Area", self.area, "----") # Debug
-                    return True ## debug
+                    # return True ## debug
                     if self.area == "STAIR":
                         self.act = act.STAIR
                     else: self.act = act.DANGER
@@ -208,12 +212,17 @@ class Controller:
 
         elif act == act.STAIR:
             print("ACT: ", act) # Debug
-
-            self.count_area += 1
-            if self.count_area < limits: 
-                self.act = act.GO_NEXTROOM
+            if MissionStair.go_robo():
+                self.count_area += 1
+                return True # debug
+                if self.count_area < limits: 
+                    self.act = act.GO_NEXTROOM
+                else:
+                    self.act = act.GO_EXIT
             else:
-                self.act = act.GO_EXIT
+                return False
+                
+                
 
         elif act == act.DANGER:
             print("ACT: ", act) # Debug

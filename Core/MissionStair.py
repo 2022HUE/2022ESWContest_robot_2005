@@ -86,12 +86,14 @@ class MissionStair:
                 self.act = Act.SECOND_ROTATION
             elif ret == False:  # 전진
                 # pass
-                self.robo._motion.walk('FORWARD', sleep=1)
+                self.robo._motion.walk('FORWARD')
             elif ret == 'fail':
                 # pass
                 self.robo._motion.walk_side(Robo.arrow)
                 time.sleep(1)
                 self.robo._motion.turn(Robo.arrow, 45, sleep=1)  # 화살표 방향
+                time.sleep(1)
+                
             else:  # return= LEFT or RIGHT
                 # pass
                 self.robo._motion.turn(ret, 20, sleep=1)  # return 값대로 turn
@@ -101,7 +103,7 @@ class MissionStair:
 
             if self.second_rotation() == True:
                 self.robo._motion.set_head('DOWN', angle=30)  # 30도
-                self.robo._motion.walk('FORWARD', loop=6, sleep=5)  # 3회 정도
+                self.robo._motion.walk('FORWARD', loop=5, sleep=1)  # 3회 정도
                 self.robo._motion.walk('FORWARD', loop=4, short=True)  # 좁은 보폭
                 self.act = Act.DRAW_STAIR_LINE
             else:
@@ -117,16 +119,16 @@ class MissionStair:
             print(setting.STAIR_LEVEL)
             if ret == True:  # 1->2로 up, 샤샥 & 2->3로 up 할 때도
                 self.robo._motion.stair('RIGHT_UP')  # up
-                time.sleep(6)
+                time.sleep(5)
                 self.robo._motion.walk(
-                    'FORWARD', loop=4, short=True, sleep=1.5)  # 좁은 보폭
+                    'FORWARD', loop=4, short=True, sleep=1)  # 좁은 보폭
                 setting.STAIR_LEVEL += 1  # stair = 2
                 self.robo._motion.walk_side(Robo.arrow)  # 옆으로 이동
                 time.sleep(1)
                 #pass
             elif ret == False:  # 선이 안 잡힌 경우 샤샥, 2층에서 중앙 아래에 선이 잡힌 경우
                 self.robo._motion.walk(
-                    'FORWARD', loop=1, short=True, sleep=1.5)  # 좁은 보폭
+                    'FORWARD', loop=1, short=True, sleep=1)  # 좁은 보폭
                 # pass
             elif ret == 'Top':
                 self.robo._motion.walk(
@@ -136,8 +138,9 @@ class MissionStair:
                 self.robo._motion.turn(
                     Robo.dis_arrow, 45, loop=2, arm=True, sleep=3)  # 손들고 턴으로 2회
                 self.robo._motion.walk(
-                    'FORWARD', loop=3, sleep=2)  # 3층 도착해서 전진
+                    'FORWARD', loop=3, sleep=1.2)  # 3층 도착해서 전진
                 self.robo._motion.notice_area('STAIR')
+                time.sleep(2)
                 self.act = Act.STAIR_DOWN
 
         elif act == act.STAIR_DOWN:
