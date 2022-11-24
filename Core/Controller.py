@@ -49,7 +49,8 @@ class Controller:
     @classmethod
     def check_area(self):
         time.sleep(1)
-        self.robo._motion.turn(self.robo.arrow, 45,3) # [motion] 로봇 화살표 방향으로 45도 회전
+        self.robo._motion.turn(self.robo.arrow, 45,3,0.8) # [motion] 로봇 화살표 방향으로 45도 회전
+        self.robo._motion.walk_side(Robo.dis_arrow)
         time.sleep(1)
         self.robo._motion.set_head("DOWN", 70)
         if self.count_area == 0: # 최초 방문
@@ -94,13 +95,16 @@ class Controller:
 
         if act == act.START:
             print("ACT: ", act) # Debug
-            print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
+            # print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
             # motion: 고개 내리기 30
             self.robo._motion.set_head("DOWN", 30)
             time.sleep(0.5)
-            # self.act = act.GO_ENTRANCE
-            self.act = act.ENTRANCE
-            # act.GO_NEXTROOM
+            self.act = act.GO_ENTRANCE
+            
+            ### debug
+            # self.act = act.ENTRANCE
+            # self.act = act.GO_NEXTROOM
+            # self.act = act.GO_EXIT
             
         elif act == act.GO_ENTRANCE:
             print("ACT: ", act) # Debug
@@ -121,7 +125,7 @@ class Controller:
                 self.robo._motion.walk("FORWARD")
             else:
                 if self.check_entrance > 0:
-                    self.robo._motion.walk("FORWARD",3)
+                    self.robo._motion.walk("FORWARD",3,0.5)
                     # return True # Debug
                     self.act = act.ENTRANCE
                 else:
@@ -147,10 +151,10 @@ class Controller:
                 print(self.robo.arrow) # Debug
 
                 # motion: 회전 (수직선이 보일 때 까지)
-                self.robo._motion.turn(robo.arrow, 45,3)
+                self.robo._motion.turn(robo.arrow, 45,3,0.8)
                 self.robo._motion.walk_side(Robo.arrow)
                 self.robo._motion.walk_side(Robo.arrow)
-                self.robo._motion.turn(robo.arrow, 10,2)
+                self.robo._motion.turn(robo.arrow, 10,3)
                 # self.robo._motion.walk("FORWARD")
                 self.miss += 1
                 return False
@@ -193,6 +197,7 @@ class Controller:
                     self.check_nextroom = 0 # init
                     self.check_area()
                     print("----Current Area", self.area, "----") # Debug
+                    return True ## debug
                     if self.area == "STAIR":
                         self.act = act.STAIR
                     else: self.act = act.DANGER
@@ -223,7 +228,7 @@ class Controller:
             print("ACT: ", act) # Debug
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL" and self.check_exit > 0:
-                self.robo._motion.turn(self.robo.arrow, 45, 3)
+                self.robo._motion.turn(self.robo.arrow, 45, 3, 0.8)
                 self.robo._motion.turn(self.robo.arrow, 20, 1)
                 self.act = act.EXIT
             elif state == "VERTICAL" and self.check_exit == 0:
@@ -238,7 +243,7 @@ class Controller:
                 self.robo._motion.turn("RIGHT", 10)
             elif state == "BOTH": # 선 둘 다 인식
                 self.check_exit += 1
-                self.robo._motion.walk("FORWARD")
+                self.robo._motion.walk("FORWARD", 2, 0.5)
             # elif state == "HORIZON": # (일단 사용 x) BOTH가 잘 인식 안될경우 사용
             #     self.check_exit += 1
             #     self.robo._motion.walk("FORWARD")
@@ -260,7 +265,7 @@ class Controller:
             elif state == "TURN_RIGHT":
                 self.robo._motion.turn("RIGHT", 10)
             else: # 아무것도 인식 X -> 종료 조건
-                self.robo._motion.notice_alpha(self.robo.alpha)
+                self.robo._motion.notice_alpha(self.robo.black_room_list[0])
                 return True
             return False
         return False

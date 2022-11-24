@@ -63,6 +63,7 @@ class MissionEntrance:
 
         if my_arrow:
             Robo.arrow = "LEFT" if my_arrow == "LEFT" else "RIGHT"
+            Robo.dis_arrow = "RIGHT" if my_arrow == "LEFT" else "LEFT"
             return True
         else: # 인식 실패
             print('인식실패')
@@ -79,13 +80,13 @@ class MissionEntrance:
             print('ACT: ', act)
             # (motion) 고개 올리기 70도 - 방위 보이게
             time.sleep(1)
-            # self.robo._motion.set_head("DOWN", 70)
-            # time.sleep(1)
-            # self.act = Act.DETECT_DIRECTION
+            self.robo._motion.set_head("DOWN", 70)
+            time.sleep(1)
+            self.act = Act.DETECT_DIRECTION
             
             ### arrow debuging
             # self.robo._motion.set_head("DOWN", 100)
-            self.act = Act.DETECT_ARROW
+            # self.act = Act.DETECT_ARROW
 
         # 방위 인식
         elif act == act.DETECT_DIRECTION:
@@ -93,8 +94,10 @@ class MissionEntrance:
             if self.get_direction():
                 for i in range(self.tleft): 
                     self.robo._motion.turn("RIGHT", 10)
+                    # self.robo._motion.walk_side("RIGHT")
                 for i in range(self.tright): 
                     self.robo._motion.turn("LEFT", 10)
+                    # self.robo._motion.walk_side("LEFT")
                 self.miss = 0
             else:
                 self.miss += 1
@@ -103,12 +106,12 @@ class MissionEntrance:
                 if 0< self.miss < 4:
                     self.robo._motion.turn("LEFT", 10)
                     self.tleft += 1
-                    time.sleep(0.5)
-                    # self.robo._motion.walk_side("LEFT")
+                    # time.sleep(0.5)
+                    self.robo._motion.walk_side("LEFT")
                 else:
                     self.robo._motion.turn("RIGHT", 10)
-                    time.sleep(0.5)
-                    # self.robo._motion.walk_side("RIGHT")
+                    # time.sleep(0.5)
+                    self.robo._motion.walk_side("RIGHT")
                 return False
 
             # (motion) 고개 올리기 100도 - 화살표 보이게 (11/20 110도 -> 100도 수정)

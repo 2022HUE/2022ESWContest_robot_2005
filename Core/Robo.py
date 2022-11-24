@@ -7,9 +7,9 @@ from Sensor.DataPath import DataPath
 print('code: Robo.py - ## Debug')
 
 class Robo:
-    arrow: str = "RIGHT"
-    dis_arrow: str = "LEFT"
-    black_room_list = list = []
+    arrow: str = ""
+    dis_arrow: str = ""
+    black_room_list: list = ["A"]
     alphabet_color: str
     _image_processor = ImageProccessor(video="") # Image Processor
 
