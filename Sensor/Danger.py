@@ -58,9 +58,14 @@ class Danger:
         # cv.imshow('holding_milkbox_img', hsv_crop)
         return hsv_crop
 
-    # 장애물에 충분히 근접했는지 (즉, 이제 장애물 집어도 되는지) 확인
+    # 장애물에 7번 위치에 있지만 충분히 근접했는지 (즉, 이제 장애물 집어도 되는지) 확인
     @classmethod
     def can_hold_milkbox(self, hsv):
+        milkbox_pos = ((210, 429), (320, 479))
+        milkbox_crop = hsv.copy()[milkbox_pos[1][0]:milkbox_pos[1][1],
+                           milkbox_pos[0][0]:milkbox_pos[0][1]]
+        milk_mask = self.get_milkbox_mask(milkbox_crop)
+        cv.imshow('milkbox_crop', milk_mask)
         return True
 
     # 장애물 위치 파악을 위한 함수
@@ -217,9 +222,10 @@ class Danger:
         if color == "RED":
             lower_hue, upper_hue = np.array(setting.DANGER_MILKBOX_RED[0]), np.array(setting.DANGER_MILKBOX_RED[1])
         h_mask = cv.inRange(hsv, lower_hue, upper_hue)
-        # print(color)
+        # 가장 바깥쪽 컨투어에 대한 꼭짓점 좌표만 반환 (cv.RETR_LIST로도 시도해보기)
+        dst, contour, hierarchy = cv.findContours(h_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
         return h_mask  # mask 리턴
-
+             
     # 계단 지역인지(False) 위험 지역인지(True) detection
     @classmethod
     def is_danger(self, src, show):
@@ -279,15 +285,16 @@ if __name__ == "__main__":
 
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
-        # pos_idx = danger.get_milkbox_pos(img, "BLUE", True)
+        # pos_idx = danger.get_milkbox_pos(img, "RED", True)
         # alpha_hsv = danger.get_alphabet_roi(img)
         # if alpha_hsv == "Failed":
         #     print("Failed")
         # else:
         #     print(danger.get_alphabet_color(alpha_hsv))
 
-        milk_mask = danger.get_milkbox_mask(hsv, "RED")
-        cv.imshow('milk_mask', milk_mask)
+        # milk_mask = danger.get_milkbox_mask(hsv, "RED")
+        # danger.can_hold_milkbox(img)
+        danger.get_milkbox_mask(hsv)
 
         if cv.waitKey(5) & 0xFF == ord('q'):
             break
