@@ -195,9 +195,9 @@ class Motion:
     # 집기 (181~186) [Danger]
     def grab(self, dir):
         """ parameter :
-        dir : {UP, DOWN}
+        dir : {UP, DOWN, MISS}
         """
-        dir_list = {"UP" : 181, "DOWN" : 185}
+        dir_list = {"UP" : 181, "DOWN" : 185, "MISS" : 184}
         self.TX_data_py2(dir_list[dir])
 
     # 횟수_집고 전진 (187~188) [Danger]
