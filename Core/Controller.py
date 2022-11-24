@@ -33,6 +33,9 @@ class Controller:
     check_nextroom: int=0 # 방 이동시 사용
     area: str = ""
     stair_level: int=0 #계단을 오른 횟수
+    
+    danger_right_out = [2,5,8] # 위험지역 오른쪽 탈출
+    
 
     miss: int=0
 
@@ -54,8 +57,8 @@ class Controller:
         self.robo._motion.walk_side(Robo.dis_arrow)
         time.sleep(1)
         self.robo._motion.set_head("DOWN", 70)
-        time.sleep(1)
         if self.count_area == 0: # 최초 방문
+            time.sleep(1.2)
             if cur.AREA: # 고정 값 존재시 (Setting - current)
                 self.area = cur.AREA
             else:
@@ -99,16 +102,16 @@ class Controller:
             print("ACT: ", act) # Debug
             # print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
             # motion: 고개 내리기 30
-            # self.robo._motion.set_head("DOWN", 30)
+            self.robo._motion.set_head("DOWN", 30)
             # time.sleep(0.5)
             # self.act = act.GO_ENTRANCE
             
             ### debug
             # self.act = act.ENTRANCE
-            # self.act = act.GO_NEXTROOM
+            self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
-            self.robo._motion.set_head("DOWN", 70)
-            self.act = act.STAIR
+            # self.robo._motion.set_head("DOWN", 70)
+            # self.act = act.STAIR
             
         elif act == act.GO_ENTRANCE:
             print("ACT: ", act) # Debug
@@ -195,7 +198,7 @@ class Controller:
                     self.robo._motion.walk("FORWARD")
                     self.robo._motion.walk("FORWARD")
                     time.sleep(0.5)
-                    self.robo._motion.set_head("DOWN", 70)
+                    # self.robo._motion.set_head("DOWN", 70)
                     print("END")
                     # 방 입구 도착 -> 위험/계단지역 판단
                     self.check_nextroom = 0 # init
@@ -228,10 +231,23 @@ class Controller:
             print("ACT: ", act) # Debug
 
             self.count_area += 1
-            if self.count_area < limits: 
-                self.act = act.GO_NEXTROOM
+            if MissionDanger.go_robo():
+                self.count_area += 1
+                
+                if Robo.box_pos in self.danger_right_out:
+                    self.robo._motion.turn("RIGHT", 45,2,0.8)
+                else:
+                    self.robo._motion.turn("LEFT", 45,2,0.8)
+                    
+                    
+                    
+                return True # debug
+                if self.count_area < limits: 
+                    self.act = act.GO_NEXTROOM
+                else:
+                    self.act = act.GO_EXIT
             else:
-                self.act = act.GO_EXIT
+                return False
 
         elif act == act.GO_EXIT:
             print("ACT: ", act) # Debug
@@ -253,6 +269,7 @@ class Controller:
             elif state == "BOTH": # 선 둘 다 인식
                 self.check_exit += 1
                 self.robo._motion.walk("FORWARD", 2, 0.5)
+                
             # elif state == "HORIZON": # (일단 사용 x) BOTH가 잘 인식 안될경우 사용
             #     self.check_exit += 1
             #     self.robo._motion.walk("FORWARD")

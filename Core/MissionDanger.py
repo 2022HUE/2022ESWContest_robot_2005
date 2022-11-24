@@ -122,6 +122,7 @@ class MissionDanger:
             self.act = Act.WALK_TO_MILKBOX
 
         elif act == act.WALK_TO_MILKBOX:
+            # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정화하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
             print("WALK_TO_MILKBOX")
             if cur.FIRST_MILKBOX_POS:
                 self.first_milkbox_pos = cur.FIRST_MILKBOX_POS
@@ -133,6 +134,8 @@ class MissionDanger:
                 # 9개 구역에 따라 다른 모션 수행
                 if self.milkbox_pos == 7:
                     if self.is_okay_grab_milkbox():
+                        if self.first_milkbox_pos:
+                            Robo.box_pos = self.first_milkbox_pos
                         self.act = Act.OUT_OF_DANGER
                         break
                 elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
@@ -235,6 +238,7 @@ class MissionDanger:
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
                         self.robo._motion.grab_walk(2)
 
+            
             self.act = Act.EXIT
 
         else:  # EXIT

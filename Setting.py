@@ -44,8 +44,8 @@ setting.ALPHABET_RED = [[167, 77, 30], [180, 255, 189]]
 # 위험 지역 인식 검은 색상 마스크 lower, upper [h, s, v] 값
 setting.DANGER_BLACK = [[0, 0, 0], [180, 255, 80]]
 
-# 위험/계단 지역 판단하는 비율의 기준
-setting.DANGER_STAIR_RATE = 10
+# 위험/계단 지역 판단하는 비율의 기준 (밝기 올라가면 rate threshold 값을 올려줘야하고, 어두우면 내려줘야함)
+setting.DANGER_STAIR_RATE = 20
 # 위험 지역 벗어났음을 판단하는 비율의 기준
 setting.OUT_DANGER_RATE = 20
 # 위험 지역 인식 용도 s(채도) 기준값
