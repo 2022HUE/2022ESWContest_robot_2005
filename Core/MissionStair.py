@@ -89,12 +89,14 @@ class MissionStair:
                 self.act = Act.SECOND_ROTATION
             elif ret == False:  # 전진
                 # pass
-                self.robo._motion.walk('FORWARD', sleep=1)
+                self.robo._motion.walk('FORWARD')
             elif ret == 'fail':
                 # pass
                 self.robo._motion.walk_side(Robo.arrow)
                 time.sleep(1)
                 self.robo._motion.turn(Robo.arrow, 45, sleep=1)  # 화살표 방향
+                time.sleep(1)
+
             else:  # return= LEFT or RIGHT
                 # pass
                 self.robo._motion.turn(ret, 20, sleep=1)  # return 값대로 turn
