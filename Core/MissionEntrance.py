@@ -47,24 +47,25 @@ class MissionEntrance:
         
         if self.map_direction:
             self.robo._motion.notice_direction(self.map_direction)
-            time.sleep(2.5) # Lock
+            time.sleep(3) # Lock
             return True
         else: # 인식 실패 
-            
             return False
         
     # 화살표 방향 감지
     @classmethod
     def get_arrow(self):
+        print('misson_entrance_get_arrow')
         if cur.MAP_ARROW:
             my_arrow = cur.MAP_ARROW
         else:
-            my_arrow = self.robo._image_processor.get_arrow()
+            my_arrow = self.robo._image_processor.get_arrow(True)
 
         if my_arrow:
             Robo.arrow = "LEFT" if my_arrow == "LEFT" else "RIGHT"
             return True
         else: # 인식 실패
+            print('인식실패')
             return False
 
     @classmethod
@@ -79,8 +80,9 @@ class MissionEntrance:
             # (motion) 고개 올리기 70도 - 방위 보이게
             time.sleep(1)
             self.robo._motion.set_head("DOWN", 70)
-
+            time.sleep(1)
             self.act = Act.DETECT_DIRECTION
+            # self.act = Act.DETECT_ARROW
 
         # 방위 인식
         elif act == act.DETECT_DIRECTION:
@@ -93,6 +95,7 @@ class MissionEntrance:
                 self.miss = 0
             else:
                 self.miss += 1
+                print(self.miss)
                 # motion? 인식 잘 안될경우 -> 알파벳이 중앙에 있는지 판단하는 알고리즘 연결
                 if 0< self.miss < 4:
                     self.robo._motion.turn("LEFT", 10)
@@ -106,6 +109,7 @@ class MissionEntrance:
                 return False
 
             # (motion) 고개 올리기 100도 - 화살표 보이게 (11/20 110도 -> 100도 수정)
+            
             self.robo._motion.set_head("DOWN", 100)
             self.act = Act.DETECT_ARROW
         

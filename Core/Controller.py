@@ -49,7 +49,7 @@ class Controller:
     @classmethod
     def check_area(self):
         time.sleep(1)
-        self.robo._motion.turn(self.robo.arrow, 45) # [motion] 로봇 화살표 방향으로 45도 회전
+        self.robo._motion.turn(self.robo.arrow, 45,3) # [motion] 로봇 화살표 방향으로 45도 회전
         if self.count_area == 0: # 최초 방문
             if cur.AREA: # 고정 값 존재시 (Setting - current)
                 self.area = cur.AREA
@@ -132,7 +132,7 @@ class Controller:
                 if self.line_v_rotate():
                     self.miss = 0
                     time.sleep(1)
-                    self.robo._motion.set_head(30)
+                    self.robo._motion.set_head("DOWN", 30)
                     print('TRUE?')
                     self.act = act.GO_NEXTROOM
                 else: 
