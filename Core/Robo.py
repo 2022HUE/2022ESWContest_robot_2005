@@ -8,9 +8,9 @@ print('code: Robo.py - ## Debug')
 
 
 class Robo:
-    arrow: str = "LEFT"
-    dis_arrow: str = "RIGHT"
-    black_room_list: list = []
+    arrow: str = "RIGHT"
+    dis_arrow: str = "LEFT"
+    black_room_list = list = []
     alphabet_color: str
     box_pos: int=0
     _image_processor = ImageProccessor(video="")  # Image Processor
