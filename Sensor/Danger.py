@@ -159,7 +159,7 @@ class Danger:
         dst = np.clip((1 + alpha) * add - 128 * alpha, 0, 255).astype(np.uint8)
         ret, th = cv.threshold(dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
         dst = cv.bitwise_and(dst, dst, mask=th)
-        cv.imshow('dst', dst)
+        # cv.imshow('dst', dst)
         kernel = cv.getStructuringElement(cv.MORPH_RECT, (1, 1))
         dst = cv.dilate(dst, kernel, iterations=1)
 
@@ -176,7 +176,7 @@ class Danger:
                 text_cont.append(contours1[pos])
                 cv.drawContours(src, [approx], 0, (0, 255, 255), 1)
 
-        cv.imshow('draw_contour', src)
+        # cv.imshow('draw_contour', src)
         contour_pos = []
         for pos in range(len(text_cont)):
             area = cv.contourArea(text_cont[pos])
@@ -204,7 +204,7 @@ class Danger:
             x, y, w, h = cv.boundingRect(text_cont[pos])
             # print('x, y, w, h:', x, y, w, h)
             img_crop = img_copy[y:y + h, x:x + w]
-        cv.imshow('img_crop', img_crop)
+        # cv.imshow('img_crop', img_crop)
 
         hsv_crop = cv.cvtColor(img_crop, cv.COLOR_BGR2HSV)
         return hsv_crop
@@ -233,7 +233,7 @@ class Danger:
         mask_AND = cv.bitwise_and(self.get_s_mask(hsv, setting.DANGER_ROOM_S),
                                   self.get_v_mask(hsv, setting.DANGER_ROOM_V))
         mask_AND = self.mophorlogy(mask_AND)
-        cv.imshow('mask_AND', mask_AND)
+        # cv.imshow('mask_AND', mask_AND)
         # 계단일 때 채색 비율: 80~200, 위험지역일 때 비율: 0~10
         rate = np.count_nonzero(mask_AND) / (640 * 480)
         rate = int(rate * 1000)
