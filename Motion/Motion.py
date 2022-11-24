@@ -82,7 +82,7 @@ class Motion:
         self.TX_data_py2(100)
 
     # 걷기 (101~120)
-    def walk(self, dir, loop=1, sleep=0.1, short=False):
+    def walk(self, dir, loop=1, sleep=1.5, short=False):
         """ parameter :
         dir : {FORWARD, BACKWARD}
         """
@@ -280,6 +280,4 @@ class Motion:
 
 if __name__ == '__main__':
     motion = Motion()
-    # motion.basic()
-    # motion.set_head("LEFTRIGHT_CENTER")
-    motion.grab("DOWN")
+    motion.basic()

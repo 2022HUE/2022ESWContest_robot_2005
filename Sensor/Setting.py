@@ -85,6 +85,7 @@ setting.ALPHABET_ROTATION = 40  # 알파벳 방향으로 회전할 때 알파벳
 setting.STAIR_ROTATION = 400  # 계단 지역으로 회전할 때 채도
 
 setting.STAIR_ALPHABET_SIZE = 39000
+setting.STAIR_LEVEL = 1  # 채연아 미안  merge하면서 지워졌다^^,,,,,
 
 setting.ONE_F = 90  # 계단 1층 채도
 setting.TWO_F = 100  # 계단 2층 채도
