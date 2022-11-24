@@ -59,7 +59,7 @@ class MissionEntrance:
         if cur.MAP_ARROW:
             my_arrow = cur.MAP_ARROW
         else:
-            my_arrow = self.robo._image_processor.get_arrow(True)
+            my_arrow = self.robo._image_processor.get_arrow()
 
         if my_arrow:
             Robo.arrow = "LEFT" if my_arrow == "LEFT" else "RIGHT"
@@ -82,7 +82,9 @@ class MissionEntrance:
             # self.robo._motion.set_head("DOWN", 70)
             # time.sleep(1)
             # self.act = Act.DETECT_DIRECTION
-            self.robo._motion.set_head("DOWN", 100)
+            
+            ### arrow debuging
+            # self.robo._motion.set_head("DOWN", 100)
             self.act = Act.DETECT_ARROW
 
         # 방위 인식

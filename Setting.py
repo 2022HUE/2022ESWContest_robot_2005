@@ -88,7 +88,7 @@ setting.THREE_F = 400 #계단 3층 채도
 ########### CURRENT ACT ###########
 cur = Setting()
 cur.MAP_DIRECTION = "" # (entr) E, W, S, N
-cur.MAP_ARROW = "" # (entr) LEFT, RIGHT
+cur.MAP_ARROW = "LEFT" # (entr) LEFT, RIGHT
 cur.AREA = ""
 cur.ALPHABET_COLOR = None # (danger) RED, BLUE
 cur.ALPHABET_NAME = None # (danger) A, B, C, D
