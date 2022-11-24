@@ -79,10 +79,11 @@ class MissionEntrance:
             print('ACT: ', act)
             # (motion) 고개 올리기 70도 - 방위 보이게
             time.sleep(1)
-            self.robo._motion.set_head("DOWN", 70)
-            time.sleep(1)
-            self.act = Act.DETECT_DIRECTION
-            # self.act = Act.DETECT_ARROW
+            # self.robo._motion.set_head("DOWN", 70)
+            # time.sleep(1)
+            # self.act = Act.DETECT_DIRECTION
+            self.robo._motion.set_head("DOWN", 100)
+            self.act = Act.DETECT_ARROW
 
         # 방위 인식
         elif act == act.DETECT_DIRECTION:
