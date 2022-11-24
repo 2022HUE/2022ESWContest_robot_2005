@@ -454,7 +454,7 @@ class ImageProccessor:
     ############# STAIR PROCESSING #############
     # 로봇의 회전 완료 여부 반환
     # 알파벳 크기 측정 후 계단 지역으로 회전, 화살표 반대 방향.
-    def first_rotation(self, Arrow, show):
+    def first_rotation(self, Arrow):
         img = self.get_img()
         img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(
@@ -487,7 +487,6 @@ class ImageProccessor:
         # RIGHT: 오른쪽으로 회전
         '''
         # print("stair_to_alphabet_rotation", ret) # Debug
-        cv.imshow('img', img)
         return ret
 
     def rect(self):
@@ -523,12 +522,6 @@ class ImageProccessor:
             if is_center == True:  # [return] True
                 sz_check = Stair.in_alphabet_size_calc(
                     self, alphabet_area, setting.STAIR_ALPHABET_SIZE)
-                if sz_check == True:
-                    img = cv.putText(img, "Turn To Stairs", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [
-                                     0, 255, 0], 2, cv.LINE_AA)
-                # else:
-                #     img = cv.putText(img, "Move Forward", (10, 40), cv.FONT_HERSHEY_PLAIN, 2, [0, 0, 0], 2,cv.LINE_AA)
-                    cv.imshow('cccc', img)
 
                 '''motion
                 # T: second 회전
@@ -564,15 +557,15 @@ class ImageProccessor:
             잘 올라갔는지 판단
             '''
             # stair_stage_check는 외부에서 계단 올라간거 체크하는 변수 만들어야 함.
-            if setting.STAIR_LEVEL < 3:
+            if int(setting.STAIR_LEVEL) < 3:
                 print("2층입니다. 올라가세요")
                 return True  # 올라가라
-            elif setting.STAIR_LEVEL == 3:
+            elif int(setting.STAIR_LEVEL) == 3:
                 print("정상 도달")
                 return 'Top'
-
-        print("2층에서 좁은 보폭")  # motion: 2층에서 샤샤샥
-        return False
+        else:
+            print("1층에서 좁은 보폭")  # motion: 2층에서 샤샤샥
+            return False
 
     # 계단 내려가기
     def stair_down(self):
@@ -608,10 +601,7 @@ class ImageProccessor:
             else:
                 return False  # 라인 추출 실패
         else:
-            if self.stair_top() == True:
-                return True
-            else:
-                return 'Top'
+            return self.stair_top()
 
     ############# STAIR PROCESSING #############
 
