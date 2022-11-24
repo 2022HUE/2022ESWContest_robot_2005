@@ -241,11 +241,11 @@ class Motion:
             self.TX_data_py2(dir_list[dir][angle])
             time.sleep(sleep)
 
-        # 영상처리로 판단하는 것으로 변경 >> parameter에 IR = False 제거
-        # if IR:
-        #     if self.get_IR() > 65:  # 여기 확인하고 수정하기
-        #         return True
-        #     return False
+    # 손 들고 걷기
+    def handsUp_walk(self, loop = 1):
+        for _ in range(loop) :
+            self.TX_data_py2(103)
+            time.sleep(1.5)   # 나중에 보고 초 조정하기
 
     # 방위 인식 (201~204)
     def notice_direction(self, dir):
