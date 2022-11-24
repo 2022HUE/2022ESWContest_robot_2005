@@ -24,7 +24,7 @@ class MissionDanger:
     act: Act = Act.START
     robo: Robo = Robo()
     miss: int = 0
-    limits: int = 3
+    limits: int = 5
     alphabet_color: str
     alphabet_name: str
     milkbox_pos: int
@@ -39,19 +39,24 @@ class MissionDanger:
     def is_okay_grab_milkbox(self):
         if self.head_angle == 70:
             self.head_angle = 45
-            # # motion : 고개 각도 45도로 설정
-            # self.robo._motion.set_head("DOWN", 45)
+            time.sleep(0.2)
+            # motion : 고개 각도 45도로 설정
+            self.robo._motion.set_head("DOWN", 45)
             return False
         elif self.head_angle == 45:
             self.head_angle = 30
-            # # motion : 고개 각도 30도로 설정
-            # self.robo._motion.set_head("DOWN", 30)
+            time.sleep(0.2)
+            # motion : 고개 각도 30도로 설정
+            self.robo._motion.set_head("DOWN", 30)
             return False
         else:
-            # # motion : 장애물 잡기 동작 수행
-            # self.robo._motion.grab("UP")
-            # # motion : 장애물 집고 앞으로 한번 걷기 동작 수행
-            # self.robo._motion.grab_walk()
+            # 장애물 잡기 동작 씹히는 에러 발생하여 sleep 줄 필요가 있음
+            time.sleep(1)
+            # motion : 장애물 잡기 동작 수행
+            self.robo._motion.grab("UP")
+            time.sleep(1)
+            # motion : 장애물 집고 앞으로 한번 걷기 동작 수행
+            self.robo._motion.grab_walk()
             return True
 
     @classmethod
@@ -64,19 +69,22 @@ class MissionDanger:
 
         elif act == act.SPEAK_DANGER:
             print("SPEAK_DANGER")
-            # # motion : "위험지역" 음성 말하기
-            # self.robo._motion.notice_area("BLACK")
-            # # motion: 화살표 반대 방향으로 고개 돌리기
-            # self.robo._motion.set_head(Robo.dis_arrow, 45)
+            # motion : "위험지역" 음성 말하기
+            self.robo._motion.notice_area("BLACK")
+            time.sleep(0.2)
+            # motion: 화살표 반대 방향으로 고개 돌리기
+            self.robo._motion.set_head(Robo.dis_arrow, 45)
 
             self.act = Act.DETECT_ALPHABET
 
         elif act == act.DETECT_ALPHABET:
             print("DETECT_ALPHABET")
-            # 방 알파벳 색상 인식 -> 보기 불편해서 함수로 빼는 게 좋을 듯
-            # 색상 고정이면 이렇게 하고 싶은데 위험 지역 2개 돌 경우,
-            # 이전 세팅에 저장되어있는 값 사용하게 되어 다른 색상을 집을 수 있는 문제 발생
+
+            # 계속 알파벳 ROI를 못가져오는 듯해서 sleep을 줌
+            time.sleep(4)
+
             if cur.ALPHABET_COLOR:
+                print(cur.ALPHABET_COLOR)
                 Robo.alphabet_color = cur.ALPHABET_COLOR
             else:
                 self.alphabet_color = self.robo._image_processor.get_alphabet_color()
@@ -93,7 +101,6 @@ class MissionDanger:
                     return False
 
             if cur.BLACK_ROOM_LIST:
-                # self.robo 다 Robo로 바꿔야 할 듯 -> self.robo로 하면 각 미션에서 쓰는 robo 인스턴스에 저장하는 거라서 각자 다를 듯
                 Robo.black_room_list = cur.BLACK_ROOM_LIST
             else:
                 # 방 알파벳 글자 인식
@@ -109,8 +116,8 @@ class MissionDanger:
                     self.miss += 1
                     return False
 
-            # # motion : 정면(위험지역) 바라보기
-            # self.robo._motion.set_head("LEFTRIGHT_CENTER")
+            # motion : 정면(위험지역) 바라보기
+            self.robo._motion.set_head("LEFTRIGHT_CENTER")
 
             self.act = Act.WALK_TO_MILKBOX
 
@@ -128,15 +135,15 @@ class MissionDanger:
                     if self.is_okay_grab_milkbox():
                         self.act = Act.OUT_OF_DANGER
                         break
-                # elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
-                #     # motion : 앞으로 걷기 1번 수행 -> short 옵션 넣어줘야하나요?
-                #     self.robo._motion.walk()
-                # elif self.milkbox_pos == 0 or self.milkbox_pos == 3 or self.milkbox_pos == 6:
-                #     # motion : 왼쪽으로 20도 회전 수행
-                #     self.robo._motion.turn("LEFT", 20)
-                # elif self.milkbox_pos == 2 or self.milkbox_pos == 5 or self.milkbox_pos == 8:
-                #     # motion : 오른쪽으로 20도 회전 수행
-                #     self.robo._motion.turn("RIGHT", 20)
+                elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
+                    # motion : 장애물 접근 걸어가기
+                    self.robo._motion.walk("FORWARD")
+                elif self.milkbox_pos == 0 or self.milkbox_pos == 3 or self.milkbox_pos == 6:
+                    # motion : 왼쪽으로 20도 회전 수행
+                    self.robo._motion.turn("LEFT", 20)
+                elif self.milkbox_pos == 2 or self.milkbox_pos == 5 or self.milkbox_pos == 8:
+                    # motion : 오른쪽으로 20도 회전 수행
+                    self.robo._motion.turn("RIGHT", 20)
 
                 # milkbox_pos 를 가져오지 못한 경우
                 elif self.miss >= self.limits:
@@ -152,61 +159,78 @@ class MissionDanger:
             # 장애물을 들고 있는 채로 위험지역 밖을 벗어날 때까지 아래 과정 반복
             while True:
                 if not self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
-                    # # motion : 장애물 내려놓기 동작 수행
-                    # self.robo._motion.grab("DOWN")
+                    # motion : 장애물 내려놓기 동작 수행
+                    self.robo._motion.grab("DOWN")
                     self.act = Act.WALK_TO_MILKBOX
                     return False
                 if self.robo._image_processor.is_out_of_black():
-                    # # motion : 장애물 내려놓기 동작 수행
-                    # self.robo._motion.grab("DOWN")
+                    # motion : 장애물 내려놓기 동작 수행
+                    self.robo._motion.grab("DOWN")
                     break
-            #     # 무한 루프 갇힐 경우에 대한 예외처리 아직 안함
-            #     else:
-            #         if self.first_milkbox_pos == 0:
-            #             # motion: 장애물 집고 왼쪽으로 45도 돌기 동작 수행
-            #             self.robo._motion.grab_turn("LEFT", 45)
-            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 수행
-            #             self.robo._motion.grab_walk()
-            #         elif self.first_milkbox_pos == 1:
-            #             # motion: 장애물 집고 왼쪽으로 45도 돌기 동작 수행
-            #             self.robo._motion.grab_turn("LEFT", 45)
-            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-            #             self.robo._motion.grab_walk(2)
-            #         elif self.first_milkbox_pos == 2:
-            #             # motion: 장애물 집고 오른쪽으로 45도 돌기 동작 수행
-            #             self.robo._motion.grab_turn("RIGHT", 45)
-            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-            #             self.robo._motion.grab_walk(2)
-            #         elif self.first_milkbox_pos == 3:
-            #             # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
-            #             self.robo._motion.grab_turn("LEFT", 60)
-            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-            #             self.robo._motion.grab_walk(2)
-            #         elif self.first_milkbox_pos == 4:
-            #             # motion: 장애물 집고 왼쪽으로 45도 돌기 동작 수행
-            #             self.robo._motion.grab_turn("LEFT", 45)
-            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-            #             self.robo._motion.grab_walk(2)
-            #         elif self.first_milkbox_pos == 5:
-            #             # motion: 장애물 집고 오른쪽으로 60도 돌기 동작 수행
-            #             self.robo._motion.grab_turn("RIGHT", 60)
-            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-            #             self.robo._motion.grab_walk(2)
-            #         elif self.first_milkbox_pos == 6:
-            #             # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
-            #             self.robo._motion.grab_turn("LEFT", 60)
-            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 수행
-            #             self.robo._motion.grab_walk()
-            #         elif self.first_milkbox_pos == 7:
-            #             # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
-            #             self.robo._motion.grab_turn("LEFT", 60)
-            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-            #             self.robo._motion.grab_walk(2)
-            #         elif self.first_milkbox_pos == 8:
-            #             # motion: 장애물 집고 오른쪽으로 60도 돌기 동작 수행
-            #             self.robo._motion.grab_turn("RIGHT", 60)
-            #             # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-            #             self.robo._motion.grab_walk(2)
+                # 무한 루프 갇힐 경우에 대한 예외처리 아직 안함
+                else:
+                    if self.first_milkbox_pos == 0:
+                        time.sleep(2)
+                        # motion: 장애물 집고 왼쪽으로 45도 돌기 동작 수행
+                        self.robo._motion.grab_turn("LEFT", 45)
+                        time.sleep(2)
+                        # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 수행
+                        self.robo._motion.grab_walk()
+                    elif self.first_milkbox_pos == 1:
+                        time.sleep(2)
+                        # motion: 장애물 집고 왼쪽으로 45도 돌기 동작 수행
+                        self.robo._motion.grab_turn("LEFT", 45)
+                        time.sleep(2)
+                        # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+                        self.robo._motion.grab_walk(2)
+                    elif self.first_milkbox_pos == 2:
+                        time.sleep(2)
+                        # motion: 장애물 집고 오른쪽으로 45도 돌기 동작 수행
+                        self.robo._motion.grab_turn("RIGHT", 45)
+                        time.sleep(2)
+                        # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+                        self.robo._motion.grab_walk(2)
+                    elif self.first_milkbox_pos == 3:
+                        time.sleep(2)
+                        # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
+                        self.robo._motion.grab_turn("LEFT", 60)
+                        time.sleep(2)
+                        # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+                        self.robo._motion.grab_walk(2)
+                    elif self.first_milkbox_pos == 4:
+                        time.sleep(2)
+                        # motion: 장애물 집고 왼쪽으로 45도 돌기 동작 수행
+                        self.robo._motion.grab_turn("LEFT", 45)
+                        time.sleep(2)
+                        # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+                        self.robo._motion.grab_walk(2)
+                    elif self.first_milkbox_pos == 5:
+                        time.sleep(2)
+                        # motion: 장애물 집고 오른쪽으로 60도 돌기 동작 수행
+                        self.robo._motion.grab_turn("RIGHT", 60)
+                        time.sleep(2)
+                        # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+                        self.robo._motion.grab_walk(2)
+                    elif self.first_milkbox_pos == 6:
+                        time.sleep(2)
+                        # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
+                        self.robo._motion.grab_turn("LEFT", 60)
+                        time.sleep(2)
+                        # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 수행
+                        self.robo._motion.grab_walk()
+                    elif self.first_milkbox_pos == 7:
+                        time.sleep(2)
+                        # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
+                        self.robo._motion.grab_turn("LEFT", 60)
+                        # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+                        self.robo._motion.grab_walk(2)
+                    elif self.first_milkbox_pos == 8:
+                        time.sleep(2)
+                        # motion: 장애물 집고 오른쪽으로 60도 돌기 동작 수행
+                        self.robo._motion.grab_turn("RIGHT", 60)
+                        time.sleep(2)
+                        # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
+                        self.robo._motion.grab_walk(2)
 
             self.act = Act.EXIT
 
