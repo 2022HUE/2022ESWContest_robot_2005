@@ -469,18 +469,18 @@ class ImageProccessor:
         # False 일 때는 LEFT, RIGHT 반환
         # LEFT: 왼쪽으로 회전, RIGHT: 오른쪽으로 회전
         '''
-
         return ret
 
-    def second_rotation(self, Arrow):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
+    def second_rotation(self, Arrow,k):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
         img = self.get_img()
         img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(
             self, img, setting.STAIR_S, setting.ROOM_V)
 
         s_val = int((np.count_nonzero(s_mask) / (640 * 480)) * 1000)
-
-        ret = Stair.in_rotation(self, setting.STAIR_ROTATION, s_val, Arrow)
+        print('채도{},세팅값{}'.format(s_val, setting.top_saturation))
+        
+        ret = Stair.in_rotation(self, k, s_val, Arrow)
 
         '''motion
         # T: (회전완료) 머리 아래 30도 변경
@@ -609,18 +609,18 @@ class ImageProccessor:
             return self.stair_top()
 
     def top_processing(self):  # stair07~stair11
-        img = img_processor.get_img()
+        img = self.get_img()
         img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
         x, y, w, h = 250, 0, 390, 480
         img = img[y:y+h, x:x+w]
         mask = Stair.in_saturation_measurement(
             self, img, setting.STAIR_S, setting.ROOM_V)
-        cv.imshow("img", img)
+        # cv.imshow("img", img)
         return Stair.in_top_processing(self, mask, setting.top_forward)
 
     def wall_move(self, Arrow):  # 계단 오를 때
         img = self.get_img()
-        cv.imshow("img", img)
+        # cv.imshow("img", img)
         img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         mask = Stair.in_saturation_measurement(
             self, img, setting.STAIR_S, setting.ROOM_V)
@@ -630,14 +630,14 @@ class ImageProccessor:
             y = 0
             left = int(
                 (np.count_nonzero(mask[y:y + 480, x:x + 140]) / (640 * 480)) * 1000)
-            cv.imshow("left", mask[y:y + 480, x:x + 140])
+            # cv.imshow("left", mask[y:y + 480, x:x + 140])
             return Stair.in_rotation(self, left, setting.top_move, Arrow)
         else:
             x = 500
             y = 0
             right = int(
                 (np.count_nonzero(mask[y:y + 480, x:x + 320]) / (640 * 480)) * 1000)
-            cv.imshow("right", mask[y:y + 480, x:x + 320])
+            # cv.imshow("right", mask[y:y + 480, x:x + 320])
             return Stair.in_rotation(self, right, setting.top_move, Arrow)
 
     ############# STAIR PROCESSING #############
