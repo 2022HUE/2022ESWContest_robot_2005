@@ -455,6 +455,12 @@ class ImageProccessor:
         img = self.get_img()
         return Danger.can_hold_milkbox(img, color)
     
+    # 장애물 집을 지 말 지 결정하는 함수 (7번 위치에서 충분히 가까운지)
+    def get_milkbox_mask(self, color):
+        img = self.get_img()
+        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        return Danger.get_milkbox_mask(hsv, color)
+    
     ############# DANGER PROCESSING #############
 
     ############# STAIR PROCESSING #############
