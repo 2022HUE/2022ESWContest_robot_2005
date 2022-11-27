@@ -107,7 +107,7 @@ class MissionStair:
             else:
                 # print("들어옴")
                 self.robo._motion.turn(
-                    Robo.dis_arrow, 45, sleep=1, arm=True)  # 화살표 반대 방향으로
+                    Robo.dis_arrow, 20, sleep=1)  # 화살표 반대 방향으로
                 #pass
 
         elif act == act.DRAW_STAIR_LINE:

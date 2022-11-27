@@ -82,7 +82,7 @@ setting.LINE_HIGH = 300  # 계단 올라갈 때 허프라인 위치
 setting.STAIR_BLUE = [[102, 30, 30], [130, 255, 255]]  # 계단 맨 위의 파란색 hsv
 setting.STAIR_UP = 290  # 계단 올라갈 때 채도값 설정
 setting.ALPHABET_ROTATION = 40  # 알파벳 방향으로 회전할 때 알파벳 부분의 채도가 이거 이하여야 함.
-setting.STAIR_ROTATION = 400  # 계단 지역으로 회전할 때 채도
+setting.STAIR_ROTATION = 380  # 계단 지역으로 회전할 때 채도
 
 setting.STAIR_ALPHABET_SIZE = 40000
 setting.STAIR_LEVEL = 1  # 채연아 미안  merge하면서 지워졌다^^,,,,,
