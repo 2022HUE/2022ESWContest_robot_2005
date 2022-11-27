@@ -86,7 +86,7 @@ class MissionStair:
                 self.act = Act.CENTER_AND_FORWARD
             else:  # LEFT, RIGHT 로 반환됨
                 self.robo._motion.turn(ret, 60, arm=True)  # 화살표 방향으로 회전해야함
-                time.sleep(1)
+                time.sleep(1.5)
                 # pass
 
         elif act == act.CENTER_AND_FORWARD:
@@ -98,7 +98,7 @@ class MissionStair:
             elif ret == False:  # 전진
                 # pass
                 self.robo._motion.walk('FORWARD')
-                time.sleep(0.5)
+                time.sleep(1.5)
             elif ret == 'fail':
                 # pass
                 self.robo._motion.walk_side(Robo.arrow)
@@ -191,7 +191,8 @@ class MissionStair:
                     # self.robo._motion.walk_side(Robo.dis_arrow)  # 옆으로 이동
                     # self.robo._motion.turn(
                     #   Robo.dis_arrow, 45, loop=2, sleep=2)  # 화살표 반대 방향으로
-                    # self.robo._motion.set_head('DOWN', angle=45)  # 45도
+                    # self.robo._motion.walk('FORWARD', loop=2)  # 전진 2회
+                    # self.robo._motion.set_head('DOWN', angle=45)  # 머리 45도
                     self.act = Act.EXIT
                 else:
                     # self.robo._motion.stair('LEFT_DOWN')  # down
