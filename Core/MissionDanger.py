@@ -218,6 +218,7 @@ class MissionDanger:
                     # motion : 장애물 내려놓기 동작 수행
                     self.robo._motion.grab("DOWN")
                     time.sleep(1)
+                    # 수평체크 필요!
                     break
                 # 무한 루프 갇힐 경우에 대한 예외처리 아직 안함
                 else:
