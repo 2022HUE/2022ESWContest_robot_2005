@@ -258,12 +258,12 @@ class ImageProccessor:
                 # cv.putText(origin, "center: {}".format(is_center), (260, 80), cv.FONT_HERSHEY_SIMPLEX, 0.8, [0,255,100], 2)
                 if is_center != True:
                     return is_center
-                if 80 < v_slope < 100:  # 수직
+                if 88 < v_slope < 96:  # 수직
                     return state
-                if v_slope <= 80:
+                if v_slope <= 88:
                     # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_LEFT"
-                elif 100 <= v_slope:
+                elif 95 <= v_slope:
                     # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_RIGHT"
             elif state == "HORIZON" and h_line:
@@ -338,6 +338,7 @@ class ImageProccessor:
             if peri > 900 and points == 4:
                 roi_contour.append(contours[pos])
                 # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
+            
 
         if show:
             cv.imshow("show", dst)
@@ -398,13 +399,14 @@ class ImageProccessor:
                 return ''
         else:  # False
             return ''
+    
 
     ############ DANGER PROCESSING #############
     # 계단 지역인지(False) 위험 지역인지(True) detection
-    def is_danger(self):
+    def is_danger(self, show=False):
         img = self.get_img()
-        return Danger.is_danger(img)  # [return] DANGER / STAIR
-
+        return Danger.is_danger(img, show) # [return] DANGER / STAIR
+ 
     # 방 이름이 적힌 글자(A, B, C, D)의 색상 판단
     def get_alphabet_color(self):
         img = self.get_img()
@@ -439,16 +441,15 @@ class ImageProccessor:
         return Danger.is_out_of_black(img, show)  # [return] T/F
 
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
-    def is_holding_milkbox(self, color):
+    def is_holding_milkbox(self, color, show=False):
         img = self.get_img()
-        return Danger.is_holding_milkbox(img, color)  # [return] T/F
+        return Danger.is_holding_milkbox(img, color, show) # [return] T/F
 
     # 장애물 위치 파악을 위한 함수
-    def get_milkbox_pos(self, color):
+    def get_milkbox_pos(self, color, show=False):
         img = self.get_img()
-        # [return] 0 ~ 8 (장애물 위치 idx 값)
-        return Danger.get_milkbox_pos(img, color)
-
+        return Danger.get_milkbox_pos(img, color, show) # [return] 0 ~ 8 (장애물 위치 idx 값)
+    
     ############# DANGER PROCESSING #############
 
     ############# STAIR PROCESSING #############
@@ -509,10 +510,14 @@ class ImageProccessor:
             dst, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
         return contours
 
-    def alphabet_center_check(self):
+    def alphabet_center_check(self, show=False):
         img = self.get_img()
-        contours = self.rect()
 
+        if show:
+            cv.imshow("show", img)
+            cv.waitKey(1) & 0xFF == ord('q')
+            
+        contours = self.rect()
         try:
             alphabet_area, rect_x = Stair.in_rect(
                 self, img, contours)  # contours를 리턴값으로 해서 함수 구성 다시 해보기
@@ -632,7 +637,12 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     img_processor = ImageProccessor(video=DataPath.stair05)
+=======
+    print(DataPath.danger05)
+    img_processor = ImageProccessor()
+>>>>>>> develop
     # img_processor = ImageProccessor()
 
     ### Debug Run ###
@@ -640,7 +650,8 @@ if __name__ == "__main__":
         # img_processor.get_arrow(show=True)
         # img_processor.get_ewsn(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
-        # img_processor.get_alphabet_name(show=True)
+        # print(img_processor.get_alphabet_name(show=True))
+        # img_processor.get_milkbox_pos("RED", True)
 
         ### stair ###
         # img_processor.first_rotation('RIGHT')
@@ -650,7 +661,7 @@ if __name__ == "__main__":
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-
+        img_processor.get_milkbox_pos("BLUE", True)
         ### danger ###
         # img_processor.get_alphabet_color()
 

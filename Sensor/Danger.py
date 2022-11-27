@@ -34,7 +34,7 @@ class Danger:
 
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
     @classmethod
-    def is_holding_milkbox(self, src, color, show=False):
+    def is_holding_milkbox(self, src, color, show):
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
         holding_hsv = self.get_holding_milkbox_roi(hsv)
         mask = self.get_milkbox_mask(holding_hsv, color)
@@ -58,14 +58,19 @@ class Danger:
         # cv.imshow('holding_milkbox_img', hsv_crop)
         return hsv_crop
 
-    # 장애물에 충분히 근접했는지 (즉, 이제 장애물 집어도 되는지) 확인
+    # 장애물에 7번 위치에 있지만 충분히 근접했는지 (즉, 이제 장애물 집어도 되는지) 확인
     @classmethod
     def can_hold_milkbox(self, hsv):
+        milkbox_pos = ((210, 429), (320, 479))
+        milkbox_crop = hsv.copy()[milkbox_pos[1][0]:milkbox_pos[1][1],
+                           milkbox_pos[0][0]:milkbox_pos[0][1]]
+        milk_mask = self.get_milkbox_mask(milkbox_crop)
+        cv.imshow('milkbox_crop', milk_mask)
         return True
 
     # 장애물 위치 파악을 위한 함수
     @classmethod
-    def get_milkbox_pos(self, src, color, show=False):
+    def get_milkbox_pos(self, src, color, show):
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
         max_idx = 0
         max_rate = 0
@@ -154,7 +159,7 @@ class Danger:
         dst = np.clip((1 + alpha) * add - 128 * alpha, 0, 255).astype(np.uint8)
         ret, th = cv.threshold(dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
         dst = cv.bitwise_and(dst, dst, mask=th)
-        cv.imshow('dst', dst)
+        # cv.imshow('dst', dst)
         kernel = cv.getStructuringElement(cv.MORPH_RECT, (1, 1))
         dst = cv.dilate(dst, kernel, iterations=1)
 
@@ -171,7 +176,7 @@ class Danger:
                 text_cont.append(contours1[pos])
                 cv.drawContours(src, [approx], 0, (0, 255, 255), 1)
 
-        cv.imshow('draw_contour', src)
+        # cv.imshow('draw_contour', src)
         contour_pos = []
         for pos in range(len(text_cont)):
             area = cv.contourArea(text_cont[pos])
@@ -199,7 +204,7 @@ class Danger:
             x, y, w, h = cv.boundingRect(text_cont[pos])
             # print('x, y, w, h:', x, y, w, h)
             img_crop = img_copy[y:y + h, x:x + w]
-        cv.imshow('img_crop', img_crop)
+        # cv.imshow('img_crop', img_crop)
 
         hsv_crop = cv.cvtColor(img_crop, cv.COLOR_BGR2HSV)
         return hsv_crop
@@ -217,17 +222,18 @@ class Danger:
         if color == "RED":
             lower_hue, upper_hue = np.array(setting.DANGER_MILKBOX_RED[0]), np.array(setting.DANGER_MILKBOX_RED[1])
         h_mask = cv.inRange(hsv, lower_hue, upper_hue)
-        # print(color)
+        # 가장 바깥쪽 컨투어에 대한 꼭짓점 좌표만 반환 (cv.RETR_LIST로도 시도해보기)
+        # dst, contour, hierarchy = cv.findContours(h_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
         return h_mask  # mask 리턴
-
+             
     # 계단 지역인지(False) 위험 지역인지(True) detection
     @classmethod
-    def is_danger(self, src, show=False):
+    def is_danger(self, src, show):
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
         mask_AND = cv.bitwise_and(self.get_s_mask(hsv, setting.DANGER_ROOM_S),
                                   self.get_v_mask(hsv, setting.DANGER_ROOM_V))
         mask_AND = self.mophorlogy(mask_AND)
-        cv.imshow('mask_AND', mask_AND)
+        # cv.imshow('mask_AND', mask_AND)
         # 계단일 때 채색 비율: 80~200, 위험지역일 때 비율: 0~10
         rate = np.count_nonzero(mask_AND) / (640 * 480)
         rate = int(rate * 1000)
@@ -252,7 +258,7 @@ if __name__ == "__main__":
     # cap = cv.VideoCapture("src/danger/1106_20:02.h264")
     # 1106 20:06, 07 완전 모범 결과 출력
     # cap = cv.VideoCapture("src/danger/1106_20:06.h264")
-    cap = cv.VideoCapture("src/danger/1106_20:07.h264")
+    # cap = cv.VideoCapture("src/danger/1106_20:07.h264")
 
     # 빨강
     # cap = cv.VideoCapture("src/danger/1031_20:35.h264")
@@ -262,6 +268,7 @@ if __name__ == "__main__":
     # 장애물 집고 나올 때의 영상
     # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
     # cap = cv.VideoCapture("src/danger/1031_20:57.h264")
+    cap = cv.VideoCapture("src/danger/1110_22:29.h264")
 
     # 장애물 어디있는지 바라볼 때의 시야
     # cap = cv.VideoCapture("src/danger/1031_20:53.h264")
@@ -278,12 +285,16 @@ if __name__ == "__main__":
 
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
-        # pos_idx = danger.get_milkbox_pos(img, "BLUE", True)
-        alpha_hsv = danger.get_alphabet_roi(img)
-        if alpha_hsv == "Failed":
-            print("Failed")
-        else:
-            print(danger.get_alphabet_color(alpha_hsv))
+        # pos_idx = danger.get_milkbox_pos(img, "RED", True)
+        # alpha_hsv = danger.get_alphabet_roi(img)
+        # if alpha_hsv == "Failed":
+        #     print("Failed")
+        # else:
+        #     print(danger.get_alphabet_color(alpha_hsv))
+
+        # milk_mask = danger.get_milkbox_mask(hsv, "RED")
+        # danger.can_hold_milkbox(img)
+        danger.get_milkbox_mask(hsv)
 
         if cv.waitKey(5) & 0xFF == ord('q'):
             break

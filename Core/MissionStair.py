@@ -97,7 +97,7 @@ class MissionStair:
                 self.act = Act.SECOND_ROTATION
             elif ret == False:  # 전진
                 # pass
-                self.robo._motion.walk('FORWARD', sleep=1)
+                self.robo._motion.walk('FORWARD')
             elif ret == 'fail':
                 # pass
                 print("fail 들어옴")
@@ -117,7 +117,7 @@ class MissionStair:
 
             if self.second_rotation(Robo.dis_arrow) == True:
                 self.robo._motion.set_head('DOWN', angle=30)  # 30도
-                self.robo._motion.walk('FORWARD', loop=6, sleep=5)  # 3회 정도
+                self.robo._motion.walk('FORWARD', loop=5, sleep=1)  # 3회 정도
                 self.robo._motion.walk('FORWARD', loop=4, short=True)  # 좁은 보폭
                 self.act = Act.DRAW_STAIR_LINE
             else:
