@@ -243,14 +243,14 @@ class Danger:
             area = cv.contourArea(cont[pos])
             if area > 1000:
                 contour_pos.append(pos)
-            print(area)
+            # print(area)
         
         for pos in contour_pos:
             cv.fillConvexPoly(milk_mask, cont[pos], (255, 255, 255))
             
-        cv.imshow('hsv', hsv)
-        cv.imshow('ConvexPolyMask', milk_mask)
-        cv.imshow("milkbox_mask", h_mask)
+        # cv.imshow('hsv', hsv)
+        # cv.imshow('ConvexPolyMask', milk_mask)
+        # cv.imshow("milkbox_mask", h_mask)
     
         return milk_mask  # mask 리턴
              
@@ -261,7 +261,7 @@ class Danger:
         mask_AND = cv.bitwise_and(self.get_s_mask(hsv, setting.DANGER_ROOM_S),
                                   self.get_v_mask(hsv, setting.DANGER_ROOM_V))
         mask_AND = self.mophorlogy(mask_AND)
-        # cv.imshow('mask_AND', mask_AND)
+        
         # 계단일 때 채색 비율: 80~200, 위험지역일 때 비율: 0~10
         rate = np.count_nonzero(mask_AND) / (640 * 480)
         rate = int(rate * 1000)
