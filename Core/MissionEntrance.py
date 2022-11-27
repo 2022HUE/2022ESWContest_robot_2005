@@ -92,11 +92,11 @@ class MissionEntrance:
         elif act == act.DETECT_DIRECTION:
             print('ACT: ', act) # Debug
             if self.get_direction():
-                for i in range(self.tleft): 
-                    self.robo._motion.turn("RIGHT", 10)
-                    # self.robo._motion.walk_side("RIGHT")
-                for i in range(self.tright): 
-                    self.robo._motion.turn("LEFT", 10)
+                # for i in range(self.tleft): 
+                #     self.robo._motion.turn("RIGHT", 10)
+                #     # self.robo._motion.walk_side("RIGHT")
+                # for i in range(self.tright): 
+                #     self.robo._motion.turn("LEFT", 10)
                     # self.robo._motion.walk_side("LEFT")
                 self.miss = 0
             else:

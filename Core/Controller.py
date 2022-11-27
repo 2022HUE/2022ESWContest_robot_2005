@@ -27,7 +27,7 @@ class Controller:
 
     # 방문한 미션 지역의 수
     count_area: int=0 # 위험/계단 지역만 카운트합니다.
-    count_misson: int=0
+    count_misson: int=1
     check_exit: int=0 # 퇴장시 사용
     check_entrance: int=0 # 입장시 사용
     check_nextroom: int=0 # 방 이동시 사용
@@ -99,6 +99,8 @@ class Controller:
     @classmethod
     def danger_to_line(self, option): # option: L, R
         state = self.robo._image_processor.is_line_horizon_vertical()
+        print(state)
+        time.sleep(0.5)
         if option == "L":
             if state == "VERTICAL":
                 return True
@@ -148,9 +150,10 @@ class Controller:
             
             ### debug
             # self.act = act.ENTRANCE
-            self.act = act.GO_NEXTROOM
+            # self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
-            # self.robo._motion.set_head("DOWN", 70)
+            self.robo._motion.set_head("DOWN", 70)
+            self.act = act.DANGER
             # self.act = act.STAIR
             
         elif act == act.GO_ENTRANCE:
@@ -236,7 +239,7 @@ class Controller:
             else:
                 if self.check_nextroom> 0:
                     self.robo._motion.walk("FORWARD")
-                    self.robo._motion.walk("FORWARD")
+                    # self.robo._motion.walk("FORWARD")
                     time.sleep(0.5)
                     # self.robo._motion.set_head("DOWN", 70)
                     print("END")
@@ -276,7 +279,7 @@ class Controller:
                 if self.danger_line_flag > 0:
                     if self.line_v_rotate():
                         print('-------TRUE?------')
-                        return True # debug
+                        # return True # debug
                         if self.count_area < limits: 
                             self.act = act.GO_NEXTROOM
                         else:
@@ -288,7 +291,7 @@ class Controller:
                 else:
                     if Robo.box_pos in self.danger_right_out:
                         if self.danger_turn_flag < 1:
-                            self.robo._motion.turn("RIGHT", 60,2,0.8)
+                            self.robo._motion.turn("RIGHT", 60,1,0.8)
                             self.danger_turn_flag += 1
                             return False
                         else:
@@ -298,14 +301,24 @@ class Controller:
                     else:
                         print('tutututuutu')
                         if self.danger_turn_flag < 1:
-                            time.sleep(2.5)
-                            self.robo._motion.turn("LEFT", 45,2,0.8)
+                            time.sleep(2)
+                            self.robo._motion.walk("FORWARD",3,1.5)
+                            time.sleep(0.8)
+                            self.robo._motion.arm_turn("LEFT", 60,2,0.8)
+                            time.sleep(0.8)
+                            # self.robo._motion.arm_turn("LEFT", 45)
+                            time.sleep(0.8)
+                            self.robo._motion.walk("FORWARD")
+                            time.sleep(0.8)
                             self.danger_turn_flag += 1
                             return False
                         else:
                             if self.danger_to_line("L"): # vertical is True
                                 self.danger_line_flag += 1
-                            else: return False
+                            else: 
+                                self.robo._motion.walk("FORWARD", short=True)
+                                self.robo._motion.turn("LEFT", 20)
+                                return False
                     
             elif MissionDanger.go_robo():
                 self.count_area += 1

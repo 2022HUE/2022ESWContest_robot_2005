@@ -207,12 +207,16 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
 
     # 횟수_집고 전진 (187~188) [Danger]
-    def grab_walk(self, loop=1):
+    def grab_walk(self, loop=1, foot=1):
+        
         for _ in range(loop):
-            self.TX_data_py2(187)
-            time.sleep(1.5)  # 나중에 보고 초 조정하기
-            self.TX_data_py2(188)
-            time.sleep(1.5)  # 나중에 보고 초 조정하기
+            # self.TX_data_py2(187)
+            self.TX_data_py2(186+foot)
+            # print('1')
+            time.sleep(1)  # 나중에 보고 초 조정하기
+            # self.TX_data_py2(188)
+            # print('2')
+            # time.sleep(2)  # 나중에 보고 초 조정하기
             
 
     # 집고 옆으로 (189~192) [Danger]
