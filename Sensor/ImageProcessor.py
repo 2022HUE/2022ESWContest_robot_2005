@@ -338,7 +338,6 @@ class ImageProccessor:
             if peri > 900 and points == 4:
                 roi_contour.append(contours[pos])
                 # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
-            
 
         if show:
             cv.imshow("show", dst)
@@ -399,14 +398,14 @@ class ImageProccessor:
                 return ''
         else:  # False
             return ''
-    
 
     ############ DANGER PROCESSING #############
     # 계단 지역인지(False) 위험 지역인지(True) detection
+
     def is_danger(self, show=False):
         img = self.get_img()
-        return Danger.is_danger(img, show) # [return] DANGER / STAIR
- 
+        return Danger.is_danger(img, show)  # [return] DANGER / STAIR
+
     # 방 이름이 적힌 글자(A, B, C, D)의 색상 판단
     def get_alphabet_color(self):
         img = self.get_img()
@@ -443,13 +442,14 @@ class ImageProccessor:
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
     def is_holding_milkbox(self, color, show=False):
         img = self.get_img()
-        return Danger.is_holding_milkbox(img, color, show) # [return] T/F
+        return Danger.is_holding_milkbox(img, color, show)  # [return] T/F
 
     # 장애물 위치 파악을 위한 함수
     def get_milkbox_pos(self, color, show=False):
         img = self.get_img()
-        return Danger.get_milkbox_pos(img, color, show) # [return] 0 ~ 8 (장애물 위치 idx 값)
-    
+        # [return] 0 ~ 8 (장애물 위치 idx 값)
+        return Danger.get_milkbox_pos(img, color, show)
+
     ############# DANGER PROCESSING #############
 
     ############# STAIR PROCESSING #############
@@ -516,7 +516,7 @@ class ImageProccessor:
         if show:
             cv.imshow("show", img)
             cv.waitKey(1) & 0xFF == ord('q')
-            
+
         contours = self.rect()
         try:
             alphabet_area, rect_x = Stair.in_rect(
@@ -608,41 +608,44 @@ class ImageProccessor:
         else:
             return self.stair_top()
 
-    def top_processing(self): #stair07~stair11
+    def top_processing(self):  # stair07~stair11
         img = img_processor.get_img()
         img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
         x, y, w, h = 250, 0, 390, 480
         img = img[y:y+h, x:x+w]
-        mask = Stair.in_saturation_measurement(self, img, setting.STAIR_S, setting.ROOM_V)
-        cv.imshow("img",img)
-        return Stair.in_top_processing(self,mask,setting.top_forward)
-    def wall_move(self,Arrow): #계단 오를 때
-        img = self.get_img()
-        cv.imshow("img",img)
-        img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        mask = Stair.in_saturation_measurement(self, img, setting.STAIR_S, setting.ROOM_V)
+        mask = Stair.in_saturation_measurement(
+            self, img, setting.STAIR_S, setting.ROOM_V)
+        cv.imshow("img", img)
+        return Stair.in_top_processing(self, mask, setting.top_forward)
 
-        if Arrow=='LEFT':
-            x = 0; y = 0
-            left = int((np.count_nonzero(mask[y:y + 480, x:x + 140]) / (640 * 480)) * 1000)
+    def wall_move(self, Arrow):  # 계단 오를 때
+        img = self.get_img()
+        cv.imshow("img", img)
+        img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        mask = Stair.in_saturation_measurement(
+            self, img, setting.STAIR_S, setting.ROOM_V)
+
+        if Arrow == 'LEFT':
+            x = 0
+            y = 0
+            left = int(
+                (np.count_nonzero(mask[y:y + 480, x:x + 140]) / (640 * 480)) * 1000)
             cv.imshow("left", mask[y:y + 480, x:x + 140])
-            return Stair.in_rotation(self,left,setting.top_move,Arrow)
+            return Stair.in_rotation(self, left, setting.top_move, Arrow)
         else:
-            x = 500; y = 0
-            right = int((np.count_nonzero(mask[y:y + 480, x:x + 320]) / (640 * 480)) * 1000)
+            x = 500
+            y = 0
+            right = int(
+                (np.count_nonzero(mask[y:y + 480, x:x + 320]) / (640 * 480)) * 1000)
             cv.imshow("right", mask[y:y + 480, x:x + 320])
-            return Stair.in_rotation(self,right, setting.top_move, Arrow)
+            return Stair.in_rotation(self, right, setting.top_move, Arrow)
 
     ############# STAIR PROCESSING #############
 
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-    img_processor = ImageProccessor(video=DataPath.stair05)
-=======
-    print(DataPath.danger05)
+    # print(DataPath.danger05)
     img_processor = ImageProccessor()
->>>>>>> develop
     # img_processor = ImageProccessor()
 
     ### Debug Run ###
