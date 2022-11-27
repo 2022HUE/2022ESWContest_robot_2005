@@ -101,6 +101,7 @@ class MissionDanger:
                     # 계속 못찾으면 그냥 빨강으로 지정
                     self.alphabet_color = "RED"
                     Robo.alphabet_color = self.alphabet_color
+                    self.miss = 0
                 # 아직 get_alphabet_color miss 처리 안했음
                 else:
                     self.miss += 1
@@ -118,6 +119,7 @@ class MissionDanger:
                     # 계속 못찾으면 그냥 글자 B로 지정
                     self.alphabet_name = 'B'
                     Robo.black_room_list.append(self.alphabet_name)
+                    self.miss = 0
                 else:
                     self.miss += 1
                     return False
@@ -147,6 +149,7 @@ class MissionDanger:
                         #     Robo.box_pos = self.first_milkbox_pos
                         ###################################
                         self.act = Act.OUT_OF_DANGER
+                        self.miss = 0
                         break
                 elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
                     # motion : 장애물 접근 걸어가기
@@ -160,6 +163,7 @@ class MissionDanger:
 
                 # milkbox_pos 를 가져오지 못한 경우
                 elif self.miss >= self.limits:
+                    self.miss = 0
                     # 계속 못찾으면 그냥 시민 대피 미션 포기 (실패할 경우 EXIT 버전 하나 더 만들어야할 듯)
                     self.act = Act.EXIT
                 else:
@@ -193,6 +197,7 @@ class MissionDanger:
 
                 # milkbox_pos 를 가져오지 못한 경우
                 elif self.miss >= self.limits:
+                    self.miss = 0
                     # 계속 못찾으면 그냥 시민 대피 미션 포기 (실패할 경우 EXIT 버전 하나 더 만들어야할 듯)
                     self.act = Act.EXIT
                 else:
