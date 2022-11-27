@@ -455,7 +455,6 @@ class ImageProccessor:
         img = self.get_img()
         return Danger.can_hold_milkbox(img, color)
     
-    
     ############# DANGER PROCESSING #############
 
     ############# STAIR PROCESSING #############
