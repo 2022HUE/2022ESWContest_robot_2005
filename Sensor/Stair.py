@@ -100,7 +100,6 @@ class Stair:
                 return False  # 라인 추출 실패
         else:
             print("라인 추출 실패")
-            cv.imshow('simg',img_canny)
             return False #라인 추출 실패
 
     def in_draw_stair_line(self,lines, img, w, h, LINE_HIGH):

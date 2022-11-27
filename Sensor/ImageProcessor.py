@@ -603,12 +603,16 @@ class ImageProccessor:
         else:
             return self.stair_top()
 
+    def top_processing(self): #stair07~stair11
+        img = img_processor.get_img()
+        cv.imshow("img",img)
+
     ############# STAIR PROCESSING #############
 
 
 if __name__ == "__main__":
-    # img_processor = ImageProccessor(video=DataPath.test)
-    img_processor = ImageProccessor()
+    img_processor = ImageProccessor(video=DataPath.stair07)
+    # img_processor = ImageProccessor()
 
     ### Debug Run ###
     while True:
@@ -618,11 +622,11 @@ if __name__ == "__main__":
         # img_processor.get_alphabet_name(show=True)
 
         ### stair ###
-        # img_processor.first_rotation(show=True)
-        # conto = img_processor.rect()
+        # img_processor.first_rotation('RIGHT')
         # img_processor.alphabet_center_check()
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
+        img_processor.top_processing()
         # img_processor.stair_down()
 
         ### danger ###
