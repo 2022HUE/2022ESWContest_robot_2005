@@ -178,21 +178,29 @@ class ImageProccessor:
     ########### LINE DETECTION ###########
     # 라인이 수평선인지 수직선인지 return해줌
 
-    def is_line_horizon_vertical(self, show=False):
+    def is_line_horizon_vertical(self, show=False, mask=True):
         img = self.get_img()
         origin = img.copy()
         img = self.correction(img, 7)
+        if mask:
+            hsv = self.hsv_mask(img)
+            line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
+            line_mask = self.HSV2BGR(line_mask)
+            line_gray = self.RGB2GRAY(line_mask)
+        else:
+            img = self.RGB2GRAY(img)
+            _, line_gray = cv.threshold(img, 0, 255, cv.THRESH_OTSU)
 
-        hsv = self.hsv_mask(img)
-        line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
-        line_mask = self.HSV2BGR(line_mask)
-        line_gray = self.RGB2GRAY(line_mask)
+        if show:
+            cv.imshow("show", line_gray)
+            cv.waitKey(1) & 0xFF == ord('q')
+
+            
 
         roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
 
         # get Line
         line_arr = Line.hough_lines(
-            
             self, roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
         line_arr = np.squeeze(line_arr)
         # print(line_arr)
@@ -201,6 +209,9 @@ class ImageProccessor:
         #     cv.waitKey(1) & 0xFF == ord('q')
         if line_arr != 'None':
             Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
+            if show:
+                cv.imshow("tmp", origin)
+                cv.waitKey(1) & 0xFF == ord('q')
 
             state, horizon_arr, vertical_arr = Line.slope_filter(
                 
@@ -624,14 +635,14 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    # img_processor = ImageProccessor(video=DataPath.test)
-    img_processor = ImageProccessor()
+    img_processor = ImageProccessor(video=DataPath.de)
+    # img_processor = ImageProccessor()
 
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
         # img_processor.get_ewsn(show=True)
-        # img_processor.is_line_horizon_vertical(show=True)
+        img_processor.is_line_horizon_vertical(show=True, mask=False)
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_milkbox_pos("RED", True)
 
@@ -642,9 +653,9 @@ if __name__ == "__main__":
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
         # img_processor.stair_down()
-        img_processor.get_milkbox_pos("BLUE", True)
+        # img_processor.get_milkbox_pos("BLUE", True)
         ### danger ###
         # img_processor.get_alphabet_color()
 
-        if cv.waitKey(20) & 0xFF == ord('q'):
+        if cv.waitKey(1) & 0xFF == ord('q'):
             break
