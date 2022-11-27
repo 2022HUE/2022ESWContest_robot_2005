@@ -168,6 +168,7 @@ class MissionStair:
                 if rotation == True:
                     self.robo._motion.handsUp_walk(loop=2)  # 전진 2회
                     self.robo._motion.basic()
+                    self.robo._motion.set_head('DOWN',30)
                     self.act = Act.STAIR_DOWN
 
                 else:
@@ -176,6 +177,7 @@ class MissionStair:
             else:
                 self.robo._motion.handsUp_walk(loop=2)  # 전진 2회
                 self.robo._motion.basic()
+                self.robo._motion.set_head('DOWN', 30)
 
         elif act == act.STAIR_DOWN:
             print('Act = %s' % act)
