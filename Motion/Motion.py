@@ -206,7 +206,7 @@ class Motion:
         dir_list = {"UP" : 181, "DOWN" : 185, "MISS" : 184}
         self.TX_data_py2(dir_list[dir])
 
-    # 횟수_집고 전진 (187~188) [Danger]
+    # 집고 전진 (187~188) [Danger]
     def grab_walk(self, loop=1):
         for _ in range(loop):
             self.TX_data_py2(187)
