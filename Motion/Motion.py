@@ -8,9 +8,8 @@ import serial
 import time
 from threading import Thread, Lock
 
+
 # -----------------------------------------------
-
-
 class Motion:
     def __init__(self, sleep_time=0):
         self.serial_use = 1
@@ -40,12 +39,9 @@ class Motion:
         return decorated
 
     def TX_data_py2(self, one_byte):  # one_byte= 0~255
-        try:
-            self.lock.acquire()
-            self.serial_port.write(serial.to_bytes([one_byte]))  # python3
-        finally:
-            self.lock.release()
-            time.sleep(0.02)
+        self.lock.acquire()
+        self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+        time.sleep(0.02)
 
     def RX_data(self):
         if self.serial_port.inWaiting() > 0:
@@ -82,7 +78,7 @@ class Motion:
         self.TX_data_py2(100)
 
     # 걷기 (101~120)
-    def walk(self, dir, loop=1, sleep=1.5, short=False):
+    def walk(self, dir, loop=1, sleep=0.1, short=False):
         """ parameter :
         dir : {FORWARD, BACKWARD}
         """
@@ -131,7 +127,7 @@ class Motion:
         time.sleep(0.3)
 
     # 돌기 (141~160)
-    def turn(self, dir, angle, loop=1, sleep=2, arm=False):
+    def turn(self, dir, angle, loop=1, sleep=0.5, arm=False):
         """ parameter :
         dir : {LEFT, RIGHT}
         """
@@ -185,8 +181,7 @@ class Motion:
         """parameter :
         dir : {LEFT_UP, RIGHT_UP, LEFT_DOWN, RIGHT_DOWN}
         """
-        dir_list = {'LEFT_UP': 171, 'RIGHT_UP': 172,
-                    'LEFT_DOWN': 173, 'RIGHT_DOWN': 174}
+        dir_list = {'LEFT_UP': 171, 'RIGHT_UP': 172, 'LEFT_DOWN': 173, 'RIGHT_DOWN': 174}
         self.TX_data_py2(dir_list[dir])
         time.sleep(1)
 
@@ -201,9 +196,9 @@ class Motion:
     # 집기 (181~186) [Danger]
     def grab(self, dir):
         """ parameter :
-        dir : {UP, DOWN}
+        dir : {UP, DOWN, MISS}
         """
-        dir_list = {"UP": 181, "DOWN": 185}
+        dir_list = {"UP": 181, "DOWN": 185, "MISS": 184}
         self.TX_data_py2(dir_list[dir])
 
     # 횟수_집고 전진 (187~188) [Danger]
@@ -241,11 +236,11 @@ class Motion:
             self.TX_data_py2(dir_list[dir][angle])
             time.sleep(sleep)
 
-        # 영상처리로 판단하는 것으로 변경 >> parameter에 IR = False 제거
-        # if IR:
-        #     if self.get_IR() > 65:  # 여기 확인하고 수정하기
-        #         return True
-        #     return False
+    # 손 들고 걷기
+    def handsUp_walk(self, loop=1):
+        for _ in range(loop):
+            self.TX_data_py2(103)
+            time.sleep(1.5)  # 나중에 보고 초 조정하기
 
     # 방위 인식 (201~204)
     def notice_direction(self, dir):

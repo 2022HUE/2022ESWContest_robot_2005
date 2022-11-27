@@ -66,12 +66,11 @@ class Stair:
     def in_rotation(self,a,comparison,ARROW): #first_turn, second_turn 에서 쓴다
         print(a,comparison,ARROW)
         if a <= comparison:  # 이부분 다시 확인.
+            print("stop")
             return True
         else:
+            print(ARROW)
             return ARROW #회전 방향대로 돌아라
-        # elif a<b:
-            # if ARROW=='LEFT': return 'RIGHT'
-            # else: return 'LEFT'
 
     def in_stair_down(self,img_mask,ONE_F,TWO_F,THREE_F,x=140,y=100):
         saturation = int((np.count_nonzero(img_mask[y:y+380,x:x+500]) / (640 * 480))*1000)
@@ -128,3 +127,12 @@ class Stair:
         mask = cv.inRange(hsv[y:y+h,x:x+w], lower_hue, upper_hue)
         # cv.imshow('mask',mask)
         return mask
+
+    def in_top_processing(self,hsv,comparison):
+        saturation = int((np.count_nonzero(hsv) / (640 * 480))*1000)
+        print(saturation)
+        if saturation>comparison:
+            return False #앞으로 걸어가라
+        else:
+            return True # 다음 처리
+

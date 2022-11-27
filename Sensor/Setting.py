@@ -91,6 +91,10 @@ setting.ONE_F = 90  # 계단 1층 채도
 setting.TWO_F = 100  # 계단 2층 채도
 setting.THREE_F = 400  # 계단 3층 채도
 
+######top_processing###########
+setting.top_forward = 250 # 꼭대기에서 전진 판단하는 채도
+setting.top_move = 40 # 반대쪽 계단으로 떨어지지 않기 위해 안쪽으로 이동할 때 채도 값
+
 ########### CURRENT ACT ###########
 cur = Setting()
 cur.MAP_DIRECTION = ""  # (entr) E, W, S, N

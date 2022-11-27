@@ -605,13 +605,34 @@ class ImageProccessor:
 
     def top_processing(self): #stair07~stair11
         img = img_processor.get_img()
+        img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
+        x, y, w, h = 250, 0, 390, 480
+        img = img[y:y+h, x:x+w]
+        mask = Stair.in_saturation_measurement(self, img, setting.STAIR_S, setting.ROOM_V)
         cv.imshow("img",img)
+        return Stair.in_top_processing(self,mask,setting.top_forward)
+    def wall_move(self,Arrow): #계단 오를 때
+        img = self.get_img()
+        cv.imshow("img",img)
+        img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        mask = Stair.in_saturation_measurement(self, img, setting.STAIR_S, setting.ROOM_V)
+
+        if Arrow=='LEFT':
+            x = 0; y = 0
+            left = int((np.count_nonzero(mask[y:y + 480, x:x + 140]) / (640 * 480)) * 1000)
+            cv.imshow("left", mask[y:y + 480, x:x + 140])
+            return Stair.in_rotation(self,left,setting.top_move,Arrow)
+        else:
+            x = 500; y = 0
+            right = int((np.count_nonzero(mask[y:y + 480, x:x + 320]) / (640 * 480)) * 1000)
+            cv.imshow("right", mask[y:y + 480, x:x + 320])
+            return Stair.in_rotation(self,right, setting.top_move, Arrow)
 
     ############# STAIR PROCESSING #############
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video=DataPath.stair07)
+    img_processor = ImageProccessor(video=DataPath.stair05)
     # img_processor = ImageProccessor()
 
     ### Debug Run ###
@@ -625,8 +646,9 @@ if __name__ == "__main__":
         # img_processor.first_rotation('RIGHT')
         # img_processor.alphabet_center_check()
         # img_processor.second_rotation(show=True)
-        # img_processor.draw_stair_line()
-        img_processor.top_processing()
+        img_processor.draw_stair_line()
+        # img_processor.top_processing()
+        # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
 
         ### danger ###
