@@ -50,14 +50,20 @@ class MissionDanger:
             self.robo._motion.set_head("DOWN", 30)
             return False
         else:
+            is_okay = self.robo._image_processor.can_hold_milkbox(Robo.alphabet_color)
             # 장애물 잡기 동작 씹히는 에러 발생하여 sleep 줄 필요가 있음
             time.sleep(1)
-            # motion : 장애물 잡기 동작 수행
-            self.robo._motion.grab("UP")
-            time.sleep(1)
-            # motion : 장애물 집고 앞으로 한번 걷기 동작 수행
-            self.robo._motion.grab_walk()
-            return True
+            if is_okay ==True:
+                # motion : 장애물 잡기 동작 수행
+                self.robo._motion.grab("UP")
+                time.sleep(1)
+                # motion : 장애물 집고 앞으로 한번 걷기 동작 수행
+                self.robo._motion.grab_walk()
+                return True
+            else:
+                # motion : 왼쪽 혹은 오른쪽으로 걷기 수행
+                self.robo._motion.walk_side(is_okay)
+                return False
 
     @classmethod
     def go_robo(self):

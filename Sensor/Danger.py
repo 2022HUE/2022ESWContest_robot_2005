@@ -60,13 +60,35 @@ class Danger:
 
     # 장애물에 7번 위치에 있지만 충분히 근접했는지 (즉, 이제 장애물 집어도 되는지) 확인
     @classmethod
-    def can_hold_milkbox(self, hsv):
-        milkbox_pos = ((210, 429), (320, 479))
-        milkbox_crop = hsv.copy()[milkbox_pos[1][0]:milkbox_pos[1][1],
-                           milkbox_pos[0][0]:milkbox_pos[0][1]]
-        milk_mask = self.get_milkbox_mask(milkbox_crop)
-        cv.imshow('milkbox_crop', milk_mask)
-        return True
+    def can_hold_milkbox(self, src, color):
+        result = True
+        begin = (bx, by) = (275, 320)
+        end = (ex, ey) = (364, 479)
+        
+        hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
+        milk_mask = self.get_milkbox_mask(hsv, color)
+        # milkbox_pos = ((210, 429), (320, 479))
+        # milkbox_crop = milk_mask.copy()[milkbox_pos[1][0]:milkbox_pos[1][1],
+        #                    milkbox_pos[0][0]:milkbox_pos[0][1]]
+        
+        contours, hierarchy = cv.findContours(milk_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+        
+        for cnt in contours:
+
+            M = cv.moments(cnt)
+            cx = int(M['m10']/M['m00'])
+            # cy = int(M['m01']/M['m00'])
+            # cv.circle(src, (cx, cy), 10, (0,0,255), -1)
+            if cx < bx:
+                return "LEFT"
+            elif cx > ex:
+                return "RIGHT"
+            
+        # cv.imshow('milkbox_crop', milkbox_crop)
+        # cv.imshow("roi", cv.rectangle(src, begin, end, (0, 0, 255), 3))
+
+        return result
+    
 
     # 장애물 위치 파악을 위한 함수
     @classmethod
@@ -222,9 +244,37 @@ class Danger:
         if color == "RED":
             lower_hue, upper_hue = np.array(setting.DANGER_MILKBOX_RED[0]), np.array(setting.DANGER_MILKBOX_RED[1])
         h_mask = cv.inRange(hsv, lower_hue, upper_hue)
+        
+        milk_mask = np.zeros_like(h_mask)
+        
         # 가장 바깥쪽 컨투어에 대한 꼭짓점 좌표만 반환 (cv.RETR_LIST로도 시도해보기)
-        # dst, contour, hierarchy = cv.findContours(h_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-        return h_mask  # mask 리턴
+        contours, hierarchy = cv.findContours(h_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+        cont = []
+        for pos in range(len(contours)):
+            epsilon = cv.arcLength(contours[pos], True)
+            approx = cv.approxPolyDP(contours[pos], epsilon * 0.01, True)
+            if epsilon > 100:
+                hull = cv.convexHull(contours[pos])
+                cont.append(hull)
+                # cv.fillConvexPoly(milk_mask, hull, (255, 255, 255))
+                # cv.drawContours(hsv, [approx], -1, (0, 0, 255), 2)
+                # cv.drawContours(hsv, [hull], -1, (0, 255, 255), 2)
+        
+        contour_pos = []
+        for pos in range(len(cont)):
+            area = cv.contourArea(cont[pos])
+            if area > 1000:
+                contour_pos.append(pos)
+            # print(area)
+        
+        for pos in contour_pos:
+            cv.fillConvexPoly(milk_mask, cont[pos], (255, 255, 255))
+            
+        # cv.imshow('hsv', hsv)
+        # cv.imshow('ConvexPolyMask', milk_mask)
+        # cv.imshow("milkbox_mask", h_mask)
+    
+        return milk_mask  # mask 리턴
              
     # 계단 지역인지(False) 위험 지역인지(True) detection
     @classmethod
@@ -233,7 +283,7 @@ class Danger:
         mask_AND = cv.bitwise_and(self.get_s_mask(hsv, setting.DANGER_ROOM_S),
                                   self.get_v_mask(hsv, setting.DANGER_ROOM_V))
         mask_AND = self.mophorlogy(mask_AND)
-        # cv.imshow('mask_AND', mask_AND)
+        
         # 계단일 때 채색 비율: 80~200, 위험지역일 때 비율: 0~10
         rate = np.count_nonzero(mask_AND) / (640 * 480)
         rate = int(rate * 1000)
@@ -269,6 +319,7 @@ if __name__ == "__main__":
     # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
     # cap = cv.VideoCapture("src/danger/1031_20:57.h264")
     cap = cv.VideoCapture("src/danger/1110_22:29.h264")
+    # cap = cv.VideoCapture("src/danger/1110_22:32.h264")
 
     # 장애물 어디있는지 바라볼 때의 시야
     # cap = cv.VideoCapture("src/danger/1031_20:53.h264")
@@ -293,10 +344,9 @@ if __name__ == "__main__":
         #     print(danger.get_alphabet_color(alpha_hsv))
 
         # milk_mask = danger.get_milkbox_mask(hsv, "RED")
-        # danger.can_hold_milkbox(img)
-        danger.get_milkbox_mask(hsv)
+        print(danger.can_hold_milkbox(img, "RED"))
 
-        if cv.waitKey(5) & 0xFF == ord('q'):
+        if cv.waitKey(1) & 0xFF == ord('q'):
             break
 
 # cap.release()
