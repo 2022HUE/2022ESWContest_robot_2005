@@ -459,9 +459,12 @@ class ImageProccessor:
     # 장애물 위치 파악을 위한 함수
     def get_milkbox_pos(self, color, show=False):
         img = self.get_img()
-        # [return] 0 ~ 8 (장애물 위치 idx 값)
-        return Danger.get_milkbox_pos(img, color)
-
+        return Danger.get_milkbox_pos(img, color, show) # [return] 0 ~ 8 (장애물 위치 idx 값)
+    
+    # 장애물 집을 지 말 지 결정하는 함수 (7번 위치에서 충분히 가까운지)
+    def can_hold_milkbox(self, color):
+        img = self.get_img()
+        return Danger.can_hold_milkbox(img, color)
     ############# DANGER PROCESSING #############
 
     ############# STAIR PROCESSING #############
