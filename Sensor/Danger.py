@@ -222,8 +222,13 @@ class Danger:
         if color == "RED":
             lower_hue, upper_hue = np.array(setting.DANGER_MILKBOX_RED[0]), np.array(setting.DANGER_MILKBOX_RED[1])
         h_mask = cv.inRange(hsv, lower_hue, upper_hue)
+        cv.imshow("milkbox_mask", h_mask)
         # 가장 바깥쪽 컨투어에 대한 꼭짓점 좌표만 반환 (cv.RETR_LIST로도 시도해보기)
-        dst, contour, hierarchy = cv.findContours(h_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+        contours, hierarchy = cv.findContours(h_mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+        print(contours, " ", hierarchy)
+        cv.drawContours(hsv, contours, -1, (0, 0, 255), 2)
+        cv.imshow('hsv', hsv)
+        
         return h_mask  # mask 리턴
              
     # 계단 지역인지(False) 위험 지역인지(True) detection
@@ -294,9 +299,9 @@ if __name__ == "__main__":
 
         # milk_mask = danger.get_milkbox_mask(hsv, "RED")
         # danger.can_hold_milkbox(img)
-        danger.get_milkbox_mask(hsv)
+        danger.get_milkbox_mask(hsv, "RED")
 
-        if cv.waitKey(5) & 0xFF == ord('q'):
+        if cv.waitKey(1) & 0xFF == ord('q'):
             break
 
 # cap.release()
