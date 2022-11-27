@@ -172,8 +172,7 @@ class MissionStair:
                     self.act = Act.STAIR_DOWN
 
                 else:
-                    self.robo._motion.arm_turn(
-                        rotation, 45, sleep=1.5)  # 화살표 반대 방향으로
+                    self.robo._motion.arm_turn(rotation, 45, sleep=1.5)  # 화살표 반대 방향으로
             else:
                 self.robo._motion.handsUp_walk(loop=2)  # 전진 2회
                 self.robo._motion.basic()

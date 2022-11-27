@@ -250,7 +250,7 @@ class Motion:
     def handsUp_walk(self, loop=1):
         for _ in range(loop):
             self.TX_data_py2(103)
-            time.sleep(5)   # 나중에 보고 초 조정하기
+            time.sleep(2)   # 나중에 보고 초 조정하기
 
     # 방위 인식 (201~204)
     def notice_direction(self, dir):
