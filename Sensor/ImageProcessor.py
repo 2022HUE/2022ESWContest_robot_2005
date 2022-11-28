@@ -635,7 +635,7 @@ if __name__ == "__main__":
         # img_processor.get_arrow(show=True)
         # img_processor.get_ewsn(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
-        img_processor.is_line_horizon_vertical(show=True, mask=False)
+        # img_processor.is_line_horizon_vertical(show=True, mask=False)
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_milkbox_pos("RED", True)
 
@@ -649,7 +649,8 @@ if __name__ == "__main__":
         # img_processor.get_milkbox_mask("BLUE")
         # img_processor.is_holding_milkbox("BLUE", True)
         ### danger ###
-        # img_processor.get_alphabet_color()
+        print(img_processor.get_alphabet_color())
+        # img_processor.is_out_of_black(True)
 
         if cv.waitKey(20) & 0xFF == ord('q'):
             break
