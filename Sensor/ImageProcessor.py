@@ -175,15 +175,19 @@ class ImageProccessor:
     ########### LINE DETECTION ###########
     # 라인이 수평선인지 수직선인지 return해줌
 
-    def is_line_horizon_vertical(self, show=False):
+    def is_line_horizon_vertical(self, show=False, mask=True):
         img = self.get_img()
         origin = img.copy()
         img = self.correction(img, 7)
-
-        hsv = self.hsv_mask(img)
-        line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
-        line_mask = self.HSV2BGR(line_mask)
-        line_gray = self.RGB2GRAY(line_mask)
+        if mask:
+            hsv = self.hsv_mask(img)
+            line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
+            line_mask = self.HSV2BGR(line_mask)
+            line_gray = self.RGB2GRAY(line_mask)
+            
+        else:
+            img = self.RGB2GRAY(img)
+            _, line_gray = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
 
         roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
 
@@ -192,9 +196,9 @@ class ImageProccessor:
             self, roi_img, 1, 1 * np.pi/180, 30, 10, 20)  # 허프 변환
         line_arr = np.squeeze(line_arr)
         # print(line_arr)
-        # if show:
-        #     cv.imshow("show", origin)
-        #     cv.waitKey(1) & 0xFF == ord('q')
+        if show:
+            cv.imshow("show", origin)
+            cv.waitKey(1) & 0xFF == ord('q')
         if line_arr != 'None':
             Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
 
@@ -455,6 +459,11 @@ class ImageProccessor:
         img = self.get_img()
         return Danger.can_hold_milkbox(img, color)
     
+    def get_milkbox_mask(self, color):
+        img = self.get_img()
+        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        return Danger.get_milkbox_mask(hsv, color)
+    
     ############# DANGER PROCESSING #############
 
     ############# STAIR PROCESSING #############
@@ -617,7 +626,7 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    print(DataPath.danger05)
+    # print(DataPath.danger05)
     img_processor = ImageProccessor()
     # img_processor = ImageProccessor()
 
@@ -626,6 +635,7 @@ if __name__ == "__main__":
         # img_processor.get_arrow(show=True)
         # img_processor.get_ewsn(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
+        img_processor.is_line_horizon_vertical(show=True, mask=False)
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_milkbox_pos("RED", True)
 
@@ -636,7 +646,8 @@ if __name__ == "__main__":
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
         # img_processor.stair_down()
-        img_processor.get_milkbox_pos("BLUE", True)
+        # img_processor.get_milkbox_mask("BLUE")
+        # img_processor.is_holding_milkbox("BLUE", True)
         ### danger ###
         # img_processor.get_alphabet_color()
 

@@ -39,15 +39,15 @@ class MissionDanger:
     def is_okay_grab_milkbox(self):
         if self.head_angle == 70:
             self.head_angle = 45
-            time.sleep(0.2)
             # motion : 고개 각도 45도로 설정
             self.robo._motion.set_head("DOWN", 45)
+            time.sleep(1)
             return False
         elif self.head_angle == 45:
             self.head_angle = 30
-            time.sleep(0.2)
             # motion : 고개 각도 30도로 설정
             self.robo._motion.set_head("DOWN", 30)
+            time.sleep(1)
             return False
         else:
             is_okay = self.robo._image_processor.can_hold_milkbox(Robo.alphabet_color)
@@ -56,13 +56,16 @@ class MissionDanger:
             if is_okay ==True:
                 # motion : 장애물 잡기 동작 수행
                 self.robo._motion.grab("UP")
-                time.sleep(1)
+                time.sleep(3)
                 # motion : 장애물 집고 앞으로 한번 걷기 동작 수행
-                self.robo._motion.grab_walk()
+                self.robo._motion.grab_walk(1, foot=1)
+                # time.sleep(2)
+                self.robo._motion.grab_walk(1, foot=2)
                 return True
             else:
                 # motion : 왼쪽 혹은 오른쪽으로 걷기 수행
                 self.robo._motion.walk_side(is_okay)
+                time.sleep(1)
                 return False
 
     @classmethod
@@ -207,7 +210,7 @@ class MissionDanger:
 
         elif act == act.OUT_OF_DANGER:
             print("OUT_OF_DANGER")
-            print("처음 우유곽 위치 : ", Robo.box_pos)
+            print("처음 우유곽 위치 : ", self.first_milkbox_pos)
             self.first_milkbox_pos = Robo.box_pos
             # 장애물을 들고 있는 채로 위험지역 밖을 벗어날 때까지 아래 과정 반복
             while True:
@@ -222,6 +225,9 @@ class MissionDanger:
                     time.sleep(3)
                     # motion : 장애물 내려놓기 동작 수행
                     self.robo._motion.grab("DOWN")
+                    time.sleep(3)
+                    self.robo._motion.walk("BACKWARD",2,2)
+                    time.sleep(2)
                     break
                 # 무한 루프 갇힐 경우에 대한 예외처리 아직 안함
                 else:
@@ -275,11 +281,15 @@ class MissionDanger:
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 수행
                         self.robo._motion.grab_walk()
                     elif self.first_milkbox_pos == 7:
-                        time.sleep(2)
+                        time.sleep(1.5)
                         # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
                         self.robo._motion.grab_turn("LEFT", 60)
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-                        self.robo._motion.grab_walk(2)
+                        
+                        time.sleep(2)
+                        self.robo._motion.grab_walk(1, foot=1)
+                        # time.sleep(2)
+                        self.robo._motion.grab_walk(1, foot=2)
                     elif self.first_milkbox_pos == 8:
                         time.sleep(2)
                         # motion: 장애물 집고 오른쪽으로 60도 돌기 동작 수행
@@ -292,7 +302,33 @@ class MissionDanger:
             self.act = Act.EXIT
 
         else:  # EXIT
-            print("EXIT")
-            return True
+            print("DANGER_EXIT")
+            # hyerin test
+            state = self.robo._image_processor.is_line_horizon_vertical(mask=False)
+            if state == "HORIZON":
+                # # 방 입구 도착 -> 위험/계단지역 판단
+                # self.check_area()
+                # print("----Current Area", self.area, "----")
+                # if self.area == "STAIR":
+                #     self.act = act.STAIR
+                # else: self.act = act.DANGER
+                self.robo._motion.walk("FORWARD")
+                return True
+            # if state == "VERTICAL":
+            #     self.robo._motion.walk("FORWARD")
+            elif state == "MOVE_LEFT":
+                self.robo._motion.walk_side("LEFT")
+            elif state == "MOVE_RIGHT":
+                self.robo._motion.walk_side("RIGHT")
+            elif state == "TURN_LEFT":
+                self.robo._motion.turn("LEFT", 10)
+            elif state == "TURN_RIGHT":
+                self.robo._motion.turn("RIGHT", 10)
+            # elif state == "BOTH": # 선 둘 다 인식
+            #     self.check_nextroom += 1
+            #     self.robo._motion.walk("FORWARD")
+            else:
+                self.robo._motion.walk("BACKWARD")
+            return False
 
         return False
