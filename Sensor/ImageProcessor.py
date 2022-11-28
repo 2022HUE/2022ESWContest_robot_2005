@@ -89,7 +89,7 @@ class ImageProccessor:
                 self._cam = WebcamVideoStream(src=-1).start()
             else:
                 self._cam = WebcamVideoStream(src=0).start()
-            print('effwe')
+            print('Acquire Camera ')
 
         self.fps = FPS()  # FPS
         print(self.fps)  # debuging: fps
@@ -124,7 +124,7 @@ class ImageProccessor:
     def correction(self, img, val):
         img = self.blur(img, val)
         img = self.light(img, 0)
-        img = self.bright(img, 0)
+        img = self.bright(img, 0.0)
         return img
 
     def RGB2GRAY(self, img):
@@ -320,6 +320,7 @@ class ImageProccessor:
                 cv.waitKey(1) & 0xFF == ord('q')
             
             if h_slope:
+                print(h_slope)
                 if h_slope < 10 or 170 < h_slope:
                     return True
                 if h_slope < 90:
@@ -328,6 +329,7 @@ class ImageProccessor:
                 else:
                     # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_LEFT"
+        print('FalseFlase')
         return False
 
     ########### ENTRANCE PROCESSING ###########
@@ -485,6 +487,8 @@ class ImageProccessor:
     # 장애물 들고 위험 지역에서 벗어났는지 확인 (show : imshow() 해줄 건지에 대한 여부)
     def is_out_of_black(self, show=False):
         img = self.get_img()
+        img = self.light(img, 0)
+        img = self.bright(img, 0.0)
         return Danger.is_out_of_black(img, show)  # [return] T/F
 
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
@@ -505,6 +509,7 @@ class ImageProccessor:
     # 장애물 집을 지 말 지 결정하는 함수 (7번 위치에서 충분히 가까운지)
     def get_milkbox_mask(self, color):
         img = self.get_img()
+        img = self.correction(img, 7)
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         return Danger.get_milkbox_mask(hsv, color)
     
@@ -677,7 +682,7 @@ if __name__ == "__main__":
     while True:
         # img_processor.get_arrow(show=True)
         # img_processor.get_ewsn(show=True)
-        img_processor.black_line(show=True)
+        # img_processor.black_line(show=True)
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_milkbox_pos("RED", True)
 
@@ -690,8 +695,10 @@ if __name__ == "__main__":
         # img_processor.stair_down()
         # img_processor.get_milkbox_mask("BLUE")
         # img_processor.is_holding_milkbox("BLUE", True)
+        img_processor.is_out_of_black(True)
+        
         ### danger ###
-        print(img_processor.get_alphabet_color())
+        # print(img_processor.get_alphabet_color())
         # img_processor.is_out_of_black(True)
 
         if cv.waitKey(1) & 0xFF == ord('q'):

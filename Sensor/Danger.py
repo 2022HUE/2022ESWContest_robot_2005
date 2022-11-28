@@ -277,9 +277,9 @@ class Danger:
         for pos in contour_pos:
             cv.fillConvexPoly(milk_mask, cont[pos], (255, 255, 255))
             
-        # cv.imshow('hsv', hsv)
-        # cv.imshow('ConvexPolyMask', milk_mask)
-        # cv.imshow("milkbox_mask", h_mask)
+        cv.imshow('hsv', hsv)
+        cv.imshow('ConvexPolyMask', milk_mask)
+        cv.imshow("milkbox_mask", h_mask)
     
         return milk_mask  # mask 리턴
              
@@ -350,8 +350,8 @@ if __name__ == "__main__":
         # else:
         #     print(danger.get_alphabet_color(alpha_hsv))
 
-        # milk_mask = danger.get_milkbox_mask(hsv, "RED")
-        print(danger.can_hold_milkbox(img, "RED"))
+        milk_mask = danger.get_milkbox_mask(hsv, "BLUE")
+        # print(danger.can_hold_milkbox(img, "RED"))
 
         if cv.waitKey(1) & 0xFF == ord('q'):
             break

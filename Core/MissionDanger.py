@@ -76,7 +76,8 @@ class MissionDanger:
 
         if act == act.START:
             print("START")
-            self.act = Act.SPEAK_DANGER
+            # self.act = Act.SPEAK_DANGER
+            self.act = Act.BACK_TO_LINE
 
         elif act == act.SPEAK_DANGER:
             print("SPEAK_DANGER")
