@@ -39,6 +39,7 @@ class Motion:
         return decorated
 
     def TX_data_py2(self, one_byte):  # one_byte= 0~255
+        time.sleep(1)
         try:
             self.lock.acquire()
             self.serial_port.write(serial.to_bytes([one_byte]))  # python3
@@ -47,6 +48,7 @@ class Motion:
             time.sleep(0.02)
 
     def RX_data(self):
+        time.sleep(1)
         if self.serial_port.inWaiting() > 0:
             result = self.serial_port.read(1)
             RX = ord(result)
@@ -55,6 +57,7 @@ class Motion:
             return 0
 
     def Receiving(self, ser):
+        time.sleep(1)
         self.receiving_exit = 1
         while True:
             if self.receiving_exit == 0:
