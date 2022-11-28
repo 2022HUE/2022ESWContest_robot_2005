@@ -12,7 +12,7 @@ class Robo:
     dis_arrow: str = "LEFT"
     black_room_list = list = []
     alphabet_color: str
-    box_pos: int=0
+    box_pos: int=5
     _image_processor = ImageProccessor(video="")  # Image Processor
 
     def __init__(self, vpath=''):
