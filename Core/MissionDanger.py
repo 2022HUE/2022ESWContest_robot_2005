@@ -339,30 +339,14 @@ class MissionDanger:
             self.robo._motion.walk("BACKWARD",2,2)
             time.sleep(2)
             
-            state = self.robo._image_processor.is_line_horizon_vertical(mask=False)
-            if state == "HORIZON":
-                # # 방 입구 도착 -> 위험/계단지역 판단
-                # self.check_area()
-                # print("----Current Area", self.area, "----")
-                # if self.area == "STAIR":
-                #     self.act = act.STAIR
-                # else: self.act = act.DANGER
+            state = self.robo._image_processor.black_line()
+            if state:
                 self.robo._motion.walk("FORWARD")
                 self.act = Act.EXIT
-                
-            # if state == "VERTICAL":
-            #     self.robo._motion.walk("FORWARD")
-            elif state == "MOVE_LEFT":
-                self.robo._motion.walk_side("LEFT")
-            elif state == "MOVE_RIGHT":
-                self.robo._motion.walk_side("RIGHT")
             elif state == "TURN_LEFT":
                 self.robo._motion.turn("LEFT", 10)
             elif state == "TURN_RIGHT":
                 self.robo._motion.turn("RIGHT", 10)
-            # elif state == "BOTH": # 선 둘 다 인식
-            #     self.check_nextroom += 1
-            #     self.robo._motion.walk("FORWARD")
             else:
                 self.robo._motion.walk("BACKWARD")
         
