@@ -32,7 +32,7 @@ class Danger:
         v_bin = self.mophorlogy(v_bin)
         return v_bin
 
-    # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
+# 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
     @classmethod
     def is_holding_milkbox(self, src, color, show):
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)

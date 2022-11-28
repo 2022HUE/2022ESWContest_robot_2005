@@ -47,7 +47,7 @@ setting.DANGER_BLACK = [[0, 0, 0], [180, 255, 80]]
 # 위험/계단 지역 판단하는 비율의 기준 (밝기 올라가면 rate threshold 값을 올려줘야하고, 어두우면 내려줘야함)
 setting.DANGER_STAIR_RATE = 20
 # 위험 지역 벗어났음을 판단하는 비율의 기준
-setting.OUT_DANGER_RATE = 20
+setting.OUT_DANGER_RATE = 10
 # 위험 지역 인식 용도 s(채도) 기준값
 setting.DANGER_ROOM_S = 170
 # 위험 지역 인식 용도 v(명도) 기준값
@@ -101,4 +101,4 @@ cur.AREA = ""
 cur.ALPHABET_COLOR = None  # (danger) RED, BLUE
 cur.ALPHABET_NAME = None  # (danger) A, B, C, D
 cur.BLACK_ROOM_LIST = []  # (exit) 지나온 위험지역 방 이름 리스트
-cur.FIRST_MILKBOX_POS = 7  # (danger) 0 ~ 8
+cur.FIRST_MILKBOX_POS = None  # (danger) 0 ~ 8

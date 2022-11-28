@@ -13,6 +13,7 @@ class Act(Enum):
     # (예시)출
     SPEAK_DANGER = auto()
     DETECT_ALPHABET = auto()  # 방이름 감지
+    DETECT_FIRST_MILKBOX_POS = auto()  # 장애물 초기 위치 찾기
     WALK_TO_MILKBOX = auto()  # 장애물 찾기
     OUT_OF_DANGER = auto()  # 위험지역 밖으로 장애물 옮기기
     REGRAB_MILKBOX = auto() # 떨어진 장애물 다시 잡기 -> WALK_TO_MILKBOX로 충분할 것 같아서 일단 안씀
@@ -39,15 +40,15 @@ class MissionDanger:
     def is_okay_grab_milkbox(self):
         if self.head_angle == 70:
             self.head_angle = 45
-            time.sleep(0.2)
             # motion : 고개 각도 45도로 설정
             self.robo._motion.set_head("DOWN", 45)
+            time.sleep(1)
             return False
         elif self.head_angle == 45:
             self.head_angle = 30
-            time.sleep(0.2)
             # motion : 고개 각도 30도로 설정
             self.robo._motion.set_head("DOWN", 30)
+            time.sleep(1)
             return False
         else:
             is_okay = self.robo._image_processor.can_hold_milkbox(Robo.alphabet_color)
@@ -56,13 +57,16 @@ class MissionDanger:
             if is_okay ==True:
                 # motion : 장애물 잡기 동작 수행
                 self.robo._motion.grab("UP")
-                time.sleep(1)
+                time.sleep(3)
                 # motion : 장애물 집고 앞으로 한번 걷기 동작 수행
-                self.robo._motion.grab_walk()
+                self.robo._motion.grab_walk(1, foot=1)
+                # time.sleep(2)
+                self.robo._motion.grab_walk(1, foot=2)
                 return True
             else:
                 # motion : 왼쪽 혹은 오른쪽으로 걷기 수행
                 self.robo._motion.walk_side(is_okay)
+                time.sleep(1)
                 return False
 
     @classmethod
@@ -80,6 +84,7 @@ class MissionDanger:
             time.sleep(1.5)
             # motion: 화살표 반대 방향으로 고개 돌리기
             self.robo._motion.set_head(Robo.dis_arrow, 45)
+            time.sleep(1)
 
             self.act = Act.DETECT_ALPHABET
 
@@ -87,7 +92,7 @@ class MissionDanger:
             print("DETECT_ALPHABET")
 
             # 계속 알파벳 ROI를 못가져오는 듯해서 sleep을 줌
-            # time.sleep(4)
+            # time.sleep(1)
 
             if cur.ALPHABET_COLOR:
                 print(cur.ALPHABET_COLOR)
@@ -107,6 +112,10 @@ class MissionDanger:
                     self.miss += 1
                     return False
 
+            print(Robo.alphabet_color)
+            
+            # 알파벳 D를 A로 인식해서 sleep 줬는데 그거 문제가 아닌 듯
+            # time.sleep(1)
             if cur.BLACK_ROOM_LIST:
                 Robo.black_room_list = cur.BLACK_ROOM_LIST
             else:
@@ -127,11 +136,27 @@ class MissionDanger:
             # motion : 정면(위험지역) 바라보기
             self.robo._motion.set_head("LEFTRIGHT_CENTER")
 
+            # self.act = Act.DETECT_FIRST_MILKBOX_POS
             self.act = Act.WALK_TO_MILKBOX
+            
+
+        # elif act == act.DETECT_FIRST_MILKBOX_POS:
+        #     print("DETECT_FIRST_MILKBOX_POS")
+        #     # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정화하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
+        #     if cur.FIRST_MILKBOX_POS:
+        #         self.first_milkbox_pos = cur.FIRST_MILKBOX_POS
+        #         Robo.box_pos = self.first_milkbox_pos
+        #     else:
+        #         # 장애물 처음 위치 저장 -> 선언 위치가 여기가 맞을 지 모르겠지만 일단 여기에 둠
+        #         self.first_milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
+        #         Robo.box_pos = self.first_milkbox_pos
+            
+        #     print("초기 장애물 위치 : ",  Robo.box_pos)
+        #     self.act = Act.WALK_TO_MILKBOX
 
         elif act == act.WALK_TO_MILKBOX:
-            # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정화하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
             print("WALK_TO_MILKBOX")
+            # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정화하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
             if cur.FIRST_MILKBOX_POS:
                 self.first_milkbox_pos = cur.FIRST_MILKBOX_POS
                 Robo.box_pos = self.first_milkbox_pos
@@ -139,6 +164,9 @@ class MissionDanger:
                 # 장애물 처음 위치 저장 -> 선언 위치가 여기가 맞을 지 모르겠지만 일단 여기에 둠
                 self.first_milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
                 Robo.box_pos = self.first_milkbox_pos
+            
+            print("초기 장애물 위치 : ",  Robo.box_pos)
+            
             while True:
                 self.milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
                 # 9개 구역에 따라 다른 모션 수행
@@ -207,7 +235,7 @@ class MissionDanger:
 
         elif act == act.OUT_OF_DANGER:
             print("OUT_OF_DANGER")
-            print("처음 우유곽 위치 : ", Robo.box_pos)
+            print("처음 우유곽 위치 : ", self.first_milkbox_pos)
             self.first_milkbox_pos = Robo.box_pos
             # 장애물을 들고 있는 채로 위험지역 밖을 벗어날 때까지 아래 과정 반복
             while True:
@@ -222,6 +250,9 @@ class MissionDanger:
                     time.sleep(3)
                     # motion : 장애물 내려놓기 동작 수행
                     self.robo._motion.grab("DOWN")
+                    time.sleep(3)
+                    self.robo._motion.walk("BACKWARD",2,2)
+                    time.sleep(2)
                     break
                 # 무한 루프 갇힐 경우에 대한 예외처리 아직 안함
                 else:
@@ -275,11 +306,15 @@ class MissionDanger:
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 수행
                         self.robo._motion.grab_walk()
                     elif self.first_milkbox_pos == 7:
-                        time.sleep(2)
+                        time.sleep(1.5)
                         # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
                         self.robo._motion.grab_turn("LEFT", 60)
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-                        self.robo._motion.grab_walk(2)
+                        
+                        time.sleep(2)
+                        self.robo._motion.grab_walk(1, foot=1)
+                        # time.sleep(2)
+                        self.robo._motion.grab_walk(1, foot=2)
                     elif self.first_milkbox_pos == 8:
                         time.sleep(2)
                         # motion: 장애물 집고 오른쪽으로 60도 돌기 동작 수행
@@ -292,7 +327,33 @@ class MissionDanger:
             self.act = Act.EXIT
 
         else:  # EXIT
-            print("EXIT")
-            return True
+            print("DANGER_EXIT")
+            # hyerin test
+            state = self.robo._image_processor.is_line_horizon_vertical(mask=False)
+            if state == "HORIZON":
+                # # 방 입구 도착 -> 위험/계단지역 판단
+                # self.check_area()
+                # print("----Current Area", self.area, "----")
+                # if self.area == "STAIR":
+                #     self.act = act.STAIR
+                # else: self.act = act.DANGER
+                self.robo._motion.walk("FORWARD")
+                return True
+            # if state == "VERTICAL":
+            #     self.robo._motion.walk("FORWARD")
+            elif state == "MOVE_LEFT":
+                self.robo._motion.walk_side("LEFT")
+            elif state == "MOVE_RIGHT":
+                self.robo._motion.walk_side("RIGHT")
+            elif state == "TURN_LEFT":
+                self.robo._motion.turn("LEFT", 10)
+            elif state == "TURN_RIGHT":
+                self.robo._motion.turn("RIGHT", 10)
+            # elif state == "BOTH": # 선 둘 다 인식
+            #     self.check_nextroom += 1
+            #     self.robo._motion.walk("FORWARD")
+            else:
+                self.robo._motion.walk("BACKWARD")
+            return False
 
         return False
