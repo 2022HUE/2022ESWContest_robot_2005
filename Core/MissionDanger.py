@@ -355,5 +355,5 @@ class MissionDanger:
             print("EXIT")
             return True
             
-
+ 
         return False
