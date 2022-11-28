@@ -205,7 +205,6 @@ class Motion:
         for _ in range(loop) :
             self.TX_data_py2(187)
             time.sleep(1.5)   # 나중에 보고 초 조정하기
-            self.TX_data_py2(188)
         
     # 집고 옆으로 (189~192) [Danger]
     def grab_sideway(self, dir, long = False):

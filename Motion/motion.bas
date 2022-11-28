@@ -3232,17 +3232,17 @@ Number_Play: '  BUTTON_NO = 숫자대입
     '**********************************************
 집고왼쪽턴60:
 
-    SPEED 15
+    SPEED 8
     MOVE G6A,95,  116, 145,  45, 105, 100
     MOVE G6D,95,  36, 145,  125, 105, 100
     WAIT
 
-    SPEED 15
+    SPEED 10
     MOVE G6A,90,  116, 145,  45, 105, 100
     MOVE G6D,90,  36, 145,  125, 105, 100
     WAIT
 
-    SPEED 10
+    SPEED 8
     MOVE G6A,100,  76, 145,  85, 100
     MOVE G6D,100,  76, 145,  85, 100
     WAIT
@@ -3251,17 +3251,17 @@ Number_Play: '  BUTTON_NO = 숫자대입
     '**********************************************
 집고오른쪽턴60:
 
-    SPEED 15
+    SPEED 8
     MOVE G6A,95,  36, 145,  125, 105, 100
     MOVE G6D,95,  116, 145,  45, 105, 100
     WAIT
 
-    SPEED 15
+    SPEED 10
     MOVE G6A,90,  36, 145,  125, 105, 100
     MOVE G6D,90,  116, 145,  45, 105, 100
     WAIT
 
-    SPEED 10
+    SPEED 8
     MOVE G6A,100,  76, 145,  85, 100
     MOVE G6D,100,  76, 145,  85, 100
     WAIT
@@ -4209,8 +4209,8 @@ D지역:
         'MOVE G6B,100
         'WAIT
         'HIGHSPEED SETOFF
-        'SPEED 15
-        'GOSUB 안정화자세
+        SPEED 15
+        GOSUB 만세자세
         'SPEED 5
         'GOSUB 기본자세2
 
@@ -4255,9 +4255,9 @@ D지역:
         WAIT
         HIGHSPEED SETOFF
         SPEED 15
-        GOSUB 안정화자세
-        SPEED 5
-        GOSUB 기본자세2
+        GOSUB 만세자세
+        'SPEED 5
+        'GOSUB 기본자세2
 
         'DELAY 400
         GOTO RX_EXIT
@@ -6543,7 +6543,8 @@ KEY31: ' ▽
 
 KEY32: ' F
     ETX 4800, 32
-    GOSUB 양팔벌리기
+    보행횟수 = 1
+    GOSUB 횟수_손들고종종걸음
     GOTO RX_EXIT
     '***************
 
@@ -6831,7 +6832,7 @@ KEY101:
     GOTO RX_EXIT
 KEY102:
     ETX  4800,102
-    보행횟수 = 1
+    보행횟수 = 3
     GOSUB 횟수_좁은보폭
     GOTO RX_EXIT
 KEY103:
@@ -7201,11 +7202,13 @@ KEY187:
     ETX 4800, 187
     보행횟수 = 1
     GOSUB 집고전진
+    
+    보행횟수 = 1
+    GOSUB 집고전진2
     GOTO RX_EXIT
 KEY188:
     ETX 4800, 188
-    보행횟수 = 1
-    GOSUB 집고전진2
+    GOSUB 고개중앙기본자세
     GOTO RX_EXIT
 
     '**************** grab_sidewalk ********************
