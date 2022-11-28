@@ -101,4 +101,4 @@ cur.AREA = ""
 cur.ALPHABET_COLOR = None  # (danger) RED, BLUE
 cur.ALPHABET_NAME = None  # (danger) A, B, C, D
 cur.BLACK_ROOM_LIST = []  # (exit) 지나온 위험지역 방 이름 리스트
-cur.FIRST_MILKBOX_POS = 7  # (danger) 0 ~ 8
+cur.FIRST_MILKBOX_POS = None  # (danger) 0 ~ 8
