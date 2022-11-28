@@ -616,14 +616,12 @@ class ImageProccessor:
 
     def close_to_descent(self):
         img = self.get_img()
-        cv.imshow('img',img)
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         lower_hue, upper_hue = np.array(
             setting.STAIR_BLUE[0]), np.array(setting.STAIR_BLUE[1])
         b_mask = Stair.in_stair_top(self, hsv, lower_hue, upper_hue)  # blue mask
 
         top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
-        print(top_ret <= setting.STAIR_DOWN)
         if top_ret <= setting.STAIR_DOWN:
             return True #내려가라
         else:
