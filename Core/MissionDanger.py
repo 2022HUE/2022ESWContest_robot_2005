@@ -18,6 +18,7 @@ class Act(Enum):
     OUT_OF_DANGER = auto()  # 위험지역 밖으로 장애물 옮기기
     REGRAB_MILKBOX = auto() # 떨어진 장애물 다시 잡기 -> WALK_TO_MILKBOX로 충분할 것 같아서 일단 안씀
     KICK_MILKBOX = auto() # 자꾸 장애물을 떨어트릴 경우 이 방법 사용 (발로 차거나 치우기 동작 수행)
+    BACK_TO_LINE = auto()
     EXIT = auto()  # 공통
 
 
@@ -126,16 +127,18 @@ class MissionDanger:
                     Robo.black_room_list.append(self.alphabet_name)
                 elif self.miss >= self.limits:
                     # 계속 못찾으면 그냥 글자 B로 지정
-                    self.alphabet_name = 'B'
+                    self.alphabet_name = 'D'
                     Robo.black_room_list.append(self.alphabet_name)
                     self.miss = 0
                 else:
                     self.miss += 1
                     return False
 
+            time.sleep(0.5)
             # motion : 정면(위험지역) 바라보기
             self.robo._motion.set_head("LEFTRIGHT_CENTER")
-
+            time.sleep(1)
+            
             # self.act = Act.DETECT_FIRST_MILKBOX_POS
             self.act = Act.WALK_TO_MILKBOX
             
@@ -182,12 +185,15 @@ class MissionDanger:
                 elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
                     # motion : 장애물 접근 걸어가기
                     self.robo._motion.walk("FORWARD")
+                    time.sleep(0.5)
                 elif self.milkbox_pos == 0 or self.milkbox_pos == 3 or self.milkbox_pos == 6:
                     # motion : 왼쪽으로 20도 회전 수행
                     self.robo._motion.turn("LEFT", 20)
+                    time.sleep(1) 
                 elif self.milkbox_pos == 2 or self.milkbox_pos == 5 or self.milkbox_pos == 8:
                     # motion : 오른쪽으로 20도 회전 수행
                     self.robo._motion.turn("RIGHT", 20)
+                    time.sleep(1)
 
                 # milkbox_pos 를 가져오지 못한 경우
                 elif self.miss >= self.limits:
@@ -207,21 +213,21 @@ class MissionDanger:
                 # 9개 구역에 따라 다른 모션 수행
                 if self.milkbox_pos == 7:
                     if self.is_okay_grab_milkbox():
-                        ### 1124 혜린 언니가 추가한 코드 ###
-                        # if self.first_milkbox_pos:
-                        #     Robo.box_pos = self.first_milkbox_pos
-                        ###################################
                         self.act = Act.OUT_OF_DANGER
+                        self.miss = 0
                         break
                 elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
                     # motion : 장애물 접근 걸어가기
                     self.robo._motion.walk("FORWARD")
+                    time.sleep(0.5)
                 elif self.milkbox_pos == 0 or self.milkbox_pos == 3 or self.milkbox_pos == 6:
                     # motion : 왼쪽으로 20도 회전 수행
                     self.robo._motion.turn("LEFT", 20)
+                    time.sleep(1) 
                 elif self.milkbox_pos == 2 or self.milkbox_pos == 5 or self.milkbox_pos == 8:
                     # motion : 오른쪽으로 20도 회전 수행
                     self.robo._motion.turn("RIGHT", 20)
+                    time.sleep(1)
 
                 # milkbox_pos 를 가져오지 못한 경우
                 elif self.miss >= self.limits:
@@ -230,8 +236,11 @@ class MissionDanger:
                     self.act = Act.EXIT
                 else:
                     self.miss += 1
+                    self.robo._motion.turn(Robo.arrow, 20)
+                    time.sleep(1)
                     print("장애물 못찾음 miss++")
                     return False
+                
 
         elif act == act.OUT_OF_DANGER:
             print("OUT_OF_DANGER")
@@ -239,20 +248,19 @@ class MissionDanger:
             self.first_milkbox_pos = Robo.box_pos
             # 장애물을 들고 있는 채로 위험지역 밖을 벗어날 때까지 아래 과정 반복
             while True:
+                # 장애물을 집지 못하거나 떨어트렸을 경우
                 if not self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
                     time.sleep(3)
                     print("장애물 내려놓기 동작 수행")
-                    # motion : 장애물 내려놓기 동작 수행
+                    # motion : 팔 원위치로 돌리기 동작 수행
                     self.robo._motion.grab("MISS")
-                    self.act = Act.WALK_TO_MILKBOX
+                    time.sleep(2)
+                    self.act = Act.REGRAB_MILKBOX
                     return False
                 if self.robo._image_processor.is_out_of_black():
-                    time.sleep(3)
                     # motion : 장애물 내려놓기 동작 수행
                     self.robo._motion.grab("DOWN")
-                    time.sleep(3)
-                    self.robo._motion.walk("BACKWARD",2,2)
-                    time.sleep(2)
+                    time.sleep(2.5)
                     break
                 # 무한 루프 갇힐 경우에 대한 예외처리 아직 안함
                 else:
@@ -323,12 +331,14 @@ class MissionDanger:
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
                         self.robo._motion.grab_walk(2)
 
+            self.act = Act.BACK_TO_LINE
             
-            self.act = Act.EXIT
 
-        else:  # EXIT
-            print("DANGER_EXIT")
-            # hyerin test
+        elif act == Act.BACK_TO_LINE:
+            print("BACK_TO_LINE")
+            self.robo._motion.walk("BACKWARD",2,2)
+            time.sleep(2)
+            
             state = self.robo._image_processor.is_line_horizon_vertical(mask=False)
             if state == "HORIZON":
                 # # 방 입구 도착 -> 위험/계단지역 판단
@@ -338,7 +348,8 @@ class MissionDanger:
                 #     self.act = act.STAIR
                 # else: self.act = act.DANGER
                 self.robo._motion.walk("FORWARD")
-                return True
+                self.act = Act.EXIT
+                
             # if state == "VERTICAL":
             #     self.robo._motion.walk("FORWARD")
             elif state == "MOVE_LEFT":
@@ -354,6 +365,11 @@ class MissionDanger:
             #     self.robo._motion.walk("FORWARD")
             else:
                 self.robo._motion.walk("BACKWARD")
-            return False
+        
+
+        else:  # EXIT
+            print("EXIT")
+            return True
+            
 
         return False
