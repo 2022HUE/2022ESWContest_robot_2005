@@ -277,9 +277,9 @@ class Danger:
         for pos in contour_pos:
             cv.fillConvexPoly(milk_mask, cont[pos], (255, 255, 255))
             
-        cv.imshow('hsv', hsv)
-        cv.imshow('ConvexPolyMask', milk_mask)
-        cv.imshow("milkbox_mask", h_mask)
+        # cv.imshow('hsv', hsv)
+        # cv.imshow('ConvexPolyMask', milk_mask)
+        # cv.imshow("milkbox_mask", h_mask)
     
         return milk_mask  # mask 리턴
              

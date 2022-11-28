@@ -31,12 +31,15 @@ setting.DIR_KERNEL = 1
 ########### DANGER DETECTION ###########
 
 # 장애물 파란색 색상 마스크 lower, upper의 [h, s, v] 값
-setting.DANGER_MILKBOX_BLUE2 = [[82, 87, 30], [130, 255, 120]]
-setting.DANGER_MILKBOX_BLUE = [[97, 30, 30], [107, 255, 190]]
+setting.DANGER_MILKBOX_BLUE1 = [[82, 87, 30], [130, 255, 120]]
+setting.DANGER_MILKBOX_BLUE2 = [[97, 30, 30], [107, 255, 190]]
+setting.DANGER_MILKBOX_BLUE = [[82, 87, 30], [110, 255, 190]]
+
 # 장애물 빨간색 색상 마스크 lower, upper의 [h, s, v] 값
 # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
-setting.DANGER_MILKBOX_RED2 = [[167, 77, 30], [180, 255, 189]]
-setting.DANGER_MILKBOX_RED = [[164, 77, 30], [180, 255, 179]]
+setting.DANGER_MILKBOX_RED1 = [[167, 77, 30], [180, 255, 189]]
+setting.DANGER_MILKBOX_RED2 = [[164, 77, 30], [180, 255, 179]]
+setting.DANGER_MILKBOX_RED = [[164, 77, 30], [180, 255, 189]]
 
 # 알파벳 파란색 색상 마스크 lower, upper의 [h, s, v] 값
 setting.ALPHABET_BLUE = [[82, 87, 30], [130, 255, 120]]
