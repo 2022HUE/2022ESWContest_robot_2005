@@ -350,8 +350,8 @@ if __name__ == "__main__":
         # else:
         #     print(danger.get_alphabet_color(alpha_hsv))
 
-        # milk_mask = danger.get_milkbox_mask(hsv, "RED")
-        print(danger.can_hold_milkbox(img, "RED"))
+        milk_mask = danger.get_milkbox_mask(hsv, "BLUE")
+        # print(danger.can_hold_milkbox(img, "RED"))
 
         if cv.waitKey(1) & 0xFF == ord('q'):
             break

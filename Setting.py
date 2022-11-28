@@ -31,10 +31,15 @@ setting.DIR_KERNEL = 1
 ########### DANGER DETECTION ###########
 
 # 장애물 파란색 색상 마스크 lower, upper의 [h, s, v] 값
-setting.DANGER_MILKBOX_BLUE = [[82, 87, 30], [130, 255, 120]]
+setting.DANGER_MILKBOX_BLUE1 = [[82, 87, 30], [130, 255, 120]]
+setting.DANGER_MILKBOX_BLUE2 = [[97, 30, 30], [107, 255, 190]]
+setting.DANGER_MILKBOX_BLUE = [[82, 87, 30], [110, 255, 190]]
+
 # 장애물 빨간색 색상 마스크 lower, upper의 [h, s, v] 값
 # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
-setting.DANGER_MILKBOX_RED = [[167, 77, 30], [180, 255, 189]]
+setting.DANGER_MILKBOX_RED1 = [[167, 77, 30], [180, 255, 189]]
+setting.DANGER_MILKBOX_RED2 = [[164, 77, 30], [180, 255, 179]]
+setting.DANGER_MILKBOX_RED = [[164, 77, 30], [180, 255, 189]]
 
 # 알파벳 파란색 색상 마스크 lower, upper의 [h, s, v] 값
 setting.ALPHABET_BLUE = [[82, 87, 30], [130, 255, 120]]
@@ -42,7 +47,8 @@ setting.ALPHABET_BLUE = [[82, 87, 30], [130, 255, 120]]
 setting.ALPHABET_RED = [[167, 77, 30], [180, 255, 189]]
 
 # 위험 지역 인식 검은 색상 마스크 lower, upper [h, s, v] 값
-setting.DANGER_BLACK = [[0, 0, 0], [180, 255, 80]]
+setting.DANGER_BLACK2 = [[0, 0, 0], [180, 255, 80]]
+setting.DANGER_BLACK = [[0, 0, 0], [110, 45, 70]]
 
 # 위험/계단 지역 판단하는 비율의 기준 (밝기 올라가면 rate threshold 값을 올려줘야하고, 어두우면 내려줘야함)
 setting.DANGER_STAIR_RATE = 20

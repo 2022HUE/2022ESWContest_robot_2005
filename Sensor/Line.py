@@ -41,9 +41,11 @@ class Line:
         else: 
             return lines
 
-    def ROI(self, img, height, width, debug, color3=(255,255,255), color1=255, black=False):
-        if black:
+    def ROI(self, img, height, width, debug, color3=(255,255,255), color1=255, c=False):
+        if c=="B":
             vertices = np.array([[(0,height-50),(0, height/2+50), (width, height/2+50), (width,height-50)]], dtype=np.int32)
+        elif c=="Y":
+            vertices = np.array([[(0,height-100),(0, height/2-150), (width, height/2-150), (width,height-100)]], dtype=np.int32)
         else: vertices = np.array([[(0,height-100),(0, height/2), (width, height/2), (width,height-100)]], dtype=np.int32)
         mask = np.zeros_like(img)
 

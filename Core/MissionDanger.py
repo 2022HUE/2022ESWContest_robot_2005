@@ -33,6 +33,9 @@ class MissionDanger:
     head_angle: int = 70
     holding: bool
     first_milkbox_pos: int = cur.FIRST_MILKBOX_POS
+    check_backline:int=0
+    right_out = [2, 5, 8]  # 위험지역 오른쪽 탈출
+    
 
     def init_robo(self, robo: Robo):
         self.robo = robo
@@ -76,7 +79,8 @@ class MissionDanger:
 
         if act == act.START:
             print("START")
-            self.act = Act.SPEAK_DANGER
+            # self.act = Act.SPEAK_DANGER
+            self.act = Act.BACK_TO_LINE # hyerin debug
 
         elif act == act.SPEAK_DANGER:
             print("SPEAK_DANGER")
@@ -260,7 +264,7 @@ class MissionDanger:
                 if self.robo._image_processor.is_out_of_black():
                     # motion : 장애물 내려놓기 동작 수행
                     self.robo._motion.grab("DOWN")
-                    time.sleep(2.5)
+                    time.sleep(3)
                     break
                 # 무한 루프 갇힐 경우에 대한 예외처리 아직 안함
                 else:
@@ -336,19 +340,72 @@ class MissionDanger:
 
         elif act == Act.BACK_TO_LINE:
             print("BACK_TO_LINE")
-            self.robo._motion.walk("BACKWARD",2,2)
-            time.sleep(2)
-            
-            state = self.robo._image_processor.black_line()
-            if state:
-                self.robo._motion.walk("FORWARD")
-                self.act = Act.EXIT
-            elif state == "TURN_LEFT":
-                self.robo._motion.turn("LEFT", 10)
-            elif state == "TURN_RIGHT":
-                self.robo._motion.turn("RIGHT", 10)
+            # # 임시
+            # self.robo._motion.set_head("DOWN", 30)
+            # 나중에 효율적으로 수정할 예정
+            if Robo.box_pos in self.right_out:
+                my_arrow = "RIGHT"
             else:
-                self.robo._motion.walk("BACKWARD")
+                my_arrow = "LEFT"
+            # self.robo._motion.walk("BACKWARD",2,2)
+            # time.sleep(1)
+            state, h_slope = self.robo._image_processor.is_yellow()
+            print(state, h_slope)
+            if state == "HORIZON":
+                self.robo._motion.walk("FORWARD")
+                time.sleep(1)
+                self.robo._motion.turn(my_arrow, 20) # 방향 조절 필요
+                time.sleep(1)
+            elif state == "BOTH":
+                if h_slope <= 10 or 170 <= h_slope:
+                    self.robo._motion.walk("FORWARD")
+                    time.sleep(1.5)
+                    self.robo._motion.walk("FORWARD")
+                    time.sleep(1.5)
+                    self.act = Act.EXIT
+                if h_slope < 90:
+                    # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
+                    print("TURN_RIGHT")
+                    self.robo._motion.turn(my_arrow, 20)
+                else:
+                    # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
+                    print("ELSE_TURN_LEFT")
+                    self.robo._motion.walk("FORWARD")
+                    time.sleep(1)
+                    self.robo._motion.turn(my_arrow, 20)
+            else:
+                self.robo._motion.turn(my_arrow, 20) # 방향 조절 필요
+                time.sleep(1)
+                
+                
+            
+
+                    
+                
+            
+            # if self.check_backline > 0:
+            #     state = self.robo._image_processor.black_line()
+            #     print(state)
+            #     if state:
+            #         self.robo._motion.walk("FORWARD")
+            #         self.act = Act.EXIT
+            #     elif state == "TURN_LEFT":
+            #         self.robo._motion.turn("LEFT", 10)
+            #     elif state == "TURN_RIGHT":
+            #         self.robo._motion.turn("RIGHT", 10)
+            #     else:
+            #         self.robo._motion.walk("BACKWARD")
+            #         time.sleep(3)
+            # else:
+            #     is_danger = self.robo._image_processor.is_danger()
+            #     if is_danger:
+            #         self.check_backline += 1
+            #         return False
+            #     else:
+            #         self.robo._motion.walk("BACKWARD")
+            #         time.sleep(3)
+                
+                
         
 
         else:  # EXIT
