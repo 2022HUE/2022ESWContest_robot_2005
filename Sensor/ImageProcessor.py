@@ -79,6 +79,7 @@ else:
 class ImageProccessor:
     def __init__(self, video: str = ""):
         print("init_imgprocessor")
+
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
@@ -113,15 +114,12 @@ class ImageProccessor:
     def blur(self, img, val):
         return cv.GaussianBlur(img, (val, val), 1)
 
-
-    def light(self, img, val):   # 밝기
+    def light(self, img, val):  # 밝기
         arr = np.full(img.shape, (val, val, val), np.uint8)
         return cv.add(img, arr)
 
-
-    def bright(self, img, alpha):   # 명도
+    def bright(self, img, alpha):  # 명도
         return np.clip((1+alpha)*img - 128*alpha, 0, 255).astype(np.uint8)
-
 
     def correction(self, img, val):
         img = self.blur(img, val)
@@ -148,7 +146,6 @@ class ImageProccessor:
 
     def mophorlogy(self, mask):
         kernel = np.ones(
-            
             (setting.MORPH_kernel, setting.MORPH_kernel), np.uint8)
         mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)
         mask = cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel)
@@ -178,7 +175,7 @@ class ImageProccessor:
     ########### LINE DETECTION ###########
     # 라인이 수평선인지 수직선인지 return해줌
 
-    def is_line_horizon_vertical(self, show=False):
+    def is_line_horizon_vertical(self, show=False, mask=True):
         img = self.get_img()
         origin = img.copy()
         img = self.correction(img, 7)
@@ -199,9 +196,9 @@ class ImageProccessor:
         line_arr = Line.hough_lines(self, roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
         line_arr = np.squeeze(line_arr)
         # print(line_arr)
-        # if show:
-        #     cv.imshow("show", origin)
-        #     cv.waitKey(1) & 0xFF == ord('q')
+        if show:
+            cv.imshow("show", origin)
+            cv.waitKey(1) & 0xFF == ord('q')
         if line_arr != 'None':
             Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
             # if show:
@@ -244,33 +241,29 @@ class ImageProccessor:
                 if v_slope and not h_slope:  # vertical
                     if 90 - v_slope < 0:
                         cv.putText(origin, "motion: {}".format(
-                            
-                            "TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,  255,  255], 2)
+                            "TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 255], 2)
                         return "TURN_RIGHT"
                     else:
                         cv.putText(origin, "motion: {}".format(
-                            
-                            "TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,  255,  255], 2)
+                            "TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 255], 2)
                         return "TURN_LEFT"
-                elif h_slope and not v_slope:   # horizon
+                elif h_slope and not v_slope:  # horizon
                     if h_slope < 90:
                         cv.putText(origin, "motion: {}".format(
-                            
-                            "TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,  255,  255], 2)
+                            "TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 255], 2)
                         return "TURN_RIGHT"
                     else:
                         cv.putText(origin, "motion: {}".format(
-                            
-                            "TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,  255,  255], 2)
+                            "TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 255], 2)
                         return "TURN_LEFT"
-                else:   # 선이 둘 다 인식됨
+                else:  # 선이 둘 다 인식됨
                     return state
             elif state == "VERTICAL" and v_line:
                 is_center = Line.is_center(self, origin, v_line)
                 # cv.putText(origin, "center: {}".format(is_center), (260, 80), cv.FONT_HERSHEY_SIMPLEX, 0.8, [0,255,100], 2)
                 if is_center != True:
                     return is_center
-                if 80 < v_slope < 100:  # 수직
+                if 88 < v_slope < 96:  # 수직
                     return state
                 if v_slope <= 88:
                     # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
@@ -340,7 +333,6 @@ class ImageProccessor:
     ########### ENTRANCE PROCESSING ###########
     # 화살표 방향 인식 후 리턴
 
-
     def get_arrow(self, show=False):
         img = self.get_img()
         origin = img.copy()
@@ -349,6 +341,7 @@ class ImageProccessor:
         img = self.blur(img, setting.ARROW_BLUR)
         img = self.bright(img, setting.ARROW_BRIGHT)
         _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+
         ret = Arrow.get_arrow_info(self, img, origin)
         ########### [Option] Show ##########
         if show:
@@ -382,7 +375,6 @@ class ImageProccessor:
         dst = cv.dilate(dst, kernel, iterations=1)
 
         contours, hierarchy = cv.findContours(
-            
             th,  cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
 
         roi_contour = []
@@ -451,9 +443,8 @@ class ImageProccessor:
                 ####################################
                 return match_mask_font
             else:
-               
                 return ''
-        else:   # False
+        else:  # False
             return ''
     
 
@@ -461,8 +452,8 @@ class ImageProccessor:
     # 계단 지역인지(False) 위험 지역인지(True) detection
     def is_danger(self, show=False):
         img = self.get_img()
-        return Danger.is_danger(img)  # [return] DANGER / STAIR
-
+        return Danger.is_danger(img, show) # [return] DANGER / STAIR
+ 
     # 방 이름이 적힌 글자(A, B, C, D)의 색상 판단
     def get_alphabet_color(self):
         img = self.get_img()
@@ -471,13 +462,14 @@ class ImageProccessor:
             print("get_alphabet_color 실패")
             return False
         else:
-            return Danger.get_alphabet_color(hsv)   # [return] RED / BLUE
+            return Danger.get_alphabet_color(hsv)  # [return] RED / BLUE
 
     # 방 이름(알파벳) 인식
     def get_alphabet_name(self, show=False):
         img = self.get_img()
 
         roi = Danger.get_alphabet_roi(img, "GRAY")
+
         arr = [arr_a, arr_b, arr_c, arr_d]
         if roi != "Failed":
             mt_gray = Direction.matching(arr, roi, 0.001, "ABCD")
@@ -486,26 +478,36 @@ class ImageProccessor:
             if show:
                 cv.imshow("show", roi)
             ####################################
-            return mt_gray   # [return] 인식한 알파벳: A, B, C, D
+            return mt_gray  # [return] 인식한 알파벳: A, B, C, D
         print("get_alphabet_name 실패")
-        return False   # 인식 실패
+        return False  # 인식 실패
 
     # 장애물 들고 위험 지역에서 벗어났는지 확인 (show : imshow() 해줄 건지에 대한 여부)
     def is_out_of_black(self, show=False):
         img = self.get_img()
-        return Danger.is_out_of_black(img, show)   # [return] T/F
+        return Danger.is_out_of_black(img, show)  # [return] T/F
 
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
     def is_holding_milkbox(self, color, show=False):
         img = self.get_img()
-        return Danger.is_holding_milkbox(img, color)  # [return] T/F
+        return Danger.is_holding_milkbox(img, color, show) # [return] T/F
 
     # 장애물 위치 파악을 위한 함수
     def get_milkbox_pos(self, color, show=False):
         img = self.get_img()
-        # [return] 0 ~ 8 (장애물 위치 idx 값)
-        return Danger.get_milkbox_pos(img, color)
-
+        return Danger.get_milkbox_pos(img, color, show) # [return] 0 ~ 8 (장애물 위치 idx 값)
+    
+    # 장애물 집을 지 말 지 결정하는 함수 (7번 위치에서 충분히 가까운지)
+    def can_hold_milkbox(self, color):
+        img = self.get_img()
+        return Danger.can_hold_milkbox(img, color)
+    
+    # 장애물 집을 지 말 지 결정하는 함수 (7번 위치에서 충분히 가까운지)
+    def get_milkbox_mask(self, color):
+        img = self.get_img()
+        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        return Danger.get_milkbox_mask(hsv, color)
+    
     ############# DANGER PROCESSING #############
 
     ############# STAIR PROCESSING #############
@@ -530,14 +532,13 @@ class ImageProccessor:
 
     def second_rotation(self, Arrow):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
         img = self.get_img()
-        img = cv.cvtColor(img,  cv.COLOR_BGR2HSV)
+        img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(
-            
-            self, img,  setting.STAIR_S,  setting.ROOM_V)
+            self, img, setting.STAIR_S, setting.ROOM_V)
 
         s_val = int((np.count_nonzero(s_mask) / (640 * 480)) * 1000)
 
-        ret = Stair.in_rotation(self,  setting.STAIR_ROTATION, s_val, Arrow)
+        ret = Stair.in_rotation(self, setting.STAIR_ROTATION, s_val, Arrow)
 
         '''motion
         # T: (회전완료) 머리 아래 30도 변경
@@ -557,7 +558,6 @@ class ImageProccessor:
         dst = np.clip((1 + alpha) * add - 128 * alpha, 0, 255).astype(np.uint8)
 
         ret, th = cv.threshold(
-            
             dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
         dst = cv.bitwise_or(dst, dst, mask=th)
 
@@ -565,18 +565,22 @@ class ImageProccessor:
         dst = cv.dilate(dst, kernel, iterations=1)
 
         contours, hierarchy = cv.findContours(
-            
             dst, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
         return contours
 
-    def alphabet_center_check(self):
+    def alphabet_center_check(self, show=False):
         img = self.get_img()
+
+        if show:
+            cv.imshow("show", img)
+            cv.waitKey(1) & 0xFF == ord('q')
+            
         contours = self.rect()
         try:
             alphabet_area, rect_x = Stair.in_rect(
                 self, img, contours)  # contours를 리턴값으로 해서 함수 구성 다시 해보기
             # print(alphabet_area,rect_x)
-            is_center = Stair.in_alphabet_center_check(self,  rect_x)
+            is_center = Stair.in_alphabet_center_check(self, rect_x)
 
             if is_center == True:  # [return] True
                 sz_check = Stair.in_alphabet_size_calc(
@@ -587,14 +591,13 @@ class ImageProccessor:
                 # F: 전진
                 '''
                 return sz_check
-            else:   # [return] (LEFT,걸음 수), (RIGHT, 걸음 수)
+            else:  # [return] (LEFT,걸음 수), (RIGHT, 걸음 수)
                 '''motion
                 # LEFT: 왼쪽으로 이동
                 # RIGHT: 오른쪽으로 이동 '''
                 return is_center
         except:
             return 'fail'
-
 
     def stair_top(self):
 
@@ -630,14 +633,13 @@ class ImageProccessor:
     # 계단 내려가기
     def stair_down(self):
         img = self.get_img()
-        img = cv.cvtColor(img,  cv.COLOR_RGB2HSV)
+        img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
         img_mask = Stair.in_saturation_measurement(
-            
-            self, img,  setting.STAIR_S,  setting.ROOM_V)   # -->s_mask가 50 이면 좋겠어
+            self, img, setting.STAIR_S, setting.ROOM_V)  # -->s_mask가 50 이면 좋겠어
         ''' motion 
         # T: 방 탈출
         # F: 계단 내려가기 '''
-        return Stair.in_stair_down(self,  img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)
+        return Stair.in_stair_down(self, img_mask, setting.ONE_F, setting.TWO_F, setting.THREE_F)
 
     # 허프라인 잡히면 2층으로 올라가기
     def draw_stair_line(self):
@@ -668,8 +670,8 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video=DataPath.de1)
-    # img_processor = ImageProccessor()
+    # img_processor = ImageProccessor(video=DataPath.de1)
+    img_processor = ImageProccessor()
 
     ### Debug Run ###
     while True:
@@ -686,9 +688,11 @@ if __name__ == "__main__":
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
         # img_processor.stair_down()
-        # img_processor.get_milkbox_pos("BLUE", True)
+        # img_processor.get_milkbox_mask("BLUE")
+        # img_processor.is_holding_milkbox("BLUE", True)
         ### danger ###
-        # img_processor.get_alphabet_color()
+        print(img_processor.get_alphabet_color())
+        # img_processor.is_out_of_black(True)
 
         if cv.waitKey(1) & 0xFF == ord('q'):
             break

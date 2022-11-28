@@ -32,7 +32,7 @@ class Danger:
         v_bin = self.mophorlogy(v_bin)
         return v_bin
 
-    # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
+# 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
     @classmethod
     def is_holding_milkbox(self, src, color, show):
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
@@ -145,6 +145,14 @@ class Danger:
     @classmethod
     def get_alphabet_blue_mask(self, hsv):
         return self.get_color_mask(hsv, setting.ALPHABET_BLUE)
+    
+    @classmethod
+    def get_milk_red_mask(self, hsv):
+        return self.get_color_mask(hsv, setting.DANGER_MILKBOX_RED)
+
+    @classmethod
+    def get_milk_blue_mask(self, hsv):
+        return self.get_color_mask(hsv, setting.DANGER_MILKBOX_BLUE)
 
     # 떨어트렸을 때 장애물이 위험지역 내부에 있는 지에 대한 확인
 
@@ -240,10 +248,9 @@ class Danger:
 
     @classmethod
     def get_milkbox_mask(self, hsv, color):
-        lower_hue, upper_hue = np.array(setting.DANGER_MILKBOX_BLUE[0]), np.array(setting.DANGER_MILKBOX_BLUE[1])
+        h_mask = self.get_milk_blue_mask(hsv)
         if color == "RED":
-            lower_hue, upper_hue = np.array(setting.DANGER_MILKBOX_RED[0]), np.array(setting.DANGER_MILKBOX_RED[1])
-        h_mask = cv.inRange(hsv, lower_hue, upper_hue)
+            h_mask = self.get_milk_red_mask(hsv)
         
         milk_mask = np.zeros_like(h_mask)
         
