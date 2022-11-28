@@ -542,7 +542,6 @@ class ImageProccessor:
             return 'fail'
 
     def stair_top(self):
-
         img = self.get_img()
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         lower_hue, upper_hue = np.array(
@@ -550,7 +549,6 @@ class ImageProccessor:
         b_mask = Stair.in_stair_top(
             self, hsv, lower_hue, upper_hue)  # roi blue mask
         top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
-        print(top_ret, setting.STAIR_UP)
 
         if top_ret >= setting.STAIR_UP:
             ''' motion
@@ -613,10 +611,23 @@ class ImageProccessor:
         img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
         x, y, w, h = 250, 0, 390, 480
         img = img[y:y+h, x:x+w]
-        mask = Stair.in_saturation_measurement(
-            self, img, setting.STAIR_S, setting.ROOM_V)
-        # cv.imshow("img", img)
+        mask = Stair.in_saturation_measurement(self, img, setting.STAIR_S, setting.ROOM_V)
         return Stair.in_top_processing(self, mask, setting.top_forward)
+
+    def close_to_descent(self):
+        img = self.get_img()
+        cv.imshow('img',img)
+        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        lower_hue, upper_hue = np.array(
+            setting.STAIR_BLUE[0]), np.array(setting.STAIR_BLUE[1])
+        b_mask = Stair.in_stair_top(self, hsv, lower_hue, upper_hue)  # blue mask
+
+        top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
+        print(top_ret <= setting.STAIR_DOWN)
+        if top_ret <= setting.STAIR_DOWN:
+            return True #내려가라
+        else:
+            return False #전진
 
     def wall_move(self, Arrow):  # 계단 오를 때
         img = self.get_img()
@@ -640,12 +651,13 @@ class ImageProccessor:
             # cv.imshow("right", mask[y:y + 480, x:x + 320])
             return Stair.in_rotation(self, right, setting.top_move, Arrow)
 
+
+
     ############# STAIR PROCESSING #############
 
 
 if __name__ == "__main__":
-    # print(DataPath.danger05)
-    img_processor = ImageProccessor()
+    img_processor = ImageProccessor(DataPath.stair11)
 
     ### Debug Run ###
     while True:
@@ -659,10 +671,11 @@ if __name__ == "__main__":
         # img_processor.first_rotation('RIGHT')
         # img_processor.alphabet_center_check()
         # img_processor.second_rotation(show=True)
-        img_processor.draw_stair_line()
+        # img_processor.draw_stair_line()
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
+        img_processor.close_to_descent()
 
         ### danger ###
         # img_processor.get_alphabet_color()
