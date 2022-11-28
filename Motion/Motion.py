@@ -210,6 +210,7 @@ class Motion:
     def grab_walk(self, loop=1, foot=1):
         self.TX_data_py2(186+foot)
         time.sleep(2)
+        # 애초에 새로운 시리얼 번호를 할당해서 연결 동작 넣어주기
         # for _ in range(loop):
             # self.TX_data_py2(187)
             # self.TX_data_py2(186+foot)
