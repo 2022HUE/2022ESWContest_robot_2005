@@ -646,7 +646,6 @@ class ImageProccessor:
 if __name__ == "__main__":
     # print(DataPath.danger05)
     img_processor = ImageProccessor()
-    # img_processor = ImageProccessor()
 
     ### Debug Run ###
     while True:
@@ -664,9 +663,10 @@ if __name__ == "__main__":
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-        img_processor.get_milkbox_pos("BLUE", True)
+
         ### danger ###
         # img_processor.get_alphabet_color()
+        # img_processor.get_milkbox_pos("BLUE", True)
 
         if cv.waitKey(20) & 0xFF == ord('q'):
             break
