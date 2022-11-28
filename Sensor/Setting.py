@@ -84,7 +84,7 @@ setting.STAIR_UP = 290  # 계단 올라갈 때 채도값 설정
 setting.ALPHABET_ROTATION = 40  # 알파벳 방향으로 회전할 때 알파벳 부분의 채도가 이거 이하여야 함.
 setting.STAIR_ROTATION = 370  # 계단 지역으로 회전할 때 채도
 
-setting.STAIR_ALPHABET_SIZE = 42000
+setting.STAIR_ALPHABET_SIZE = 40000
 setting.STAIR_LEVEL = 1  # 채연아 미안  merge하면서 지워졌다^^,,,,,
 
 setting.ONE_F = 90  # 계단 1층 채도
@@ -92,9 +92,9 @@ setting.TWO_F = 100  # 계단 2층 채도
 setting.THREE_F = 400  # 계단 3층 채도
 
 ###### top_processing###########
-setting.top_forward = 160  # 꼭대기에서 전진 판단하는 채도
-setting.top_move = 150  # 반대쪽 계단으로 떨어지지 않기 위해 안쪽으로 이동할 때 채도 값
-setting.top_saturation = 250
+setting.top_forward = 280  # 꼭대기에서 전진 판단하는 채도
+setting.top_move = 45  # 반대쪽 계단으로 떨어지지 않기 위해 안쪽으로 이동할 때 채도 값
+setting.top_saturation = 600
 ########### CURRENT ACT ###########
 cur = Setting()
 cur.MAP_DIRECTION = ""  # (entr) E, W, S, N

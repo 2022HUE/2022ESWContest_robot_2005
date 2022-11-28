@@ -35,9 +35,9 @@ class Stair:
     def in_alphabet_center_check(self, x):
         if (x >= 240 and x <= 400):  # 전진
             return True
-        elif x < 250:  # 왼쪽의 여백이 부족하다.
+        elif x < 240:  # 왼쪽의 여백이 부족하다.
             return 'LEFT'  # ,x//100 #뒤의 리턴값은 옮겨야할 걸음 수
-        elif x > 350:
+        elif x > 400:
             return 'RIGHT'  # , x // 100 #뒤의 리턴값은 옮겨야할 걸음 수
 
     # 전진 하면서 크기 측정 함수
@@ -137,8 +137,10 @@ class Stair:
 
     def in_top_processing(self, hsv, comparison):
         saturation = int((np.count_nonzero(hsv) / (640 * 480))*1000)
-        print("꼭대기 전진 채도{},세팅값=150".format(saturation))
+        print("꼭대기 전진 채도{},세팅값=200".format(saturation))
         if saturation > comparison:
+            print("꼭대기 전진")
             return False  # 앞으로 걸어가라
         else:
+            print("꼭대기 회전(다음처리해)")
             return True  # 다음 처리
