@@ -178,21 +178,17 @@ class ImageProccessor:
     ########### LINE DETECTION ###########
     # 라인이 수평선인지 수직선인지 return해줌
 
-    def is_line_horizon_vertical(self, show=False, mask=True):
+    def is_line_horizon_vertical(self, show=False):
         img = self.get_img()
         origin = img.copy()
         img = self.correction(img, 7)
-        if mask:
-            hsv = self.hsv_mask(img)
-            line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
-            line_mask = self.HSV2BGR(line_mask)
-            line_gray = self.RGB2GRAY(line_mask)
-        else:
-            img = self.RGB2GRAY(img)
-            _, line_gray = cv.threshold(img, 0, 255, cv.THRESH_OTSU)
+        hsv = self.hsv_mask(img)
+        line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
+        line_mask = self.HSV2BGR(line_mask)
+        line_gray = self.RGB2GRAY(line_mask)
 
         if show:
-            cv.imshow("show", line_gray)
+            cv.imshow("tmp", line_gray)
             cv.waitKey(1) & 0xFF == ord('q')
 
             
@@ -200,8 +196,7 @@ class ImageProccessor:
         roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
 
         # get Line
-        line_arr = Line.hough_lines(
-            self, roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
+        line_arr = Line.hough_lines(self, roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
         line_arr = np.squeeze(line_arr)
         # print(line_arr)
         # if show:
@@ -209,26 +204,22 @@ class ImageProccessor:
         #     cv.waitKey(1) & 0xFF == ord('q')
         if line_arr != 'None':
             Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
-            if show:
-                cv.imshow("tmp", origin)
-                cv.waitKey(1) & 0xFF == ord('q')
+            # if show:
+            #     cv.imshow("tmp", origin)
+            #     cv.waitKey(1) & 0xFF == ord('q')
 
-            state, horizon_arr, vertical_arr = Line.slope_filter(
-                
-                self, line_arr)
-            h_line, v_line = Line.get_fitline(
-                
-                self, origin, horizon_arr), Line.get_fitline(self, origin, vertical_arr)
+            state, horizon_arr, vertical_arr = Line.slope_filter(self, line_arr)
+            h_line, v_line = Line.get_fitline(self, origin, horizon_arr), Line.get_fitline(self, origin, vertical_arr)
 
             # init
             v_slope = None
             h_slope = None
 
             if v_line:
-                # Line.draw_fitline(self, origin, v_line, [0, 255, 255]) # Debug
+                Line.draw_fitline(self, origin, v_line, [0, 255, 255]) # Debug
                 v_slope = int(Line.slope_cal(self, v_line))
             if h_line:
-                # Line.draw_fitline(self, origin, h_line, [0, 255, 0]) # Debug
+                Line.draw_fitline(self, origin, h_line, [0, 255, 0]) # Debug
                 h_slope = int(Line.slope_cal(self, h_line))
 
             # print(v_slope, h_slope)
@@ -303,6 +294,48 @@ class ImageProccessor:
         else:  # 라인 자체를 인식 못할 경우 False 리턴
             print("FALSE")
             return False
+
+    def black_line(self, show=False):
+        img = self.get_img()
+        origin = img.copy()
+        img = self.correction(img, 7)
+        img = self.RGB2GRAY(img)
+        _, th = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        edges = cv.Canny(th, 500,700, apertureSize=3)
+
+        roi_img = Line.ROI(self, edges, self.height, self.width, origin, black=True)
+
+        # get Line
+        line_arr = Line.hough_lines(self, roi_img)   # 허프 변환
+        line_arr = np.squeeze(line_arr)
+        v_slope = None
+        h_slope = None
+        if line_arr != 'None':
+            Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
+            state, horizon_arr, vertical_arr = Line.slope_filter(self, line_arr, black=True)
+            h_line, v_line = Line.get_black_fitline(self, origin, horizon_arr), Line.get_black_fitline(self, origin, vertical_arr)
+            if v_line:
+                Line.draw_fitline(self, origin, v_line, [0, 255, 255]) # Debug
+                v_slope = abs(int(Line.slope_cal(self, v_line)))
+            if h_line:
+                Line.draw_fitline(self, origin, h_line, [0, 255, 0]) # Debug
+                h_slope = abs(int(Line.slope_cal(self, h_line)))
+            # print(state, v_slope, h_slope)
+
+            if show:
+                cv.imshow("tmp", origin)
+                cv.waitKey(1) & 0xFF == ord('q')
+            
+            if h_slope:
+                if h_slope < 10 or 170 < h_slope:
+                    return True
+                if h_slope < 90:
+                    # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
+                    return "TURN_RIGHT"
+                else:
+                    # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
+                    return "TURN_LEFT"
+        return False
 
     ########### ENTRANCE PROCESSING ###########
     # 화살표 방향 인식 후 리턴
@@ -635,14 +668,14 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video=DataPath.de)
+    img_processor = ImageProccessor(video=DataPath.de1)
     # img_processor = ImageProccessor()
 
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
         # img_processor.get_ewsn(show=True)
-        img_processor.is_line_horizon_vertical(show=True, mask=False)
+        img_processor.black_line(show=True)
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_milkbox_pos("RED", True)
 
