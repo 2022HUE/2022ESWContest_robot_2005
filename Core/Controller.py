@@ -181,6 +181,7 @@ class Controller:
                     # return True # Debug
                     self.act = act.ENTRANCE
                 else:
+                    # 장애물??
                     return False
             return False
 
@@ -254,6 +255,7 @@ class Controller:
                         self.act = act.DANGER
                     # return True # Debug
                 else:
+                    # 장애물??
                     return False
             return False
 

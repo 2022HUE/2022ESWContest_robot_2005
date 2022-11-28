@@ -175,7 +175,7 @@ class ImageProccessor:
     ########### LINE DETECTION ###########
     # 라인이 수평선인지 수직선인지 return해줌
 
-    def is_line_horizon_vertical(self, show=False, mask=True):
+    def is_line_horizon_vertical(self, show=False):
         img = self.get_img()
         origin = img.copy()
         img = self.correction(img, 7)
