@@ -626,6 +626,7 @@ class ImageProccessor:
         b_mask = Stair.in_stair_top(self, hsv, lower_hue, upper_hue)  # blue mask
 
         top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
+        print(top_ret)
         if top_ret <= setting.STAIR_DOWN:
             return True #내려가라
         else:

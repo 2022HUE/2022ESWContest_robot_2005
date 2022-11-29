@@ -4,6 +4,7 @@ from Core.Robo import Robo
 from Sensor.Setting import setting
 import time
 
+
 class Act(Enum):
     START = auto()  # 공통
     FIND_LINE = auto()
@@ -14,8 +15,9 @@ class Act(Enum):
     STAIR_DOWN = auto()
     TOP_PROCESSING = auto()
     TOP_TURN = auto()
-    CLOSE_TO_DESCENT= auto()
+    CLOSE_TO_DESCENT = auto()
     EXIT = auto()  # 공통
+
 
 class MissionStair:
     act: Act = Act.START
@@ -68,7 +70,8 @@ class MissionStair:
 
         if act == act.START:
             print('Act = %s' % act)
-            self.act = Act.FIRST_ROTATION
+            # self.act = Act.FIRST_ROTATION
+            self.act = Act.STAIR_DOWN
 
         # 현재 상태: 계단을 70도로 바라보고 계단임이 판단됨.
         elif act == act.FIRST_ROTATION:  # 현재 머리각도 70
@@ -129,10 +132,10 @@ class MissionStair:
             if ret == True:  # 1->2로 up, 샤샥 & 2->3로 up 할 때도
                 wall = self.wall_move()
                 if wall == True:
-                    self.robo._motion.stair('LEFT_UP')  # up
+                    self.robo._motion.stair('RIGHT_UP')  # up
                     time.sleep(6)
                     self.robo._motion.walk(
-                        'FORWARD', loop=3, short=True, sleep=1.5)  # 좁은 보폭
+                        'FORWARD', loop=3, short=True, sleep=1)  # 좁은 보폭
 
                     setting.STAIR_LEVEL += 1  # stair = 2
                 else:
@@ -163,7 +166,8 @@ class MissionStair:
                 time.sleep(1.5)
 
         elif act == act.TOP_TURN:
-            rotation = self.second_rotation(Robo.dis_arrow, setting.top_saturation)
+            rotation = self.second_rotation(
+                Robo.dis_arrow, setting.top_saturation)
             if rotation == True:
                 self.robo._motion.basic()
                 time.sleep(3)
@@ -175,8 +179,8 @@ class MissionStair:
                     rotation, 45, sleep=1.5)  # 화살표 반대 방향으로
 
         elif act == act.CLOSE_TO_DESCENT:
-            ret = self.close_to_descent
-            if ret==True:
+            ret = self.close_to_descent()
+            if ret == True:
                 self.act = act.STAIR_DOWN
             else:
                 self.robo._motion.handsUp_walk()
@@ -189,15 +193,16 @@ class MissionStair:
 
             if self.stair_down() == True:  # 1층임
                 self.robo._motion.walk('FORWARD', loop=2)  # 전진 2회
-                time.sleep(0.5)
+                time.sleep(1)
                 self.robo._motion.walk_side(Robo.dis_arrow)  # 옆으로 이동
-                time.sleep(0.5)
+                time.sleep(0.8)
                 self.robo._motion.walk_side(Robo.dis_arrow)  # 옆으로 이동
-                time.sleep(0.5)
-                self.robo._motion.turn(Robo.dis_arrow, 45, loop=2, sleep=2)  # 화살표 반대 방향으로
+                time.sleep(0.8)
+                self.robo._motion.turn(
+                    Robo.dis_arrow, 45, loop=2, sleep=2)  # 화살표 반대 방향으로
                 time.sleep(0.5)
                 self.robo._motion.walk('FORWARD', loop=2)  # 전진 2회
-                time.sleep(0.5)
+                time.sleep(1.5)
                 self.robo._motion.set_head('DOWN', angle=45)  # 머리 45도
                 time.sleep(0.5)
                 self.act = Act.EXIT
