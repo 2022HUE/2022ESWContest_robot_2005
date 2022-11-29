@@ -201,10 +201,13 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
 
     # 횟수_집고 전진 (187~188) [Danger]
-    def grab_walk(self, loop = 1):
-        for _ in range(loop) :
-            self.TX_data_py2(187)
-            time.sleep(1.5)   # 나중에 보고 초 조정하기
+    def grab_walk(self, dir = "DEFAULT"):
+        """ parameter :
+        dir : {DEFAULT, LEFT, RIGHT}
+        """
+        dir_list = {"LEFT": 186, "RIGHT" : 187, "DEFAULT" : 188}
+        self.TX_data_py2(dir_list[dir])
+        time.sleep(1.5)   # 나중에 보고 초 조정하기
         
     # 집고 옆으로 (189~192) [Danger]
     def grab_sideway(self, dir, long = False):
