@@ -7,7 +7,7 @@ from Core.MissionDanger import MissionDanger
 from Setting import cur
 import time
 
-limits: int = 2
+limits: int = 1
 
 
 class Act(Enum):  # 맵 전체 수행 순서도
@@ -153,7 +153,7 @@ class Controller:
             # motion: 고개 내리기 30
             self.robo._motion.set_head("DOWN", 30)
             # time.sleep(0.5)
-            # self.act = act.GO_ENTRANCE
+            self.act = act.GO_ENTRANCE
 
             # debug
             # self.act = act.ENTRANCE
@@ -161,7 +161,7 @@ class Controller:
             # self.act = act.GO_EXIT
             
             # self.robo._motion.set_head("DOWN", 70)
-            self.act = act.DANGER
+            # self.act = act.DANGER
             # self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:
@@ -338,8 +338,10 @@ class Controller:
             time.sleep(0.5)
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL" and self.check_exit > 0:
-                self.robo._motion.turn(self.robo.arrow, 45, 3, 0.8)
+                self.robo._motion.turn(self.robo.arrow, 45, 2, 1.5)
+                time.sleep(1)
                 self.robo._motion.turn(self.robo.arrow, 20, 1)
+                time.sleep(1)
                 self.act = act.EXIT
             elif state == "VERTICAL" and self.check_exit == 0:
                 self.robo._motion.walk("FORWARD")
@@ -365,6 +367,7 @@ class Controller:
 
         else:  # EXIT
             print("ACT: ", act)  # Debug
+            time.sleep(1)
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL":
                 self.robo._motion.walk("FORWARD")

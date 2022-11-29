@@ -8,8 +8,8 @@ print('code: Robo.py - ## Debug')
 
 
 class Robo:
-    arrow: str = "LEFT"
-    dis_arrow: str = "RIGHT"
+    arrow: str = ""
+    dis_arrow: str = ""
     black_room_list = list = []
     alphabet_color: str
     box_pos: int = 0

@@ -131,7 +131,7 @@ class MissionDanger:
                     Robo.black_room_list.append(self.alphabet_name)
                 elif self.miss >= self.limits:
                     # 계속 못찾으면 그냥 글자 B로 지정
-                    self.alphabet_name = 'B'
+                    self.alphabet_name = 'D'
                     Robo.black_room_list.append(self.alphabet_name)
                     self.miss = 0
                 else:
@@ -351,7 +351,7 @@ class MissionDanger:
                 print(my_arrow)
             else:
                 if Robo.arrow == "RIGHT": my_arrow = "LEFT"
-                else: my_arrow = "RIGHT"
+                else: my_arrow = "LEFT"
                 # my_arrow = "LEFT"
             # self.robo._motion.walk("BACKWARD",2,2)
             # time.sleep(1)
@@ -429,5 +429,5 @@ class MissionDanger:
             print("EXIT")
             return True
             
- 
+
         return False
