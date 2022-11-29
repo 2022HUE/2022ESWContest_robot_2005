@@ -220,7 +220,7 @@ class Controller:
 
         elif act == act.GO_NEXTROOM:
             print("ACT: ", act)  # Debug
-
+            time.sleep(0.8)
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "HORIZON":
                 # # 방 입구 도착 -> 위험/계단지역 판단
