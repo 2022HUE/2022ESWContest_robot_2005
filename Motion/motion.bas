@@ -4154,7 +4154,7 @@ D지역:
     GOSUB All_motor_mode3
     보행COUNT = 0
     SPEED 7
-    'HIGHSPEED SETON
+    HIGHSPEED SETON
     MOVE G6B,100,  190,  95,
     MOVE G6C,100,  190,  95
 
@@ -4207,12 +4207,12 @@ D지역:
         MOVE G6A,104,  76, 145,  91,  102
         'MOVE G6C, 100
         'MOVE G6B,100
-        'WAIT
-        'HIGHSPEED SETOFF
-        'SPEED 15
-        'GOSUB 안정화자세
-        'SPEED 5
-        'GOSUB 기본자세2
+        WAIT
+        HIGHSPEED SETOFF
+        SPEED 15
+        GOSUB 안정화자세
+        SPEED 5
+        GOSUB 기본자세2
 
         'DELAY 400
         GOTO RX_EXIT
@@ -6558,7 +6558,8 @@ KEY31: ' ▽
 
 KEY32: ' F
     ETX 4800, 32
-    GOSUB 양팔벌리기
+    보행횟수= 1
+    GOSUB 횟수_손들고종종걸음
     GOTO RX_EXIT
     '***************
 

@@ -189,7 +189,7 @@ class Motion:
         """ parameter :
         dir : {LEFT, RIGHT}
         """
-        dir_list = {"LEFT": 174, "RIGHT" : 175}
+        dir_list = {"LEFT": 175, "RIGHT" : 176}
         self.TX_data_py2(dir_list[dir])
 
     # 집기 (181~186) [Danger]
