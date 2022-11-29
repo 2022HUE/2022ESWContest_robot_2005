@@ -210,18 +210,11 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
 
     # 횟수_집고 전진 (187~188) [Danger]
-    def grab_walk(self, loop=1, foot=1):
-        self.TX_data_py2(186+foot)
-        time.sleep(2.5)
-        # 애초에 새로운 시리얼 번호를 할당해서 연결 동작 넣어주기
-        # for _ in range(loop):
-            # self.TX_data_py2(187)
-            # self.TX_data_py2(186+foot)
-            # time.sleep(1.5)  # 나중에 보고 초 조정하기
-            # self.TX_data_py2(188)
-            # time.sleep(1.5)  # 나중에 보고 초 조정하기
-            
-
+    def grab_walk(self, loop = 1):
+        for _ in range(loop) :
+            self.TX_data_py2(187)
+            time.sleep(1.5)   # 나중에 보고 초 조정하기
+        
     # 집고 옆으로 (189~192) [Danger]
 
     def grab_sideway(self, dir, long=False):
