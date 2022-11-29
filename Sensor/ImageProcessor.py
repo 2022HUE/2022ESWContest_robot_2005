@@ -736,7 +736,7 @@ if __name__ == "__main__":
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
         
-        # print(img_processor.get_alphabet_name(show=True))
+        print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_milkbox_pos("RED", True)
 
         ### stair ###
@@ -748,7 +748,7 @@ if __name__ == "__main__":
         # img_processor.stair_down()
         # img_processor.get_milkbox_mask("BLUE")
         # img_processor.is_holding_milkbox("BLUE", True)
-        img_processor.is_out_of_black(True)
+        # img_processor.is_out_of_black(True)
         
         ### danger ###
         # print(img_processor.get_alphabet_color())
