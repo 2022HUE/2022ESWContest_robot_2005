@@ -183,9 +183,10 @@ class Controller:
                 self.robo._motion.walk("FORWARD")
             else:
                 if self.check_entrance > 0:
-                    self.robo._motion.walk("FORWARD", 3, 0.5)
+                    self.robo._motion.walk("FORWARD")
                     # return True # Debug
-                    self.act = act.ENTRANCE
+                    if state != "HORIZON": self.act = act.ENTRANCE
+                    else: return False
                 else:
                     # 장애물??
                     return False

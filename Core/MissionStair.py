@@ -200,6 +200,7 @@ class MissionStair:
             print('Act = %s' % act)
 
             if self.stair_down() == True:  # 1층임
+                time.sleep(3)
                 self.robo._motion.walk('FORWARD', loop=2)  # 전진 2회
                 time.sleep(1)
                 self.robo._motion.walk_side(Robo.dis_arrow)  # 옆으로 이동
@@ -212,7 +213,7 @@ class MissionStair:
                 self.robo._motion.walk('FORWARD', loop=2)  # 전진 2회
                 time.sleep(1.5)
                 self.robo._motion.set_head('DOWN', angle=45)  # 머리 45도
-                time.sleep(0.5)
+                time.sleep(3)
                 self.act = Act.EXIT
             else:
 

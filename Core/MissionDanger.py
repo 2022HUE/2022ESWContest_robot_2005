@@ -63,9 +63,8 @@ class MissionDanger:
                 self.robo._motion.grab("UP")
                 time.sleep(3)
                 # motion : 장애물 집고 앞으로 한번 걷기 동작 수행
-                self.robo._motion.grab_walk(1, foot=1)
-                # time.sleep(2)
-                self.robo._motion.grab_walk(1, foot=2)
+                self.robo._motion.grab_walk("RIGHT")
+                time.sleep(2)
                 return True
             else:
                 # motion : 왼쪽 혹은 오른쪽으로 걷기 수행
@@ -281,35 +280,50 @@ class MissionDanger:
                         self.robo._motion.grab_turn("LEFT", 45)
                         time.sleep(1)
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-                        self.robo._motion.grab_walk(2)
+                        self.robo._motion.grab_walk()
+                        time.sleep(2.5)
+                        self.robo._motion.grab_walk("RIGHT")
+                        time.sleep(1.5)
                     elif self.first_milkbox_pos == 2:
                         time.sleep(1)
                         # motion: 장애물 집고 오른쪽으로 45도 돌기 동작 수행
                         self.robo._motion.grab_turn("RIGHT", 45)
                         time.sleep(1)
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-                        self.robo._motion.grab_walk(2)
+                        self.robo._motion.grab_walk()
+                        time.sleep(2.5)
+                        self.robo._motion.grab_walk("RIGHT")
+                        time.sleep(1.5)
                     elif self.first_milkbox_pos == 3:
                         time.sleep(1)
                         # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
                         self.robo._motion.grab_turn("LEFT", 60)
                         time.sleep(1)
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-                        self.robo._motion.grab_walk(2)
+                        self.robo._motion.grab_walk()
+                        time.sleep(2.5)
+                        # self.robo._motion.grab_walk("RIGHT")
+                        # time.sleep(1.5)
                     elif self.first_milkbox_pos == 4:
                         time.sleep(1)
                         # motion: 장애물 집고 왼쪽으로 45도 돌기 동작 수행
                         self.robo._motion.grab_turn("LEFT", 45)
                         time.sleep(1)
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-                        self.robo._motion.grab_walk(2)
+                        self.robo._motion.grab_walk()
+                        time.sleep(2.5)
+                        # self.robo._motion.grab_walk("RIGHT")
+                        # time.sleep(1.5)
                     elif self.first_milkbox_pos == 5:
                         time.sleep(1)
                         # motion: 장애물 집고 오른쪽으로 60도 돌기 동작 수행
                         self.robo._motion.grab_turn("RIGHT", 60)
                         time.sleep(1)
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-                        self.robo._motion.grab_walk(2)
+                        self.robo._motion.grab_walk()
+                        time.sleep(2.5)
+                        # self.robo._motion.grab_walk("LEFT")
+                        # time.sleep(1.5)
                     elif self.first_milkbox_pos == 6:
                         time.sleep(1)
                         # motion: 장애물 집고 왼쪽으로 60도 돌기 동작 수행
@@ -323,14 +337,20 @@ class MissionDanger:
                         self.robo._motion.grab_turn("LEFT", 60)
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
                         time.sleep(2)
-                        self.robo._motion.grab_walk(2)
+                        self.robo._motion.grab_walk()
+                        time.sleep(2.5)
+                        # self.robo._motion.grab_walk("LEFT")
+                        # time.sleep(1.5)
                     elif self.first_milkbox_pos == 8:
                         time.sleep(1)
                         # motion: 장애물 집고 오른쪽으로 60도 돌기 동작 수행
                         self.robo._motion.grab_turn("RIGHT", 60)
                         time.sleep(2)
                         # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
-                        self.robo._motion.grab_walk(2)
+                        self.robo._motion.grab_walk()
+                        time.sleep(2.5)
+                        # self.robo._motion.grab_walk("LEFT")
+                        # time.sleep(1.5)
 
             self.act = Act.BACK_TO_LINE
             
