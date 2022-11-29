@@ -135,12 +135,12 @@ class Stair:
         # cv.imshow('mask',mask)
         return mask
 
-    def in_top_processing(self, hsv, comparison):
-        saturation = int((np.count_nonzero(hsv) / (640 * 480))*1000)
+    def in_top_processing(self, mask, comparison):
+        saturation = int((np.count_nonzero(mask) / (640 * 480))*1000)
         print("꼭대기 전진 채도{},세팅값=200".format(saturation))
         if saturation > comparison:
             print("꼭대기 전진")
-            return False  # 앞으로 걸어가라
+            return False
         else:
             print("꼭대기 회전(다음처리해)")
-            return True  # 다음 처리
+            return True

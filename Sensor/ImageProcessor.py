@@ -626,11 +626,22 @@ class ImageProccessor:
         b_mask = Stair.in_stair_top(self, hsv, lower_hue, upper_hue)  # blue mask
 
         top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
-        print(top_ret)
+
+        x=270; y=150
+        left_m=b_mask[y:y+480,x:x+70]
+        left_m=int((np.count_nonzero(b_mask[y:y+480,x:x+70]) / (640 * 480)) * 1000)
+
+        x=360
+        right_m=b_mask[y:y+480,x:x+70]
+        right_m=int((np.count_nonzero(b_mask[y:y+480,x:x+70]) / (640 * 480)) * 1000)
+
+        if right_m<left_m: ro = 'LEFT_DOWN'
+        else: ro = 'RIGHT_DOWN'
+
         if top_ret <= setting.STAIR_DOWN:
-            return True #내려가라
+            return True,ro#내려가라
         else:
-            return False #전진
+            return False,ro #전진
 
     def wall_move(self, Arrow):  # 계단 오를 때
         img = self.get_img()

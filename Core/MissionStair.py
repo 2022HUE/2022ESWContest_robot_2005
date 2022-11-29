@@ -179,8 +179,9 @@ class MissionStair:
                     rotation, 45, sleep=1.5)  # 화살표 반대 방향으로
 
         elif act == act.CLOSE_TO_DESCENT:
-            ret = self.close_to_descent()
+            ret,rotation = self.close_to_descent()
             if ret == True:
+                Robo.feet_down=rotation
                 self.act = act.STAIR_DOWN
             else:
                 self.robo._motion.handsUp_walk()
@@ -207,7 +208,11 @@ class MissionStair:
                 time.sleep(0.5)
                 self.act = Act.EXIT
             else:
-                self.robo._motion.stair('LEFT_DOWN')  # down
+                self.robo._motion.stair(Robo.feet_down)  # down
+                if Robo.feet_down=='LEFT_DOWN':
+                    Robo.feet_down=='RIGHT_DOWN'
+                else:
+                    Robo.feet_down == 'LEFT_DOWN'
                 # pass
 
         elif act == act.EXIT:
