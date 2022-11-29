@@ -536,6 +536,7 @@ class ImageProccessor:
     # 장애물 들고 위험 지역에서 벗어났는지 확인 (show : imshow() 해줄 건지에 대한 여부)
     def is_out_of_black(self, show=False):
         img = self.get_img()
+        # light보다 bright가 효과가 좋아서 추가해둠
         img = self.light(img, 0) # 1128 hyerin
         img = self.bright(img, 3.0) # 1128 hyerin
         return Danger.is_out_of_black(img, show)  # [return] T/F
@@ -733,7 +734,7 @@ if __name__ == "__main__":
         # img_processor.get_arrow(show=True)
         # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
-        img_processor.is_yellow(show=True)
+        # img_processor.is_yellow(show=True)
         
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_milkbox_pos("RED", True)
@@ -747,7 +748,7 @@ if __name__ == "__main__":
         # img_processor.stair_down()
         # img_processor.get_milkbox_mask("BLUE")
         # img_processor.is_holding_milkbox("BLUE", True)
-        # img_processor.is_out_of_black(True)
+        img_processor.is_out_of_black(True)
         
         ### danger ###
         # print(img_processor.get_alphabet_color())

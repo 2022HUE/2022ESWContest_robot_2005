@@ -157,11 +157,11 @@ class Controller:
 
             # debug
             # self.act = act.ENTRANCE
-            self.act = act.GO_NEXTROOM
+            # self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
             
             # self.robo._motion.set_head("DOWN", 70)
-            # self.act = act.DANGER
+            self.act = act.DANGER
             # self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:

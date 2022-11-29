@@ -344,9 +344,14 @@ class MissionDanger:
             # self.robo._motion.set_head("DOWN", 30)
             # 나중에 효율적으로 수정할 예정
             if Robo.box_pos in self.right_out:
-                my_arrow = "RIGHT"
+                print('RIGHT_OUT')
+                if Robo.arrow == "RIGHT": my_arrow = "RIGHT"
+                else: my_arrow = "LEFT"
+                print(my_arrow)
             else:
-                my_arrow = "LEFT"
+                if Robo.arrow == "RIGHT": my_arrow = "LEFT"
+                else: my_arrow = "RIGHT"
+                # my_arrow = "LEFT"
             # self.robo._motion.walk("BACKWARD",2,2)
             # time.sleep(1)
             state, h_slope = self.robo._image_processor.is_yellow()
@@ -374,7 +379,10 @@ class MissionDanger:
                     time.sleep(1)
                     self.robo._motion.turn(my_arrow, 20)
             else:
+                print('ELSE', my_arrow)
                 self.robo._motion.turn(my_arrow, 20) # 방향 조절 필요
+                time.sleep(1)
+                self.robo._motion.walk("FORWARD")
                 time.sleep(1)
                 
                 
