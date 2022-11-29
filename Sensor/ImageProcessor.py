@@ -570,6 +570,10 @@ class ImageProccessor:
             print("1층에서 좁은 보폭")  # motion: 2층에서 샤샤샥
             return False
 
+    # 계단 내려가기 전에 파란색이 더 많은 부분 발이 먼저 내려가기
+    # 넘어졌을 때 cnt
+
+
     # 계단 내려가기
     def stair_down(self):
         img = self.get_img()
@@ -622,11 +626,21 @@ class ImageProccessor:
         b_mask = Stair.in_stair_top(self, hsv, lower_hue, upper_hue)  # blue mask
 
         top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
-        print(top_ret)
+
+        x=270; y=150
+        left_m=int((np.count_nonzero(b_mask[y:y+480,x:x+70]) / (640 * 480)) * 1000)
+
+        x=360
+        right_m=int((np.count_nonzero(b_mask[y:y+480,x:x+70]) / (640 * 480)) * 1000)
+
+        if right_m<left_m: ro = 'LEFT_DOWN'
+        else: ro = 'RIGHT_DOWN'
+        print(ro)
+
         if top_ret <= setting.STAIR_DOWN:
-            return True #내려가라
+            return True,ro#내려가라
         else:
-            return False #전진
+            return False,ro #전진
 
     def wall_move(self, Arrow):  # 계단 오를 때
         img = self.get_img()
@@ -640,7 +654,6 @@ class ImageProccessor:
             y = 0
             left = int(
                 (np.count_nonzero(mask[y:y + 480, x:x + 140]) / (640 * 480)) * 1000)
-            # cv.imshow("left", mask[y:y + 480, x:x + 140])
             return Stair.in_rotation(self, left, setting.top_move, Arrow)
         else:
             x = 500
@@ -649,8 +662,6 @@ class ImageProccessor:
                 (np.count_nonzero(mask[y:y + 480, x:x + 320]) / (640 * 480)) * 1000)
             # cv.imshow("right", mask[y:y + 480, x:x + 320])
             return Stair.in_rotation(self, right, setting.top_move, Arrow)
-
-
 
     ############# STAIR PROCESSING #############
 
