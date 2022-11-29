@@ -14,6 +14,9 @@ class Act(Enum):
     SECOND_ROTATION = auto()
     DRAW_STAIR_LINE = auto()
     STAIR_DOWN = auto()
+    TOP_PROCESSING = auto()
+    TOP_TURN = auto()
+    CLOSE_TO_DESCENT = auto()
     EXIT = auto()  # 공통
 
 
@@ -21,7 +24,6 @@ class Act(Enum):
 class MissionStair:
     act: Act = Act.START
     robo: Robo = Robo()
-    # robo._image_processor("Sensor/src/stair/1114_21:21.h264")
 
     # room_name: str # 방 이름
     # room_color: str # 방 이름 색상
@@ -48,8 +50,8 @@ class MissionStair:
         # return True
 
     @classmethod
-    def second_rotation(self):
-        return self.robo._image_processor.second_rotation(Robo.dis_arrow)
+    def second_rotation(self, Arrow, k):
+        return self.robo._image_processor.second_rotation(Arrow, k)
         # return True
 
     @classmethod
@@ -59,8 +61,12 @@ class MissionStair:
 
     @classmethod
     def stair_down(self):
-        # return self.robo._image_processor.stair_down()
-        return True
+        return self.robo._image_processor.stair_down()
+        # return True
+
+    @classmethod
+    def wall_move(self):
+        return self.robo._image_processor.wall_move(Robo.arrow)
 
     @classmethod
     def go_robo(self):
@@ -68,17 +74,21 @@ class MissionStair:
 
         if act == act.START:
             print('Act = %s' % act)
-            self.act = Act.FIRST_ROTATION
+            # self.act = Act.FIRST_ROTATION
+            self.act = Act.SECOND_ROTATION
 
         # 현재 상태: 계단을 70도로 바라보고 계단임이 판단됨.
         elif act == act.FIRST_ROTATION:  # 현재 머리각도 70
             print('Act = %s' % act)
             ret = self.first_rotation()
+            print(ret)
             if ret == True:  # True 회전완료
                 self.act = Act.CENTER_AND_FORWARD
             else:  # LEFT, RIGHT 로 반환됨
-                self.robo._motion.turn(ret, 60)  # 화살표 방향으로 회전해야함
+                self.robo._motion.turn(ret, 60, arm=True)  # 화살표 방향으로 회전해야함
+                time.sleep(1.5)
                 # pass
+            # self.act = Act.CENTER_AND_FORWARD
 
         elif act == act.CENTER_AND_FORWARD:
             print('Act = %s' % act)
@@ -90,6 +100,7 @@ class MissionStair:
             elif ret == False:  # 전진
                 # pass
                 self.robo._motion.walk('FORWARD')
+                time.sleep(1.5)
             elif ret == 'fail':
                 # pass
                 self.robo._motion.walk_side(Robo.arrow)
@@ -99,12 +110,14 @@ class MissionStair:
 
             else:  # return= LEFT or RIGHT
                 # pass
-                self.robo._motion.turn(ret, 20, sleep=1)  # return 값대로 turn
+                self.robo._motion.turn(ret, 10, sleep=1)  # return 값대로 turn
+                time.sleep(0.5)
+            # self.act = Act.SECOND_ROTATION
 
         elif act == act.SECOND_ROTATION:
             print('Act = %s' % act)
 
-            if self.second_rotation() == True:
+            if self.second_rotation(Robo.dis_arrow, setting.STAIR_ROTATION) == True:
                 self.robo._motion.set_head('DOWN', angle=30)  # 30도
                 self.robo._motion.walk('FORWARD', loop=6, sleep=5)  # 3회 정도
                 self.robo._motion.walk('FORWARD', loop=4, short=True)  # 좁은 보폭
@@ -112,14 +125,16 @@ class MissionStair:
             else:
                 # print("들어옴")
                 self.robo._motion.turn(
-                    Robo.dis_arrow, 45, sleep=1, arm=True)  # 화살표 반대 방향으로
-                #pass
+                    Robo.dis_arrow, 45, sleep=1)  # 화살표 반대 방향으로
+                # pass
 
         elif act == act.DRAW_STAIR_LINE:
+
             print('Act = %s' % act)
             ret = self.stair_up()
             print(ret)
             print(setting.STAIR_LEVEL)
+
             if ret == True:  # 1->2로 up, 샤샥 & 2->3로 up 할 때도
                 self.robo._motion.stair('RIGHT_UP')  # up
                 time.sleep(6)
@@ -130,13 +145,35 @@ class MissionStair:
                 time.sleep(1)
                 #pass
             elif ret == False:  # 선이 안 잡힌 경우 샤샥, 2층에서 중앙 아래에 선이 잡힌 경우
+
                 self.robo._motion.walk(
                     'FORWARD', loop=1, short=True, sleep=1.5)  # 좁은 보폭
                 # pass
             elif ret == 'Top':
-                self.robo._motion.walk(
-                    'FORWARD', loop=2, sleep=1.5)  # 3층 도착해서 전진
-                self.robo._motion.walk_side(Robo.arrow)  # 옆으로 이동
+                wall = self.wall_move()
+                if wall == True:
+                    self.robo._motion.walk_side(Robo.arrow)  # 벽으로 이동
+                    time.sleep(0.5)
+                    self.act = Act.TOP_PROCESSING
+                else:
+                    self.robo._motion.walk_side(wall)  # 벽으로 이동
+                    time.sleep(1)
+
+        elif act == act.TOP_PROCESSING:
+            ret = self.top_processing()
+            if ret == True:  # 앞으로 어느정도 전진했다.
+                self.act = Act.TOP_TURN
+            else:
+                self.robo._motion.handsUp_walk(loop=2)  # 전진 2회
+                time.sleep(1.5)
+
+        elif act == act.TOP_TURN:
+            rotation = self.second_rotation(
+                Robo.dis_arrow, setting.top_saturation)
+            if rotation == True:
+                self.robo._motion.basic()
+                time.sleep(3)
+                self.robo._motion.set_head('DOWN', 30)
                 time.sleep(1)
                 self.robo._motion.turn(
                     Robo.dis_arrow, 45, loop=2, arm=True, sleep=3)  # 손들고 턴으로 2회
@@ -149,16 +186,32 @@ class MissionStair:
             print('Act = %s' % act)
 
             if self.stair_down() == True:  # 1층임
-                # self.robo._motion.walk('FORWARD', loop=2)  # 전진 2회
-                # self.robo._motion.walk_side(Robo.dis_arrow)  # 옆으로 이동
-                # self.robo._motion.walk_side(Robo.dis_arrow)  # 옆으로 이동
-                # self.robo._motion.turn(
-                  #   Robo.dis_arrow, 45, loop=2, sleep=2)  # 화살표 반대 방향으로
-                # self.robo._motion.set_head('DOWN', angle=45)  # 45도
+                self.robo._motion.walk('FORWARD', loop=2)  # 전진 2회
+                time.sleep(1)
+                self.robo._motion.walk_side(Robo.dis_arrow)  # 옆으로 이동
+                time.sleep(0.8)
+                self.robo._motion.walk_side(Robo.dis_arrow)  # 옆으로 이동
+                time.sleep(0.8)
+                self.robo._motion.turn(
+                    Robo.dis_arrow, 45, loop=2, sleep=2)  # 화살표 반대 방향으로
+                time.sleep(0.5)
+                self.robo._motion.walk('FORWARD', loop=2)  # 전진 2회
+                time.sleep(1.5)
+                self.robo._motion.set_head('DOWN', angle=45)  # 머리 45도
+                time.sleep(0.5)
                 self.act = Act.EXIT
             else:
-                # self.robo._motion.stair('LEFT_DOWN')  # down
-                pass
+
+                self.robo._motion.stair(Robo.feet_down)  # down
+                # def walk(self, dir, loop=1, sleep=0.1, short=False):
+                self.robo._motion.walk(
+                    'BACKWARD', loop=2, short=True, sleep=1.5)  # 좁은 보폭
+
+                if Robo.feet_down == 'LEFT_DOWN':
+                    Robo.feet_down = 'RIGHT_DOWN'
+                else:
+                    Robo.feet_down = 'LEFT_DOWN'
+                # pass
 
         elif act == act.EXIT:
             print('Act = %s' % act)

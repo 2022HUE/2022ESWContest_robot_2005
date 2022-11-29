@@ -436,7 +436,6 @@ class ImageProccessor:
             if peri > 900 and points == 4:
                 roi_contour.append(contours[pos])
                 # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
-            
 
         if show:
             cv.imshow("show", dst)
@@ -497,14 +496,14 @@ class ImageProccessor:
                 return ''
         else:  # False
             return ''
-    
 
     ############ DANGER PROCESSING #############
     # 계단 지역인지(False) 위험 지역인지(True) detection
+
     def is_danger(self, show=False):
         img = self.get_img()
-        return Danger.is_danger(img, show) # [return] DANGER / STAIR
- 
+        return Danger.is_danger(img, show)  # [return] DANGER / STAIR
+
     # 방 이름이 적힌 글자(A, B, C, D)의 색상 판단
     def get_alphabet_color(self):
         img = self.get_img()
@@ -543,7 +542,7 @@ class ImageProccessor:
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
     def is_holding_milkbox(self, color, show=False):
         img = self.get_img()
-        return Danger.is_holding_milkbox(img, color, show) # [return] T/F
+        return Danger.is_holding_milkbox(img, color, show)  # [return] T/F
 
     # 장애물 위치 파악을 위한 함수
     def get_milkbox_pos(self, color, show=False):
@@ -582,18 +581,18 @@ class ImageProccessor:
         # False 일 때는 LEFT, RIGHT 반환
         # LEFT: 왼쪽으로 회전, RIGHT: 오른쪽으로 회전
         '''
-
         return ret
 
-    def second_rotation(self, Arrow):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
+    def second_rotation(self, Arrow,k):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
         img = self.get_img()
         img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(
             self, img, setting.STAIR_S, setting.ROOM_V)
 
         s_val = int((np.count_nonzero(s_mask) / (640 * 480)) * 1000)
-
-        ret = Stair.in_rotation(self, setting.STAIR_ROTATION, s_val, Arrow)
+        print('채도{},세팅값{}'.format(s_val, setting.top_saturation))
+        
+        ret = Stair.in_rotation(self, k, s_val, Arrow)
 
         '''motion
         # T: (회전완료) 머리 아래 30도 변경
@@ -629,7 +628,7 @@ class ImageProccessor:
         if show:
             cv.imshow("show", img)
             cv.waitKey(1) & 0xFF == ord('q')
-            
+
         contours = self.rect()
         try:
             alphabet_area, rect_x = Stair.in_rect(
@@ -655,7 +654,6 @@ class ImageProccessor:
             return 'fail'
 
     def stair_top(self):
-
         img = self.get_img()
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         lower_hue, upper_hue = np.array(
@@ -663,7 +661,6 @@ class ImageProccessor:
         b_mask = Stair.in_stair_top(
             self, hsv, lower_hue, upper_hue)  # roi blue mask
         top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
-        print(top_ret, setting.STAIR_UP)
 
         if top_ret >= setting.STAIR_UP:
             ''' motion
@@ -684,6 +681,10 @@ class ImageProccessor:
         else:
             print("1층에서 좁은 보폭")  # motion: 2층에서 샤샤샥
             return False
+
+    # 계단 내려가기 전에 파란색이 더 많은 부분 발이 먼저 내려가기
+    # 넘어졌을 때 cnt
+
 
     # 계단 내려가기
     def stair_down(self):
@@ -721,6 +722,59 @@ class ImageProccessor:
         else:
             return self.stair_top()
 
+    def top_processing(self):  # stair07~stair11
+        img = self.get_img()
+        img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
+        x, y, w, h = 250, 0, 390, 480
+        img = img[y:y+h, x:x+w]
+        mask = Stair.in_saturation_measurement(self, img, setting.STAIR_S, setting.ROOM_V)
+        return Stair.in_top_processing(self, mask, setting.top_forward)
+
+    def close_to_descent(self):
+        img = self.get_img()
+        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        lower_hue, upper_hue = np.array(
+            setting.STAIR_BLUE[0]), np.array(setting.STAIR_BLUE[1])
+        b_mask = Stair.in_stair_top(self, hsv, lower_hue, upper_hue)  # blue mask
+
+        top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
+
+        x=270; y=150
+        left_m=int((np.count_nonzero(b_mask[y:y+480,x:x+70]) / (640 * 480)) * 1000)
+
+        x=360
+        right_m=int((np.count_nonzero(b_mask[y:y+480,x:x+70]) / (640 * 480)) * 1000)
+
+        if right_m<left_m: ro = 'LEFT_DOWN'
+        else: ro = 'RIGHT_DOWN'
+        print(ro)
+
+        if top_ret <= setting.STAIR_DOWN:
+            return True,ro#내려가라
+        else:
+            return False,ro #전진
+
+    def wall_move(self, Arrow):  # 계단 오를 때
+        img = self.get_img()
+        # cv.imshow("img", img)
+        img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        mask = Stair.in_saturation_measurement(
+            self, img, setting.STAIR_S, setting.ROOM_V)
+
+        if Arrow == 'LEFT':
+            x = 0
+            y = 0
+            left = int(
+                (np.count_nonzero(mask[y:y + 480, x:x + 140]) / (640 * 480)) * 1000)
+            return Stair.in_rotation(self, left, setting.top_move, Arrow)
+        else:
+            x = 500
+            y = 0
+            right = int(
+                (np.count_nonzero(mask[y:y + 480, x:x + 320]) / (640 * 480)) * 1000)
+            # cv.imshow("right", mask[y:y + 480, x:x + 320])
+            return Stair.in_rotation(self, right, setting.top_move, Arrow)
+
     ############# STAIR PROCESSING #############
 
 
@@ -739,11 +793,12 @@ if __name__ == "__main__":
         # img_processor.get_milkbox_pos("RED", True)
 
         ### stair ###
-        # img_processor.first_rotation(show=True)
-        # conto = img_processor.rect()
+        # img_processor.first_rotation('RIGHT')
         # img_processor.alphabet_center_check()
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
+        # img_processor.top_processing()
+        # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
         # img_processor.get_milkbox_mask("BLUE")
         # img_processor.is_holding_milkbox("BLUE", True)

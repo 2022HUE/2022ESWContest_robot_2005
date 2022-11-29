@@ -8,9 +8,8 @@ import serial
 import time
 from threading import Thread, Lock
 
+
 # -----------------------------------------------
-
-
 class Motion:
     def __init__(self, sleep_time=0):
         self.serial_use = 1
@@ -48,6 +47,7 @@ class Motion:
             time.sleep(0.02)
 
     def RX_data(self):
+        time.sleep(0.02)
         if self.serial_port.inWaiting() > 0:
             result = self.serial_port.read(1)
             RX = ord(result)
@@ -61,7 +61,10 @@ class Motion:
             if self.receiving_exit == 0:
                 break
             time.sleep(self.threading_Time)
+            time.sleep(0.08)
+
             while ser.inWaiting() > 0:
+                time.sleep(0.5)
                 result = ser.read(1)
                 RX = ord(result)
                 # -----  remocon 16 Code  Exit ------
@@ -195,7 +198,7 @@ class Motion:
         """ parameter :
         dir : {LEFT, RIGHT}
         """
-        dir_list = {"LEFT": 174, "RIGHT": 175} # ??????
+        dir_list = {"LEFT": 175, "RIGHT": 176}
         self.TX_data_py2(dir_list[dir])
 
     # 집기 (181~186) [Danger]
@@ -203,7 +206,7 @@ class Motion:
         """ parameter :
         dir : {UP, DOWN, MISS}
         """
-        dir_list = {"UP" : 181, "DOWN" : 185, "MISS" : 184}
+        dir_list = {"UP": 181, "DOWN": 185, "MISS": 184}
         self.TX_data_py2(dir_list[dir])
 
     # 횟수_집고 전진 (187~188) [Danger]
@@ -220,6 +223,7 @@ class Motion:
             
 
     # 집고 옆으로 (189~192) [Danger]
+
     def grab_sideway(self, dir, long=False):
         """ parameter :
         dir : {LEFT, RIGHT}
@@ -248,10 +252,10 @@ class Motion:
             time.sleep(sleep)
 
     # 손 들고 걷기
-    def handsUp_walk(self, loop = 1):
-        for _ in range(loop) :
+    def handsUp_walk(self, loop=1):
+        for _ in range(loop):
             self.TX_data_py2(103)
-            time.sleep(1.5)   # 나중에 보고 초 조정하기
+            time.sleep(2)   # 나중에 보고 초 조정하기
 
     # 방위 인식 (201~204)
     def notice_direction(self, dir):
