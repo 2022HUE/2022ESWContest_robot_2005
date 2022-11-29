@@ -124,6 +124,12 @@ class MissionStair:
                 # pass
 
         elif act == act.DRAW_STAIR_LINE:
+            self.robo._motion.kick(Robo.arrow)
+            time.sleep(2)
+            self.robo._motion.kick(Robo.arrow)
+            time.sleep(2)
+            self.robo._motion.kick(Robo.arrow)
+            time.sleep(2)
             print('Act = %s' % act)
             ret = self.stair_up()
             print(ret)

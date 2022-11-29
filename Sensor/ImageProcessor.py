@@ -628,15 +628,14 @@ class ImageProccessor:
         top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
 
         x=270; y=150
-        left_m=b_mask[y:y+480,x:x+70]
         left_m=int((np.count_nonzero(b_mask[y:y+480,x:x+70]) / (640 * 480)) * 1000)
 
         x=360
-        right_m=b_mask[y:y+480,x:x+70]
         right_m=int((np.count_nonzero(b_mask[y:y+480,x:x+70]) / (640 * 480)) * 1000)
 
         if right_m<left_m: ro = 'LEFT_DOWN'
         else: ro = 'RIGHT_DOWN'
+        print(ro)
 
         if top_ret <= setting.STAIR_DOWN:
             return True,ro#내려가라
