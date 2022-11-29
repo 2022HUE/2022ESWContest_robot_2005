@@ -62,8 +62,8 @@ class Danger:
     @classmethod
     def can_hold_milkbox(self, src, color):
         result = True
-        begin = (bx, by) = (275, 320)
-        end = (ex, ey) = (364, 479)
+        begin = (bx, by) = (295, 320)
+        end = (ex, ey) = (344, 479)
         
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
         milk_mask = self.get_milkbox_mask(hsv, color)

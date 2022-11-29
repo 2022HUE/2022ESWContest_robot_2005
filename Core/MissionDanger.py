@@ -79,8 +79,8 @@ class MissionDanger:
 
         if act == act.START:
             print("START")
-            # self.act = Act.SPEAK_DANGER
-            self.act = Act.BACK_TO_LINE # hyerin debug
+            self.act = Act.SPEAK_DANGER
+            # self.act = Act.BACK_TO_LINE # hyerin debug
 
         elif act == act.SPEAK_DANGER:
             print("SPEAK_DANGER")
@@ -131,7 +131,7 @@ class MissionDanger:
                     Robo.black_room_list.append(self.alphabet_name)
                 elif self.miss >= self.limits:
                     # 계속 못찾으면 그냥 글자 B로 지정
-                    self.alphabet_name = 'D'
+                    self.alphabet_name = 'B'
                     Robo.black_room_list.append(self.alphabet_name)
                     self.miss = 0
                 else:
@@ -340,17 +340,31 @@ class MissionDanger:
 
         elif act == Act.BACK_TO_LINE:
             print("BACK_TO_LINE")
+            time.sleep(0.8)
             # # 임시
             # self.robo._motion.set_head("DOWN", 30)
             # 나중에 효율적으로 수정할 예정
             if Robo.box_pos in self.right_out:
-                my_arrow = "RIGHT"
+                print('RIGHT_OUT')
+                if Robo.arrow == "RIGHT": my_arrow = "RIGHT"
+                else: my_arrow = "LEFT"
+                print(my_arrow)
             else:
-                my_arrow = "LEFT"
+                if Robo.arrow == "RIGHT": my_arrow = "LEFT"
+                else: my_arrow = "RIGHT"
+                # my_arrow = "LEFT"
             # self.robo._motion.walk("BACKWARD",2,2)
             # time.sleep(1)
+            
+            
             state, h_slope = self.robo._image_processor.is_yellow()
             print(state, h_slope)
+            if h_slope is None: 
+                print('ELSE', my_arrow)
+                self.robo._motion.turn(my_arrow, 20) # 방향 조절 필요
+                time.sleep(1)
+                self.robo._motion.walk("FORWARD")
+                time.sleep(1)
             if state == "HORIZON":
                 self.robo._motion.walk("FORWARD")
                 time.sleep(1)
@@ -374,7 +388,10 @@ class MissionDanger:
                     time.sleep(1)
                     self.robo._motion.turn(my_arrow, 20)
             else:
+                print('ELSE', my_arrow)
                 self.robo._motion.turn(my_arrow, 20) # 방향 조절 필요
+                time.sleep(1)
+                self.robo._motion.walk("FORWARD")
                 time.sleep(1)
                 
                 
