@@ -210,9 +210,9 @@ class MissionStair:
             else:
                 self.robo._motion.stair(Robo.feet_down)  # down
                 if Robo.feet_down=='LEFT_DOWN':
-                    Robo.feet_down=='RIGHT_DOWN'
+                    Robo.feet_down ='RIGHT_DOWN'
                 else:
-                    Robo.feet_down == 'LEFT_DOWN'
+                    Robo.feet_down = 'LEFT_DOWN'
                 # pass
 
         elif act == act.EXIT:
