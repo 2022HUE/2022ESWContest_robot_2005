@@ -226,7 +226,7 @@ class Controller:
                 self.robo._motion.walk("FORWARD")
             else:
                 if self.check_entrance > 0:
-                    self.robo._motion.walk("FORWARD", 2, 1)
+                    self.robo._motion.walk("FORWARD" )
                     # return True # Debug
                     self.act = act.ENTRANCE
                     

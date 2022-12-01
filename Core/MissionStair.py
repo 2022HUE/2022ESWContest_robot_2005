@@ -70,8 +70,8 @@ class MissionStair:
 
         if act == act.START:
             print('Act = %s' % act)
+            # self.act = Act.DRAW_STAIR_LINE
             self.act = Act.FIRST_ROTATION
-            # self.act = Act.FIRST_ROTATION
 
         # 현재 상태: 계단을 70도로 바라보고 계단임이 판단됨.
         elif act == act.FIRST_ROTATION:  # 현재 머리각도 70
@@ -176,7 +176,7 @@ class MissionStair:
                 Robo.dis_arrow, setting.top_saturation)
             if rotation == True:
                 self.robo._motion.basic()
-                time.sleep(3)
+                time.sleep(5)
                 self.robo._motion.set_head('DOWN', 30)
                 time.sleep(1)
                 self.act = Act.CLOSE_TO_DESCENT
@@ -218,9 +218,10 @@ class MissionStair:
             else:
 
                 self.robo._motion.stair(Robo.feet_down)  # down
-                # def walk(self, dir, loop=1, sleep=0.1, short=False):
+                time.sleep(5)
                 self.robo._motion.walk(
                     'BACKWARD', loop=2, short=True, sleep=1.5)  # 좁은 보폭
+                time.sleep(1)
 
                 if Robo.feet_down == 'LEFT_DOWN':
                     Robo.feet_down = 'RIGHT_DOWN'
