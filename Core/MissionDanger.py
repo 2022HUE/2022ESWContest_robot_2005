@@ -70,7 +70,7 @@ class MissionDanger:
                     return True
                 else:
                     # motion : 왼쪽 혹은 오른쪽으로 걷기 수행
-                    self.robo._motion.turn(is_okay, 10)
+                    self.robo._motion.walk(is_okay)
                     time.sleep(1)
         return False
     
@@ -185,11 +185,11 @@ class MissionDanger:
                         #     Robo.box_pos = self.first_milkbox_pos
                         ###################################
                         # 무지성으로 반대 방향으로 돌아서 나오기
-                        self.robo._motion.turn(Robo.dis_arrow, 60)
+                        self.robo._motion.grab_turn(Robo.dis_arrow, 60)
                         time.sleep(2.5)
-                        self.robo._motion.turn(Robo.dis_arrow, 60)
+                        self.robo._motion.grab_turn(Robo.dis_arrow, 60)
                         time.sleep(2.5)
-                        self.robo._motion.turn(Robo.dis_arrow, 60)
+                        self.robo._motion.grab_turn(Robo.dis_arrow, 60)
                         time.sleep(2.5)
                         
                         self.act = Act.OUT_OF_DANGER

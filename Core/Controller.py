@@ -58,8 +58,8 @@ class Controller:
         time.sleep(1)
         # [motion] 로봇 화살표 방향으로 45도 회전
         self.robo._motion.turn(self.robo.arrow, 45, 2, 0.8)
-        time.sleep(0.5)
-        self.robo._motion.walk_side(Robo.dis_arrow)
+        # time.sleep(0.5)
+        # self.robo._motion.walk_side(Robo.dis_arrow)
         time.sleep(1)
         self.robo._motion.set_head("DOWN", 70)
         if self.count_area == 0:  # 최초 방문
