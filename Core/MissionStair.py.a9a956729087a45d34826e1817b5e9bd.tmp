@@ -182,7 +182,7 @@ class MissionStair:
                 self.act = Act.CLOSE_TO_DESCENT
             else:
                 self.robo._motion.arm_turn(
-                    rotation, 20, sleep=1.5)  # 화살표 반대 방향으로
+                    rotation, 20, sleep=1)  # 화살표 반대 방향으로
                 time.sleep(1)
 
         elif act == act.CLOSE_TO_DESCENT:

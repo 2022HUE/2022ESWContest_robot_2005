@@ -78,8 +78,8 @@ class MissionDanger:
 
         if act == act.START:
             print("START")
-            self.act = Act.SPEAK_DANGER
-            # self.act = Act.BACK_TO_LINE # hyerin debug
+            # self.act = Act.SPEAK_DANGER
+            self.act = Act.BACK_TO_LINE # hyerin debug
 
         elif act == act.SPEAK_DANGER:
             print("SPEAK_DANGER")
@@ -365,7 +365,7 @@ class MissionDanger:
                 print('RIGHT_OUT')
                 if Robo.arrow == "RIGHT": my_arrow = "RIGHT"
                 else: my_arrow = "LEFT"
-                print(my_arrow)
+                # print(my_arrow)
             else:
                 if Robo.arrow == "RIGHT": my_arrow = "LEFT"
                 else: my_arrow = "LEFT"
@@ -383,10 +383,18 @@ class MissionDanger:
                 self.robo._motion.walk("FORWARD")
                 time.sleep(1)
             if state == "HORIZON":
-                self.robo._motion.walk("FORWARD")
-                time.sleep(1)
-                self.robo._motion.turn(my_arrow, 20) # 방향 조절 필요
-                time.sleep(1)
+                if h_slope <= 10 or 170 <= h_slope:
+                    self.robo._motion.walk("FORWARD")
+                    time.sleep(1.5)
+                    self.robo._motion.walk("FORWARD")
+                    time.sleep(1.5)
+                    self.act = Act.EXIT
+                else:
+                    print('ms, horizon else')
+                    self.robo._motion.walk("FORWARD")
+                    time.sleep(1)
+                    self.robo._motion.turn(my_arrow, 20) # 방향 조절 필요
+                    time.sleep(1)
             elif state == "BOTH":
                 if h_slope <= 10 or 170 <= h_slope:
                     self.robo._motion.walk("FORWARD")

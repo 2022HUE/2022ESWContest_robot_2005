@@ -188,12 +188,11 @@ class ImageProccessor:
             cv.imshow("tmp", line_gray)
             cv.waitKey(1) & 0xFF == ord('q')
 
-            
-
         roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
 
         # get Line
-        line_arr = Line.hough_lines(self, roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
+        line_arr = Line.hough_lines(
+            self, roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
         line_arr = np.squeeze(line_arr)
         # print(line_arr)
         if show:
@@ -205,18 +204,20 @@ class ImageProccessor:
             #     cv.imshow("tmp", origin)
             #     cv.waitKey(1) & 0xFF == ord('q')
 
-            state, horizon_arr, vertical_arr = Line.slope_filter(self, line_arr)
-            h_line, v_line = Line.get_fitline(self, origin, horizon_arr), Line.get_fitline(self, origin, vertical_arr)
+            state, horizon_arr, vertical_arr = Line.slope_filter(
+                self, line_arr)
+            h_line, v_line = Line.get_fitline(
+                self, origin, horizon_arr), Line.get_fitline(self, origin, vertical_arr)
 
             # init
             v_slope = None
             h_slope = None
 
             if v_line:
-                Line.draw_fitline(self, origin, v_line, [0, 255, 255]) # Debug
+                Line.draw_fitline(self, origin, v_line, [0, 255, 255])  # Debug
                 v_slope = int(Line.slope_cal(self, v_line))
             if h_line:
-                Line.draw_fitline(self, origin, h_line, [0, 255, 0]) # Debug
+                Line.draw_fitline(self, origin, h_line, [0, 255, 0])  # Debug
                 h_slope = int(Line.slope_cal(self, h_line))
 
             # print(v_slope, h_slope)
@@ -265,12 +266,12 @@ class ImageProccessor:
                 if is_center != True:
                     return is_center
                 # if 88 < v_slope < 96:  # 수직
-                if 85 <= v_slope <= 100:  # 수직
+                if setting.VSLOPE1 <= v_slope <= setting.VSLOPE2:  # 수직
                     return state
-                elif v_slope < 85:
+                elif setting.VSLOPE1 < 85:
                     # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_LEFT"
-                elif 100 < v_slope:
+                elif setting.VSLOPE2 < v_slope:
                     # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_RIGHT"
             elif state == "HORIZON" and h_line:
@@ -296,9 +297,10 @@ class ImageProccessor:
         img = self.correction(img, 7)
         img = self.RGB2GRAY(img)
         _, th = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
-        edges = cv.Canny(th, 500,700, apertureSize=3)
+        edges = cv.Canny(th, 500, 700, apertureSize=3)
 
-        roi_img = Line.ROI(self, edges, self.height, self.width, origin, c="BLACK")
+        roi_img = Line.ROI(self, edges, self.height,
+                           self.width, origin, c="BLACK")
 
         # get Line
         line_arr = Line.hough_lines(self, roi_img)   # 허프 변환
@@ -307,13 +309,15 @@ class ImageProccessor:
         h_slope = None
         if line_arr != 'None':
             Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
-            state, horizon_arr, vertical_arr = Line.slope_filter(self, line_arr, black=True)
-            h_line, v_line = Line.get_black_fitline(self, origin, horizon_arr), Line.get_black_fitline(self, origin, vertical_arr)
+            state, horizon_arr, vertical_arr = Line.slope_filter(
+                self, line_arr, black=True)
+            h_line, v_line = Line.get_black_fitline(
+                self, origin, horizon_arr), Line.get_black_fitline(self, origin, vertical_arr)
             if v_line:
-                Line.draw_fitline(self, origin, v_line, [0, 255, 255]) # Debug
+                Line.draw_fitline(self, origin, v_line, [0, 255, 255])  # Debug
                 v_slope = abs(int(Line.slope_cal(self, v_line)))
             if h_line:
-                Line.draw_fitline(self, origin, h_line, [0, 255, 0]) # Debug
+                Line.draw_fitline(self, origin, h_line, [0, 255, 0])  # Debug
                 h_slope = abs(int(Line.slope_cal(self, h_line)))
             # print(state, v_slope, h_slope)
 
@@ -323,7 +327,7 @@ class ImageProccessor:
             if show:
                 cv.imshow("tmp", th)
                 cv.waitKey(1) & 0xFF == ord('q')
-            
+
             if h_slope:
                 print(h_slope)
                 if h_slope <= 10 or 170 <= h_slope:
@@ -351,9 +355,9 @@ class ImageProccessor:
         # mask = np.zeros_like(img)
         # cv.fillPoly(mask, vertices, 255)
         # roi_img = cv.bitwise_and(img, mask)
-        
+
         # roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
-        
+
         # line_arr = Line.hough_lines(self, roi_img)   # 허프 변환
         line_arr = Line.hough_lines(self, line_gray)   # 허프 변환
         line_arr = np.squeeze(line_arr)
@@ -365,14 +369,16 @@ class ImageProccessor:
         if line_arr != 'None':
             print('T')
             # self.is_line_horizon_vertical()
-            state, horizon_arr, vertical_arr = Line.slope_filter(self, line_arr, black=True)
-            h_line, v_line = Line.get_black_fitline(self, origin, horizon_arr), Line.get_black_fitline(self, origin, vertical_arr)
+            state, horizon_arr, vertical_arr = Line.slope_filter(
+                self, line_arr, black=True)
+            h_line, v_line = Line.get_black_fitline(
+                self, origin, horizon_arr), Line.get_black_fitline(self, origin, vertical_arr)
             v_slope, h_slope = None, None
             if v_line:
-                Line.draw_fitline(self, origin, v_line, [0, 255, 255]) # Debug
+                Line.draw_fitline(self, origin, v_line, [0, 255, 255])  # Debug
                 v_slope = abs(int(Line.slope_cal(self, v_line)))
             if h_line:
-                Line.draw_fitline(self, origin, h_line, [0, 255, 0]) # Debug
+                Line.draw_fitline(self, origin, h_line, [0, 255, 0])  # Debug
                 h_slope = abs(int(Line.slope_cal(self, h_line)))
             print(state, v_slope, h_slope)
             return state, h_slope
@@ -380,7 +386,7 @@ class ImageProccessor:
         else:
             print('F')
             return "None", None
-        
+
     ########### ENTRANCE PROCESSING ###########
     # 화살표 방향 인식 후 리턴
 
@@ -536,8 +542,8 @@ class ImageProccessor:
     def is_out_of_black(self, show=False):
         img = self.get_img()
         # light보다 bright가 효과가 좋아서 추가해둠
-        img = self.light(img, 0) # 1128 hyerin
-        img = self.bright(img, 3.0) # 1128 hyerin
+        img = self.light(img, 0)  # 1128 hyerin
+        img = self.bright(img, 3.0)  # 1128 hyerin
         return Danger.is_out_of_black(img, show)  # [return] T/F
 
     # 장애물을 떨어트리지 않고 여전히 들고 있는 지에 대한 체크
@@ -548,13 +554,14 @@ class ImageProccessor:
     # 장애물 위치 파악을 위한 함수
     def get_milkbox_pos(self, color, show=False):
         img = self.get_img()
-        return Danger.get_milkbox_pos(img, color, show) # [return] 0 ~ 8 (장애물 위치 idx 값)
-    
+        # [return] 0 ~ 8 (장애물 위치 idx 값)
+        return Danger.get_milkbox_pos(img, color, show)
+
     # 장애물 집을 지 말 지 결정하는 함수 (7번 위치에서 충분히 가까운지)
     def can_hold_milkbox(self, color):
         img = self.get_img()
         return Danger.can_hold_milkbox(img, color)
-    
+
     # 장애물 집을 지 말 지 결정하는 함수 (7번 위치에서 충분히 가까운지)
     def get_milkbox_mask(self, color):
         img = self.get_img()
@@ -562,7 +569,7 @@ class ImageProccessor:
         img = self.correction(img, 7)
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         return Danger.get_milkbox_mask(hsv, color)
-    
+
     ############# DANGER PROCESSING #############
 
     ############# STAIR PROCESSING #############
@@ -573,8 +580,10 @@ class ImageProccessor:
         img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(
             self, img, setting.STAIR_S, setting.ROOM_V)
+        print(s_mask)
         cur_s_val = Stair.in_left_right(
             self, s_mask, Arrow)  # (Current_saturation_value)
+        print(cur_s_val)
         ret = Stair.in_rotation(
             self, cur_s_val, setting.ALPHABET_ROTATION, Arrow)
         '''motion
@@ -584,7 +593,7 @@ class ImageProccessor:
         '''
         return ret
 
-    def second_rotation(self, Arrow,k):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
+    def second_rotation(self, Arrow, k):  # 계단 지역일 때 계단 쪽으로 도는 함수, 화살표 방향.
         img = self.get_img()
         img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         s_mask = Stair.in_saturation_measurement(
@@ -592,7 +601,7 @@ class ImageProccessor:
 
         s_val = int((np.count_nonzero(s_mask) / (640 * 480)) * 1000)
         print('채도{},세팅값{}'.format(s_val, setting.top_saturation))
-        
+
         ret = Stair.in_rotation(self, k, s_val, Arrow)
 
         '''motion
@@ -675,7 +684,7 @@ class ImageProccessor:
             # stair_stage_check는 외부에서 계단 올라간거 체크하는 변수 만들어야 함.
             if int(setting.STAIR_LEVEL) < 3:
                 print("2층입니다. 올라가세요")
-                setting.STAIR_LEVEL=3
+                setting.STAIR_LEVEL = 3
                 return True  # 올라가라
             elif int(setting.STAIR_LEVEL) >= 3:
                 print("정상 도달")
@@ -687,8 +696,8 @@ class ImageProccessor:
     # 계단 내려가기 전에 파란색이 더 많은 부분 발이 먼저 내려가기
     # 넘어졌을 때 cnt
 
-
     # 계단 내려가기
+
     def stair_down(self):
         img = self.get_img()
         img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
@@ -718,6 +727,8 @@ class ImageProccessor:
                 ''' motion 
                 # T: 1층 -> 2층 계단 올라가기 + 샤샤샥 -> draw_stair_line() 재실행
                 # F: 샤샤샥 '''
+                if Stair.in_draw_stair_line(self, lines, img, w, h, setting.LINE_HIGH):
+                    setting.STAIR_LEVEL = 1
                 return Stair.in_draw_stair_line(self, lines, img, w, h, setting.LINE_HIGH)
             else:
                 return False  # 라인 추출 실패
@@ -729,7 +740,8 @@ class ImageProccessor:
         img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
         x, y, w, h = 250, 0, 390, 480
         img = img[y:y+h, x:x+w]
-        mask = Stair.in_saturation_measurement(self, img, setting.STAIR_S, setting.ROOM_V)
+        mask = Stair.in_saturation_measurement(
+            self, img, setting.STAIR_S, setting.ROOM_V)
         return Stair.in_top_processing(self, mask, setting.top_forward)
 
     def close_to_descent(self):
@@ -737,24 +749,30 @@ class ImageProccessor:
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         lower_hue, upper_hue = np.array(
             setting.STAIR_BLUE[0]), np.array(setting.STAIR_BLUE[1])
-        b_mask = Stair.in_stair_top(self, hsv, lower_hue, upper_hue)  # blue mask
+        b_mask = Stair.in_stair_top(
+            self, hsv, lower_hue, upper_hue)  # blue mask
 
         top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
 
-        x=270; y=150
-        left_m=int((np.count_nonzero(b_mask[y:y+480,x:x+70]) / (640 * 480)) * 1000)
+        x = 270
+        y = 150
+        left_m = int(
+            (np.count_nonzero(b_mask[y:y+480, x:x+70]) / (640 * 480)) * 1000)
 
-        x=360
-        right_m=int((np.count_nonzero(b_mask[y:y+480,x:x+70]) / (640 * 480)) * 1000)
+        x = 360
+        right_m = int(
+            (np.count_nonzero(b_mask[y:y+480, x:x+70]) / (640 * 480)) * 1000)
 
-        if right_m<left_m: ro = 'LEFT_DOWN'
-        else: ro = 'RIGHT_DOWN'
+        if right_m < left_m:
+            ro = 'LEFT_DOWN'
+        else:
+            ro = 'RIGHT_DOWN'
         print(ro)
 
         if top_ret <= setting.STAIR_DOWN:
-            return True,ro#내려가라
+            return True, ro  # 내려가라
         else:
-            return False,ro #전진
+            return False, ro  # 전진
 
     def wall_move(self, Arrow):  # 계단 오를 때
         img = self.get_img()
@@ -790,7 +808,7 @@ if __name__ == "__main__":
         # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
-        
+
         print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_milkbox_pos("RED", True)
 
@@ -805,7 +823,7 @@ if __name__ == "__main__":
         # img_processor.get_milkbox_mask("BLUE")
         # img_processor.is_holding_milkbox("BLUE", True)
         # img_processor.is_out_of_black(True)
-        
+
         ### danger ###
         # print(img_processor.get_alphabet_color())
         # img_processor.is_out_of_black(True)
