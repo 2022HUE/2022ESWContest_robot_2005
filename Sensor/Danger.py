@@ -79,14 +79,14 @@ class Danger:
             M = cv.moments(cnt)
             cx = int(M['m10']/M['m00'])
             cy = int(M['m01']/M['m00'])
-            print(cy)
+            # print(cy)
             
             # cv.circle(src, (cx, cy), 10, (0,0,255), -1)
             if cx < bx:
                 return "LEFT"
             elif cx > ex:
                 return "RIGHT"
-            elif cy > by:
+            elif cy < by:
                 return False
             
         # cv.imshow('milkbox_crop', milkbox_crop)
@@ -357,6 +357,7 @@ if __name__ == "__main__":
 
         # milk_mask = danger.get_milkbox_mask(hsv, "BLUE")
         print(danger.can_hold_milkbox(img, "RED"))
+        print("_______________________________")
 
         if cv.waitKey(1) & 0xFF == ord('q'):
             break
