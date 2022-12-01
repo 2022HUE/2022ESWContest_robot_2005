@@ -268,7 +268,7 @@ class ImageProccessor:
                 # if 88 < v_slope < 96:  # 수직
                 if setting.VSLOPE1 <= v_slope <= setting.VSLOPE2:  # 수직
                     return state
-                elif setting.VSLOPE1 < 85:
+                elif v_slope < setting.VSLOPE1:
                     # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_LEFT"
                 elif setting.VSLOPE2 < v_slope:
