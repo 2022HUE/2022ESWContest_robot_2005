@@ -70,7 +70,7 @@ class MissionStair:
 
         if act == act.START:
             print('Act = %s' % act)
-            self.act = Act.DRAW_STAIR_LINE
+            self.act = Act.FIRST_ROTATION
             # self.act = Act.FIRST_ROTATION
 
         # 현재 상태: 계단을 70도로 바라보고 계단임이 판단됨.

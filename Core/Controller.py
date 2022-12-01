@@ -178,7 +178,7 @@ class Controller:
         elif state == "TURN_RIGHT":
             self.robo._motion.turn("RIGHT", 10)
         elif state == "BOTH":
-             if h_slope < 90: self.robo._motion.turn("RIGHT", 10)
+            if h_slope < 90: self.robo._motion.turn("RIGHT", 10)
             else:
                 self.robo._motion.turn("LEFT", 10)
         else:
@@ -196,7 +196,7 @@ class Controller:
             # motion: 고개 내리기 30
             self.robo._motion.set_head("DOWN", 30)
             # time.sleep(0.5)
-            # self.act = act.GO_ENTRANCE
+            self.act = act.GO_ENTRANCE
 
             # debug
             # self.act = act.ENTRANCE
@@ -204,7 +204,7 @@ class Controller:
             # self.act = act.GO_EXIT
             
             # self.robo._motion.set_head("DOWN", 70)
-            self.act = act.DANGER
+            # self.act = act.DANGER
             # self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:
@@ -278,8 +278,12 @@ class Controller:
                 self.robo._motion.walk("FORWARD")
             elif state == "MOVE_LEFT":
                 self.robo._motion.walk_side("LEFT")
+                self.robo._motion.turn("LEFT", 10)
+                
             elif state == "MOVE_RIGHT":
                 self.robo._motion.walk_side("RIGHT")
+                self.robo._motion.turn("RIGHT", 10)
+                
             elif state == "TURN_LEFT":
                 self.robo._motion.turn("LEFT", 10)
             elif state == "TURN_RIGHT":
