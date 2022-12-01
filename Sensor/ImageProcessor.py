@@ -261,6 +261,7 @@ class ImageProccessor:
                 else:  # 선이 둘 다 인식됨
                     return state
             elif state == "VERTICAL" and v_line:
+                print('******', setting.VSLOPE1, '******')
                 is_center = Line.is_center(self, origin, v_line)
                 # cv.putText(origin, "center: {}".format(is_center), (260, 80), cv.FONT_HERSHEY_SIMPLEX, 0.8, [0,255,100], 2)
                 if is_center != True:
@@ -270,6 +271,7 @@ class ImageProccessor:
                     return state
                 elif v_slope < setting.VSLOPE1:
                     # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
+                    print(setting.VSLOPE1, "turn left turn left")
                     return "TURN_LEFT"
                 elif setting.VSLOPE2 < v_slope:
                     # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)

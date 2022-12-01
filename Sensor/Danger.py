@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import cv2 as cv
 import numpy as np
 
@@ -62,7 +63,7 @@ class Danger:
     @classmethod
     def can_hold_milkbox(self, src, color):
         result = True
-        begin = (bx, by) = (295, 320)
+        begin = (bx, by) = (295, 330)
         end = (ex, ey) = (344, 479)
         
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
@@ -77,12 +78,14 @@ class Danger:
 
             M = cv.moments(cnt)
             cx = int(M['m10']/M['m00'])
-            # cy = int(M['m01']/M['m00'])
+            cy = int(M['m01']/M['m00'])
             # cv.circle(src, (cx, cy), 10, (0,0,255), -1)
             if cx < bx:
                 return "LEFT"
             elif cx > ex:
                 return "RIGHT"
+            elif cy > by:
+                return False
             
         # cv.imshow('milkbox_crop', milkbox_crop)
         # cv.imshow("roi", cv.rectangle(src, begin, end, (0, 0, 255), 3))
@@ -350,8 +353,8 @@ if __name__ == "__main__":
         # else:
         #     print(danger.get_alphabet_color(alpha_hsv))
 
-        milk_mask = danger.get_milkbox_mask(hsv, "BLUE")
-        # print(danger.can_hold_milkbox(img, "RED"))
+        # milk_mask = danger.get_milkbox_mask(hsv, "BLUE")
+        print(danger.can_hold_milkbox(img, "RED"))
 
         if cv.waitKey(1) & 0xFF == ord('q'):
             break

@@ -21,6 +21,8 @@ class Setting:
 setting = Setting()
 ########### LINE DETECTION ###########
 setting.YELLOW_DATA = [[20, 100, 100], [35, 255, 255]]
+setting.VSLOPE1 = 85
+setting.VSLOPE2 = 105
 
 ########### ENTRANCE PROCESSING ###########
 setting.ARROW_BLUR = 7
