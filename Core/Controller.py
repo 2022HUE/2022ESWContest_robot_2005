@@ -120,10 +120,6 @@ class Controller:
             elif state == "TURN_LEFT":
                 self.robo._motion.turn("LEFT", 10)
             elif state == "TURN_RIGHT":
-                print('*')
-                print('*')
-                print('*')
-                print('*')
                 self.robo._motion.turn("RIGHT", 10)
             elif state == "BOTH":  # 선 둘 다 인식
                 # self.robo._motion.walk_side("LEFT")
@@ -157,7 +153,9 @@ class Controller:
     @classmethod
     def exit_stair(self):
         if self.stair_turn == 0:
-            self.robo._motion.turn(Robo.dis_arrow, 45, 2, 1)
+            self.robo._motion.turn(Robo.dis_arrow, 60,1)
+            time.sleep(1)
+            self.robo._motion.turn(Robo.dis_arrow, 45,1)
             self.stair_turn += 1
         
         state, h_slope = self.robo._image_processor.is_yellow()
@@ -167,7 +165,10 @@ class Controller:
             self.robo._motion.walk("FORWARD")
             return False
             
-        if state == "HORIZON" or h_slope <= 10 or 170 <= h_slope or state == "VERTICAL": 
+        if state == "HORIZON" and h_slope <= 10 or 170 <= h_slope: 
+            self.robo._motion.walk("FORWARD", 3, 1.5)
+            
+        # if state == "HORIZON" or h_slope <= 10 or 170 <= h_slope or state == "VERTICAL": 
             return True
         elif state == "MOVE_LEFT":
             self.robo._motion.walk_side("LEFT")
@@ -332,14 +333,21 @@ class Controller:
                         self.robo._motion.walk("FORWARD")
                         return False
                 else:
+                    print('exit stair')
                     if self.exit_stair():
+                        print('exit stair 성공')
+                        
                         time.sleep(1)
                         self.check_stair += 1
                         
                         self.robo._motion.turn(robo.arrow, 45, 2, 0.8)
-                        self.robo._motion.walk_side(Robo.arrow)
-                        self.robo._motion.walk_side(Robo.arrow)
+                        # self.robo._motion.walk_side(Robo.arrow)
+                        # self.robo._motion.walk_side(Robo.arrow)
                         self.robo._motion.turn(robo.arrow, 10, 3)
+                        
+                        time.sleep(0.5)
+                        self.robo._motion.walk_side(Robo.dis_arrow)
+                        self.robo._motion.walk_side(Robo.dis_arrow)
                         
                         return False
                     else:
