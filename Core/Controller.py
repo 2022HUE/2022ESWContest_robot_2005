@@ -7,7 +7,7 @@ from Core.MissionDanger import MissionDanger
 from Setting import cur
 import time
 
-limits: int = 1
+limits: int = 2
 
 
 class Act(Enum):  # 맵 전체 수행 순서도
@@ -324,6 +324,7 @@ class Controller:
                 # return True  # debug
                 if self.check_stair > 0:
                     if self.line_v_rotate():
+                        print("count_area: ", self.count_area)
                         if self.count_area < limits:
                             self.act = act.GO_NEXTROOM
                         else:
@@ -343,10 +344,15 @@ class Controller:
                         self.robo._motion.turn(robo.arrow, 45, 2, 0.8)
                         # self.robo._motion.walk_side(Robo.arrow)
                         # self.robo._motion.walk_side(Robo.arrow)
-                        self.robo._motion.turn(robo.arrow, 10, 3)
+                        # self.robo._motion.turn(robo.arrow, 10, 3)
                         
                         time.sleep(0.5)
                         self.robo._motion.walk_side(Robo.dis_arrow)
+                        time.sleep(0.5)
+                        self.robo._motion.walk_side(Robo.dis_arrow)
+                        time.sleep(0.5)
+                        self.robo._motion.walk_side(Robo.dis_arrow)
+                        time.sleep(0.5)
                         self.robo._motion.walk_side(Robo.dis_arrow)
                         
                         return False
