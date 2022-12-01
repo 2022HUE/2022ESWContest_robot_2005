@@ -562,8 +562,9 @@ class ImageProccessor:
             # stair_stage_check는 외부에서 계단 올라간거 체크하는 변수 만들어야 함.
             if int(setting.STAIR_LEVEL) < 3:
                 print("2층입니다. 올라가세요")
+                setting.STAIR_LEVEL=3
                 return True  # 올라가라
-            elif int(setting.STAIR_LEVEL) == 3:
+            elif int(setting.STAIR_LEVEL) >= 3:
                 print("정상 도달")
                 return 'Top'
         else:
