@@ -52,8 +52,7 @@ class MissionDanger:
             self.robo._motion.set_head("DOWN", 30)
             time.sleep(1)
         else:
-            is_okay = self.robo._image_processor.can_hold_milkbox(
-                Robo.alphabet_color)
+            is_okay = self.robo._image_processor.can_hold_milkbox(Robo.alphabet_color)
             # 장애물 잡기 동작 씹히는 에러 발생하여 sleep 줄 필요가 있음
             time.sleep(1)
             if not is_okay:
@@ -165,21 +164,19 @@ class MissionDanger:
 
         elif act == act.WALK_TO_MILKBOX:
             print("WALK_TO_MILKBOX")
-            # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정화하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
+            # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정확하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
             if cur.FIRST_MILKBOX_POS:
                 self.first_milkbox_pos = cur.FIRST_MILKBOX_POS
                 Robo.box_pos = self.first_milkbox_pos
             else:
                 # 장애물 처음 위치 저장 -> 선언 위치가 여기가 맞을 지 모르겠지만 일단 여기에 둠
-                self.first_milkbox_pos = self.robo._image_processor.get_milkbox_pos(
-                    Robo.alphabet_color)
+                self.first_milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
                 Robo.box_pos = self.first_milkbox_pos
 
             print("초기 장애물 위치 : ",  Robo.box_pos)
 
             while True:
-                self.milkbox_pos = self.robo._image_processor.get_milkbox_pos(
-                    Robo.alphabet_color)
+                self.milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
                 # 9개 구역에 따라 다른 모션 수행
                 if self.milkbox_pos == 7:
                     if self.is_okay_grab_milkbox():
@@ -217,8 +214,7 @@ class MissionDanger:
             print("REGRAB_MILKBOX")
 
             while True:
-                self.milkbox_pos = self.robo._image_processor.get_milkbox_pos(
-                    Robo.alphabet_color)
+                self.milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
                 # 9개 구역에 따라 다른 모션 수행
                 if self.milkbox_pos == 7:
                     if self.is_okay_grab_milkbox():
