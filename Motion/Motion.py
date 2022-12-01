@@ -66,6 +66,7 @@ class Motion:
             while ser.inWaiting() > 0:
                 time.sleep(0.5)
                 result = ser.read(1)
+                print(result)
                 RX = ord(result)
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16:

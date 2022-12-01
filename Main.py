@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Main code
 from Core.Controller import Controller
 
