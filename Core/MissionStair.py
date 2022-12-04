@@ -81,7 +81,7 @@ class MissionStair:
         # 현재 상태: 계단을 70도로 바라보고 계단임이 판단됨.
         elif act == act.FIRST_ROTATION:  # 현재 머리각도 70
             print('Act = %s' % act)
-            ret = self.first_rotatgition()
+            ret = self.first_rotation()
             print(ret)
             if ret == True:  # True 회전완료
                 self.act = Act.CENTER_AND_FORWARD
