@@ -797,6 +797,9 @@ class ImageProccessor:
             # cv.imshow("right", mask[y:y + 480, x:x + 320])
             return Stair.in_rotation(self, right, setting.top_move, Arrow)
 
+    def stair_obstacle(self):
+        img = self.get_img()
+        return Stair.in_stair_obstacle(self,img) #True가 나오면 치워
     ############# STAIR PROCESSING #############
 
 

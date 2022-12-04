@@ -12,6 +12,7 @@ class Act(Enum):
     CENTER_AND_FORWARD = auto()
     SECOND_ROTATION = auto()
     DRAW_STAIR_LINE = auto()
+    STAIR_OBSTACLE = auto()
     STAIR_DOWN = auto()
     TOP_PROCESSING = auto()
     TOP_TURN = auto()
@@ -26,6 +27,10 @@ class MissionStair:
     @classmethod
     def init_robo(self, robo: Robo):
         self.robo = robo
+
+    @classmethod
+    def stair_obstacle(self):
+        return self.robo._image_processor.stair_obstacle()
 
     @classmethod
     def close_to_descent(self):
@@ -115,22 +120,26 @@ class MissionStair:
                 self.robo._motion.set_head('DOWN', angle=30)  # 30도
                 time.sleep(1)
                 self.robo._motion.walk('FORWARD', loop=5, sleep=1)  # 3회 정도
-                self.robo._motion.kick(Robo.arrow)
-                time.sleep(4)
-                self.robo._motion.kick(Robo.arrow)
-                time.sleep(4)
-                self.robo._motion.kick(Robo.arrow)
-                time.sleep(4)
-                self.robo._motion.walk('FORWARD', loop=4, short=True)  # 좁은 보폭
+                self.robo._motion.walk('FORWARD', sleep=1,short=True)  # 3회 정도
+                time.sleep(2)
                 self.act = Act.DRAW_STAIR_LINE
             else:
                 # print("들어옴")
                 self.robo._motion.turn(
                     Robo.dis_arrow, 45, sleep=1)  # 화살표 반대 방향으로
                 # pass
+        # elif act == act.STAIR_OBSTACLE:
+        #     ret = self.stair_obstacle()
+        #     if self.stair_obstacle() == True:
+        #         self.robo._motion.kick(Robo.arrow)
+        #         time.sleep(4)
+        #     else:
+        #         self.act = Act.DRAW_STAIR_LINE
 
         elif act == act.DRAW_STAIR_LINE:
-
+            if self.stair_obstacle() == True:
+                self.robo._motion.kick(Robo.arrow)
+                time.sleep(4)
             print('Act = %s' % act)
             ret = self.stair_up()
             print(ret)
