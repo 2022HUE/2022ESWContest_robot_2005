@@ -668,7 +668,7 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(DataPath.stair11)
+    img_processor = ImageProccessor(DataPath.stair05)
 
     ### Debug Run ###
     while True:
@@ -682,11 +682,11 @@ if __name__ == "__main__":
         # img_processor.first_rotation('RIGHT')
         # img_processor.alphabet_center_check()
         # img_processor.second_rotation(show=True)
-        # img_processor.draw_stair_line()
+        img_processor.draw_stair_line()
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-        img_processor.close_to_descent()
+        # img_processor.close_to_descent()
 
         ### danger ###
         # img_processor.get_alphabet_color()
