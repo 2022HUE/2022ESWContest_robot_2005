@@ -503,7 +503,7 @@ class ImageProccessor:
                     # cv.imshow("show", img_crop)
                     cv.waitKey(1) & 0xFF == ord('q')
                 ####################################
-                return match_mask_font
+                return match_gray_font
             else:
                 return ''
         else:  # False
@@ -532,20 +532,26 @@ class ImageProccessor:
         img = self.get_img()
 
         roi = Danger.get_alphabet_roi(img, "GRAY")
+        # roi = self.bright(roi,1.0)
 
         arr = [arr_a, arr_b, arr_c, arr_d]
         if roi != "Failed":
-            mt_gray = Direction.matching(arr, roi, 0.001, "ABCD")
+            roi_gray = cv.cvtColor(roi, cv.COLOR_BGR2GRAY)
+            
+            mt_gray = Direction.matching(arr, roi_gray, 0.001, "ABCD")
             text_mask = Direction.text_masking(roi)
-            match_font = Direction.match_font(font_danger, text_mask)
+            match_font = Direction.match_font(font_danger, text_mask, danger=True)
+            match_fontg = Direction.match_font(font_danger, roi_gray, danger=True)
 
-            print(mt_gray, text_mask)
+            print(mt_gray, match_font, match_fontg)
             ########### [Option] Show ##########
             if show:
-                cv.imshow("show", roi)
+                cv.imshow("show", text_mask)
+                cv.imshow("show2", roi)
             ####################################
             # return mt_gray  # [return] 인식한 알파벳: A, B, C, D
-            return match_font  # [return] 인식한 알파벳: A, B, C, D
+            # return match_font  # [return] 인식한 알파벳: A, B, C, D
+            return match_fontg  # [return] 인식한 알파벳: A, B, C, D
         print("get_alphabet_name 실패")
         return False  # 인식 실패
 
@@ -821,6 +827,7 @@ if __name__ == "__main__":
         # img_processor.is_yellow(show=True)
 
         # print(img_processor.get_alphabet_name(show=True))
+        # img_processor.get_alphabet_name(show=True)
         # img_processor.get_milkbox_pos("RED", True)
 
         ### stair ###
@@ -831,14 +838,14 @@ if __name__ == "__main__":
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-        # img_processor.get_milkbox_mask("BLUE")
+        img_processor.get_milkbox_mask("BLUE")
         # img_processor.is_holding_milkbox("BLUE", True)
         # img_processor.is_out_of_black(True)
 
         ### danger ###
         # print(img_processor.get_alphabet_color())
         # img_processor.is_out_of_black(True)
-        img_processor.is_danger(True)
+        # img_processor.is_danger(True)
 
         if cv.waitKey(1) & 0xFF == ord('q'):
             break

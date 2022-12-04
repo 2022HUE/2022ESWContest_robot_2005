@@ -81,8 +81,8 @@ class MissionDanger:
 
         if act == act.START:
             print("START")
-            self.act = Act.SPEAK_DANGER
-            # self.act = Act.BACK_TO_LINE # hyerin debug
+            # self.act = Act.SPEAK_DANGER
+            self.act = Act.BACK_TO_LINE # hyerin debug
 
         elif act == act.SPEAK_DANGER:
             print("SPEAK_DANGER")
@@ -144,27 +144,11 @@ class MissionDanger:
             # motion : 정면(위험지역) 바라보기
             self.robo._motion.set_head("LEFTRIGHT_CENTER")
             time.sleep(1)
+            self.act = Act.DETECT_FIRST_MILKBOX_POS
 
-            # self.act = Act.DETECT_FIRST_MILKBOX_POS
-            self.act = Act.WALK_TO_MILKBOX
-
-        # elif act == act.DETECT_FIRST_MILKBOX_POS:
-        #     print("DETECT_FIRST_MILKBOX_POS")
-        #     # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정화하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
-        #     if cur.FIRST_MILKBOX_POS:
-        #         self.first_milkbox_pos = cur.FIRST_MILKBOX_POS
-        #         Robo.box_pos = self.first_milkbox_pos
-        #     else:
-        #         # 장애물 처음 위치 저장 -> 선언 위치가 여기가 맞을 지 모르겠지만 일단 여기에 둠
-        #         self.first_milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
-        #         Robo.box_pos = self.first_milkbox_pos
-
-        #     print("초기 장애물 위치 : ",  Robo.box_pos)
-        #     self.act = Act.WALK_TO_MILKBOX
-
-        elif act == act.WALK_TO_MILKBOX:
-            print("WALK_TO_MILKBOX")
-            # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정확하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
+        elif act == act.DETECT_FIRST_MILKBOX_POS:
+            print("DETECT_FIRST_MILKBOX_POS")
+            # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정화하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
             if cur.FIRST_MILKBOX_POS:
                 self.first_milkbox_pos = cur.FIRST_MILKBOX_POS
                 Robo.box_pos = self.first_milkbox_pos
@@ -173,7 +157,21 @@ class MissionDanger:
                 self.first_milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
                 Robo.box_pos = self.first_milkbox_pos
 
-            print("초기 장애물 위치 : ",  Robo.box_pos)
+            print("초기 장애물 위치 in DETECT_FIRST_MILKBOX_POS: ",  Robo.box_pos)
+            self.act = Act.WALK_TO_MILKBOX
+
+        elif act == act.WALK_TO_MILKBOX:
+            print("WALK_TO_MILKBOX")
+            # # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정확하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
+            # if cur.FIRST_MILKBOX_POS:
+            #     self.first_milkbox_pos = cur.FIRST_MILKBOX_POS
+            #     Robo.box_pos = self.first_milkbox_pos
+            # else:
+            #     # 장애물 처음 위치 저장 -> 선언 위치가 여기가 맞을 지 모르겠지만 일단 여기에 둠
+            #     self.first_milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
+            #     Robo.box_pos = self.first_milkbox_pos
+
+            print("초기 장애물 위치 in WALK_TO_MILKBOX: ",  Robo.box_pos)
 
             while True:
                 self.milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
@@ -224,6 +222,11 @@ class MissionDanger:
             print("REGRAB_MILKBOX")
 
             while True:
+                if self.robo._image_processor.is_out_of_black():
+                    # motion : 이미 위험 지역 탈출했으니까 BACK_TO_LINE으로 넘어가기
+                    self.act = Act.BACK_TO_LINE
+                    self.miss = 0
+                    break
                 self.milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
                 # 9개 구역에 따라 다른 모션 수행
                 if self.milkbox_pos == 7:
@@ -399,10 +402,10 @@ class MissionDanger:
                 time.sleep(1)
             if state == "HORIZON":
                 if h_slope <= 10 or 170 <= h_slope:
-                    self.robo._motion.walk("FORWARD")
-                    time.sleep(1.5)
-                    self.robo._motion.walk("FORWARD")
-                    time.sleep(1.5)
+                    # self.robo._motion.walk("FORWARD")
+                    time.sleep(3)
+                    # self.robo._motion.walk("FORWARD")
+                    # time.sleep(1.5)
                     self.act = Act.EXIT
                 else:
                     print('ms, horizon else')
@@ -415,8 +418,10 @@ class MissionDanger:
                     self.robo._motion.walk("FORWARD")
                     time.sleep(1.5)
                     self.robo._motion.walk("FORWARD")
-                    time.sleep(1.5)
-                    self.act = Act.EXIT
+                    time.sleep(3)
+                    # self.act = Act.EXIT
+                    print("EXIT")
+                    return True
                 if h_slope < 90:
                     # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     print("TURN_RIGHT")
