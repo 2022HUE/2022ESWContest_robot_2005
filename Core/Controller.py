@@ -203,7 +203,7 @@ class Controller:
             # self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
             
-            self.robo._motion.set_head("DOWN", 70)
+            # self.robo._motion.set_head("DOWN", 70)
             # self.act = act.DANGER
             self.act = act.STAIR
 

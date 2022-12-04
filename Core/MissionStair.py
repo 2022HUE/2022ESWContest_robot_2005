@@ -30,6 +30,7 @@ class MissionStair:
 
     @classmethod
     def stair_obstacle(self):
+        print('dddd')
         return self.robo._image_processor.stair_obstacle()
 
     @classmethod
@@ -75,8 +76,8 @@ class MissionStair:
 
         if act == act.START:
             print('Act = %s' % act)
-            # self.act = Act.DRAW_STAIR_LINE
-            self.act = Act.FIRST_ROTATION
+            self.act = Act.DRAW_STAIR_LINE
+            # self.act = Act.FIRST_ROTATION
 
         # 현재 상태: 계단을 70도로 바라보고 계단임이 판단됨.
         elif act == act.FIRST_ROTATION:  # 현재 머리각도 70
@@ -139,7 +140,10 @@ class MissionStair:
         elif act == act.DRAW_STAIR_LINE:
             if self.stair_obstacle() == True:
                 self.robo._motion.kick(Robo.arrow)
-                time.sleep(4)
+                time.sleep(3.5)
+                self.robo._motion.walk("FORWARD")
+                time.sleep(1)
+                
             print('Act = %s' % act)
             ret = self.stair_up()
             print(ret)
@@ -161,6 +165,7 @@ class MissionStair:
             elif ret == False:  # 선이 안 잡힌 경우 샤샥, 2층에서 중앙 아래에 선이 잡힌 경우
                 self.robo._motion.walk(
                     'FORWARD', short=True, sleep=1.5)  # 좁은 보폭
+                time.sleep(0.8)
 
             elif ret == 'Top':
                 wall = self.wall_move()
