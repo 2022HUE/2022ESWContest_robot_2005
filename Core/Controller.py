@@ -42,6 +42,7 @@ class Controller:
     danger_line_flag: int = 0
     
     stair_turn: int=0
+    stair_exit_hor: int=0
 
     miss: int = 0
 
@@ -157,13 +158,24 @@ class Controller:
                 self.robo._motion.walk("FORWARD")
                 
 
-    
+    @classmethod
+    def check_horizon(self):
+        print("check_horizon")
+        state = self.robo._image_processor.is_line_horizon_vertical()
+        print(state)
+        
+        
     @classmethod
     def exit_stair(self):
+        
+        if self.stair_exit_hor == 1:
+            return self.check_horizon()
         if self.stair_turn == 0:
             self.robo._motion.turn(Robo.dis_arrow, 60,1)
             time.sleep(1)
             self.robo._motion.turn(Robo.dis_arrow, 45,1)
+            time.sleep(1)
+            
             self.stair_turn += 1
         
         state, h_slope = self.robo._image_processor.is_yellow()
@@ -174,10 +186,12 @@ class Controller:
             return False
             
         if state == "HORIZON" and h_slope <= 10 or 170 <= h_slope: 
-            self.robo._motion.walk("FORWARD", 3, 1.5)
+            print("앞으로 걸어라!")
+            self.robo._motion.walk("FORWARD", 3, 2)
+            self.stair_exit_hor = 1
             
         # if state == "HORIZON" or h_slope <= 10 or 170 <= h_slope or state == "VERTICAL": 
-            return True
+            # return True
         elif state == "MOVE_LEFT":
             self.robo._motion.walk_side("LEFT")
         elif state == "MOVE_RIGHT":
@@ -213,8 +227,8 @@ class Controller:
             # self.act = act.GO_EXIT
             
             # self.robo._motion.set_head("DOWN", 70)
-            self.act = act.DANGER
-            # self.act = act.STAIR
+            # self.act = act.DANGER
+            self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:
             print("ACT: ", act)  # Debug
