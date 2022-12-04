@@ -404,6 +404,7 @@ class MissionDanger:
 
             state, h_slope = self.robo._image_processor.is_yellow()
             print(state, h_slope)
+            # 수평이면 EXIT
             if h_slope is None:
                 print('ELSE', my_arrow)
                 self.robo._motion.turn(my_arrow, 20)  # 방향 조절 필요

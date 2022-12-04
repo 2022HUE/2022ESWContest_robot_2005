@@ -7,7 +7,7 @@ class Direction:
         self.matching_num: int
   
     @classmethod
-    def text_masking(self, text):
+    def text_masking(self, text, danger=False):
         hsv = cv.cvtColor(text, cv.COLOR_BGR2HSV)
         h, s, v = cv.split(hsv)
         
@@ -23,8 +23,8 @@ class Direction:
         text_mask = cv.bitwise_and(th_s, th_v)
         # text_dst = cv.bitwise_and(img_crop, img_crop, mask = text_mask) # remove background
 
-        # return text_mask
-        return th_s
+        if not danger: return text_mask
+        else: return th_s
 
     @classmethod
     def match_sam(self, sam_l, tar, num):

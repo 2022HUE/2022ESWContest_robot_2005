@@ -571,7 +571,7 @@ class ImageProccessor:
             roi_gray = cv.cvtColor(roi, cv.COLOR_BGR2GRAY)
             
             mt_gray = Direction.matching(arr, roi_gray, 0.001, "ABCD")
-            text_mask = Direction.text_masking(roi)
+            text_mask = Direction.text_masking(roi, danger=True)
             match_font = Direction.match_font(font_danger, text_mask, danger=True)
             match_fontg = Direction.match_font(font_danger, roi_gray, danger=True)
 
