@@ -65,9 +65,12 @@ class DataPath:
 
 
     # debug in image processor
-    d_alpha = 'src/alphabet_data/' # robot path
-    d_dirfont = 'src/entrance/direction_data/font_img' # robot path
-    d_dirimg = 'src/entrance/direction_data/' # robot path
+    d_alpha = 'src/alphabet_data/'
+    d_dirfont = 'src/entrance/direction_data/font_img'
+    d_dirimg = 'src/entrance/direction_data/'
+
+    d_dangerfont = 'src/alphabet_data/font'
+
     
 
 
@@ -75,4 +78,6 @@ class DataPath:
     r_alpha = 'Sensor/src/alphabet_data/' # robot path
     r_dirfont = 'Sensor/src/entrance/direction_data/font_img' # robot path
     r_dirimg = 'Sensor/src/entrance/direction_data/' # robot path
+    r_dangerfont = 'Sensor/src/alphabet_data/font' # robot path
+
     
