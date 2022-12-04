@@ -1385,13 +1385,16 @@ GOSUB_RX_EXIT2:
     ENDIF
 
 
-    SPEED 11
+    'SPEED 11
 
-    MOVE G6D,90, 90, 120, 105, 110
-    MOVE G6A,112,  76, 146,  93, 96
-    MOVE G6B,110
-    MOVE G6C,90
-    WAIT
+    'MOVE G6D,90, 90, 120, 105, 110
+    'MOVE G6A,112,  76, 146,  93, 96
+    'MOVE G6B,110
+    'MOVE G6C,90
+    'WAIT
+
+	보행COUNT = 보행COUNT + 1
+    IF 보행COUNT > 보행횟수 THEN  GOTO 횟수_후진_1_EXIT
 
     ERX 4800,A, 횟수_후진_2
     IF A <> A_old THEN
@@ -1432,13 +1435,15 @@ GOSUB_RX_EXIT2:
     ENDIF
 
 
-    SPEED 11
-    MOVE G6A,90, 90, 120, 105, 110
-    MOVE G6D,112,  76, 146,  93,  96
-    MOVE G6B, 90
-    MOVE G6C,110
-    WAIT
-
+    'SPEED 11
+    'MOVE G6A,90, 90, 120, 105, 110
+    'MOVE G6D,112,  76, 146,  93,  96
+    'MOVE G6B, 90
+    'MOVE G6C,110
+    'WAIT
+    
+    보행COUNT = 보행COUNT + 1
+    IF 보행COUNT > 보행횟수 THEN  GOTO 횟수_후진_2_EXIT
 
     ERX 4800,A, 횟수_후진_1
     IF A <> A_old THEN
