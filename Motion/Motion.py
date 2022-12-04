@@ -89,7 +89,7 @@ class Motion:
         """ parameter :
         dir : {FORWARD, BACKWARD}
         """
-        dir_list = {'FORWARD': 101, "BACKWORD": 111}
+        dir_list = {'FORWARD': 101, "BACKWARD": 111}
         if short:
             dir_list[dir] += 1
 
@@ -210,16 +210,13 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
 
     # 횟수_집고 전진 (187~188) [Danger]
-    def grab_walk(self, loop=1, foot=1):
-
-        for _ in range(loop):
-            # self.TX_data_py2(187)
-            self.TX_data_py2(186+foot)
-            # print('1')
-            time.sleep(1)  # 나중에 보고 초 조정하기
-            # self.TX_data_py2(188)
-            # print('2')
-            # time.sleep(2)  # 나중에 보고 초 조정하기
+    def grab_walk(self, dir="DEFAULT"):
+        """ parameter :
+        dir : {DEFAULT, LEFT, RIGHT}
+        """
+        dir_list = {"LEFT": 186, "RIGHT": 187, "DEFAULT": 188}
+        self.TX_data_py2(dir_list[dir])
+        time.sleep(1.5)   # 나중에 보고 초 조정하기
 
     # 집고 옆으로 (189~192) [Danger]
 
@@ -289,4 +286,4 @@ class Motion:
 
 if __name__ == '__main__':
     motion = Motion()
-    motion.basic()
+    motion.set_head("LEFTRIGHT_CENTER")

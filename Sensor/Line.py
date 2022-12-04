@@ -31,10 +31,7 @@ class Line:
     def canny(self, img, low, high):
         return cv.Canny(img, low, high)
     # 허프 변환
-    def hough_lines(self, img, rho, theta, threshold, min_line_len, max_line_gap):
-        rho, theta = 1, 1 * np.pi/180
-        threshold = 30
-        min_line_len, max_line_gap = 10, 30
+    def hough_lines(self, img, rho=1, theta=1 * np.pi/180, threshold=30, min_line_len=10, max_line_gap=30):
         lines = cv.HoughLinesP(img, rho, theta, threshold, np.array([]), 
                                 minLineLength=min_line_len, maxLineGap=max_line_gap)
         if type(lines) == type(None):
@@ -44,8 +41,12 @@ class Line:
         else: 
             return lines
 
-    def ROI(self, img, height, width, debug, color3=(255,255,255), color1=255):
-        vertices = np.array([[(0,height-100),(0, height/2), (width, height/2), (width,height-100)]], dtype=np.int32)
+    def ROI(self, img, height, width, debug, color3=(255,255,255), color1=255, c=False):
+        if c=="B":
+            vertices = np.array([[(0,height-50),(0, height/2+50), (width, height/2+50), (width,height-50)]], dtype=np.int32)
+        elif c=="Y":
+            vertices = np.array([[(0,height-100),(0, height/2-150), (width, height/2-150), (width,height-100)]], dtype=np.int32)
+        else: vertices = np.array([[(0,height-100),(0, height/2), (width, height/2), (width,height-100)]], dtype=np.int32)
         mask = np.zeros_like(img)
 
         if len(img.shape) > 2: # Color 이미지
@@ -82,6 +83,27 @@ class Line:
                 res = [x1,y1,x2,y2]
                 return res
             else: return False
+    
+    def get_black_fitline(self, img, f_lines):
+        lines = np.squeeze(f_lines)
+        # print(f_lines, lines, lines.size)
+        if lines.size == 0: return False
+        else:
+            if lines.size >=8:
+                lines = lines.reshape(lines.shape[0]*2,2)
+                output = cv.fitLine(lines,cv.DIST_L2,0, 0.01, 0.01)
+                vx, vy, x, y = output[0], output[1], output[2], output[3]
+                x1, y1 = int(((img.shape[0]-1)-y)/vy*vx + x) , img.shape[0]-1
+                x2, y2 = int(((img.shape[0]/2+50)-y)/vy*vx + x) , int(img.shape[0]/2+50)
+                res = [x1,y1,x2,y2]
+                return res
+            else: 
+                # print(lines)
+                if lines.size == 4:
+                    res = [lines[0], lines[1], lines[2], lines[3]]
+                    return res
+                # else: print('gg', lines, f_lines)
+                return False
             
     
     def is_center(self, img, line):
@@ -102,13 +124,11 @@ class Line:
             slope = (np.arctan2(line[1] - line[3], line[0] - line[2]) * 180) / np.pi
             return slope
     
-    def slope_filter(self, line_arr):
-        # print(len(line_arr))
-        if len(line_arr) <= 4: return "None", "None", "None"
+    def slope_filter(self, line_arr, black=False):
+        # if len(line_arr) <= 4: return "None", "None", "None"
         slope = (np.arctan2(line_arr[:,1] - line_arr[:,3], line_arr[:,0] - line_arr[:,2]) * 180) / np.pi
         # print(slope)
         # 수직/수평 필터링
-        # 수평 기울기 range
         line_arr = line_arr[np.abs(slope)<181]
         slope = slope[np.abs(slope)<181]
         # 수직 기울기 range
@@ -136,6 +156,12 @@ class Line:
         horizon_arr = horizon_arr[:,None]
         vertical_arr = line_arr[(slope_<120),:]
         vertical_arr = vertical_arr[:,None]
+
+        if black:
+            horizon_arr = line_arr[(slope_>=135),:]
+            horizon_arr = horizon_arr[:,None]
+            vertical_arr = line_arr[(slope_<135),:]
+            vertical_arr = vertical_arr[:,None]
         
         return state, horizon_arr, vertical_arr
 
