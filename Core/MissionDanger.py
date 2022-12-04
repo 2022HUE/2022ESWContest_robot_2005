@@ -53,6 +53,7 @@ class MissionDanger:
             self.robo._motion.set_head("DOWN", 30)
             time.sleep(1)
         else:
+            # 집어야하는 우유곽 말고 다른 색상이 잡히는 경우 치우기 모션 수행 (아직 필요성을 못느껴서 안넣었음)
             is_okay = self.robo._image_processor.can_hold_milkbox(Robo.alphabet_color)
             # 장애물 잡기 동작 씹히는 에러 발생하여 sleep 줄 필요가 있음
             time.sleep(1)
@@ -149,7 +150,7 @@ class MissionDanger:
 
         elif act == act.DETECT_FIRST_MILKBOX_POS:
             print("DETECT_FIRST_MILKBOX_POS")
-            # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정화하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
+            # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정확하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
             # motion : 처음 장애물 위치 파악이 다양한 숫자로 안나와서 60도 각도에서 어떻게 보이는 지 확인하면 좋을 듯
             # self.robo._motion.set_head("DOWN", 60)
             # self.head_angle = 60
@@ -180,13 +181,13 @@ class MissionDanger:
                         # 장애물 제대로 집고 나왔는지 체크하면 그때 turn 하기 -> 중간에 돌다가 떨어질 경우 고려 안 함...
                         if self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
                             # 무지성으로 반대 방향으로 돌아서 나오기
-                            self.robo._motion.grab_turn(Robo.dis_arrow, 60)
+                            self.robo._motion.grab_turn(self.out_direction, 60)
                             time.sleep(2.5)
-                            self.robo._motion.grab_turn(Robo.dis_arrow, 60)
+                            self.robo._motion.grab_turn(self.out_direction, 60)
                             time.sleep(2.5)
-                            self.robo._motion.grab_turn(Robo.dis_arrow, 60)
+                            self.robo._motion.grab_turn(self.out_direction, 60)
                             time.sleep(2.5)
-                            self.robo._motion.grab_turn(Robo.dis_arrow, 45)
+                            self.robo._motion.grab_turn(self.out_direction, 45)
                             time.sleep(2.5)
                         
                             self.act = Act.SET_OUT_DIRECTION
