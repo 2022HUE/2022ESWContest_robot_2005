@@ -178,10 +178,6 @@ class MissionDanger:
                 # 9개 구역에 따라 다른 모션 수행
                 if self.milkbox_pos == 7:
                     if self.is_okay_grab_milkbox():
-                        ### 1124 혜린 언니가 추가한 코드 ###
-                        # if self.first_milkbox_pos:
-                        #     Robo.box_pos = self.first_milkbox_pos
-                        ###################################
                         # 무지성으로 반대 방향으로 돌아서 나오기
                         self.robo._motion.grab_turn(Robo.dis_arrow, 60)
                         time.sleep(2.5)
@@ -195,6 +191,7 @@ class MissionDanger:
                         self.act = Act.OUT_OF_DANGER
                         self.miss = 0
                         break
+                    
                 elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
                     # motion : 장애물 접근 걸어가기
                     self.robo._motion.walk("FORWARD")
@@ -261,10 +258,11 @@ class MissionDanger:
 
         elif act == act.OUT_OF_DANGER:
             print("OUT_OF_DANGER")
-            print("처음 우유곽 위치 : ", self.first_milkbox_pos)
             self.first_milkbox_pos = Robo.box_pos
             # 장애물을 들고 있는 채로 위험지역 밖을 벗어날 때까지 아래 과정 반복
             while True:
+                #
+                
                 # 장애물을 집지 못하거나 떨어트렸을 경우
                 if not self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
                     time.sleep(2)
@@ -363,8 +361,8 @@ class MissionDanger:
                     #     # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
                     #     self.robo._motion.grab_walk()
                     #     time.sleep(2.5)
-                    #     # self.robo._motion.grab_walk("LEFT")
-                    #     # time.sleep(1.5)
+                        # self.robo._motion.grab_walk("LEFT")
+                        # time.sleep(1.5)
                     
                     # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
                     self.robo._motion.grab_walk()
