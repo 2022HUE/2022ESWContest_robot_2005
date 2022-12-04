@@ -36,6 +36,8 @@ if __name__ == "__main__":
                     cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
+    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.d_dangerfont, x),
+                          cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_a = [cv.imread('{}a{}.png'.format(DataPath.d_alpha, x),
                        cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_b = [cv.imread('{}b{}.png'.format(DataPath.d_alpha, x),
@@ -65,6 +67,8 @@ else:
     s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x),
                     cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont, x),
+                          cv.IMREAD_GRAYSCALE) for x in range(4)]
+    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.r_dangerfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha, x),
                        cv.IMREAD_GRAYSCALE) for x in range(4)]
@@ -531,12 +535,16 @@ class ImageProccessor:
         arr = [arr_a, arr_b, arr_c, arr_d]
         if roi != "Failed":
             mt_gray = Direction.matching(arr, roi, 0.001, "ABCD")
-            print(mt_gray)
+            text_mask = Direction.text_masking(roi)
+            match_font = Direction.match_font(font_danger, text_mask)
+
+            print(mt_gray, text_mask)
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", roi)
             ####################################
-            return mt_gray  # [return] 인식한 알파벳: A, B, C, D
+            # return mt_gray  # [return] 인식한 알파벳: A, B, C, D
+            return match_font  # [return] 인식한 알파벳: A, B, C, D
         print("get_alphabet_name 실패")
         return False  # 인식 실패
 
