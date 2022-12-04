@@ -66,7 +66,6 @@ class Motion:
             while ser.inWaiting() > 0:
                 time.sleep(0.5)
                 result = ser.read(1)
-                print(result)
                 RX = ord(result)
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16:
@@ -211,14 +210,14 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
 
     # 횟수_집고 전진 (187~188) [Danger]
-    def grab_walk(self, dir = "DEFAULT"):
+    def grab_walk(self, dir="DEFAULT"):
         """ parameter :
         dir : {DEFAULT, LEFT, RIGHT}
         """
-        dir_list = {"LEFT": 186, "RIGHT" : 187, "DEFAULT" : 188}
+        dir_list = {"LEFT": 186, "RIGHT": 187, "DEFAULT": 188}
         self.TX_data_py2(dir_list[dir])
         time.sleep(1.5)   # 나중에 보고 초 조정하기
-        
+
     # 집고 옆으로 (189~192) [Danger]
 
     def grab_sideway(self, dir, long=False):

@@ -375,11 +375,9 @@ class MissionDanger:
             # 나중에 효율적으로 수정할 예정
             if Robo.box_pos in self.right_out:
                 print('RIGHT_OUT')
-                if Robo.arrow == "RIGHT":
-                    my_arrow = "RIGHT"
-                else:
-                    my_arrow = "LEFT"
-                print(my_arrow)
+                if Robo.arrow == "RIGHT": my_arrow = "RIGHT"
+                else: my_arrow = "LEFT"
+                # print(my_arrow)
             else:
                 if Robo.arrow == "RIGHT":
                     my_arrow = "LEFT"
@@ -398,10 +396,18 @@ class MissionDanger:
                 self.robo._motion.walk("FORWARD")
                 time.sleep(1)
             if state == "HORIZON":
-                self.robo._motion.walk("FORWARD")
-                time.sleep(1)
-                self.robo._motion.turn(my_arrow, 20)  # 방향 조절 필요
-                time.sleep(1)
+                if h_slope <= 10 or 170 <= h_slope:
+                    self.robo._motion.walk("FORWARD")
+                    time.sleep(1.5)
+                    self.robo._motion.walk("FORWARD")
+                    time.sleep(1.5)
+                    self.act = Act.EXIT
+                else:
+                    print('ms, horizon else')
+                    self.robo._motion.walk("FORWARD")
+                    time.sleep(1)
+                    self.robo._motion.turn(my_arrow, 20) # 방향 조절 필요
+                    time.sleep(1)
             elif state == "BOTH":
                 if h_slope <= 10 or 170 <= h_slope:
                     self.robo._motion.walk("FORWARD")

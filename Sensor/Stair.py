@@ -105,7 +105,6 @@ class Stair:
 
     def in_draw_stair_line(self, lines, img, w, h, LINE_HIGH):
         cv.rectangle(img, (0, 200), (640-1, 400-1), [0, 255, 0], 2)
-
         for i in range(len(lines)):
             for rho, theta in lines[i]:  # rho = 거리, scale = 각도
                 scale = img.shape[0] + img.shape[1]
