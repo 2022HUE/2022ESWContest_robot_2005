@@ -63,7 +63,7 @@ class Danger:
     @classmethod
     def can_hold_milkbox(self, src, color):
         result = True
-        begin = (bx, by) = (295, 320)
+        begin = (bx, by) = (295, 340)
         end = (ex, ey) = (344, 479)
         
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
@@ -81,7 +81,7 @@ class Danger:
             cy = int(M['m01']/M['m00'])
             # print(cy)
             
-            # cv.circle(src, (cx, cy), 10, (0,0,255), -1)
+            cv.circle(src, (cx, cy), 10, (0,0,255), -1)
             if cx < bx:
                 return "LEFT"
             elif cx > ex:
@@ -331,8 +331,8 @@ if __name__ == "__main__":
     # 장애물 집고 나올 때의 영상
     # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
     # cap = cv.VideoCapture("src/danger/1031_20:57.h264")
-    # cap = cv.VideoCapture("src/danger/1110_22:29.h264")
-    cap = cv.VideoCapture("src/danger/1201_23:39.h264")
+    cap = cv.VideoCapture("src/danger/1110_22:29.h264")
+    # cap = cv.VideoCapture("src/danger/1201_23:39.h264")
     
     # cap = cv.VideoCapture("src/danger/1110_22:32.h264")
 
@@ -349,6 +349,7 @@ if __name__ == "__main__":
         blur = cv.GaussianBlur(img, (5, 5), 0)
         cv.imshow('src', img)
 
+        danger.can_hold_milkbox(img, "RED")
         # hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
         # pos_idx = danger.get_milkbox_pos(img, "RED", True)
@@ -362,7 +363,7 @@ if __name__ == "__main__":
         # print(danger.can_hold_milkbox(img, "RED"))
         # print("_______________________________")
 
-        if cv.waitKey(10) & 0xFF == ord('q'):
+        if cv.waitKey(1) & 0xFF == ord('q'):
             break
 
 # cap.release()
