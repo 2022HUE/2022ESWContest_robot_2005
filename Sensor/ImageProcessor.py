@@ -392,6 +392,38 @@ class ImageProccessor:
         else:
             print('F')
             return "None", None
+    
+    def is_yellow_danger(self, show=False):
+        img = self.get_img()
+        origin = img.copy()
+        img = self.correction(img, 7)
+        hsv = self.hsv_mask(img)
+        line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
+        line_mask = self.HSV2BGR(line_mask)
+        line_gray = self.RGB2GRAY(line_mask)
+        # vertices = np.array([[(0,self.height-50),(0, self.height/2+50), (self.width, self.height/2+50), (self.width,self.height-50)]], dtype=np.int32)
+        # mask = np.zeros_like(img)
+        # cv.fillPoly(mask, vertices, 255)
+        # roi_img = cv.bitwise_and(img, mask)
+
+        # roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
+
+        # line_arr = Line.hough_lines(self, roi_img)   # 허프 변환
+        line_arr = Line.hough_lines(self, line_gray)   # 허프 변환
+        line_arr = np.squeeze(line_arr)
+        # print(line_arr)
+        # if show:
+        #     cv.imshow("show", origin)
+        #     cv.imshow("tmp", line_mask)
+        #     cv.waitKey(1) & 0xFF == ord('q')
+        if line_arr != 'None':
+            print('T')
+            
+            return True
+        else:
+            print('F')
+            return False
+
 
     ########### ENTRANCE PROCESSING ###########
     # 화살표 방향 인식 후 리턴
