@@ -185,7 +185,7 @@ class ImageProccessor:
         line_gray = self.RGB2GRAY(line_mask)
 
         if show:
-            cv.imshow("tmp", line_gray)
+            cv.imshow("tmp", line_mask)
             cv.waitKey(1) & 0xFF == ord('q')
 
         roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
