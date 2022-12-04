@@ -820,7 +820,7 @@ if __name__ == "__main__":
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
 
-        print(img_processor.get_alphabet_name(show=True))
+        # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_milkbox_pos("RED", True)
 
         ### stair ###
@@ -838,7 +838,7 @@ if __name__ == "__main__":
         ### danger ###
         # print(img_processor.get_alphabet_color())
         # img_processor.is_out_of_black(True)
-        # img_processor.is_danger(True)
+        img_processor.is_danger(True)
 
         if cv.waitKey(1) & 0xFF == ord('q'):
             break
