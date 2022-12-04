@@ -41,6 +41,8 @@ class DataPath:
     danger05 = "src/danger/1110_22:29.h264" # 위험지역 확인과 알파벳 확인
     de1 = "src/danger/1127_de1.h264"
     de2 = "src/danger/1127_de2.h264"
+    y1 = "src/danger/1201_yellow1.h264"
+    y2 = "src/danger/1201_yellow2.h264"
 
     stair01 = "src/stair/1114_22:24.h264" # 방 입구 도착해서 위험지역, 계단지역 구분
     stair02 = "src/stair/1114_21:18.h264" # 알파벳 센터 체크 & 전진
