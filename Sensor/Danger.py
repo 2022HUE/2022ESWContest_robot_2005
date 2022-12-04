@@ -306,6 +306,7 @@ class Danger:
             # 장애물이 위치한 구역 ROI 사각형으로 show
             src = cv.putText(src, "{}".format(text), (10, 30), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
             cv.imshow("Check is Danger or Stair", src)
+            cv.imshow('mask_and', mask_AND)
 
         return "DANGER" if rate <= setting.DANGER_STAIR_RATE else "STAIR"
 

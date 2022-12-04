@@ -53,6 +53,7 @@ class MissionDanger:
             self.robo._motion.set_head("DOWN", 30)
             time.sleep(1)
         else:
+            # 집어야하는 우유곽 말고 다른 색상이 잡히는 경우 치우기 모션 수행 (아직 필요성을 못느껴서 안넣었음)
             is_okay = self.robo._image_processor.can_hold_milkbox(Robo.alphabet_color)
             # 장애물 잡기 동작 씹히는 에러 발생하여 sleep 줄 필요가 있음
             time.sleep(1)
@@ -149,7 +150,11 @@ class MissionDanger:
 
         elif act == act.DETECT_FIRST_MILKBOX_POS:
             print("DETECT_FIRST_MILKBOX_POS")
-            # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정화하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
+            # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정확하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
+            # motion : 처음 장애물 위치 파악이 다양한 숫자로 안나와서 60도 각도에서 어떻게 보이는 지 확인하면 좋을 듯
+            # self.robo._motion.set_head("DOWN", 60)
+            # self.head_angle = 60
+            
             if cur.FIRST_MILKBOX_POS:
                 self.first_milkbox_pos = cur.FIRST_MILKBOX_POS
                 Robo.box_pos = self.first_milkbox_pos
@@ -173,18 +178,24 @@ class MissionDanger:
                 # 9개 구역에 따라 다른 모션 수행
                 if self.milkbox_pos == 7:
                     if self.is_okay_grab_milkbox():
-                        # 무지성으로 반대 방향으로 돌아서 나오기
-                        self.robo._motion.grab_turn(Robo.dis_arrow, 60)
-                        time.sleep(2.5)
-                        self.robo._motion.grab_turn(Robo.dis_arrow, 60)
-                        time.sleep(2.5)
-                        self.robo._motion.grab_turn(Robo.dis_arrow, 60)
-                        time.sleep(2.5)
-                        self.robo._motion.grab_turn(Robo.dis_arrow, 45)
-                        time.sleep(2.5)
+                        # 장애물 제대로 집고 나왔는지 체크하면 그때 turn 하기 -> 중간에 돌다가 떨어질 경우 고려 안 함...
+                        if self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
+                            # 아예 반대로 나오는 것보다 180도 비스무레하게 turn 한 후에 걸어 나오게끔 변경
+                            self.robo._motion.grab_turn(self.out_direction, 60)
+                            time.sleep(2.5)
+                            self.robo._motion.grab_turn(self.out_direction, 60)
+                            time.sleep(2.5)
+                            self.robo._motion.grab_turn(self.out_direction, 60)
+                            time.sleep(2.5)
+                            # self.robo._motion.grab_turn(self.out_direction, 45)
+                            # time.sleep(2.5)
                         
-                        self.act = Act.SET_OUT_DIRECTION
-                        self.miss = 0
+                            self.act = Act.SET_OUT_DIRECTION
+                            self.miss = 0
+                            
+                        else:
+                            self.miss += 1
+                            
                         break
                     
                 elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
@@ -210,6 +221,7 @@ class MissionDanger:
                     print("장애물 못찾음 miss++")
                     return False
                 
+            self.head_angle = 70
             self.robo._motion.set_head('DOWN', 70)
             time.sleep(1)
 
@@ -254,6 +266,7 @@ class MissionDanger:
                     print("장애물 못찾음 miss++")
                     return False
             
+            self.head_angle = 70
             self.robo._motion.set_head('DOWN', 70)
             time.sleep(1)
 
@@ -261,6 +274,7 @@ class MissionDanger:
             print("SET_OUT_DIRECTION")
             # 노란선 시야에 보일 때까지(True, False) turn 하기
             if self.robo._image_processor.is_yellow_danger():
+                self.head_angle = 30
                 self.robo._motion.set_head("DOWN", 30)
                 time.sleep(1)
                 self.act = Act.OUT_OF_DANGER
@@ -287,7 +301,7 @@ class MissionDanger:
                 if self.robo._image_processor.is_out_of_black():
                     # motion : 장애물 내려놓기 동작 수행
                     self.robo._motion.grab("DOWN")
-                    time.sleep(5)
+                    time.sleep(4)
                     break
                 # 무한 루프 갇힐 경우에 대한 예외처리 아직 안함
                 else:
@@ -404,7 +418,6 @@ class MissionDanger:
 
             state, h_slope = self.robo._image_processor.is_yellow()
             print(state, h_slope)
-            # 수평이면 EXIT
             if h_slope is None:
                 print('ELSE', my_arrow)
                 self.robo._motion.turn(my_arrow, 20)  # 방향 조절 필요
