@@ -70,7 +70,7 @@ class MissionDanger:
                     return True
                 else:
                     # motion : 왼쪽 혹은 오른쪽으로 걷기 수행
-                    self.robo._motion.turn(is_okay, 10)
+                    self.robo._motion.walk_side(is_okay)
                     time.sleep(1)
         return False
     
@@ -272,7 +272,7 @@ class MissionDanger:
                 if self.robo._image_processor.is_out_of_black():
                     # motion : 장애물 내려놓기 동작 수행
                     self.robo._motion.grab("DOWN")
-                    time.sleep(5)
+                    time.sleep(4)
                     break
                 # 무한 루프 갇힐 경우에 대한 예외처리 아직 안함
                 else:
