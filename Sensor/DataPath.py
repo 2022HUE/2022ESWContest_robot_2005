@@ -41,6 +41,8 @@ class DataPath:
     danger05 = "src/danger/1110_22:29.h264" # 위험지역 확인과 알파벳 확인
     de1 = "src/danger/1127_de1.h264"
     de2 = "src/danger/1127_de2.h264"
+    y1 = "src/danger/1201_yellow1.h264"
+    y2 = "src/danger/1201_yellow2.h264"
 
     stair01 = "src/stair/1114_22:24.h264" # 방 입구 도착해서 위험지역, 계단지역 구분
     stair02 = "src/stair/1114_21:18.h264" # 알파벳 센터 체크 & 전진
@@ -48,6 +50,13 @@ class DataPath:
     stair04 = "src/stair/1106_20:13.h264" # 알파벳에서 계단지역쪽으로 회전
     stair05 = "src/stair/1114_21:20.h264" # 계단 오르기 시작
     stair06 = "src/stair/1114_21:26.h264" # 계단 내려가기
+
+    se1="src/stair/se1.h264"
+    se2="src/stair/se2.h264"
+    se3="src/stair/se4.h264"
+    se4="src/stair/se6.h264"
+    se5="src/stair/se8.h264"
+    
     test = "src/stair/1114_22:26.h264"
 
     stair07 = "src/stair/1124_18:28.h264"
@@ -58,9 +67,12 @@ class DataPath:
 
 
     # debug in image processor
-    d_alpha = 'src/alphabet_data/' # robot path
-    d_dirfont = 'src/entrance/direction_data/font_img' # robot path
-    d_dirimg = 'src/entrance/direction_data/' # robot path
+    d_alpha = 'src/alphabet_data/'
+    d_dirfont = 'src/entrance/direction_data/font_img'
+    d_dirimg = 'src/entrance/direction_data/'
+
+    d_dangerfont = 'src/alphabet_data/font'
+
     
 
 
@@ -68,4 +80,6 @@ class DataPath:
     r_alpha = 'Sensor/src/alphabet_data/' # robot path
     r_dirfont = 'Sensor/src/entrance/direction_data/font_img' # robot path
     r_dirimg = 'Sensor/src/entrance/direction_data/' # robot path
+    r_dangerfont = 'Sensor/src/alphabet_data/font' # robot path
+
     

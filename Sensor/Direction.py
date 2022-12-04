@@ -12,14 +12,19 @@ class Direction:
         h, s, v = cv.split(hsv)
         
         # 폰트 이미지와 유사하게 만들기 위해 inverse해줌
+        # ret_s, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
+        # ret_v, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
         ret_s, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
         ret_v, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+        # cv.imshow("show3", th_s)
+        
         # _, th_s = cv.threshold(s, 120, 255, cv2.THRESH_BINARY)
         # _, th_v = cv.threshold(v, 100, 255, cv2.THRESH_BINARY_INV)
         text_mask = cv.bitwise_and(th_s, th_v)
         # text_dst = cv.bitwise_and(img_crop, img_crop, mask = text_mask) # remove background
 
-        return text_mask
+        # return text_mask
+        return th_s
 
     @classmethod
     def match_sam(self, sam_l, tar, num):
@@ -81,7 +86,7 @@ class Direction:
         else: return ret_mt
     
     @classmethod
-    def match_font(self, font_img,tar):
+    def match_font(self, font_img,tar, danger=False):
         target_h, target_w = tar.shape
         match = 100
         mt_score = 0
@@ -121,16 +126,26 @@ class Direction:
             if maxv > mt_score:
                 mt_score = maxv
                 self.matching_num = i
-
-        if self.matching_num == 0: 
-            return "E"
-        elif self.matching_num == 1: 
-            return "W"
-        elif self.matching_num == 2: 
-            return "S"
-        elif self.matching_num == 3:
-            return "N"
-        else: return None
+        if danger:
+            if self.matching_num == 0: 
+                return "A"
+            elif self.matching_num == 1: 
+                return "B"
+            elif self.matching_num == 2: 
+                return "C"
+            elif self.matching_num == 3:
+                return "D"
+            else: return None
+        else:
+            if self.matching_num == 0: 
+                return "E"
+            elif self.matching_num == 1: 
+                return "W"
+            elif self.matching_num == 2: 
+                return "S"
+            elif self.matching_num == 3:
+                return "N"
+            else: return None
 
 # Debug
 if __name__ == "__main__":

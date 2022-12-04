@@ -55,30 +55,26 @@ class Motion:
         else:
             return 0
 
-    def Receiving(self, ser):
+    def Receiving(self):
         self.receiving_exit = 1
         while True:
             if self.receiving_exit == 0:
                 break
             time.sleep(self.threading_Time)
-            time.sleep(0.08)
-
-            while ser.inWaiting() > 0:
-                time.sleep(0.5)
-                result = ser.read(1)
-                print(result)
+            while self.serial_port.inWaiting() > 0:
+                result = self.serial_port.read(1)
                 RX = ord(result)
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16:
                     self.receiving_exit = 0
                     break
-                elif RX == 200:
-                    try:
-                        self.lock.release()
-                    except:
-                        continue
-                elif RX != 200:
-                    self.distance = RX
+                # elif RX == 200:
+                #     try:
+                #         self.lock.release()
+                #     except:
+                #         continue
+                # elif RX != 200:
+                #     self.distance = RX
 
     ############################################################
     # 기본자세 (100)

@@ -225,7 +225,7 @@ class Danger:
             text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
             text = img_crop.copy()
             if option == "GRAY":
-                return text_gray
+                return text
 
         else:
             text = src.copy()
@@ -306,6 +306,7 @@ class Danger:
             # 장애물이 위치한 구역 ROI 사각형으로 show
             src = cv.putText(src, "{}".format(text), (10, 30), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
             cv.imshow("Check is Danger or Stair", src)
+            cv.imshow('mask_and', mask_AND)
 
         return "DANGER" if rate <= setting.DANGER_STAIR_RATE else "STAIR"
 
@@ -330,7 +331,9 @@ if __name__ == "__main__":
     # 장애물 집고 나올 때의 영상
     # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
     # cap = cv.VideoCapture("src/danger/1031_20:57.h264")
-    cap = cv.VideoCapture("src/danger/1110_22:29.h264")
+    # cap = cv.VideoCapture("src/danger/1110_22:29.h264")
+    cap = cv.VideoCapture("src/danger/1201_23:39.h264")
+    
     # cap = cv.VideoCapture("src/danger/1110_22:32.h264")
 
     # 장애물 어디있는지 바라볼 때의 시야
@@ -346,7 +349,7 @@ if __name__ == "__main__":
         blur = cv.GaussianBlur(img, (5, 5), 0)
         cv.imshow('src', img)
 
-        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        # hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
         # pos_idx = danger.get_milkbox_pos(img, "RED", True)
         # alpha_hsv = danger.get_alphabet_roi(img)
@@ -356,10 +359,10 @@ if __name__ == "__main__":
         #     print(danger.get_alphabet_color(alpha_hsv))
 
         # milk_mask = danger.get_milkbox_mask(hsv, "BLUE")
-        print(danger.can_hold_milkbox(img, "RED"))
-        print("_______________________________")
+        # print(danger.can_hold_milkbox(img, "RED"))
+        # print("_______________________________")
 
-        if cv.waitKey(1) & 0xFF == ord('q'):
+        if cv.waitKey(10) & 0xFF == ord('q'):
             break
 
 # cap.release()
