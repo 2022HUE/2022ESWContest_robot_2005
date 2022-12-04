@@ -615,7 +615,7 @@ class ImageProccessor:
     def get_milkbox_mask(self, color):
         img = self.get_img()
         # cv.imshow('img',  img)
-        img = self.correction(img, 7)
+        # img = self.correction(img, 7)
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         return Danger.get_milkbox_mask(hsv, color)
 
@@ -851,8 +851,8 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(DataPath.stair05)
-    # img_processor = ImageProccessor(video=DataPath.de1)
+    img_processor = ImageProccessor(video=DataPath.danger06)
+    # img_processor = ImageProccessor()
 
     ### Debug Run ###
     while True:
@@ -873,10 +873,10 @@ if __name__ == "__main__":
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-
         # img_processor.get_milkbox_mask("BLUE")
         # img_processor.is_holding_milkbox("BLUE", True)
         # img_processor.is_out_of_black(True)
+        img_processor.can_hold_milkbox("RED")
 
         ### danger ###
         # print(img_processor.get_alphabet_color())
