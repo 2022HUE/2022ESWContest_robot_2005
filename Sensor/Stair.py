@@ -120,6 +120,7 @@ class Stair:
                 # 라인 그리기.
                 cv.line(img, (x1 + w, y1 + h),
                         (x2 + w, y2 + h), [255, 0, 0], 3)
+                print(y1 + h)
                 if y1 + h < LINE_HIGH:
                     return True
                 elif y1 + h > LINE_HIGH:
@@ -143,3 +144,45 @@ class Stair:
         else:
             print("꼭대기 회전(다음처리해)")
             return True
+    def in_stair_obstacle(self,img):
+        print("in_stair_obstacle(self,img)")
+        y = 250; x = 200; h = 200; w = 310  # ROI 영역 지정을 위해 변수 선언
+        roi = img[y:y + h, x:x + w]  # x=0; y=200; w = 640; h = 200  # 계단 영역 ROI지정
+
+        h, s, v = cv.split(roi)
+        blur = cv.GaussianBlur(s, (3,3), 0)
+
+        ret, th = cv.threshold(
+            s, 10, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
+
+        dst = cv.bitwise_or(s, s, mask=th)
+
+        img_canny = cv.Canny(roi, 10, 100)
+
+        lines = cv.HoughLinesP(img_canny, 0.9, np.pi / 200, 68, minLineLength=1, maxLineGap=1000)
+        # print(lines)
+        cv.rectangle(img, (200, 250), (510, 450), [0, 255, 0], 2)
+        if lines is not None:
+            line_length = lines[0][0][1]
+            if line_length <= 100:
+                # print(line_length)
+                for line in lines:
+                    x1, y1, x2, y2 = line[0]
+                    x = [x1, x2]
+                    y = [y1, y2]
+
+                    slope, intercept = abs(np.polyfit(x, y, 1))
+                    print(slope)
+                    if slope >= 0.2:
+                        cv.line(roi, (x1, y1), (x2, y2), (0, 255, 0), 1)
+                        print("self.stair_obstacle(): TURE")
+                        return True
+                    else:
+                        print("self.stair_obstacle(): False")
+                        return False
+            else:
+                print("self.stair_obstacle(): False")
+                return False
+        else:
+            print("self.stair_obstacle(): False")
+            return False
