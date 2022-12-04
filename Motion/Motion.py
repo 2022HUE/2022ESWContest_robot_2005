@@ -55,29 +55,26 @@ class Motion:
         else:
             return 0
 
-    def Receiving(self, ser):
+    def Receiving(self):
         self.receiving_exit = 1
         while True:
             if self.receiving_exit == 0:
                 break
             time.sleep(self.threading_Time)
-            time.sleep(0.08)
-
-            while ser.inWaiting() > 0:
-                time.sleep(0.5)
-                result = ser.read(1)
+            while self.serial_port.inWaiting() > 0:
+                result = self.serial_port.read(1)
                 RX = ord(result)
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16:
                     self.receiving_exit = 0
                     break
-                elif RX == 200:
-                    try:
-                        self.lock.release()
-                    except:
-                        continue
-                elif RX != 200:
-                    self.distance = RX
+                # elif RX == 200:
+                #     try:
+                #         self.lock.release()
+                #     except:
+                #         continue
+                # elif RX != 200:
+                #     self.distance = RX
 
     ############################################################
     # 기본자세 (100)
@@ -210,14 +207,14 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
 
     # 횟수_집고 전진 (187~188) [Danger]
-    def grab_walk(self, dir="DEFAULT"):
+    def grab_walk(self, dir = "DEFAULT"):
         """ parameter :
         dir : {DEFAULT, LEFT, RIGHT}
         """
-        dir_list = {"LEFT": 186, "RIGHT": 187, "DEFAULT": 188}
+        dir_list = {"LEFT": 186, "RIGHT" : 187, "DEFAULT" : 188}
         self.TX_data_py2(dir_list[dir])
         time.sleep(1.5)   # 나중에 보고 초 조정하기
-
+        
     # 집고 옆으로 (189~192) [Danger]
 
     def grab_sideway(self, dir, long=False):
