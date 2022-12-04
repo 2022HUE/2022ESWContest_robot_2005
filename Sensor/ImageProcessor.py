@@ -36,6 +36,8 @@ if __name__ == "__main__":
                     cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
+    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.d_dangerfont, x),
+                          cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_a = [cv.imread('{}a{}.png'.format(DataPath.d_alpha, x),
                        cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_b = [cv.imread('{}b{}.png'.format(DataPath.d_alpha, x),
@@ -65,6 +67,8 @@ else:
     s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x),
                     cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont, x),
+                          cv.IMREAD_GRAYSCALE) for x in range(4)]
+    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.r_dangerfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha, x),
                        cv.IMREAD_GRAYSCALE) for x in range(4)]
@@ -185,7 +189,7 @@ class ImageProccessor:
         line_gray = self.RGB2GRAY(line_mask)
 
         if show:
-            cv.imshow("tmp", line_gray)
+            cv.imshow("tmp", line_mask)
             cv.waitKey(1) & 0xFF == ord('q')
 
         roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
@@ -499,7 +503,7 @@ class ImageProccessor:
                     # cv.imshow("show", img_crop)
                     cv.waitKey(1) & 0xFF == ord('q')
                 ####################################
-                return match_mask_font
+                return match_gray_font
             else:
                 return ''
         else:  # False
@@ -528,16 +532,26 @@ class ImageProccessor:
         img = self.get_img()
 
         roi = Danger.get_alphabet_roi(img, "GRAY")
+        # roi = self.bright(roi,1.0)
 
         arr = [arr_a, arr_b, arr_c, arr_d]
         if roi != "Failed":
-            mt_gray = Direction.matching(arr, roi, 0.001, "ABCD")
-            print(mt_gray)
+            roi_gray = cv.cvtColor(roi, cv.COLOR_BGR2GRAY)
+            
+            mt_gray = Direction.matching(arr, roi_gray, 0.001, "ABCD")
+            text_mask = Direction.text_masking(roi)
+            match_font = Direction.match_font(font_danger, text_mask, danger=True)
+            match_fontg = Direction.match_font(font_danger, roi_gray, danger=True)
+
+            print(mt_gray, match_font, match_fontg)
             ########### [Option] Show ##########
             if show:
-                cv.imshow("show", roi)
+                cv.imshow("show", text_mask)
+                cv.imshow("show2", roi)
             ####################################
-            return mt_gray  # [return] 인식한 알파벳: A, B, C, D
+            # return mt_gray  # [return] 인식한 알파벳: A, B, C, D
+            # return match_font  # [return] 인식한 알파벳: A, B, C, D
+            return match_fontg  # [return] 인식한 알파벳: A, B, C, D
         print("get_alphabet_name 실패")
         return False  # 인식 실패
 
@@ -812,7 +826,8 @@ if __name__ == "__main__":
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
 
-        print(img_processor.get_alphabet_name(show=True))
+        # print(img_processor.get_alphabet_name(show=True))
+        # img_processor.get_alphabet_name(show=True)
         # img_processor.get_milkbox_pos("RED", True)
 
         ### stair ###
@@ -823,7 +838,7 @@ if __name__ == "__main__":
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-        # img_processor.get_milkbox_mask("BLUE")
+        img_processor.get_milkbox_mask("BLUE")
         # img_processor.is_holding_milkbox("BLUE", True)
         # img_processor.is_out_of_black(True)
 

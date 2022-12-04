@@ -7,7 +7,7 @@ from Core.MissionDanger import MissionDanger
 from Setting import cur
 import time
 
-limits: int = 2
+limits: int = 2 # 방 개수
 
 
 class Act(Enum):  # 맵 전체 수행 순서도
@@ -125,9 +125,13 @@ class Controller:
                 self.robo._motion.walk("FORWARD")
 
             elif state == "HORIZON":
-                self.robo._motion.walk_side("LEFT")
+                # self.robo._motion.walk_side("LEFT")
+                # time.sleep(0.8)
+                # self.robo._motion.walk("FORWARD")
+                self.robo._motion.turn("RIGHT", 20)
                 time.sleep(0.8)
-                self.robo._motion.walk("FORWARD")
+                
+                
             else:
                 self.robo._motion.walk_side("LEFT")
                 time.sleep(0.8)
@@ -147,6 +151,11 @@ class Controller:
 
             elif state == "BOTH":  # 선 둘 다 인식
                 self.robo._motion.walk_side("RIGHT")
+            else:
+                self.robo._motion.walk_side("RIGHT")
+                time.sleep(1)
+                self.robo._motion.walk("FORWARD")
+                
 
     
     @classmethod
@@ -196,7 +205,7 @@ class Controller:
             # motion: 고개 내리기 30
             self.robo._motion.set_head("DOWN", 30)
             # time.sleep(0.5)
-            self.act = act.GO_ENTRANCE
+            # self.act = act.GO_ENTRANCE
 
             # debug
             # self.act = act.ENTRANCE
@@ -204,7 +213,7 @@ class Controller:
             # self.act = act.GO_EXIT
             
             # self.robo._motion.set_head("DOWN", 70)
-            # self.act = act.DANGER
+            self.act = act.DANGER
             # self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:
@@ -319,10 +328,10 @@ class Controller:
         elif act == act.STAIR:
             print("ACT: ", act)  # Debug
             if MissionStair.go_robo():
-                self.count_area += 1
                 # return True  # debug
                 if self.check_stair > 0:
                     if self.line_v_rotate():
+                        self.count_area += 1
                         print("count_area: ", self.count_area)
                         if self.count_area < limits:
                             self.act = act.GO_NEXTROOM
@@ -364,7 +373,6 @@ class Controller:
         elif act == act.DANGER:
             print("ACT-controller: ", act)  # Debug
 
-            self.count_area += 1
             if self.check_danger > 0:
                 if self.danger_line_flag > 0:
                     print('냥냥냥')
@@ -384,21 +392,29 @@ class Controller:
                     #  경우의수 수정 필요!!! 
                     if Robo.box_pos in self.danger_right_out:
                         if self.danger_turn_flag < 1:
-                            self.robo._motion.turn("RIGHT", 60, 1, 0.8)
+                            # self.robo._motion.turn("RIGHT", 60, 1, 0.8)
                             self.danger_turn_flag += 1
                             return False
                         else:
                             if self.danger_to_line("R"):  # horizion is True
                                 self.danger_line_flag += 1
+                                
                             else:
                                 return False
                     else:
                         print('tutututuutu')
                         if self.danger_turn_flag < 1:
-                            time.sleep(2)
-                            self.robo._motion.walk("FORWARD")
-                            self.robo._motion.walk("FORWARD")
-                            time.sleep(0.8)
+                            time.sleep(1)
+                            # self.robo._motion.walk("FORWARD")
+                            # self.robo._motion.turn(Robo.arrow, 10)
+                            self.robo._motion.turn("RIGHT", 60)
+                            time.sleep(1)
+                            self.robo._motion.turn("RIGHT", 60)
+                            time.sleep(1)
+                            # self.robo._motion.turn("RIGHT", 45)
+                            
+                            
+                            # time.sleep(0.8)
                             self.danger_turn_flag += 1
                             return False
                         else:

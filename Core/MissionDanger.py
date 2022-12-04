@@ -81,8 +81,8 @@ class MissionDanger:
 
         if act == act.START:
             print("START")
-            self.act = Act.SPEAK_DANGER
-            # self.act = Act.BACK_TO_LINE # hyerin debug
+            # self.act = Act.SPEAK_DANGER
+            self.act = Act.BACK_TO_LINE # hyerin debug
 
         elif act == act.SPEAK_DANGER:
             print("SPEAK_DANGER")
@@ -144,9 +144,7 @@ class MissionDanger:
             # motion : 정면(위험지역) 바라보기
             self.robo._motion.set_head("LEFTRIGHT_CENTER")
             time.sleep(1)
-
             self.act = Act.DETECT_FIRST_MILKBOX_POS
-            # self.act = Act.WALK_TO_MILKBOX
 
         elif act == act.DETECT_FIRST_MILKBOX_POS:
             print("DETECT_FIRST_MILKBOX_POS")
@@ -402,10 +400,10 @@ class MissionDanger:
                 time.sleep(1)
             if state == "HORIZON":
                 if h_slope <= 10 or 170 <= h_slope:
-                    self.robo._motion.walk("FORWARD")
-                    time.sleep(1.5)
-                    self.robo._motion.walk("FORWARD")
-                    time.sleep(1.5)
+                    # self.robo._motion.walk("FORWARD")
+                    time.sleep(3)
+                    # self.robo._motion.walk("FORWARD")
+                    # time.sleep(1.5)
                     self.act = Act.EXIT
                 else:
                     print('ms, horizon else')
@@ -418,8 +416,10 @@ class MissionDanger:
                     self.robo._motion.walk("FORWARD")
                     time.sleep(1.5)
                     self.robo._motion.walk("FORWARD")
-                    time.sleep(1.5)
-                    self.act = Act.EXIT
+                    time.sleep(3)
+                    # self.act = Act.EXIT
+                    print("EXIT")
+                    return True
                 if h_slope < 90:
                     # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     print("TURN_RIGHT")

@@ -225,7 +225,7 @@ class Danger:
             text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
             text = img_crop.copy()
             if option == "GRAY":
-                return text_gray
+                return text
 
         else:
             text = src.copy()
