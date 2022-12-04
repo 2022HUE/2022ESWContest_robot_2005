@@ -510,6 +510,7 @@ class ImageProccessor:
 
     def is_danger(self, show=False):
         img = self.get_img()
+        img = self.bright(img, 2.0) 
         return Danger.is_danger(img, show)  # [return] DANGER / STAIR
 
     # 방 이름이 적힌 글자(A, B, C, D)의 색상 판단
@@ -811,7 +812,7 @@ if __name__ == "__main__":
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
 
-        print(img_processor.get_alphabet_name(show=True))
+        # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_milkbox_pos("RED", True)
 
         ### stair ###
@@ -829,6 +830,7 @@ if __name__ == "__main__":
         ### danger ###
         # print(img_processor.get_alphabet_color())
         # img_processor.is_out_of_black(True)
+        img_processor.is_danger(True)
 
         if cv.waitKey(1) & 0xFF == ord('q'):
             break

@@ -144,7 +144,7 @@ class MissionEntrance:
                     self.robo._motion.walk_side("RIGHT")
                 else:
                     self.robo._motion.walk("BACKWARD")
-                    time.sleep(3)
+                    time.sleep(5)
                     
                 return False
 

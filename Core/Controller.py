@@ -7,11 +7,7 @@ from Core.MissionDanger import MissionDanger
 from Setting import cur
 import time
 
-<<<<<<< HEAD
-limits: int = 2 # 방 개수
-=======
 limits: int = 2
->>>>>>> 52da619a962d6299bfc4e2df4fad191ddd71522f
 
 
 class Act(Enum):  # 맵 전체 수행 순서도
@@ -31,15 +27,14 @@ class Controller:
     robo: Robo = Robo()
     act: Act = Act.START
 
-    # 방문한 미션 지역의 수
-    count_area: int = 0  # 위험/계단 지역만 카운트합니다.
+    count_area: int = 0  # 방문한 미션 지역의 수 - 위험/계단 지역만 카운트합니다.
     count_misson: int = 0 
     check_exit: int = 0  # 퇴장시 사용
     check_entrance: int = 0  # 입장시 사용
     check_nextroom: int = 0  # 방 이동시 사용
-    check_stair: int=0
+    check_stair: int=0 
     check_danger: int = 0
-    area: str = ""
+    area: str = "" # 현재 지역
     stair_level: int = 0  # 계단을 오른 횟수
 
     danger_right_out = [2, 5, 8]  # 위험지역 오른쪽 탈출
@@ -199,18 +194,18 @@ class Controller:
             print("ACT: ", act)  # Debug
             # print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
             # motion: 고개 내리기 30
-            # self.robo._motion.set_head("DOWN", 30)
+            self.robo._motion.set_head("DOWN", 30)
             # time.sleep(0.5)
-            # self.act = act.GO_ENTRANCE
+            self.act = act.GO_ENTRANCE
 
             # debug
             # self.act = act.ENTRANCE
             # self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
             
-            self.robo._motion.set_head("DOWN", 70)
+            # self.robo._motion.set_head("DOWN", 70)
             # self.act = act.DANGER
-            self.act = act.STAIR
+            # self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:
             print("ACT: ", act)  # Debug
@@ -376,6 +371,7 @@ class Controller:
                     if self.line_v_rotate():
                         print('-------TRUE?------')
                         # return True # debug
+                        print("self.count_area: ", self.count_area)
                         if self.count_area < limits:
                             self.act = act.GO_NEXTROOM
                         else:
