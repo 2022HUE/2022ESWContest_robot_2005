@@ -7,7 +7,7 @@ from Core.MissionDanger import MissionDanger
 from Setting import cur
 import time
 
-limits: int = 1
+limits: int = 2 # 방 개수
 
 
 class Act(Enum):  # 맵 전체 수행 순서도
@@ -29,7 +29,7 @@ class Controller:
 
     # 방문한 미션 지역의 수
     count_area: int = 0  # 위험/계단 지역만 카운트합니다.
-    count_misson: int = 1
+    count_misson: int = 0 
     check_exit: int = 0  # 퇴장시 사용
     check_entrance: int = 0  # 입장시 사용
     check_nextroom: int = 0  # 방 이동시 사용
