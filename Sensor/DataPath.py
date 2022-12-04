@@ -48,6 +48,13 @@ class DataPath:
     stair04 = "src/stair/1106_20:13.h264" # 알파벳에서 계단지역쪽으로 회전
     stair05 = "src/stair/1114_21:20.h264" # 계단 오르기 시작
     stair06 = "src/stair/1114_21:26.h264" # 계단 내려가기
+
+    se1="src/stair/se1.h264"
+    se2="src/stair/se2.h264"
+    se3="src/stair/se4.h264"
+    se4="src/stair/se6.h264"
+    se5="src/stair/se8.h264"
+    
     test = "src/stair/1114_22:26.h264"
 
     stair07 = "src/stair/1124_18:28.h264"
