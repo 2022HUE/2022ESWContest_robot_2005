@@ -7,7 +7,7 @@ from Core.MissionDanger import MissionDanger
 from Setting import cur
 import time
 
-limits: int = 2
+limits: int = 2 # 방 개수
 
 
 class Act(Enum):  # 맵 전체 수행 순서도
