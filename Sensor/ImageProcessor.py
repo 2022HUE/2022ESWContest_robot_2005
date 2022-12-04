@@ -8,6 +8,9 @@ from imutils.video import WebcamVideoStream
 from imutils.video import FileVideoStream
 from imutils.video import FPS
 
+import warnings
+warnings.simplefilter(
+    action='ignore', category=FutureWarning)  # FutureWarning 제거
 
 print('code: ImageProcessor.py - ## Debug')
 
@@ -80,7 +83,6 @@ else:
 class ImageProccessor:
     def __init__(self, video: str = ""):
         print("init_imgprocessor")
-
         if video and os.path.exists(video):
             self._cam = FileVideoStream(path=video).start()
         else:
@@ -229,7 +231,6 @@ class ImageProccessor:
                        (50, 100), cv.FONT_HERSHEY_SIMPLEX, 0.5, [0, 0, 0], 2)
             cv.putText(origin, "h_slope: {}".format(h_slope),
                        (50, 130), cv.FONT_HERSHEY_SIMPLEX, 0.5, [0, 0, 0], 2)
-
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", origin)
@@ -381,7 +382,6 @@ class ImageProccessor:
         img = self.blur(img, setting.ARROW_BLUR)
         img = self.bright(img, setting.ARROW_BRIGHT)
         _, img = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
-
         ret = Arrow.get_arrow_info(self, img, origin)
         ########### [Option] Show ##########
         if show:
