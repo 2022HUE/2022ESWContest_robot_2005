@@ -160,9 +160,27 @@ class Controller:
 
     @classmethod
     def check_horizon(self):
-        print("check_horizon")
         state = self.robo._image_processor.is_line_horizon_vertical()
-        print(state)
+        print("check_horizon", state)
+        
+        if not state:
+            self.robo._motion.walk("FORWARD")
+            time.sleep(1)
+        elif state == "HORIZON" or state == "BOTH":
+            return True
+        elif state == "MOVE_LEFT":
+            self.robo._motion.walk_side("LEFT")
+        elif state == "MOVE_RIGHT":
+            self.robo._motion.walk_side("RIGHT")
+        elif state == "TURN_LEFT":
+            self.robo._motion.turn("LEFT", 10)
+        elif state == "TURN_RIGHT":
+            self.robo._motion.turn("RIGHT", 10)
+        else:
+            # 디버깅 필요
+            self.robo._motion.walk("FORWARD")
+        return False
+        
         
         
     @classmethod
@@ -219,7 +237,7 @@ class Controller:
             # motion: 고개 내리기 30
             self.robo._motion.set_head("DOWN", 30)
             # time.sleep(0.5)
-            # self.act = act.GO_ENTRANCE
+            self.act = act.GO_ENTRANCE
 
             # debug
             # self.act = act.ENTRANCE
@@ -228,7 +246,7 @@ class Controller:
             
             # self.robo._motion.set_head("DOWN", 70)
             # self.act = act.DANGER
-            self.act = act.STAIR
+            # self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:
             print("ACT: ", act)  # Debug
@@ -363,6 +381,7 @@ class Controller:
                         time.sleep(1)
                         self.check_stair += 1
                         
+                        # ROTATE - 수직선 나오도록 (하드)
                         self.robo._motion.turn(robo.arrow, 45, 2, 0.8)
                         # self.robo._motion.walk_side(Robo.arrow)
                         # self.robo._motion.walk_side(Robo.arrow)
