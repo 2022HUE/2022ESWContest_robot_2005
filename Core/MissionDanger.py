@@ -152,8 +152,8 @@ class MissionDanger:
             print("DETECT_FIRST_MILKBOX_POS")
             # motion : 이미지 가져오는 거 잘 되긴 한데 만약 더 정확하길 바라면 여기에 time.sleep(0.5) 정도 주면 될 듯
             # motion : 처음 장애물 위치 파악이 다양한 숫자로 안나와서 60도 각도에서 어떻게 보이는 지 확인하면 좋을 듯
-            # self.robo._motion.set_head("DOWN", 60)
             # self.head_angle = 60
+            # self.robo._motion.set_head("DOWN", 60)
             
             if cur.FIRST_MILKBOX_POS:
                 self.first_milkbox_pos = cur.FIRST_MILKBOX_POS
@@ -194,6 +194,10 @@ class MissionDanger:
                             self.miss = 0
                             
                         else:
+                            print("MISS해서 팔 원위치로 돌리기 동작 수행")
+                            # motion : 팔 원위치로 돌리기 동작 수행
+                            self.robo._motion.grab("MISS")
+                            time.sleep(2)
                             self.miss += 1
                             
                         break
@@ -238,8 +242,15 @@ class MissionDanger:
                 # 9개 구역에 따라 다른 모션 수행
                 if self.milkbox_pos == 7:
                     if self.is_okay_grab_milkbox():
-                        self.act = Act.SET_OUT_DIRECTION
-                        self.miss = 0
+                        if self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
+                            self.act = Act.SET_OUT_DIRECTION
+                            self.miss = 0
+                        else:
+                            print("MISS해서 팔 원위치로 돌리기 동작 수행")
+                            # motion : 팔 원위치로 돌리기 동작 수행
+                            self.robo._motion.grab("MISS")
+                            self.miss += 1
+                            time.sleep(2)
                         break
                 elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
                     # motion : 장애물 접근 걸어가기
@@ -277,6 +288,12 @@ class MissionDanger:
                 self.head_angle = 30
                 self.robo._motion.set_head("DOWN", 30)
                 time.sleep(1)
+                if self.out_direction == "RIGHT":
+                    self.robo._motion.grab_turn("LEFT", 45)
+                    time.sleep(2.5)
+                else:
+                    self.robo._motion.grab_turn("RIGHT", 45)
+                    time.sleep(2.5)
                 self.act = Act.OUT_OF_DANGER
             else:
                 self.miss += 1
