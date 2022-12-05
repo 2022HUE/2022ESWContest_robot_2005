@@ -477,7 +477,7 @@ class ImageProccessor:
             peri = cv.arcLength(contours[pos], True)
             approx = cv.approxPolyDP(contours[pos], peri * 0.02, True)
             points = len(approx)
-            if peri > 900 and points == 4:
+            if peri > 750 and points == 4:
                 roi_contour.append(contours[pos])
                 # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
 
@@ -537,7 +537,9 @@ class ImageProccessor:
                 ####################################
                 return match_gray_font
             else:
-                return ''
+                # return ''
+                return match_gray_font
+                
         else:  # False
             return ''
 

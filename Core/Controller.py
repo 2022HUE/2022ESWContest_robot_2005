@@ -307,7 +307,7 @@ class Controller:
 
         elif act == act.GO_NEXTROOM:
             print("ACT: ", act)  # Debug
-            time.sleep(0.8)
+            time.sleep(0.5)
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "HORIZON":
                 # # 방 입구 도착 -> 위험/계단지역 판단
@@ -321,10 +321,12 @@ class Controller:
                 self.robo._motion.walk("FORWARD")
             elif state == "MOVE_LEFT":
                 self.robo._motion.walk_side("LEFT")
+                time.sleep(0.8)
                 self.robo._motion.turn("LEFT", 10)
                 
             elif state == "MOVE_RIGHT":
                 self.robo._motion.walk_side("RIGHT")
+                time.sleep(0.8)
                 self.robo._motion.turn("RIGHT", 10)
                 
             elif state == "TURN_LEFT":
