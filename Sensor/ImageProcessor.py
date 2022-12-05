@@ -36,6 +36,8 @@ if __name__ == "__main__":
                     cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
+    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.d_dangerfont, x),
+                          cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_a = [cv.imread('{}a{}.png'.format(DataPath.d_alpha, x),
                        cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_b = [cv.imread('{}b{}.png'.format(DataPath.d_alpha, x),
@@ -65,6 +67,8 @@ else:
     s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x),
                     cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont, x),
+                          cv.IMREAD_GRAYSCALE) for x in range(4)]
+    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.r_dangerfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha, x),
                        cv.IMREAD_GRAYSCALE) for x in range(4)]
@@ -185,7 +189,7 @@ class ImageProccessor:
         line_gray = self.RGB2GRAY(line_mask)
 
         if show:
-            cv.imshow("tmp", line_gray)
+            cv.imshow("tmp", line_mask)
             cv.waitKey(1) & 0xFF == ord('q')
 
         roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
@@ -388,6 +392,38 @@ class ImageProccessor:
         else:
             print('F')
             return "None", None
+    
+    def is_yellow_danger(self, show=False):
+        img = self.get_img()
+        origin = img.copy()
+        img = self.correction(img, 7)
+        hsv = self.hsv_mask(img)
+        line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
+        line_mask = self.HSV2BGR(line_mask)
+        line_gray = self.RGB2GRAY(line_mask)
+        # vertices = np.array([[(0,self.height-50),(0, self.height/2+50), (self.width, self.height/2+50), (self.width,self.height-50)]], dtype=np.int32)
+        # mask = np.zeros_like(img)
+        # cv.fillPoly(mask, vertices, 255)
+        # roi_img = cv.bitwise_and(img, mask)
+
+        # roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
+
+        # line_arr = Line.hough_lines(self, roi_img)   # 허프 변환
+        line_arr = Line.hough_lines(self, line_gray)   # 허프 변환
+        line_arr = np.squeeze(line_arr)
+        # print(line_arr)
+        # if show:
+        #     cv.imshow("show", origin)
+        #     cv.imshow("tmp", line_mask)
+        #     cv.waitKey(1) & 0xFF == ord('q')
+        if line_arr != 'None':
+            print('T')
+            
+            return True
+        else:
+            print('F')
+            return False
+
 
     ########### ENTRANCE PROCESSING ###########
     # 화살표 방향 인식 후 리턴
@@ -441,7 +477,7 @@ class ImageProccessor:
             peri = cv.arcLength(contours[pos], True)
             approx = cv.approxPolyDP(contours[pos], peri * 0.02, True)
             points = len(approx)
-            if peri > 900 and points == 4:
+            if peri > 750 and points == 4:
                 roi_contour.append(contours[pos])
                 # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
 
@@ -499,9 +535,11 @@ class ImageProccessor:
                     # cv.imshow("show", img_crop)
                     cv.waitKey(1) & 0xFF == ord('q')
                 ####################################
-                return match_mask_font
+                return match_gray_font
             else:
-                return ''
+                # return ''
+                return match_gray_font
+                
         else:  # False
             return ''
 
@@ -510,6 +548,7 @@ class ImageProccessor:
 
     def is_danger(self, show=False):
         img = self.get_img()
+        img = self.bright(img, 2.0) 
         return Danger.is_danger(img, show)  # [return] DANGER / STAIR
 
     # 방 이름이 적힌 글자(A, B, C, D)의 색상 판단
@@ -527,16 +566,26 @@ class ImageProccessor:
         img = self.get_img()
 
         roi = Danger.get_alphabet_roi(img, "GRAY")
+        # roi = self.bright(roi,1.0)
 
         arr = [arr_a, arr_b, arr_c, arr_d]
         if roi != "Failed":
-            mt_gray = Direction.matching(arr, roi, 0.001, "ABCD")
-            print(mt_gray)
+            roi_gray = cv.cvtColor(roi, cv.COLOR_BGR2GRAY)
+            
+            mt_gray = Direction.matching(arr, roi_gray, 0.001, "ABCD")
+            text_mask = Direction.text_masking(roi, danger=True)
+            match_font = Direction.match_font(font_danger, text_mask, danger=True)
+            match_fontg = Direction.match_font(font_danger, roi_gray, danger=True)
+
+            print(mt_gray, match_font, match_fontg)
             ########### [Option] Show ##########
             if show:
-                cv.imshow("show", roi)
+                cv.imshow("show", text_mask)
+                cv.imshow("show2", roi)
             ####################################
-            return mt_gray  # [return] 인식한 알파벳: A, B, C, D
+            # return mt_gray  # [return] 인식한 알파벳: A, B, C, D
+            # return match_font  # [return] 인식한 알파벳: A, B, C, D
+            return match_fontg  # [return] 인식한 알파벳: A, B, C, D
         print("get_alphabet_name 실패")
         return False  # 인식 실패
 
@@ -568,7 +617,7 @@ class ImageProccessor:
     def get_milkbox_mask(self, color):
         img = self.get_img()
         # cv.imshow('img',  img)
-        img = self.correction(img, 7)
+        # img = self.correction(img, 7)
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         return Danger.get_milkbox_mask(hsv, color)
 
@@ -804,8 +853,8 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(DataPath.stair05)
-    # img_processor = ImageProccessor(video=DataPath.de1)
+    img_processor = ImageProccessor(video=DataPath.danger06)
+    # img_processor = ImageProccessor()
 
     ### Debug Run ###
     while True:
@@ -814,7 +863,8 @@ if __name__ == "__main__":
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
 
-        print(img_processor.get_alphabet_name(show=True))
+        # print(img_processor.get_alphabet_name(show=True))
+        # img_processor.get_alphabet_name(show=True)
         # img_processor.get_milkbox_pos("RED", True)
 
         ### stair ###
@@ -825,14 +875,15 @@ if __name__ == "__main__":
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-
         # img_processor.get_milkbox_mask("BLUE")
         # img_processor.is_holding_milkbox("BLUE", True)
         # img_processor.is_out_of_black(True)
+        img_processor.can_hold_milkbox("RED")
 
         ### danger ###
         # print(img_processor.get_alphabet_color())
         # img_processor.is_out_of_black(True)
+        # img_processor.is_danger(True)
 
         if cv.waitKey(1) & 0xFF == ord('q'):
             break

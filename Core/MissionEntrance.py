@@ -104,7 +104,12 @@ class MissionEntrance:
                 print(self.miss)
                 time.sleep(2)
                 # motion? 인식 잘 안될경우 -> 알파벳이 중앙에 있는지 판단하는 알고리즘 연결
-                if 0< self.miss < 4:
+                if 0< self.miss < 5:
+                    if self.miss == 1:
+                        self.robo._motion.walk("FORWARD")
+                        time.sleep(3)
+                        return False
+
                     self.robo._motion.turn("LEFT", 10)
                     self.tleft += 1
                     # time.sleep(0.5)
@@ -144,7 +149,7 @@ class MissionEntrance:
                     self.robo._motion.walk_side("RIGHT")
                 else:
                     self.robo._motion.walk("BACKWARD")
-                    time.sleep(3)
+                    time.sleep(5)
                     
                 return False
 
