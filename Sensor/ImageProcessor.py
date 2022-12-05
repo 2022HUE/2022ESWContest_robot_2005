@@ -412,10 +412,10 @@ class ImageProccessor:
         line_arr = Line.hough_lines(self, line_gray)   # 허프 변환
         line_arr = np.squeeze(line_arr)
         # print(line_arr)
-        # if show:
-        #     cv.imshow("show", origin)
-        #     cv.imshow("tmp", line_mask)
-        #     cv.waitKey(1) & 0xFF == ord('q')
+        if show:
+            # cv.imshow("show", origin)
+            cv.imshow("img", img)
+            cv.waitKey(1) & 0xFF == ord('q')
         if line_arr != 'None':
             print('T')
             
@@ -871,14 +871,15 @@ if __name__ == "__main__":
         # img_processor.first_rotation('RIGHT')
         # img_processor.alphabet_center_check()
         # img_processor.second_rotation(show=True)
-        img_processor.draw_stair_line()
+        # img_processor.draw_stair_line()
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
         # img_processor.get_milkbox_mask("BLUE")
         # img_processor.is_holding_milkbox("BLUE", True)
         # img_processor.is_out_of_black(True)
-        img_processor.can_hold_milkbox("RED")
+        # img_processor.can_hold_milkbox("RED")
+        img_processor.is_yellow_danger(True)
 
         ### danger ###
         # print(img_processor.get_alphabet_color())
