@@ -6376,6 +6376,8 @@ D지역:
 
     SPEED 5
     GOSUB 기본자세
+    
+    RETURN
     '******************************************
 
 MAIN: '라벨설정
@@ -6466,22 +6468,22 @@ KEY5:
     '***************
 KEY6:
     ETX 4800, 6
-    GOSUB 오른쪽옆으로20
+    GOTO 오른쪽옆으로20
     GOTO RX_EXIT
 KEY7:
     ETX 4800, 7
-    GOSUB 팔들면서왼쪽턴45
+    GOTO 팔들면서왼쪽턴45
     GOTO RX_EXIT
     '***************
 KEY8:
     ETX  4800,8
     보행횟수 = 1
-    GOSUB 횟수_후진
+    GOTO 횟수_후진
     GOTO RX_EXIT
     '***************
 KEY9:
     ETX 4800, 9
-    GOSUB 팔들면서오른쪽턴45
+    GOTO 팔들면서오른쪽턴45
     GOTO RX_EXIT
     '***************
 KEY10: '0
@@ -6505,13 +6507,13 @@ KEY12: ' ▼
 KEY13: '▶
     ETX  4800,13
     'GOSUB 전방하향90도
-    GOSUB 집고오른쪽턴45
+    GOTO 집고오른쪽턴45
 
     GOTO RX_EXIT
     '**************
 KEY14: ' ◀
     ETX  4800,14
-    GOSUB 집고왼쪽턴45
+    GOTO 집고왼쪽턴45
     GOTO RX_EXIT
 
 
@@ -6520,7 +6522,7 @@ KEY14: ' ◀
 KEY15: 'A
     ETX 4800, 15
     보행횟수= 2
-    GOSUB 횟수_좁은보폭
+    GOTO 횟수_좁은보폭
     GOTO RX_EXIT
 KEY16: ' POWER
     ETX  4800,16
@@ -6580,12 +6582,12 @@ KEY16_1:
     '***************
 KEY17: ' C
     ETX 4800, 17
-    GOSUB 머리왼쪽45도
+    GOTO 머리왼쪽45도
     GOTO RX_EXIT
     '***************
 KEY18: ' E
     ETX 4800, 18
-    GOSUB 우유깍잡기왼쪽옆으로
+    GOTO 집고왼쪽옆으로
     GOTO RX_EXIT
     '***************
 KEY19: 'P2
@@ -6595,7 +6597,7 @@ KEY19: 'P2
     '***************
 KEY20: 'B
     ETX 4800, 20
-    GOSUB 횟수_뒤로좁은보폭
+    GOTO 횟수_뒤로좁은보폭
     GOTO RX_EXIT
     '***************
 KEY21: ' △
@@ -6606,15 +6608,12 @@ KEY21: ' △
     '***************
 KEY22: ' *
     ETX 4800, 22
-    '  GOTO 오른쪽턴3
-    'GOTO 오른쪽턴20
-    ' GOTO 집고오른쪽턴45
-    GOTO 계단왼발오르기1cm
+    GOSUB 계단왼발오르기1cm
     GOTO RX_EXIT
     '***************
 KEY23: 'G
     ETX 4800, 23
-    GOSUB 우유깍잡기오른쪽옆으로
+    GOTO 집고오른쪽옆으로
     GOTO RX_EXIT
     '***************
 KEY24: '#
@@ -6624,9 +6623,6 @@ KEY24: '#
     '***************
 KEY25: 'P1
     ETX 4800, 25
-    ' GOTO 집고왼쪽턴45
-    ' GOTO 왼쪽턴3
-    'GOTO 왼쪽턴20
     GOSUB 계단왼발내리기1cm
     GOTO RX_EXIT
     '***************
@@ -6666,7 +6662,7 @@ KEY31: ' ▽
 KEY32: ' F
     ETX 4800, 32
     보행횟수= 1
-    GOSUB 집고전진3
+    GOTO 집고전진3
     GOTO RX_EXIT
     '***************
 
