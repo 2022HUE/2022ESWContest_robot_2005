@@ -6367,7 +6367,132 @@ D지역:
     WAIT
 
     RETURN
+	
+	'************************************************
+기어가기:
 
+    GOSUB Leg_motor_mode3
+    SPEED 15
+    MOVE G6A,100, 155,  28, 140, 100, 100
+    MOVE G6D,100, 155,  28, 140, 100, 100
+    MOVE G6B,180,  40,  85
+    MOVE G6C,180,  40,  85
+    WAIT
+
+    SPEED 5	
+    MOVE G6A, 100, 155,  53, 160, 100, 100
+    MOVE G6D, 100, 155,  53, 160, 100, 100
+    MOVE G6B,190,  30, 80
+    MOVE G6C,190,  30, 80
+    WAIT	
+
+    GOSUB All_motor_mode2
+
+    DELAY 300
+
+    SPEED 8
+    PTP SETOFF
+    PTP ALLOFF
+    HIGHSPEED SETON
+
+    'GOTO 기어가기왼쪽턴_LOOP
+
+기어가기_LOOP:
+
+
+    MOVE G6A, 100, 160,  55, 160, 100
+    MOVE G6D, 100, 145,  75, 160, 100
+    MOVE G6B, 175,  25,  70
+    MOVE G6C, 190,  50,  40
+    WAIT
+    ERX 4800, A, 기어가기_1
+    IF A = 8 THEN GOTO 기어가기_1
+    'IF A = 9 THEN GOTO 기어가기오른쪽턴_LOOP
+    'IF A = 7 THEN GOTO 기어가기왼쪽턴_LOOP
+
+    GOTO 기어가다일어나기
+
+기어가기_1:
+    MOVE G6A, 100, 150,  70, 160, 100
+    MOVE G6D, 100, 140, 120, 120, 100
+    MOVE G6B, 160,  25,  70
+    MOVE G6C, 190,  25,  70
+    WAIT
+
+    MOVE G6D, 100, 160,  55, 160, 100
+    MOVE G6A, 100, 145,  75, 160, 100
+    MOVE G6C, 175,  25,  70
+    MOVE G6B, 190,  50,  40
+    WAIT
+
+    ERX 4800, A, 기어가기_2
+    IF A = 8 THEN GOTO 기어가기_2
+    'IF A = 9 THEN GOTO 기어가기오른쪽턴_LOOP
+    'IF A = 7 THEN GOTO 기어가기왼쪽턴_LOOP
+
+    GOTO 기어가다일어나기
+
+기어가기_2:
+    MOVE G6D, 100, 140,  80, 160, 100
+    MOVE G6A, 100, 140, 120, 120, 100
+    MOVE G6C, 160,  25,  70
+    MOVE G6B, 190,  25,  70
+    WAIT
+
+    GOTO 기어가기_LOOP
+    
+    'GOTO EXIT
+    
+기어가다일어나기:
+    PTP SETON		
+    PTP ALLON
+    SPEED 15
+    HIGHSPEED SETOFF
+
+
+    MOVE G6A, 100, 150,  80, 150, 100
+    MOVE G6D, 100, 150,  80, 150, 100
+    MOVE G6B,185,  40, 60
+    MOVE G6C,185,  40, 60
+    WAIT
+
+    GOSUB Leg_motor_mode3
+    DELAY 300
+
+    SPEED 10	
+    MOVE G6A,  100, 165,  25, 162, 100
+    MOVE G6D,  100, 165,  25, 162, 100
+    MOVE G6B,  155, 15, 90
+    MOVE G6C,  155, 15, 90
+    WAIT
+
+    SPEED 10	
+    MOVE G6A,  100, 150,  25, 162, 100
+    MOVE G6D,  100, 150,  25, 162, 100
+    MOVE G6B,  140, 15, 90
+    MOVE G6C,  140, 15, 90
+    WAIT
+
+    SPEED 6
+    MOVE G6A,  100, 138,  25, 155, 100
+    MOVE G6D,  100, 138,  25, 155, 100
+    MOVE G6B, 113,  30, 80
+    MOVE G6C, 113,  30, 80
+    WAIT
+
+    DELAY 100
+    SPEED 8
+    GOSUB Leg_motor_mode2
+
+    SPEED 6
+    MOVE G6A,100, 140,  37, 140, 100, 100
+    MOVE G6D,100, 140,  37, 140, 100, 100
+    WAIT
+
+    GOSUB 기본자세
+
+    GOTO RX_EXIT
+	
     '*****************************************
 양팔벌리기:
     MOVE G6B, 185, 10, 80
@@ -7274,7 +7399,7 @@ KEY176:
     GOTO RX_EXIT
 KEY177:
     ETX 4800, 177
-    GOSUB 고개중앙기본자세
+    GOTO 기어가기
     GOTO RX_EXIT
 KEY178:
     ETX 4800, 178

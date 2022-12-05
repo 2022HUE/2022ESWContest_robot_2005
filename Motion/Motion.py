@@ -192,6 +192,11 @@ class Motion:
         dir_list = {"LEFT": 175, "RIGHT" : 176}
         self.TX_data_py2(dir_list[dir])
 
+    # 기어가기 (177)
+    def crawl(self) :
+        self.TX_data_py2(177)
+        time.sleep(1.5) 
+
     # 집기 (181~186) [Danger]
     def grab(self, dir):
         """ parameter :
