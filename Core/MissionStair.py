@@ -125,8 +125,11 @@ class MissionStair:
                 self.robo._motion.walk('FORWARD', loop=5, sleep=1)  # 3회 정도
                 self.robo._motion.walk('FORWARD', sleep=1, short=True)  # 3회 정도
                 time.sleep(1.5)
+                self.robo._motion.kick(Robo.arrow)
+                time.sleep(3.5)
+                self.robo._motion.kick(Robo.arrow)
+                time.sleep(5)
 
-                time.sleep(2)
                 self.act = Act.DRAW_STAIR_LINE
             else:
                 # print("들어옴")
@@ -231,7 +234,7 @@ class MissionStair:
                 self.robo._motion.walk(
                     'BACKWARD', loop=2, short=True, sleep=1.5)  # 좁은 보폭
                 time.sleep(1)
-                
+
                 if Robo.feet_down == 'LEFT_DOWN':
                     Robo.feet_down = 'RIGHT_DOWN'
                 else:
