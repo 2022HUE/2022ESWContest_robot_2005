@@ -442,6 +442,7 @@ class MissionDanger:
                 time.sleep(1)
                 self.robo._motion.walk("FORWARD")
                 time.sleep(1)
+                return False
             if state == "HORIZON":
                 if h_slope <= 10 or 170 <= h_slope:
                     # self.robo._motion.walk("FORWARD")

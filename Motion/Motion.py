@@ -95,10 +95,10 @@ class Motion:
                         continue
                 elif RX != 200:
                     self.distance = RX
-                        
-                        
+
     ############################################################
     # 기본자세 (100)
+
     def basic(self):
         self.TX_data_py2(100)
 
@@ -228,14 +228,14 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
 
     # 횟수_집고 전진 (187~188) [Danger]
-    def grab_walk(self, dir = "DEFAULT"):
+    def grab_walk(self, dir="DEFAULT"):
         """ parameter :
         dir : {DEFAULT, LEFT, RIGHT}
         """
-        dir_list = {"LEFT": 186, "RIGHT" : 187, "DEFAULT" : 188}
+        dir_list = {"LEFT": 186, "RIGHT": 187, "DEFAULT": 188}
         self.TX_data_py2(dir_list[dir])
         time.sleep(1.5)   # 나중에 보고 초 조정하기
-        
+
     # 집고 옆으로 (189~192) [Danger]
 
     def grab_sideway(self, dir, long=False):
@@ -304,5 +304,5 @@ class Motion:
 
 if __name__ == '__main__':
     motion = Motion()
-    # motion.set_head("LEFTRIGHT_CENTER")
-    motion.set_head("DOWN", 30)
+    motion.set_head("LEFTRIGHT_CENTER")
+    # motion.set_head("DOWN", 30)

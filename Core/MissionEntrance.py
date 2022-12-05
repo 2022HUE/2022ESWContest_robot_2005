@@ -15,6 +15,8 @@ class Act(Enum):
 
 
 print('code: MissonEntrance.py - ## Debug')
+
+
 class MissionEntrance:
     print('# entrance #')
     act: Act = Act.START
@@ -26,9 +28,9 @@ class MissionEntrance:
 
     map_arrow: str  # 화살표
     map_direction: str  # 방위
-    
-    tleft: int=0
-    tright: int=0
+
+    tleft: int = 0
+    tright: int = 0
 
     miss: int = 0
 
@@ -44,18 +46,19 @@ class MissionEntrance:
         else:
             print('check direction')
             self.map_direction = self.robo._image_processor.get_ewsn()
-        
+
         if self.map_direction:
             self.robo._motion.notice_direction(self.map_direction)
-            time.sleep(3) # Lock
+            time.sleep(3)  # Lock
             return True
-        else: # 인식 실패 
+        else:  # 인식 실패
             return False
-        
+
     # 화살표 방향 감지
     @classmethod
     def get_arrow(self):
         print('misson_entrance_get_arrow')
+        time.sleep(1)
         if cur.MAP_ARROW:
             my_arrow = cur.MAP_ARROW
         else:
@@ -65,8 +68,8 @@ class MissionEntrance:
             Robo.arrow = "LEFT" if my_arrow == "LEFT" else "RIGHT"
             Robo.dis_arrow = "RIGHT" if my_arrow == "LEFT" else "LEFT"
             return True
-        else: # 인식 실패
-            print('인식실패')
+        else:  # 인식 실패
+            print('arrow - 인식실패')
             return False
 
     @classmethod
@@ -83,28 +86,28 @@ class MissionEntrance:
             self.robo._motion.set_head("DOWN", 70)
             time.sleep(1)
             self.act = Act.DETECT_DIRECTION
-            
-            ### arrow debuging
+
+            # arrow debuging
             # self.robo._motion.set_head("DOWN", 100)
             # self.act = Act.DETECT_ARROW
 
         # 방위 인식
         elif act == act.DETECT_DIRECTION:
-            print('ACT: ', act) # Debug
+            print('ACT: ', act)  # Debug
             if self.get_direction():
-                # for i in range(self.tleft): 
+                # for i in range(self.tleft):
                 #     self.robo._motion.turn("RIGHT", 10)
                 #     # self.robo._motion.walk_side("RIGHT")
-                # for i in range(self.tright): 
+                # for i in range(self.tright):
                 #     self.robo._motion.turn("LEFT", 10)
-                    # self.robo._motion.walk_side("LEFT")
+                # self.robo._motion.walk_side("LEFT")
                 self.miss = 0
             else:
                 self.miss += 1
                 print(self.miss)
                 time.sleep(2)
                 # motion? 인식 잘 안될경우 -> 알파벳이 중앙에 있는지 판단하는 알고리즘 연결
-                if 0< self.miss < 5:
+                if 0 < self.miss < 5:
                     if self.miss == 1:
                         self.robo._motion.walk("FORWARD")
                         time.sleep(3)
@@ -121,14 +124,14 @@ class MissionEntrance:
                 return False
 
             # (motion) 고개 올리기 100도 - 화살표 보이게 (11/20 110도 -> 100도 수정)
-            
+
             self.robo._motion.set_head("DOWN", 100)
             self.act = Act.DETECT_ARROW
-        
+
         # 화살표 인식
         elif act == act.DETECT_ARROW:
-            print('ACT: ', act) # Debug
-            if self.get_arrow(): # 인식 성공
+            print('ACT: ', act)  # Debug
+            if self.get_arrow():  # 인식 성공
                 # (motion) 고개 내리기 30 - 노란선 보이게
                 time.sleep(1)
                 self.robo._motion.set_head("DOWN", 30)
@@ -138,7 +141,7 @@ class MissionEntrance:
                 # motion add
                 self.miss += 1
                 time.sleep(1)
-                if 0< self.miss < 4:
+                if 0 < self.miss < 4:
                     if self.miss == 1:
                         time.sleep(1)
                         self.robo._motion.walk("FORWARD")
@@ -156,9 +159,8 @@ class MissionEntrance:
                 # else:
                 #     # self.robo._motion.walk("BACKWARD")
                 #     time.sleep(5)
-                    
-                return False
 
+                return False
 
         else:  # EXIT
             print('ACT: ', act)

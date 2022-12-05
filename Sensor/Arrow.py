@@ -23,7 +23,7 @@ class Arrow:
                 # area 값 조절로 인식 조절
                 cv.rectangle(debug,(50,100),(540-1,480-1),[0,255,0],2)
                 cv.drawContours(debug, [approx], 0, (0, 255, 0), 3)
-                # print(area, vertices)
+                print("Arrow debug) ", area, vertices) # Debug
                 # 11/20 area값 변경
                 if 26000< area < 50000 and vertices == 7:
                     # print(cnt_arrow)

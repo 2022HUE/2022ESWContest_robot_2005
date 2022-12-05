@@ -186,7 +186,7 @@ class ImageProccessor:
         origin = img.copy()
         img = self.correction(img, 7)
         hsv = self.hsv_mask(img)
-        line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
+        line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
 
@@ -194,53 +194,55 @@ class ImageProccessor:
             cv.imshow("tmp", line_mask)
             cv.waitKey(1) & 0xFF == ord('q')
 
-        roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
+        roi_img = Line.ROI(line_gray, self.height, self.width, origin)
 
         # get Line
         line_arr = Line.hough_lines(
-            self, roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
+            roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
         line_arr = np.squeeze(line_arr)
         # print(line_arr)
+
         if show:
             cv.imshow("show", origin)
             cv.waitKey(1) & 0xFF == ord('q')
+
         if line_arr != 'None':
-            Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
+            Line.draw_lines(origin, line_arr, [0, 0, 255], 2)
             # if show:
             #     cv.imshow("tmp", origin)
             #     cv.waitKey(1) & 0xFF == ord('q')
 
-            state, horizon_arr, vertical_arr = Line.slope_filter(
-                self, line_arr)
+            state, horizon_arr, vertical_arr = Line.slope_filter(line_arr)
             h_line, v_line = Line.get_fitline(
-                self, origin, horizon_arr), Line.get_fitline(self, origin, vertical_arr)
+                origin, horizon_arr), Line.get_fitline(origin, vertical_arr)
 
             # init
             v_slope = None
             h_slope = None
 
             if v_line:
-                Line.draw_fitline(self, origin, v_line, [0, 255, 255])  # Debug
-                v_slope = int(Line.slope_cal(self, v_line))
+                Line.draw_fitline(origin, v_line, [0, 255, 255])  # Debug
+                v_slope = int(Line.slope_cal(v_line))
             if h_line:
-                Line.draw_fitline(self, origin, h_line, [0, 255, 0])  # Debug
-                h_slope = int(Line.slope_cal(self, h_line))
-
-            # print(v_slope, h_slope)
-
+                Line.draw_fitline(origin, h_line, [0, 255, 0])  # Debug
+                h_slope = int(Line.slope_cal(h_line))
             cv.putText(origin, "state: {}".format(state), (50, 210),
                        cv.FONT_HERSHEY_SIMPLEX, 1, [255, 255, 0], 2)
             cv.putText(origin, "v_slope: {}".format(v_slope),
                        (50, 100), cv.FONT_HERSHEY_SIMPLEX, 0.5, [0, 0, 0], 2)
             cv.putText(origin, "h_slope: {}".format(h_slope),
                        (50, 130), cv.FONT_HERSHEY_SIMPLEX, 0.5, [0, 0, 0], 2)
+
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", origin)
                 cv.waitKey(1) & 0xFF == ord('q')
 
             ####################################
-            print(state, v_slope)
+
+            print(
+                '******state:{}, vslope:{}, hslope:{}******'.format(state, v_slope, h_slope))
+
             if state == "BOTH":
                 # is_center = Line.is_center(self, origin, v_line)
                 # cv.putText(origin, "center: {}".format(is_center), (260, 80), cv.FONT_HERSHEY_SIMPLEX, 0.8, [0,255,100], 2)
@@ -248,55 +250,41 @@ class ImageProccessor:
                 # return is_center
                 if v_slope and not h_slope:  # vertical
                     if 90 - v_slope < 0:
-                        cv.putText(origin, "motion: {}".format(
-                            "TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 255], 2)
                         return "TURN_RIGHT"
                     else:
-                        cv.putText(origin, "motion: {}".format(
-                            "TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 255], 2)
                         return "TURN_LEFT"
                 elif h_slope and not v_slope:  # horizon
                     if h_slope < 90:
-                        cv.putText(origin, "motion: {}".format(
-                            "TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 255], 2)
                         return "TURN_RIGHT"
                     else:
-                        cv.putText(origin, "motion: {}".format(
-                            "TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 255], 2)
                         return "TURN_LEFT"
                 else:  # 선이 둘 다 인식됨
                     return state
             elif state == "VERTICAL" and v_line:
-                print('******', setting.VSLOPE1, '******')
-                is_center = Line.is_center(self, origin, v_line)
-                # cv.putText(origin, "center: {}".format(is_center), (260, 80), cv.FONT_HERSHEY_SIMPLEX, 0.8, [0,255,100], 2)
+                is_center = Line.is_center(origin, v_line)
                 if is_center != True:
                     return is_center
                 # if 88 < v_slope < 96:  # 수직
                 if setting.VSLOPE1 <= v_slope <= setting.VSLOPE2:  # 수직
                     return state
                 elif v_slope < setting.VSLOPE1:
-                    # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
-                    print(setting.VSLOPE1, "turn left turn left")
                     return "TURN_LEFT"
                 elif setting.VSLOPE2 < v_slope:
-                    # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_RIGHT"
             elif state == "HORIZON" and h_line:
                 if h_slope < 10 or 170 < h_slope:
                     return state
                 if h_slope < 90:
-                    # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_RIGHT"
                 else:
-                    # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
                     return "TURN_LEFT"
             else:
                 print("ELSE", state)
+                return state
                 # 예외처리 추가 데이터 필요
 
         else:  # 라인 자체를 인식 못할 경우 False 리턴
-            print("FALSE")
+            print("LINE DETECT FAILED : return FALSE")
             return False
 
     def black_line(self, show=False):
@@ -307,26 +295,25 @@ class ImageProccessor:
         _, th = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
         edges = cv.Canny(th, 500, 700, apertureSize=3)
 
-        roi_img = Line.ROI(self, edges, self.height,
-                           self.width, origin, c="BLACK")
+        roi_img = Line.ROI(edges, self.height, self.width, origin, c="BLACK")
 
         # get Line
-        line_arr = Line.hough_lines(self, roi_img)   # 허프 변환
+        line_arr = Line.hough_lines(roi_img)   # 허프 변환
         line_arr = np.squeeze(line_arr)
         v_slope = None
         h_slope = None
         if line_arr != 'None':
-            Line.draw_lines(self, origin, line_arr, [0, 0, 255], 2)
+            Line.draw_lines(origin, line_arr, [0, 0, 255], 2)
             state, horizon_arr, vertical_arr = Line.slope_filter(
-                self, line_arr, black=True)
+                line_arr, black=True)
             h_line, v_line = Line.get_black_fitline(
-                self, origin, horizon_arr), Line.get_black_fitline(self, origin, vertical_arr)
+                origin, horizon_arr), Line.get_black_fitline(origin, vertical_arr)
             if v_line:
-                Line.draw_fitline(self, origin, v_line, [0, 255, 255])  # Debug
-                v_slope = abs(int(Line.slope_cal(self, v_line)))
+                Line.draw_fitline(origin, v_line, [0, 255, 255])  # Debug
+                v_slope = abs(int(Line.slope_cal(v_line)))
             if h_line:
-                Line.draw_fitline(self, origin, h_line, [0, 255, 0])  # Debug
-                h_slope = abs(int(Line.slope_cal(self, h_line)))
+                Line.draw_fitline(origin, h_line, [0, 255, 0])  # Debug
+                h_slope = abs(int(Line.slope_cal(h_line)))
             # print(state, v_slope, h_slope)
 
             if show:
@@ -356,7 +343,7 @@ class ImageProccessor:
         origin = img.copy()
         img = self.correction(img, 7)
         hsv = self.hsv_mask(img)
-        line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
+        line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
         # vertices = np.array([[(0,self.height-50),(0, self.height/2+50), (self.width, self.height/2+50), (self.width,self.height-50)]], dtype=np.int32)
@@ -367,7 +354,7 @@ class ImageProccessor:
         # roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
 
         # line_arr = Line.hough_lines(self, roi_img)   # 허프 변환
-        line_arr = Line.hough_lines(self, line_gray)   # 허프 변환
+        line_arr = Line.hough_lines(line_gray)   # 허프 변환
         line_arr = np.squeeze(line_arr)
         # print(line_arr)
         if show:
@@ -378,16 +365,16 @@ class ImageProccessor:
             print('T')
             # self.is_line_horizon_vertical()
             state, horizon_arr, vertical_arr = Line.slope_filter(
-                self, line_arr, black=True)
+                line_arr, black=True)
             h_line, v_line = Line.get_black_fitline(
-                self, origin, horizon_arr), Line.get_black_fitline(self, origin, vertical_arr)
+                origin, horizon_arr), Line.get_black_fitline(origin, vertical_arr)
             v_slope, h_slope = None, None
             if v_line:
-                Line.draw_fitline(self, origin, v_line, [0, 255, 255])  # Debug
-                v_slope = abs(int(Line.slope_cal(self, v_line)))
+                Line.draw_fitline(origin, v_line, [0, 255, 255])  # Debug
+                v_slope = abs(int(Line.slope_cal(v_line)))
             if h_line:
-                Line.draw_fitline(self, origin, h_line, [0, 255, 0])  # Debug
-                h_slope = abs(int(Line.slope_cal(self, h_line)))
+                Line.draw_fitline(origin, h_line, [0, 255, 0])  # Debug
+                h_slope = abs(int(Line.slope_cal(h_line)))
             print(state, v_slope, h_slope)
             return state, h_slope
             # return True
@@ -400,7 +387,7 @@ class ImageProccessor:
         origin = img.copy()
         img = self.correction(img, 7)
         hsv = self.hsv_mask(img)
-        line_mask = Line.yellow_mask(self, hsv, setting.YELLOW_DATA)
+        line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
         # vertices = np.array([[(0,self.height-50),(0, self.height/2+50), (self.width, self.height/2+50), (self.width,self.height-50)]], dtype=np.int32)
@@ -411,7 +398,7 @@ class ImageProccessor:
         # roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
 
         # line_arr = Line.hough_lines(self, roi_img)   # 허프 변환
-        line_arr = Line.hough_lines(self, line_gray)   # 허프 변환
+        line_arr = Line.hough_lines(line_gray)   # 허프 변환
         line_arr = np.squeeze(line_arr)
         # print(line_arr)
         if show:
@@ -498,14 +485,6 @@ class ImageProccessor:
             img_crop = origin[y:y+h, x:x+w]
             text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
             text = img_crop.copy()
-
-            '''
-            [Issue]
-            현재 mt_gray(gray처리된 roi 부분을 matchTemplate 비교)값을 대표로 리턴함.
-            mt_gray, mt_mask가 정확도가 가장 높으며 두 값은 항상 유사한 결과를 가짐.
-            font 이미지와 비교한 2가지 값도 정확도가 낮지는 않으나, 가끔 로봇의 고개 각도에 따라 튀는 값이 나올 때가 있음
-            '''
-
             sample_list = [e_, w_, s_, n_]
             # 1. matchTemplate - Gray Scale
             mt_gray = Direction.matching(sample_list, text_gray, 0.001, "EWSN")
