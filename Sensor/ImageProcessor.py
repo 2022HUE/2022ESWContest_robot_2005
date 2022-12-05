@@ -37,7 +37,7 @@ if __name__ == "__main__":
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
     font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.d_dangerfont, x),
-                          cv.IMREAD_GRAYSCALE) for x in range(4)]
+                             cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_a = [cv.imread('{}a{}.png'.format(DataPath.d_alpha, x),
                        cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_b = [cv.imread('{}b{}.png'.format(DataPath.d_alpha, x),
@@ -69,7 +69,7 @@ else:
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
     font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.r_dangerfont, x),
-                          cv.IMREAD_GRAYSCALE) for x in range(4)]
+                             cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha, x),
                        cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_b = [cv.imread('{}b{}.png'.format(DataPath.r_alpha, x),
@@ -94,7 +94,7 @@ class ImageProccessor:
             else:
                 self._cam = WebcamVideoStream(src=0).start()
             # cv.imshow("show", self._cam.read())
-                
+
             print('Acquire Camera ')
 
         self.fps = FPS()  # FPS
@@ -394,7 +394,7 @@ class ImageProccessor:
         else:
             print('F')
             return "None", None
-    
+
     def is_yellow_danger(self, show=False):
         img = self.get_img()
         origin = img.copy()
@@ -420,12 +420,11 @@ class ImageProccessor:
             cv.waitKey(1) & 0xFF == ord('q')
         if line_arr != 'None':
             print('T')
-            
+
             return True
         else:
             print('F')
             return False
-
 
     ########### ENTRANCE PROCESSING ###########
     # 화살표 방향 인식 후 리턴
@@ -518,13 +517,12 @@ class ImageProccessor:
             match_gray_font = Direction.match_font(
                 font_img, text_gray)  # 4. font <-> gray scale
 
-            
             print('match: ', mt_gray, mt_mask, match_gray_font,
                   match_mask_font)  # Debug: printing
             set_ = {mt_gray, mt_mask, match_mask_font, match_gray_font}
-            li = [match_gray_font, match_mask_font, mt_gray, mt_mask] 
-            ret = max(li, key=li.count) # 다 다르면 리스트의 0번째 data 리턴
-            
+            li = [match_gray_font, match_mask_font, mt_gray, mt_mask]
+            ret = max(li, key=li.count)  # 다 다르면 리스트의 0번째 data 리턴
+
             print("ret direction text : ", ret)
             ########### [Option] Show ##########
             if show:
@@ -546,7 +544,7 @@ class ImageProccessor:
             # else:
             #     # return ''
             #     return match_gray_font
-                
+
         else:  # False
             return ''
 
@@ -555,7 +553,7 @@ class ImageProccessor:
 
     def is_danger(self, show=False):
         img = self.get_img()
-        img = self.bright(img, 2.0) 
+        img = self.bright(img, 2.0)
         return Danger.is_danger(img, show)  # [return] DANGER / STAIR
 
     # 방 이름이 적힌 글자(A, B, C, D)의 색상 판단
@@ -578,11 +576,13 @@ class ImageProccessor:
         arr = [arr_a, arr_b, arr_c, arr_d]
         if roi != "Failed":
             roi_gray = cv.cvtColor(roi, cv.COLOR_BGR2GRAY)
-            
+
             mt_gray = Direction.matching(arr, roi_gray, 0.001, "ABCD")
             text_mask = Direction.text_masking(roi, danger=True)
-            match_font = Direction.match_font(font_danger, text_mask, danger=True)
-            match_fontg = Direction.match_font(font_danger, roi_gray, danger=True)
+            match_font = Direction.match_font(
+                font_danger, text_mask, danger=True)
+            match_fontg = Direction.match_font(
+                font_danger, roi_gray, danger=True)
 
             print(mt_gray, match_font, match_fontg)
             ########### [Option] Show ##########
@@ -855,7 +855,7 @@ class ImageProccessor:
 
     def stair_obstacle(self):
         img = self.get_img()
-        return Stair.in_stair_obstacle(self,img) #True가 나오면 치워
+        return Stair.in_stair_obstacle(self, img)  # True가 나오면 치워
     ############# STAIR PROCESSING #############
 
 
