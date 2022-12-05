@@ -518,29 +518,34 @@ class ImageProccessor:
             match_gray_font = Direction.match_font(
                 font_img, text_gray)  # 4. font <-> gray scale
 
+            
             print('match: ', mt_gray, mt_mask, match_gray_font,
                   match_mask_font)  # Debug: printing
             set_ = {mt_gray, mt_mask, match_mask_font, match_gray_font}
-            print(list(set_), list(set_)[0])
+            li = [match_gray_font, match_mask_font, mt_gray, mt_mask] 
+            ret = max(li, key=li.count) # 다 다르면 리스트의 0번째 data 리턴
+            
+            print("ret direction text : ", ret)
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", img)
                 cv.imshow("showw", img_crop)
                 cv.waitKey(1) & 0xFF == ord('q')
             ####################################
-            if len(set_) <= 2:
-                cv.putText(img, "direction: {}".format(match_mask_font),
-                           (100, 250), cv.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 255], 2)
-                ########### [Option] Show ##########
-                if show:
-                    cv.imshow("show", img)
-                    # cv.imshow("show", img_crop)
-                    cv.waitKey(1) & 0xFF == ord('q')
-                ####################################
-                return match_gray_font
-            else:
-                # return ''
-                return match_gray_font
+            return ret
+            # if len(set_) <= 2:
+            #     cv.putText(img, "direction: {}".format(match_mask_font),
+            #                (100, 250), cv.FONT_HERSHEY_SIMPLEX, 1, [0, 255, 255], 2)
+            #     ########### [Option] Show ##########
+            #     if show:
+            #         cv.imshow("show", img)
+            #         # cv.imshow("show", img_crop)
+            #         cv.waitKey(1) & 0xFF == ord('q')
+            #     ####################################
+            #     return match_gray_font
+            # else:
+            #     # return ''
+            #     return match_gray_font
                 
         else:  # False
             return ''
