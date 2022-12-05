@@ -90,7 +90,7 @@ class Danger:
                 return False
             
         # cv.imshow('milkbox_crop', milkbox_crop)
-        # cv.imshow("roi", cv.rectangle(src, begin, end, (0, 0, 255), 3))
+        cv.imshow("roi", cv.rectangle(src, begin, end, (0, 0, 255), 3))
 
         return result
     

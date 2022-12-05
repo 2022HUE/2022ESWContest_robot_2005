@@ -855,8 +855,8 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video=DataPath.danger06)
-    # img_processor = ImageProccessor()
+    # img_processor = ImageProccessor(video=DataPath.danger06)
+    img_processor = ImageProccessor()
 
     ### Debug Run ###
     while True:
@@ -877,10 +877,10 @@ if __name__ == "__main__":
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-        # img_processor.get_milkbox_mask("BLUE")
+        # img_processor.get_milkbox_mask("RED")
         # img_processor.is_holding_milkbox("BLUE", True)
         # img_processor.is_out_of_black(True)
-        # img_processor.can_hold_milkbox("RED")
+        img_processor.can_hold_milkbox("RED")
         img_processor.is_yellow_danger(True)
 
         ### danger ###

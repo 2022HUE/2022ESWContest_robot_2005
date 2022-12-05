@@ -42,6 +42,7 @@ class MissionDanger:
 
     @classmethod
     def is_okay_grab_milkbox(self):
+        print("head angle: ", self.head_angle)
         if self.head_angle == 70:
             self.head_angle = 45
             # motion : 고개 각도 45도로 설정

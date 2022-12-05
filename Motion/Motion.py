@@ -65,24 +65,38 @@ class Motion:
 
             while ser.inWaiting() > 0:
                 time.sleep(0.5)
-                try:
-                    result = ser.read(1)
-                    RX = ord(result)
-                    # -----  remocon 16 Code  Exit ------
-                    if RX == 16:
-                        self.receiving_exit = 0
-                        break
-                    elif RX == 200:
-                        try:
-                            self.lock.release()
-                        except:
-                            continue
-                    elif RX != 200:
-                        self.distance = RX
-                except:
-                    # continue
+                # try:
+                #     result = ser.read(1)
+                #     RX = ord(result)
+                #     # -----  remocon 16 Code  Exit ------
+                #     if RX == 16:
+                #         self.receiving_exit = 0
+                #         break
+                #     elif RX == 200:
+                #         try:
+                #             self.lock.release()
+                #         except:
+                #             continue
+                #     elif RX != 200:
+                #         self.distance = RX
+                # except:
+                #     # continue
+                #     break
+                result = ser.read(1)
+                RX = ord(result)
+                # -----  remocon 16 Code  Exit ------
+                if RX == 16:
+                    self.receiving_exit = 0
                     break
-
+                elif RX == 200:
+                    try:
+                        self.lock.release()
+                    except:
+                        continue
+                elif RX != 200:
+                    self.distance = RX
+                        
+                        
     ############################################################
     # 기본자세 (100)
     def basic(self):
@@ -290,5 +304,5 @@ class Motion:
 
 if __name__ == '__main__':
     motion = Motion()
-    motion.set_head("LEFTRIGHT_CENTER")
-    # motion.set_head("DOWN", 60)
+    # motion.set_head("LEFTRIGHT_CENTER")
+    motion.set_head("DOWN", 30)

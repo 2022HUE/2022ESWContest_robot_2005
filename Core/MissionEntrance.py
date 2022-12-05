@@ -131,8 +131,6 @@ class MissionEntrance:
             if self.get_arrow(): # 인식 성공
                 # (motion) 고개 내리기 30 - 노란선 보이게
                 time.sleep(1)
-                self.robo._motion.walk("FORWARD")
-                time.sleep(1)
                 self.robo._motion.set_head("DOWN", 30)
                 time.sleep(1)
                 self.act = Act.EXIT
@@ -141,17 +139,23 @@ class MissionEntrance:
                 self.miss += 1
                 time.sleep(1)
                 if 0< self.miss < 4:
+                    if self.miss == 1:
+                        time.sleep(1)
+                        self.robo._motion.walk("FORWARD")
+                        time.sleep(1)
+                        return False
                     self.robo._motion.turn("LEFT", 10)
                     self.tleft += 1
                     # time.sleep(0.5)
                     self.robo._motion.walk_side("LEFT")
-                elif self.miss < 9:
+                # elif self.miss < 9:
+                else:
                     self.robo._motion.turn("RIGHT", 10)
                     # time.sleep(0.5)
                     self.robo._motion.walk_side("RIGHT")
-                else:
-                    # self.robo._motion.walk("BACKWARD")
-                    time.sleep(5)
+                # else:
+                #     # self.robo._motion.walk("BACKWARD")
+                #     time.sleep(5)
                     
                 return False
 
