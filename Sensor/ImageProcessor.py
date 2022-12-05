@@ -93,6 +93,8 @@ class ImageProccessor:
                 self._cam = WebcamVideoStream(src=-1).start()
             else:
                 self._cam = WebcamVideoStream(src=0).start()
+            # cv.imshow("show", self._cam.read())
+                
             print('Acquire Camera ')
 
         self.fps = FPS()  # FPS

@@ -237,11 +237,11 @@ class Controller:
             # motion: 고개 내리기 30
             self.robo._motion.set_head("DOWN", 30)
             # time.sleep(0.5)
-            self.act = act.GO_ENTRANCE
+            # self.act = act.GO_ENTRANCE
 
             # debug
             # self.act = act.ENTRANCE
-            # self.act = act.GO_NEXTROOM
+            self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
             
             # self.robo._motion.set_head("DOWN", 70)
@@ -275,6 +275,7 @@ class Controller:
                     # else: return False
                 else:
                     # 장애물??
+                    self.robo._motion.kick("RIGHT") # test
                     return False
             return False
 
@@ -355,7 +356,7 @@ class Controller:
                     # return True # Debug
                 else:
                     # 장애물??
-                    # self.robo._motion.kick("LEFT") # test
+                    self.robo._motion.kick("RIGHT") # test
                     return False
             return False
 
