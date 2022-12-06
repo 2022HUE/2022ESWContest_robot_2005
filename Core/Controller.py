@@ -7,7 +7,7 @@ from Core.MissionDanger import MissionDanger
 from Setting import cur, setting
 import time
 
-limits: int = 2  # 방 개수
+limits: int = 1  # 방 개수
 
 
 class Act(Enum):  # 맵 전체 수행 순서도
@@ -229,6 +229,11 @@ class Controller:
             self.robo._motion.walk("FORWARD")
         return False
 
+
+
+
+
+
     @classmethod
     def go_robo(self):
         act = self.act
@@ -238,21 +243,22 @@ class Controller:
             print("ACT: ", act)  # Debug
             # print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
             # motion: 고개 내리기 30
-            # self.robo._motion.set_head("DOWN", 30)
-            # self.act = act.GO_ENTRANCE
+            self.robo._motion.set_head("DOWN", 30)
+            self.act = act.GO_ENTRANCE
 
             # debug
             # self.act = act.ENTRANCE
             # self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
+            # self.act = act.EXIT
 
-            self.robo._motion.set_head("DOWN", 70)
-            self.act = act.DANGER
+            # self.robo._motion.set_head("DOWN", 70)
+            # self.act = act.DANGER
             # self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:
             print("ACT: ", act)  # Debug
-            time.sleep(0.5)
+            # time.sleep(0.5)
 
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL":
@@ -267,10 +273,12 @@ class Controller:
                 self.robo._motion.turn("RIGHT", 10)
             elif state == "BOTH":  # 선 둘 다 인식
                 self.check_entrance += 1
-                self.robo._motion.walk("FORWARD")
+                setting.SICK = 0 # 넘어짐 초기화
+                self.act = act.ENTRANCE
+                # self.robo._motion.walk("FORWARD") # 1206 주석 할지 말지 
             else:
                 if self.check_entrance > 0:
-                    self.robo._motion.walk("FORWARD")
+                    # self.robo._motion.walk("FORWARD")
                     
                     setting.SICK = 0 # 넘어짐 초기화
                     self.act = act.ENTRANCE
@@ -297,8 +305,9 @@ class Controller:
                 print(self.robo.arrow)  # Debug
 
                 # motion: 회전 (수직선이 보일 때 까지)
-                self.robo._motion.turn(Robo.arrow, 45, 3, 3, True) # arm = True
+                self.robo._motion.turn(Robo.arrow, 45, 2, 3, True) # arm = True
                 time.sleep(3)
+                self.robo._motion.turn(Robo.arrow, 20, 1, 1, True) # arm = True
                 self.miss += 1
                 return False
             else:
@@ -439,7 +448,7 @@ class Controller:
                     else: # 회전 필요
                         print("컨트롤러 위험지역 탈출 - 회전")
                         time.sleep(1)
-                        self.robo._motion.turn(Robo.arrow, 45, 3, 3, True) # arm = True
+                        self.robo._motion.turn(Robo.arrow, 45, 2, 3, True) # arm = True
                         time.sleep(3)
                         
                         self.danger_line_flag += 1
@@ -491,7 +500,7 @@ class Controller:
                 self.robo._motion.turn("RIGHT", 10)
             elif state == "BOTH":  # 선 둘 다 인식
                 self.check_exit += 1
-                self.robo._motion.walk("FORWARD", 2, 0.5)
+                self.robo._motion.walk("FORWARD", 2,1)
 
             # elif state == "HORIZON": # (일단 사용 x) BOTH가 잘 인식 안될경우 사용
             #     self.check_exit += 1
@@ -503,7 +512,7 @@ class Controller:
 
         else:  # EXIT
             print("ACT: ", act)  # Debug
-            time.sleep(1)
+            time.sleep(0.5)
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL":
                 self.robo._motion.walk("FORWARD")
@@ -518,7 +527,13 @@ class Controller:
             else:  # 아무것도 인식 X -> 종료 조건
                 self.robo._motion.walk("FORWARD", 1)
                 time.sleep(1)
-                self.robo._motion.notice_alpha(self.robo.black_room_list[0])
+                if len(Robo.black_room_list) > 1:
+                    for i in Robo.black_room_list:
+                        self.robo._motion.notice_alpha(i)
+                        time.sleep(1)
+                else:
+                    self.robo._motion.notice_alpha(Robo.black_room_list[0])
+                # return False # Debug
                 return True
             return False
         return False

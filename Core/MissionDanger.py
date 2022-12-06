@@ -35,7 +35,7 @@ class MissionDanger:
     holding: bool
     first_milkbox_pos: int = cur.FIRST_MILKBOX_POS
     check_backline: int = 0
-    out_direction: str # 위험지역 탈출 방향
+    out_direction: str = "" # 위험지역 탈출 방향
 
     def init_robo(self, robo: Robo):
         self.robo = robo
@@ -84,8 +84,8 @@ class MissionDanger:
 
         if act == act.START:
             print("START")
-            self.act = Act.SPEAK_DANGER
-            # self.act = Act.BACK_TxO_LINE # hyerin debug
+            # self.act = Act.SPEAK_DANGER
+            self.act = Act.BACK_TO_LINE # hyerin debug
 
         elif act == act.SPEAK_DANGER:
             print("SPEAK_DANGER")
@@ -438,24 +438,22 @@ class MissionDanger:
             print("BACK_TO_LINE")
             time.sleep(0.8)
             # # 임시
-            # self.robo._motion.set_head("DOWN", 30)
+            self.robo._motion.set_head("DOWN", 30)
             # self.out_direction
             state, h_slope, v_slope = self.robo._image_processor.is_yellow()
             print("::  Act.BACK_TO_LINE :: ", state, h_slope, v_slope)
             
-            if self.out_direction == "LEFT": disdir = "RIGHT"
-            else: disdir = "RIGHT"
-            if not state:
+            # if self.out_direction == "LEFT": disdir = "RIGHT"
+            # else: disdir = "RIGHT"
+            if state == "None":
                 # 선 인식 실패
-                time.sleep(1)
+                print()
+                print("not state")
+                print()
                 self.robo._motion.turn(self.out_direction, 20)  # 방향 조절 필요
-                time.sleep(0.8)
-                self.robo._motion.walk_side(disdir)
-                self.robo._motion.walk_side(disdir)
-                time.sleep(1)
+                time.sleep(0.5)
                 self.robo._motion.walk("FORWARD")
                 time.sleep(1)
-                pass
             else:
                 if h_slope is None: # state는 있지만 수평선 인식 못함
                     print('ELSE', self.out_direction)
@@ -466,10 +464,11 @@ class MissionDanger:
                     return False
                 if state == "HORIZON":
                     if h_slope <= 10 or 170 <= h_slope:
-                        # self.robo._motion.walk("FORWARD")
+                        print("웅냥냐양ㅇ")
+                        self.robo._motion.walk("FORWARD")
                         time.sleep(2)
-                        # self.robo._motion.walk("FORWARD")
-                        # time.sleep(1.5)
+                        self.robo._motion.walk("FORWARD")
+                        time.sleep(1.5)
                         self.act = Act.EXIT
                     else:
                         self.robo._motion.walk("FORWARD")
@@ -483,13 +482,14 @@ class MissionDanger:
                     
                 elif state == "BOTH": # 수직/수평 둘 다 인식
                     if h_slope <= 10 or 170 <= h_slope: # 수평
-                        # self.robo._motion.walk("FORWARD")
-                        # time.sleep(1.5)
-                        # self.robo._motion.walk("FORWARD")
-                        time.sleep(2)
+                        print("웅냥냐양ㅇ")
+                        self.robo._motion.walk("FORWARD", 5, 1)
                         self.act = Act.EXIT
+                        return True
                     if setting.VSLOPE1 <= v_slope <= setting.VSLOPE2:  # 수직
+                        print("vertical")
                         self.act = Act.EXIT
+                        return True
                         
                     
                     if h_slope < 90 or setting.VSLOPE2 < v_slope:
@@ -497,17 +497,20 @@ class MissionDanger:
                         self.robo._motion.turn("RIGHT", 20)
                     elif v_slope < setting.VSLOPE1:
                         print("TURN_LEFT")
-                        return "TURN_LEFT"
+                        self.robo._motion.turn("LEFT", 20)
                     else:
                         print("TURN_LEFT")
                         self.robo._motion.turn("LEFT", 20)
                 else:
                     print('ELSE', self.out_direction)
+                    print("????????")
                     time.sleep(1)
                     self.robo._motion.turn(self.out_direction, 20)  # 방향 조절 필요
                     time.sleep(1)
                     self.robo._motion.walk("FORWARD")
                     time.sleep(1)
+            
+            return False
 
         else:  # EXIT
             print("EXIT")

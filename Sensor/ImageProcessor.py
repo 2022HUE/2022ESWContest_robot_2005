@@ -9,8 +9,7 @@ from imutils.video import FileVideoStream
 from imutils.video import FPS
 
 import warnings
-warnings.simplefilter(
-    action='ignore', category=FutureWarning)  # FutureWarning 제거
+warnings.simplefilter(action='ignore', category=FutureWarning)  # FutureWarning 제거
 
 print('code: ImageProcessor.py - ## Debug')
 
@@ -26,26 +25,16 @@ if __name__ == "__main__":
     from Setting import setting
     from DataPath import DataPath
 
-    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont, x),
-                          cv.IMREAD_GRAYSCALE) for x in range(4)]
-    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.d_dangerfont, x),
-                             cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_a = [cv.imread('{}a{}.png'.format(DataPath.d_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_b = [cv.imread('{}b{}.png'.format(DataPath.d_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_c = [cv.imread('{}c{}.png'.format(DataPath.d_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_d = [cv.imread('{}d{}.png'.format(DataPath.d_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.d_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.d_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.d_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.d_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
+    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.d_dangerfont, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_a = [cv.imread('{}a{}.png'.format(DataPath.d_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_b = [cv.imread('{}b{}.png'.format(DataPath.d_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_c = [cv.imread('{}c{}.png'.format(DataPath.d_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_d = [cv.imread('{}d{}.png'.format(DataPath.d_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
 
 else:
     from Sensor.Stair import Stair
@@ -58,26 +47,16 @@ else:
     from Sensor.Setting import setting
     from Sensor.DataPath import DataPath
 
-    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont, x),
-                          cv.IMREAD_GRAYSCALE) for x in range(4)]
-    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.r_dangerfont, x),
-                             cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_b = [cv.imread('{}b{}.png'.format(DataPath.r_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_c = [cv.imread('{}c{}.png'.format(DataPath.r_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_d = [cv.imread('{}d{}.png'.format(DataPath.r_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
+    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.r_dangerfont, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_b = [cv.imread('{}b{}.png'.format(DataPath.r_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_c = [cv.imread('{}c{}.png'.format(DataPath.r_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_d = [cv.imread('{}d{}.png'.format(DataPath.r_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
 
 
 class ImageProccessor:
@@ -237,7 +216,6 @@ class ImageProccessor:
             if show:
                 cv.imshow("show", origin)
                 cv.waitKey(1) & 0xFF == ord('q')
-
             ####################################
 
             print(':: state:{}, vslope:{}, hslope:{} ::'.format(
@@ -255,13 +233,20 @@ class ImageProccessor:
                         return "TURN_LEFT"
                 elif h_slope and not v_slope:  # horizon
                     if h_slope < 90:
+                        print("수평: BOTH, TURN_RIGHT")
                         return "TURN_RIGHT"
                     else:
+                        print("수직: BOTH, TURN_RIGHT")
                         return "TURN_LEFT"
                 else:  # 선이 둘 다 인식됨
                     return state
             elif state == "VERTICAL" and v_line:
                 is_center = Line.is_center(origin, v_line)
+                ########### [Option] Show ##########
+                if show:
+                    cv.imshow("show", origin)
+                    cv.waitKey(1) & 0xFF == ord('q')
+                ####################################
                 if is_center != True:
                     return is_center
                 # if 88 < v_slope < 96:  # 수직
@@ -389,7 +374,6 @@ class ImageProccessor:
         img = img[y:y+h, x:x+w]
 
         origin = img.copy()
-        dir = Direction
         gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
         dst = self.blur(gray, setting.DIR_BLUR)
 
@@ -407,7 +391,9 @@ class ImageProccessor:
             peri = cv.arcLength(contours[pos], True)
             approx = cv.approxPolyDP(contours[pos], peri * 0.02, True)
             points = len(approx)
-            if peri > 750 and points == 4:
+            # print(peri) # DEBUG
+            # 1206 :: peri 750 -> 650
+            if peri > 650 and points == 4:
                 roi_contour.append(contours[pos])
                 # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
 
@@ -782,6 +768,7 @@ if __name__ == "__main__":
         # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
+        img_processor.is_line_horizon_vertical(show=True)
 
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)
@@ -795,7 +782,7 @@ if __name__ == "__main__":
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-        img_processor.get_milkbox_mask("BLUE", True)
+        # img_processor.get_milkbox_mask("BLUE", True)
         # print("is holding : ", img_processor.is_holding_milkbox("BLUE", True))
         # img_processor.is_out_of_black(True)
         # print("can hold: ", img_processor.can_hold_milkbox("RED"))

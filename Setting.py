@@ -9,7 +9,8 @@ class Setting:
 '''SETTING CONSTANT'''
 setting = Setting()
 ########### LINE DETECTION ###########
-setting.YELLOW_DATA = [[20, 100, 100], [35, 255, 255]]
+# setting.YELLOW_DATA = [[20, 100, 100], [35, 255, 255]]
+setting.YELLOW_DATA = [[9, 30, 30], [20, 255, 255]] # 1206
 setting.VSLOPE1 = 85
 setting.VSLOPE2 = 105
 
@@ -98,7 +99,7 @@ setting.top_saturation = 750
 
 
 ########### MOTION ###########
-setting.SICK = 0
+setting.SICK =0
 
 ########### CURRENT ACT ###########
 cur = Setting()

@@ -25,7 +25,9 @@ class Arrow:
                 cv.drawContours(debug, [approx], 0, (0, 255, 0), 3)
                 print("Arrow debug) ", area, vertices) # Debug
                 # 11/20 area값 변경
-                if 26000< area < 50000 and vertices == 7:
+                # if 26000< area < 50000 and vertices == 7:
+                # 1206 변경
+                if 16000< area < 50000 and vertices == 7:
                     # print(cnt_arrow)
                     # Debug: drea contours
                     #cv.drawContours(debug, [approx], 0, (0, 255, 0), 3)

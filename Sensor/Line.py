@@ -128,7 +128,7 @@ class Line:
     @classmethod
     def is_center(self, img, line):
         x1, y1, x2, y2 = line[0], line[1], line[2], line[3]
-        cv.rectangle(img, (300, 100), (390-1, 480-1), [0, 255, 0], 2)  # roi
+        cv.rectangle(img, (290, 100), (400-1, 480-1), [0, 255, 0], 2)  # roi
         if 300 <= x1 < 380 and 300 <= x2 < 380:
             return True
         else:
