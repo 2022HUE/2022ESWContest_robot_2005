@@ -240,8 +240,7 @@ class ImageProccessor:
 
             ####################################
 
-            print(
-                '******state:{}, vslope:{}, hslope:{}******'.format(state, v_slope, h_slope))
+            print(':: state:{}, vslope:{}, hslope:{} ::'.format(state, v_slope, h_slope))
 
             if state == "BOTH":
                 # is_center = Line.is_center(self, origin, v_line)
@@ -287,56 +286,6 @@ class ImageProccessor:
             print("LINE DETECT FAILED : return FALSE")
             return False
 
-    def black_line(self, show=False):
-        img = self.get_img()
-        origin = img.copy()
-        img = self.correction(img, 7)
-        img = self.RGB2GRAY(img)
-        _, th = cv.threshold(img, 0, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
-        edges = cv.Canny(th, 500, 700, apertureSize=3)
-
-        roi_img = Line.ROI(edges, self.height, self.width, origin, c="BLACK")
-
-        # get Line
-        line_arr = Line.hough_lines(roi_img)   # 허프 변환
-        line_arr = np.squeeze(line_arr)
-        v_slope = None
-        h_slope = None
-        if line_arr != 'None':
-            Line.draw_lines(origin, line_arr, [0, 0, 255], 2)
-            state, horizon_arr, vertical_arr = Line.slope_filter(
-                line_arr, black=True)
-            h_line, v_line = Line.get_black_fitline(
-                origin, horizon_arr), Line.get_black_fitline(origin, vertical_arr)
-            if v_line:
-                Line.draw_fitline(origin, v_line, [0, 255, 255])  # Debug
-                v_slope = abs(int(Line.slope_cal(v_line)))
-            if h_line:
-                Line.draw_fitline(origin, h_line, [0, 255, 0])  # Debug
-                h_slope = abs(int(Line.slope_cal(h_line)))
-            # print(state, v_slope, h_slope)
-
-            if show:
-                cv.imshow("show", origin)
-                cv.waitKey(1) & 0xFF == ord('q')
-            if show:
-                cv.imshow("tmp", th)
-                cv.waitKey(1) & 0xFF == ord('q')
-
-            if h_slope:
-                print(h_slope)
-                if h_slope <= 10 or 170 <= h_slope:
-                    return True
-                if h_slope < 90:
-                    # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
-                    print("TURN_RIGHT")
-                    return "TURN_RIGHT"
-                else:
-                    # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
-                    print("TURN_LEFT")
-                    return "TURN_LEFT"
-        print('FalseFlase')
-        return False
 
     def is_yellow(self, show=False):
         img = self.get_img()
@@ -346,28 +295,19 @@ class ImageProccessor:
         line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
-        # vertices = np.array([[(0,self.height-50),(0, self.height/2+50), (self.width, self.height/2+50), (self.width,self.height-50)]], dtype=np.int32)
-        # mask = np.zeros_like(img)
-        # cv.fillPoly(mask, vertices, 255)
-        # roi_img = cv.bitwise_and(img, mask)
-
-        # roi_img = Line.ROI(self, line_gray, self.height, self.width, origin)
-
-        # line_arr = Line.hough_lines(self, roi_img)   # 허프 변환
+        
         line_arr = Line.hough_lines(line_gray)   # 허프 변환
         line_arr = np.squeeze(line_arr)
-        # print(line_arr)
+        
         if show:
             cv.imshow("show", origin)
             cv.imshow("tmp", line_mask)
             cv.waitKey(1) & 0xFF == ord('q')
+            
         if line_arr != 'None':
-            print('T')
-            # self.is_line_horizon_vertical()
-            state, horizon_arr, vertical_arr = Line.slope_filter(
-                line_arr, black=True)
-            h_line, v_line = Line.get_black_fitline(
-                origin, horizon_arr), Line.get_black_fitline(origin, vertical_arr)
+            print('FIND YELLOW :: True')
+            state, horizon_arr, vertical_arr = Line.slope_filter(line_arr, black=True)
+            h_line, v_line = Line.get_black_fitline(origin, horizon_arr), Line.get_black_fitline(origin, vertical_arr)
             v_slope, h_slope = None, None
             if v_line:
                 Line.draw_fitline(origin, v_line, [0, 255, 255])  # Debug
@@ -376,11 +316,11 @@ class ImageProccessor:
                 Line.draw_fitline(origin, h_line, [0, 255, 0])  # Debug
                 h_slope = abs(int(Line.slope_cal(h_line)))
             print(state, v_slope, h_slope)
-            return state, h_slope
+            return state, h_slope, v_slope
             # return True
         else:
-            print('F')
-            return "None", None
+            print('FIND YELLOW :: False')
+            return "None", None, None
 
     def is_yellow_danger(self, show=False):
         img = self.get_img()
@@ -602,7 +542,7 @@ class ImageProccessor:
     # 장애물 집을 지 말 지 결정하는 함수 (7번 위치에서 충분히 가까운지)
     def get_milkbox_mask(self, color, show=False):
         img = self.get_img()
-        # cv.imshow('img',  img)
+        cv.imshow('img',  img)
         # img = self.correction(img, 7)
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         return Danger.get_milkbox_mask(hsv, color, show)
@@ -861,10 +801,10 @@ if __name__ == "__main__":
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-        # img_processor.get_milkbox_mask("BLUE", True)
+        img_processor.get_milkbox_mask("BLUE", True)
         # print("is holding : ", img_processor.is_holding_milkbox("BLUE", True))
         # img_processor.is_out_of_black(True)
-        print("can hold: ", img_processor.can_hold_milkbox("RED"))
+        # print("can hold: ", img_processor.can_hold_milkbox("RED"))
         # img_processor.is_yellow_danger(True)
 
         ### danger ###

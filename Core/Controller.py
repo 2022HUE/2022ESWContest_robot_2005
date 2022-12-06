@@ -193,7 +193,7 @@ class Controller:
 
             self.stair_turn += 1
 
-        state, h_slope = self.robo._image_processor.is_yellow()
+        state, h_slope, v_slope = self.robo._image_processor.is_yellow()
         if not h_slope:
             self.robo._motion.turn(Robo.dis_arrow, 10)
             time.sleep(1)
@@ -233,18 +233,17 @@ class Controller:
             print("ACT: ", act)  # Debug
             # print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
             # motion: 고개 내리기 30
-            self.robo._motion.set_head("DOWN", 30)
-            time.sleep(0.5)
-            self.act = act.GO_ENTRANCE
+            # self.robo._motion.set_head("DOWN", 30)
+            # self.act = act.GO_ENTRANCE
 
             # debug
             # self.act = act.ENTRANCE
             # self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
 
-            # self.robo._motion.set_head("DOWN", 70)
+            self.robo._motion.set_head("DOWN", 70)
             # self.act = act.DANGER
-            # self.act = act.STAIR
+            self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:
             print("ACT: ", act)  # Debug
@@ -355,6 +354,7 @@ class Controller:
                 else:
                     # 장애물??
                     self.robo._motion.kick("RIGHT")  # test
+                    time.sleep(3)
                     return False
             return False
 
@@ -375,6 +375,7 @@ class Controller:
                         self.robo._motion.walk("FORWARD")
                         return False
                 else:
+                    self.robo._motion.set_head("DOWN", 30)
                     print('exit stair')
                     if self.exit_stair():
                         print('exit stair 성공')

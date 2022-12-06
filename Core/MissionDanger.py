@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from enum import Enum, auto
 from Core.Robo import Robo
-from Setting import cur
+from Setting import cur, setting
 import time
 
 
@@ -415,69 +415,80 @@ class MissionDanger:
             self.act = Act.BACK_TO_LINE
 
         elif act == Act.BACK_TO_LINE:
+            # @hyerin 
             print("BACK_TO_LINE")
             time.sleep(0.8)
             # # 임시
             # self.robo._motion.set_head("DOWN", 30)
-            # 나중에 효율적으로 수정할 예정
-            if self.out_direction == "RIGHT":
-                print('RIGHT_OUT')
-                if Robo.arrow == "RIGHT": my_arrow = "RIGHT"
-                else: my_arrow = "LEFT"
-                # print(my_arrow)
-            else:
-                if Robo.arrow == "RIGHT":
-                    my_arrow = "LEFT"
-                else:
-                    my_arrow = "LEFT"
-            state, h_slope = self.robo._image_processor.is_yellow()
-            print(state, h_slope)
-            if h_slope is None:
-                print('ELSE', my_arrow)
-                self.robo._motion.turn(my_arrow, 20)  # 방향 조절 필요
+            # self.out_direction
+            state, h_slope, v_slope = self.robo._image_processor.is_yellow()
+            print("::  Act.BACK_TO_LINE :: ", state, h_slope, v_slope)
+            
+            if self.out_direction == "LEFT": disdir = "RIGHT"
+            else: disdir = "RIGHT"
+            if not state:
+                # 선 인식 실패
+                time.sleep(1)
+                self.robo._motion.turn(self.out_direction, 20)  # 방향 조절 필요
+                time.sleep(0.8)
+                self.robo._motion.walk_side(disdir)
+                self.robo._motion.walk_side(disdir)
                 time.sleep(1)
                 self.robo._motion.walk("FORWARD")
                 time.sleep(1)
-                return False
-            if state == "HORIZON":
-                if h_slope <= 10 or 170 <= h_slope:
-                    # self.robo._motion.walk("FORWARD")
-                    time.sleep(3)
-                    # self.robo._motion.walk("FORWARD")
-                    # time.sleep(1.5)
+                pass
+            else:
+                if h_slope is None: # state는 있지만 수평선 인식 못함
+                    print('ELSE', self.out_direction)
+                    self.robo._motion.turn(self.out_direction, 20)  # 방향 조절 필요
+                    time.sleep(1)
+                    self.robo._motion.walk("FORWARD")
+                    time.sleep(1)
+                    return False
+                if state == "HORIZON":
+                    if h_slope <= 10 or 170 <= h_slope:
+                        # self.robo._motion.walk("FORWARD")
+                        time.sleep(2)
+                        # self.robo._motion.walk("FORWARD")
+                        # time.sleep(1.5)
+                        self.act = Act.EXIT
+                    else:
+                        self.robo._motion.walk("FORWARD")
+                        time.sleep(1)
+                        self.robo._motion.turn(self.out_direction, 20) # 방향 조절 필요
+                        time.sleep(1)
+                        
+                elif state == "VERTICAL":
+                    time.sleep(2)
                     self.act = Act.EXIT
+                    
+                elif state == "BOTH": # 수직/수평 둘 다 인식
+                    if h_slope <= 10 or 170 <= h_slope: # 수평
+                        # self.robo._motion.walk("FORWARD")
+                        # time.sleep(1.5)
+                        # self.robo._motion.walk("FORWARD")
+                        time.sleep(2)
+                        self.act = Act.EXIT
+                    if setting.VSLOPE1 <= v_slope <= setting.VSLOPE2:  # 수직
+                        self.act = Act.EXIT
+                        
+                    
+                    if h_slope < 90 or setting.VSLOPE2 < v_slope:
+                        print("TURN_RIGHT")
+                        self.robo._motion.turn("RIGHT", 20)
+                    elif v_slope < setting.VSLOPE1:
+                        print("TURN_LEFT")
+                        return "TURN_LEFT"
+                    else:
+                        print("TURN_LEFT")
+                        self.robo._motion.turn("LEFT", 20)
                 else:
-                    print('ms, horizon else')
+                    print('ELSE', self.out_direction)
+                    time.sleep(1)
+                    self.robo._motion.turn(self.out_direction, 20)  # 방향 조절 필요
+                    time.sleep(1)
                     self.robo._motion.walk("FORWARD")
                     time.sleep(1)
-                    self.robo._motion.turn(my_arrow, 20) # 방향 조절 필요
-                    time.sleep(1)
-            elif state == "BOTH":
-                if h_slope <= 10 or 170 <= h_slope:
-                    self.robo._motion.walk("FORWARD")
-                    time.sleep(1.5)
-                    self.robo._motion.walk("FORWARD")
-                    time.sleep(3)
-                    # self.act = Act.EXIT
-                    print("EXIT")
-                    return True
-                if h_slope < 90:
-                    # cv.putText(origin, "motion: {}".format("TURN_RIGHT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
-                    print("TURN_RIGHT")
-                    self.robo._motion.turn(my_arrow, 20)
-                else:
-                    # cv.putText(origin, "motion: {}".format("TURN_LEFT"), (100, 50), cv.FONT_HERSHEY_SIMPLEX, 1, [0,255,255], 2)
-                    print("ELSE_TURN_LEFT")
-                    self.robo._motion.walk("FORWARD")
-                    time.sleep(1)
-                    self.robo._motion.turn(my_arrow, 20)
-            else:
-                print('ELSE', my_arrow)
-                time.sleep(1)
-                self.robo._motion.turn(my_arrow, 20)  # 방향 조절 필요
-                time.sleep(1)
-                self.robo._motion.walk("FORWARD")
-                time.sleep(1)
 
         else:  # EXIT
             print("EXIT")
