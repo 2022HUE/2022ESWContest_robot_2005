@@ -68,6 +68,7 @@ class Motion:
                 try:
                     result = ser.read(1)
                     RX = ord(result)
+                    print(RX)
                     # -----  remocon 16 Code  Exit ------
                     if RX == 16:
                         self.receiving_exit = 0
@@ -77,6 +78,8 @@ class Motion:
                             self.lock.release()
                         except:
                             continue
+                    elif RX == 65:
+                        print("넘어졌엉ㅇ용ㅇ")
                     elif RX != 200:
                         self.distance = RX
                 except:
@@ -98,7 +101,6 @@ class Motion:
 
     ############################################################
     # 기본자세 (100)
-
     def basic(self):
         self.TX_data_py2(100)
 
@@ -135,7 +137,7 @@ class Motion:
         center_list = {'UPDOWN_CENTER': 140, 'LEFTRIGHT_CENTER': 135}
         dir_list = {
             'DOWN': {
-                20: 121, 30: 122, 45: 123, 50: 124, 60: 125, 70: 126, 80: 127, 90: 128, 100: 129, 110: 130
+                20: 121, 30: 122, 40: 123, 45: 124, 60: 125, 70: 126, 80: 127, 90: 128, 100: 129, 110: 130
             },
             'LEFT': {
                 30: 134, 45: 133, 60: 132, 90: 131
