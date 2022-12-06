@@ -50,7 +50,7 @@ class Danger:
             # 장애물이 위치한 구역 ROI 사각형으로 show
             src = cv.putText(src, "{}".format(text), (0, 210),
                              cv.FONT_HERSHEY_SIMPLEX, 1, color, 2)
-            # cv.imshow("holding_milkbox_roi", cv.rectangle(src, (0, 0), (639, 179), color, 3))  # hsv 말고 src 여야함 # 지원아 imshow 주석해조~~ 아놔
+            cv.imshow("holding_milkbox_roi", cv.rectangle(src, (0, 0), (639, 179), color, 3))  # hsv 말고 src 여야함 # 지원아 imshow 주석해조~~ 아놔
         return True if rate >= setting.HOLDING_RATE else False
 
     # 잡고 있는 장애물의 크롭 화면 가져오기 (장애물 집었을 때, 최대 y좌표 180)
@@ -65,7 +65,7 @@ class Danger:
     @classmethod
     def can_hold_milkbox(self, src, color):
         result = True
-        begin = (bx, by) = (295, 340)
+        begin = (bx, by) = (295, 320)
         end = (ex, ey) = (344, 479)
 
         hsv = cv.cvtColor(src, cv.COLOR_BGR2HSV)
@@ -84,7 +84,7 @@ class Danger:
             cy = int(M['m01']/M['m00'])
             # print(cy)
 
-            cv.circle(src, (cx, cy), 10, (0, 0, 255), -1)
+            cv.circle(src, (cx, cy), 3, (0, 0, 255), -1)
             if cx < bx:
                 return "LEFT"
             elif cx > ex:
@@ -93,7 +93,7 @@ class Danger:
                 return False
 
         # cv.imshow('milkbox_crop', milkbox_crop)
-        # cv.imshow("roi", cv.rectangle(src, begin, end, (0, 0, 255), 3))
+        cv.imshow("roi", cv.rectangle(src, begin, end, (0, 0, 255), 3))
 
         return result
 
@@ -263,7 +263,7 @@ class Danger:
         return color
 
     @classmethod
-    def get_milkbox_mask(self, hsv, color):
+    def get_milkbox_mask(self, hsv, color, show=False):
         h_mask = self.get_milk_blue_mask(hsv)
         if color == "RED":
             h_mask = self.get_milk_red_mask(hsv)
@@ -293,10 +293,11 @@ class Danger:
 
         for pos in contour_pos:
             cv.fillConvexPoly(milk_mask, cont[pos], (255, 255, 255))
-
-        # cv.imshow('hsv', hsv)
-        # cv.imshow('ConvexPolyMask', milk_mask)
-        # cv.imshow("milkbox_mask", h_mask)
+        
+        if show:
+            cv.imshow('hsv', hsv)
+            cv.imshow('ConvexPolyMask', milk_mask)
+            cv.imshow("milkbox_mask", h_mask)
 
         return milk_mask  # mask 리턴
 

@@ -233,8 +233,8 @@ class Controller:
             print("ACT: ", act)  # Debug
             # print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
             # motion: 고개 내리기 30
-            # self.robo._motion.set_head("DOWN", 30)
-            # time.sleep(0.5)
+            self.robo._motion.set_head("DOWN", 30)
+            time.sleep(0.5)
             self.act = act.GO_ENTRANCE
 
             # debug
@@ -242,8 +242,8 @@ class Controller:
             # self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
 
-            self.robo._motion.set_head("DOWN", 70)
-            self.act = act.DANGER
+            # self.robo._motion.set_head("DOWN", 70)
+            # self.act = act.DANGER
             # self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:

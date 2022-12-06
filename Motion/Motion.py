@@ -65,36 +65,36 @@ class Motion:
 
             while ser.inWaiting() > 0:
                 time.sleep(0.5)
-                # try:
-                #     result = ser.read(1)
-                #     RX = ord(result)
-                #     # -----  remocon 16 Code  Exit ------
-                #     if RX == 16:
-                #         self.receiving_exit = 0
-                #         break
-                #     elif RX == 200:
-                #         try:
-                #             self.lock.release()
-                #         except:
-                #             continue
-                #     elif RX != 200:
-                #         self.distance = RX
-                # except:
-                #     # continue
-                #     break
-                result = ser.read(1)
-                RX = ord(result)
-                # -----  remocon 16 Code  Exit ------
-                if RX == 16:
-                    self.receiving_exit = 0
+                try:
+                    result = ser.read(1)
+                    RX = ord(result)
+                    # -----  remocon 16 Code  Exit ------
+                    if RX == 16:
+                        self.receiving_exit = 0
+                        break
+                    elif RX == 200:
+                        try:
+                            self.lock.release()
+                        except:
+                            continue
+                    elif RX != 200:
+                        self.distance = RX
+                except:
+                    # continue
                     break
-                elif RX == 200:
-                    try:
-                        self.lock.release()
-                    except:
-                        continue
-                elif RX != 200:
-                    self.distance = RX
+                # result = ser.read(1)
+                # RX = ord(result)
+                # # -----  remocon 16 Code  Exit ------
+                # if RX == 16:
+                #     self.receiving_exit = 0
+                #     break
+                # elif RX == 200:
+                #     try:
+                #         self.lock.release()
+                #     except:
+                #         continue
+                # elif RX != 200:
+                #     self.distance = RX
 
     ############################################################
     # 기본자세 (100)

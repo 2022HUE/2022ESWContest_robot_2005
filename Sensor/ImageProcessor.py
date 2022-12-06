@@ -600,12 +600,12 @@ class ImageProccessor:
         return Danger.can_hold_milkbox(img, color)
 
     # 장애물 집을 지 말 지 결정하는 함수 (7번 위치에서 충분히 가까운지)
-    def get_milkbox_mask(self, color):
+    def get_milkbox_mask(self, color, show=False):
         img = self.get_img()
         # cv.imshow('img',  img)
         # img = self.correction(img, 7)
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        return Danger.get_milkbox_mask(hsv, color)
+        return Danger.get_milkbox_mask(hsv, color, show)
 
     ############# DANGER PROCESSING #############
 
@@ -861,11 +861,11 @@ if __name__ == "__main__":
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-        # img_processor.get_milkbox_mask("RED")
-        # img_processor.is_holding_milkbox("BLUE", True)
+        # img_processor.get_milkbox_mask("BLUE", True)
+        # print("is holding : ", img_processor.is_holding_milkbox("BLUE", True))
         # img_processor.is_out_of_black(True)
-        img_processor.can_hold_milkbox("RED")
-        img_processor.is_yellow_danger(True)
+        print("can hold: ", img_processor.can_hold_milkbox("RED"))
+        # img_processor.is_yellow_danger(True)
 
         ### danger ###
         # print(img_processor.get_alphabet_color())

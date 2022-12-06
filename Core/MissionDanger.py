@@ -193,6 +193,7 @@ class MissionDanger:
                         
                             self.act = Act.SET_OUT_DIRECTION
                             self.miss = 0
+                            break
                             
                         else:
                             print("MISS해서 팔 원위치로 돌리기 동작 수행")
@@ -200,8 +201,7 @@ class MissionDanger:
                             self.robo._motion.grab("MISS")
                             time.sleep(2)
                             self.miss += 1
-                            
-                        break
+                            return False
                     
                 elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
                     # motion : 장애물 접근 걸어가기
@@ -430,10 +430,6 @@ class MissionDanger:
                     my_arrow = "LEFT"
                 else:
                     my_arrow = "LEFT"
-                # my_arrow = "LEFT"
-            # self.robo._motion.walk("BACKWARD",2,2)
-            # time.sleep(1)
-
             state, h_slope = self.robo._image_processor.is_yellow()
             print(state, h_slope)
             if h_slope is None:
@@ -482,28 +478,6 @@ class MissionDanger:
                 time.sleep(1)
                 self.robo._motion.walk("FORWARD")
                 time.sleep(1)
-
-            # if self.check_backline > 0:
-            #     state = self.robo._image_processor.black_line()
-            #     print(state)
-            #     if state:
-            #         self.robo._motion.walk("FORWARD")
-            #         self.act = Act.EXIT
-            #     elif state == "TURN_LEFT":
-            #         self.robo._motion.turn("LEFT", 10)
-            #     elif state == "TURN_RIGHT":
-            #         self.robo._motion.turn("RIGHT", 10)
-            #     else:
-            #         self.robo._motion.walk("BACKWARD")
-            #         time.sleep(3)
-            # else:
-            #     is_danger = self.robo._image_processor.is_danger()
-            #     if is_danger:
-            #         self.check_backline += 1
-            #         return False
-            #     else:
-            #         self.robo._motion.walk("BACKWARD")
-            #         time.sleep(3)
 
         else:  # EXIT
             print("EXIT")
