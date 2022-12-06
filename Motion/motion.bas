@@ -2809,6 +2809,9 @@ GOSUB_RX_EXIT2:
     GOSUB 기본자세
 
     넘어진확인 = 1
+    
+    J = "A"
+    TX 4, I
 
     DELAY 200
     GOSUB 자이로ON
@@ -2870,6 +2873,9 @@ GOSUB_RX_EXIT2:
     GOSUB All_motor_mode2
     GOSUB 기본자세
     넘어진확인 = 1
+    
+    J = "A"
+    TX 4, I
 
     '******************************
     DELAY 200
