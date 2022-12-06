@@ -4,7 +4,7 @@ from Core.Robo import Robo
 from Core.MissionStair import MissionStair
 from Core.MissionEntrance import MissionEntrance
 from Core.MissionDanger import MissionDanger
-from Setting import cur
+from Setting import cur, setting
 import time
 
 limits: int = 2  # 방 개수
@@ -97,10 +97,14 @@ class Controller:
             self.robo._motion.walk_side("LEFT")
         elif state == "MOVE_RIGHT":
             self.robo._motion.walk_side("RIGHT")
+        elif state == "TURN_LEFT":
+            self.robo._motion.turn("LEFT", 10)
+        elif state == "TURN_RIGHT":
+            self.robo._motion.turn("RIGHT", 10)
         else:
             # 수정 필요
-            self.robo._motion.turn(Robo.arrow, 20)
-            # self.robo._motion.walk("FORWARD")
+            # self.robo._motion.turn(Robo.arrow, 20)
+            self.robo._motion.walk("FORWARD")
             # return True
             # self.robo._motion.turn(self.robo.arrow, 10)
         return False
@@ -248,6 +252,7 @@ class Controller:
 
         elif act == act.GO_ENTRANCE:
             print("ACT: ", act)  # Debug
+            time.sleep(0.5)
 
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL":
@@ -266,14 +271,12 @@ class Controller:
             else:
                 if self.check_entrance > 0:
                     self.robo._motion.walk("FORWARD")
-                    # return True # Debug
+                    
+                    setting.SICK = 0 # 넘어짐 초기화
                     self.act = act.ENTRANCE
-
-                    # if state != "HORIZON": self.act = act.ENTRANCE
-                    # else: return False
                 else:
-                    # 장애물??
                     self.robo._motion.kick("RIGHT")  # test
+                    time.sleep(3)
                     return False
             return False
 
@@ -294,11 +297,8 @@ class Controller:
                 print(self.robo.arrow)  # Debug
 
                 # motion: 회전 (수직선이 보일 때 까지)
-                self.robo._motion.turn(robo.arrow, 45, 2, 0.8)
-                self.robo._motion.walk_side(Robo.arrow)
-                self.robo._motion.walk_side(Robo.arrow)
-                self.robo._motion.turn(robo.arrow, 10, 3)
-                # self.robo._motion.walk("FORWARD")
+                self.robo._motion.turn(Robo.arrow, 45, 3, 3, True) # arm = True
+                time.sleep(3)
                 self.miss += 1
                 return False
             else:
@@ -309,12 +309,6 @@ class Controller:
             time.sleep(0.5)
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "HORIZON":
-                # # 방 입구 도착 -> 위험/계단지역 판단
-                # self.check_area()
-                # print("----Current Area", self.area, "----")
-                # if self.area == "STAIR":
-                #     self.act = act.STAIR
-                # else: self.act = act.DANGER
                 self.robo._motion.walk("FORWARD")
             if state == "VERTICAL":
                 self.robo._motion.walk("FORWARD")
@@ -322,12 +316,10 @@ class Controller:
                 self.robo._motion.walk_side("LEFT")
                 time.sleep(0.8)
                 self.robo._motion.turn("LEFT", 10)
-
             elif state == "MOVE_RIGHT":
                 self.robo._motion.walk_side("RIGHT")
                 time.sleep(0.8)
                 self.robo._motion.turn("RIGHT", 10)
-
             elif state == "TURN_LEFT":
                 self.robo._motion.turn("LEFT", 10)
             elif state == "TURN_RIGHT":
@@ -347,6 +339,7 @@ class Controller:
                     self.check_area()
                     print("----Current Area", self.area, "----")  # Debug
                     # return True ## debug
+                    setting.SICK = 0 # 넘어짐 초기화
                     if self.area == "STAIR":
                         self.act = act.STAIR
                     else:
@@ -367,6 +360,7 @@ class Controller:
                     if self.is_vertical():
                         self.count_area += 1
                         print("count_area: ", self.count_area)
+                        setting.SICK = 0 # 넘어짐 초기화
                         if self.count_area < limits:
                             self.act = act.GO_NEXTROOM
                         else:
@@ -416,51 +410,58 @@ class Controller:
                         print('-------TRUE?------')
                         # return True # debug
                         print("self.count_area: ", self.count_area)
+                        setting.SICK = 0 # 넘어짐 초기화
                         if self.count_area < limits:
                             self.act = act.GO_NEXTROOM
                         else:
                             self.act = act.GO_EXIT
                     else:
                         print('수직선 못찾음')
-                        self.robo._motion.turn(Robo.arrow, 10)
+                        # self.robo._motion.turn(Robo.arrow, 10)
+                        # self.robo._motion.walk("FORWARD")
                         return False
                 else:
                     # 직진
                     if (Robo.box_pos in self.danger_right_out and Robo.arrow == "RIGHT") or (Robo.box_pos not in self.danger_right_out and Robo.arrow == "LEFT"):
-                        if self.danger_turn_flag < 1:
-                            # self.robo._motion.turn("RIGHT", 60, 1, 0.8)
-                            self.danger_turn_flag += 1
-                            return False
-                        else:
-                            if self.danger_to_line("R"):  # horizion is True
-                                self.danger_line_flag += 1
+                        print("컨트롤러 위험지역 탈출 - 직진")
+                        self.danger_line_flag += 1
+                        return False
+                        # if self.danger_turn_flag < 1:
+                        #     self.danger_turn_flag += 1
+                        #     return False
+                        # else:
+                        #     if self.danger_to_line("R"):  # horizion is True
+                        #         self.danger_line_flag += 1
 
-                            else:
-                                return False
-                    else:
-                        print('tutututuutu')
-                        if self.danger_turn_flag < 1:
-                            time.sleep(1)
-                            # self.robo._motion.walk("FORWARD")
-                            # self.robo._motion.turn(Robo.arrow, 10)
-                            self.robo._motion.turn("RIGHT", 60)
-                            time.sleep(1)
-                            self.robo._motion.turn("RIGHT", 60)
-                            time.sleep(1)
-                            # self.robo._motion.turn("RIGHT", 45)
-
-                            # time.sleep(0.8)
-                            self.danger_turn_flag += 1
-                            return False
-                        else:
-                            if self.danger_to_line("L"):  # vertical is True
-                                print("ENDENDENDENDEND")
-                                self.danger_line_flag += 1
-                                time.sleep(1)
-                            else:
-                                # self.robo._motion.walk("FORWARD", short=True)
-                                self.robo._motion.turn("LEFT", 20)
-                                return False
+                        #     else:
+                        #         return False
+                        
+                    else: # 회전 필요
+                        print("컨트롤러 위험지역 탈출 - 회전")
+                        time.sleep(1)
+                        self.robo._motion.turn(Robo.arrow, 45, 3, 3, True) # arm = True
+                        time.sleep(3)
+                        
+                        self.danger_line_flag += 1
+                        return False
+                        # if self.danger_turn_flag < 1:
+                        #     time.sleep(1)
+                        #     self.robo._motion.turn(Robo.arrow, 60, arm=True)
+                        #     time.sleep(2)
+                        #     self.robo._motion.turn(Robo.arrow, 20)
+                        #     time.sleep(1)
+                            
+                        #     self.danger_turn_flag += 1
+                        #     return False
+                        # else:
+                        #     if self.is_vertical():  # vertical is True
+                        #         self.danger_line_flag += 1
+                        #         time.sleep(1)
+                        #         return False
+                        #     else:
+                        #         # self.robo._motion.walk("FORWARD", short=True)
+                        #         self.robo._motion.turn(Robo.arrow, 10)
+                        #         return False
 
             elif MissionDanger.go_robo():
                 self.count_area += 1
@@ -474,10 +475,9 @@ class Controller:
             time.sleep(0.5)
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL" and self.check_exit > 0:
-                self.robo._motion.turn(self.robo.arrow, 45, 2, 1.5)
-                time.sleep(1)
-                self.robo._motion.turn(self.robo.arrow, 20, 1)
-                time.sleep(1)
+                self.robo._motion.turn(Robo.arrow, 45, 3, 3, True) # arm = True
+                time.sleep(3)
+                setting.SICK = 0 # 넘어짐 초기화
                 self.act = act.EXIT
             elif state == "VERTICAL" and self.check_exit == 0:
                 self.robo._motion.walk("FORWARD")

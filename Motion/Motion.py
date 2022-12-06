@@ -7,9 +7,11 @@ import sys
 import serial
 import time
 from threading import Thread, Lock
-
+from Setting import setting
 
 # -----------------------------------------------
+
+
 class Motion:
     def __init__(self, sleep_time=0):
         self.serial_use = 1
@@ -67,8 +69,8 @@ class Motion:
                 time.sleep(0.5)
                 try:
                     result = ser.read(1)
+                    print('result={}'.format(result))
                     RX = ord(result)
-                    print('printRX{}'.format(RX))
                     # -----  remocon 16 Code  Exit ------
                     if RX == 16:
                         self.receiving_exit = 0
@@ -80,6 +82,9 @@ class Motion:
                             continue
                     elif RX == 65:
                         print("넘어졌엉ㅇ용ㅇ")
+                        setting.SICK += 1
+                        time.sleep(5)
+
                     elif RX != 200:
                         self.distance = RX
                 except:
