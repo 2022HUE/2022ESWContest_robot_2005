@@ -2811,7 +2811,7 @@ GOSUB_RX_EXIT2:
     넘어진확인 = 1
     
     J = "A"
-    TX 4, I
+    ETX 4800, J
 
     DELAY 200
     GOSUB 자이로ON
@@ -2875,7 +2875,7 @@ GOSUB_RX_EXIT2:
     넘어진확인 = 1
     
     J = "A"
-    TX 4, I
+    ETX 4800, J
 
     '******************************
     DELAY 200
