@@ -84,8 +84,8 @@ class MissionDanger:
 
         if act == act.START:
             print("START")
-            # self.act = Act.SPEAK_DANGER
-            self.act = Act.BACK_TO_LINE # hyerin debug
+            self.act = Act.SPEAK_DANGER
+            # self.act = Act.BACK_TO_LINE # hyerin debug
 
         elif act == act.SPEAK_DANGER:
             print("SPEAK_DANGER")
@@ -242,6 +242,8 @@ class MissionDanger:
             while True:
                 if self.robo._image_processor.is_out_of_black():
                     # motion : 이미 위험 지역 탈출했으니까 BACK_TO_LINE으로 넘어가기
+                    
+                    self.robo._motion.walk("FORWARD")
                     self.act = Act.BACK_TO_LINE
                     self.miss = 0
                     break
@@ -431,12 +433,13 @@ class MissionDanger:
                     self.robo._motion.grab_walk()
                     time.sleep(2.5)
 
+            self.robo._motion.walk("FORWARD")
             self.act = Act.BACK_TO_LINE
 
         elif act == Act.BACK_TO_LINE:
             # @hyerin 
             print("BACK_TO_LINE")
-            time.sleep(0.8)
+            # time.sleep(0.8)
             # # 임시
             self.robo._motion.set_head("DOWN", 30)
             # self.out_direction

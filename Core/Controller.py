@@ -7,7 +7,7 @@ from Core.MissionDanger import MissionDanger
 from Setting import cur, setting
 import time
 
-limits: int = 1  # 방 개수
+limits: int = 2  # 방 개수
 
 
 class Act(Enum):  # 맵 전체 수행 순서도
@@ -229,8 +229,12 @@ class Controller:
             self.robo._motion.walk("FORWARD")
         return False
 
-
-
+    @classmethod
+    def escape_room(self):
+        self.robo._motion.turn(Robo.dis_arrow, 60, 3, 3, True) # arm = True
+        self.robo._motion.turn(Robo.dis_arrow, 45) # arm = True
+        self.robo._motion.set_head("DOWN", 30)
+        
 
 
 
@@ -239,12 +243,15 @@ class Controller:
         act = self.act
         robo: Robo = Robo()
 
+
+
+
         if act == act.START:
-            print("ACT: ", act)  # Debug
+            print("ACT - controller: ", act)  # Debug
             # print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
             # motion: 고개 내리기 30
-            self.robo._motion.set_head("DOWN", 30)
-            self.act = act.GO_ENTRANCE
+            # self.robo._motion.set_head("DOWN", 30)
+            # self.act = act.GO_ENTRANCE
 
             # debug
             # self.act = act.ENTRANCE
@@ -252,12 +259,15 @@ class Controller:
             # self.act = act.GO_EXIT
             # self.act = act.EXIT
 
-            # self.robo._motion.set_head("DOWN", 70)
+            self.robo._motion.set_head("DOWN", 70)
             # self.act = act.DANGER
-            # self.act = act.STAIR
+            self.act = act.STAIR
+
+
+
 
         elif act == act.GO_ENTRANCE:
-            print("ACT: ", act)  # Debug
+            print("ACT - controller: ", act)  # Debug
             # time.sleep(0.5)
 
             state = self.robo._image_processor.is_line_horizon_vertical()
@@ -297,16 +307,17 @@ class Controller:
                     self.act = act.GO_NEXTROOM
                 else:
                     print('수직선 못찾음')
-                    self.robo._motion.walk_side("RIGHT")
-                    self.robo._motion.walk("FORWARD")
+                    # self.robo._motion.walk_side(Robo.dis_arrow)
+                    # self.robo._motion.walk("FORWARD")
                     self.miss += 1
                     return False
             elif MissionEntrance.go_robo():
                 print(self.robo.arrow)  # Debug
 
                 # motion: 회전 (수직선이 보일 때 까지)
+                self.robo._motion.walk("FORWARD")
                 self.robo._motion.turn(Robo.arrow, 45, 2, 3, True) # arm = True
-                time.sleep(3)
+                # time.sleep(3)
                 self.robo._motion.turn(Robo.arrow, 20, 1, 1, True) # arm = True
                 self.miss += 1
                 return False
@@ -314,8 +325,8 @@ class Controller:
                 return False
 
         elif act == act.GO_NEXTROOM:
-            print("ACT: ", act)  # Debug
-            time.sleep(0.5)
+            print("ACT - controller: ", act)  # Debug
+            # time.sleep(0.5)
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "HORIZON":
                 self.robo._motion.walk("FORWARD")
@@ -323,11 +334,11 @@ class Controller:
                 self.robo._motion.walk("FORWARD")
             elif state == "MOVE_LEFT":
                 self.robo._motion.walk_side("LEFT")
-                time.sleep(0.8)
+                # time.sleep(0.8)
                 self.robo._motion.turn("LEFT", 10)
             elif state == "MOVE_RIGHT":
                 self.robo._motion.walk_side("RIGHT")
-                time.sleep(0.8)
+                # time.sleep(0.8)
                 self.robo._motion.turn("RIGHT", 10)
             elif state == "TURN_LEFT":
                 self.robo._motion.turn("LEFT", 10)
@@ -335,7 +346,7 @@ class Controller:
                 self.robo._motion.turn("RIGHT", 10)
             elif state == "BOTH":  # 선 둘 다 인식
                 self.check_nextroom += 1
-                self.robo._motion.walk("FORWARD")
+                # self.robo._motion.walk("FORWARD")
             else:
                 if self.check_nextroom > 0:
                     self.robo._motion.walk("FORWARD")
@@ -362,7 +373,19 @@ class Controller:
             return False
 
         elif act == act.STAIR:
-            print("ACT: ", act)  # Debug
+            print("ACT - controller: ", act)  # Debug
+            
+            ########## 즉시 탈출문 ##########
+            # self.escape_room()
+            # self.count_area += 1
+            # print("count_area: ", self.count_area)
+            # setting.SICK = 0 # 넘어짐 초기화
+            # if self.count_area < limits:
+            #     self.act = act.GO_NEXTROOM
+            # else:
+            #     self.act = act.GO_EXIT
+            ##############################
+
             if MissionStair.go_robo():
                 # return True  # debug
                 if self.check_stair > 0:
@@ -446,7 +469,7 @@ class Controller:
                         #         return False
                         
                     else: # 회전 필요
-                        print("컨트롤러 위험지역 탈출 - 회전")
+                        print("컨트롤러 위험지역 탈출 - 회전", Robo.arrow)
                         time.sleep(1)
                         self.robo._motion.turn(Robo.arrow, 45, 2, 3, True) # arm = True
                         time.sleep(3)
@@ -480,7 +503,7 @@ class Controller:
                 return False
 
         elif act == act.GO_EXIT:
-            print("ACT: ", act)  # Debug
+            print("ACT - controller: ", act)  # Debug
             time.sleep(0.5)
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL" and self.check_exit > 0:
@@ -511,7 +534,7 @@ class Controller:
             return False
 
         else:  # EXIT
-            print("ACT: ", act)  # Debug
+            print("ACT - controller: ", act)  # Debug
             time.sleep(0.5)
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL":

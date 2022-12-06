@@ -74,6 +74,9 @@ class Motion:
                 if RX == 16 or RX == 15:
                     self.receiving_exit = 0
                     setting.SICK += 1
+                    self.lock.release()
+                    print('15,16 Lock End')
+                    time.sleep(5)
                     # print("\nsick변수 체크 {}\n".format(setting.SICK))
                     break
                 elif RX == 255:
@@ -84,6 +87,8 @@ class Motion:
                     #     continue
                 elif RX == 65:
                     print("넘어졌다가 일어남")
+                    self.lock.acquire()
+                    print("65 acquire")
                     # time.sleep(5)
                 elif RX != 255:
                     self.distance = RX
@@ -297,4 +302,6 @@ class Motion:
 if __name__ == '__main__':
     motion = Motion()
     # motion.set_head("LEFTRIGHT_CENTER")
-    motion.set_head("DOWN", 100)
+    # motion.set_head("DOWN", 100)
+    motion.turn("LEFT", 45, arm=True)
+    

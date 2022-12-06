@@ -239,7 +239,19 @@ class ImageProccessor:
                         print("수직: BOTH, TURN_RIGHT")
                         return "TURN_LEFT"
                 else:  # 선이 둘 다 인식됨
-                    return state
+                    if h_slope < 10 or 170 < h_slope:
+                        return state
+                    elif h_slope < 90:
+                        return "TURN_RIGHT"
+                    elif h_slope > 90:
+                        return "TURN_LEFT"
+                    if setting.VSLOPE1 <= v_slope <= setting.VSLOPE2:  # 수직
+                        return state
+                    elif v_slope < setting.VSLOPE1:
+                        return "TURN_LEFT"
+                    elif setting.VSLOPE2 < v_slope:
+                        return "TURN_RIGHT"
+                    # return state
             elif state == "VERTICAL" and v_line:
                 is_center = Line.is_center(origin, v_line)
                 ########### [Option] Show ##########

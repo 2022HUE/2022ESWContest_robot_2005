@@ -62,11 +62,11 @@ class MissionEntrance:
         if cur.MAP_ARROW:
             my_arrow = cur.MAP_ARROW
         else:
-            my_arrow = self.robo._image_processor.get_arrow()
-
+            Robo.arrow = self.robo._image_processor.get_arrow()
+            print("Robo arrow")
         if my_arrow:
-            Robo.arrow = "LEFT" if my_arrow == "LEFT" else "RIGHT"
-            Robo.dis_arrow = "RIGHT" if my_arrow == "LEFT" else "LEFT"
+            # Robo.arrow = "LEFT" if my_arrow == "LEFT" else "RIGHT"
+            Robo.dis_arrow = "RIGHT" if Robo.arrow == "LEFT" else "LEFT"
             return True
         else:  # 인식 실패
             print('arrow - 인식실패')
@@ -80,11 +80,11 @@ class MissionEntrance:
         print('GO ROBO')
 
         if act == act.START:
-            print('ACT: ', act)
+            print('ACT - Entrance: ', act)
             # (motion) 고개 올리기 70도 - 방위 보이게
-            time.sleep(1)
+            # time.sleep(1)
             self.robo._motion.set_head("DOWN", 70)
-            time.sleep(1)
+            # time.sleep(1)
             self.act = Act.DETECT_DIRECTION
 
             # arrow debuging
@@ -93,7 +93,7 @@ class MissionEntrance:
 
         # 방위 인식
         elif act == act.DETECT_DIRECTION:
-            print('ACT: ', act)  # Debug
+            print('ACT - Entrance: ', act)  # Debug
             if self.get_direction():
                 # for i in range(self.tleft):
                 #     self.robo._motion.turn("RIGHT", 10)
@@ -105,12 +105,12 @@ class MissionEntrance:
             else:
                 self.miss += 1
                 print(self.miss)
-                time.sleep(2)
+                # time.sleep(1)
                 # motion? 인식 잘 안될경우 -> 알파벳이 중앙에 있는지 판단하는 알고리즘 연결
                 if 0 < self.miss < 5:
                     if self.miss == 1:
                         self.robo._motion.walk("FORWARD")
-                        time.sleep(3)
+                        # time.sleep(3)
                         return False
 
                     self.robo._motion.turn("LEFT", 10)
@@ -130,10 +130,10 @@ class MissionEntrance:
 
         # 화살표 인식
         elif act == act.DETECT_ARROW:
-            print('ACT: ', act)  # Debug
+            print('ACT - Entrance: ', act)  # Debug
             if self.get_arrow():  # 인식 성공
                 # (motion) 고개 내리기 30 - 노란선 보이게
-                time.sleep(1)
+                # time.sleep(1)
                 self.robo._motion.set_head("DOWN", 30)
                 time.sleep(1)
                 self.act = Act.EXIT
@@ -163,7 +163,7 @@ class MissionEntrance:
                 return False
 
         else:  # EXIT
-            print('ACT: ', act)
+            print('ACT - Entrance: ', act)
             return True
 
         return False
