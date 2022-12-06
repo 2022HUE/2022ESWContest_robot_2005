@@ -9,7 +9,8 @@ class Setting:
 '''SETTING CONSTANT'''
 setting = Setting()
 ########### LINE DETECTION ###########
-setting.YELLOW_DATA = [[20, 100, 100], [35, 255, 255]]
+# setting.YELLOW_DATA = [[20, 100, 100], [35, 255, 255]]
+setting.YELLOW_DATA = [[9, 30, 30], [20, 255, 255]] # 1206
 setting.VSLOPE1 = 85
 setting.VSLOPE2 = 105
 
@@ -24,13 +25,15 @@ setting.DIR_KERNEL = 1
 # 장애물 파란색 색상 마스크 lower, upper의 [h, s, v] 값
 setting.DANGER_MILKBOX_BLUE1 = [[82, 87, 30], [130, 255, 120]]
 setting.DANGER_MILKBOX_BLUE2 = [[97, 30, 30], [107, 255, 190]]
-setting.DANGER_MILKBOX_BLUE = [[82, 87, 30], [110, 255, 190]]
+setting.DANGER_MILKBOX_BLUE3 = [[82, 87, 30], [110, 255, 190]]
+setting.DANGER_MILKBOX_BLUE = [[102, 30, 30], [123, 255, 210]]
 
 # 장애물 빨간색 색상 마스크 lower, upper의 [h, s, v] 값
 # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
 setting.DANGER_MILKBOX_RED1 = [[167, 77, 30], [180, 255, 189]]
 setting.DANGER_MILKBOX_RED2 = [[164, 77, 30], [180, 255, 179]]
-setting.DANGER_MILKBOX_RED = [[164, 77, 30], [180, 255, 189]]
+setting.DANGER_MILKBOX_RED3 = [[164, 77, 30], [180, 255, 189]]
+setting.DANGER_MILKBOX_RED = [[164, 77, 30], [190, 255, 210]]
 
 # 알파벳 파란색 색상 마스크 lower, upper의 [h, s, v] 값
 setting.ALPHABET_BLUE = [[82, 87, 30], [130, 255, 120]]
@@ -93,6 +96,11 @@ setting.THREE_F = 400  # 계단 3층 채도
 setting.top_forward = 150  # 꼭대기에서 전진 판단하는 채도
 setting.top_move = 45  # 반대쪽 계단으로 떨어지지 않기 위해 안쪽으로 이동할 때 채도 값
 setting.top_saturation = 750
+
+
+########### MOTION ###########
+setting.SICK =0
+
 ########### CURRENT ACT ###########
 cur = Setting()
 cur.MAP_DIRECTION = ""  # (entr) E, W, S, N
