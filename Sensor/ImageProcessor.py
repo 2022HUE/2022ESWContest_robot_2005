@@ -8,8 +8,6 @@ from imutils.video import WebcamVideoStream
 from imutils.video import FileVideoStream
 from imutils.video import FPS
 
-import warnings
-warnings.simplefilter(action='ignore', category=FutureWarning)  # FutureWarning 제거
 
 print('code: ImageProcessor.py - ## Debug')
 
@@ -25,16 +23,26 @@ if __name__ == "__main__":
     from Setting import setting
     from DataPath import DataPath
 
-    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.d_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.d_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.d_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.d_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
-    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.d_dangerfont, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_a = [cv.imread('{}a{}.png'.format(DataPath.d_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_b = [cv.imread('{}b{}.png'.format(DataPath.d_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_c = [cv.imread('{}c{}.png'.format(DataPath.d_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_d = [cv.imread('{}d{}.png'.format(DataPath.d_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
+    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.d_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.d_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.d_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.d_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont, x),
+                          cv.IMREAD_GRAYSCALE) for x in range(4)]
+    font_danger = [cv.imread(
+        '{}/{}.jpg'.format(DataPath.d_dangerfont, x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_a = [cv.imread('{}a{}.png'.format(DataPath.d_alpha, x),
+                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_b = [cv.imread('{}b{}.png'.format(DataPath.d_alpha, x),
+                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_c = [cv.imread('{}c{}.png'.format(DataPath.d_alpha, x),
+                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_d = [cv.imread('{}d{}.png'.format(DataPath.d_alpha, x),
+                       cv.IMREAD_GRAYSCALE) for x in range(4)]
 
 else:
     from Sensor.Stair import Stair
@@ -47,16 +55,26 @@ else:
     from Sensor.Setting import setting
     from Sensor.DataPath import DataPath
 
-    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x),cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
-    font_danger = [cv.imread('{}/{}.jpg'.format(DataPath.r_dangerfont, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_b = [cv.imread('{}b{}.png'.format(DataPath.r_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_c = [cv.imread('{}c{}.png'.format(DataPath.r_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
-    arr_d = [cv.imread('{}d{}.png'.format(DataPath.r_alpha, x),cv.IMREAD_GRAYSCALE) for x in range(4)]
+    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+    font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont, x),
+                          cv.IMREAD_GRAYSCALE) for x in range(4)]
+    font_danger = [cv.imread(
+        '{}/{}.jpg'.format(DataPath.r_dangerfont, x), cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha, x),
+                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_b = [cv.imread('{}b{}.png'.format(DataPath.r_alpha, x),
+                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_c = [cv.imread('{}c{}.png'.format(DataPath.r_alpha, x),
+                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+    arr_d = [cv.imread('{}d{}.png'.format(DataPath.r_alpha, x),
+                       cv.IMREAD_GRAYSCALE) for x in range(4)]
 
 
 class ImageProccessor:
@@ -598,19 +616,18 @@ class ImageProccessor:
         alpha = 0.0
         dst = np.clip((1 + alpha) * add - 128 * alpha, 0, 255).astype(np.uint8)
 
-        ret, th = cv.threshold(
-            dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
+        ret, th = cv.threshold(dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
         dst = cv.bitwise_or(dst, dst, mask=th)
 
         kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
         dst = cv.dilate(dst, kernel, iterations=1)
 
-        contours, hierarchy = cv.findContours(
-            dst, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
+        contours, hierarchy = cv.findContours(dst, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
         return contours
 
     def alphabet_center_check(self, show=False):
         img = self.get_img()
+        cv.rectangle(img, (150, 0), (380-1, 480-1), [0, 255, 0], 3)  # roi
 
         if show:
             cv.imshow("show", img)
@@ -621,7 +638,12 @@ class ImageProccessor:
             alphabet_area, rect_x = Stair.in_rect(
                 self, img, contours)  # contours를 리턴값으로 해서 함수 구성 다시 해보기
             # print(alphabet_area,rect_x)
-            is_center = Stair.in_alphabet_center_check(self, rect_x)
+            # cv2.line(img, (x, x), (0, 0), 5)  # 두께 5
+            if show:
+                cv.imshow("show", img)
+                cv.waitKey(1) & 0xFF == ord('q')
+            is_center = Stair.in_alphabet_center_check(
+                self, rect_x, alphabet_area)
 
             if is_center == True:  # [return] True
                 sz_check = Stair.in_alphabet_size_calc(
@@ -632,7 +654,9 @@ class ImageProccessor:
                 # F: 전진
                 '''
                 return sz_check
-            else:  # [return] (LEFT,걸음 수), (RIGHT, 걸음 수)
+            elif is_center == False:  # [return] (LEFT,걸음 수), (RIGHT, 걸음 수)
+                return 'fail'
+            else:
                 '''motion
                 # LEFT: 왼쪽으로 이동
                 # RIGHT: 오른쪽으로 이동 '''
@@ -780,7 +804,7 @@ if __name__ == "__main__":
         # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
-        img_processor.is_line_horizon_vertical(show=True)
+        # img_processor.is_line_horizon_vertical(show=True)
 
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)
@@ -788,7 +812,7 @@ if __name__ == "__main__":
 
         ### stair ###
         # img_processor.first_rotation('RIGHT')
-        # img_processor.alphabet_center_check()
+        img_processor.alphabet_center_check(True)
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
         # img_processor.top_processing()

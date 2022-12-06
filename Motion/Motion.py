@@ -67,27 +67,27 @@ class Motion:
                 result = ser.read(1)
                 # print('result={}'.format(result))
                 RX = ord(result)
-                print("--------------")
-                print(RX)
-                print("--------------")
+                # print("--------------")
+                # print(RX)
+                # print("--------------")
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16 or RX == 15:
                     self.receiving_exit = 0
                     setting.SICK += 1
-                    self.lock.release()
-                    print('15,16 Lock End')
-                    time.sleep(5)
+                    # self.lock.release()
+                    # print('15,16 Lock End')
+                    # time.sleep(5)
                     # print("\nsick변수 체크 {}\n".format(setting.SICK))
                     break
                 elif RX == 255:
                     # try:
                     self.lock.release()
-                    print('Lock End')
+                    # print('Lock End')
                     # except:
                     #     continue
                 elif RX == 65:
                     print("넘어졌다가 일어남")
-                    self.lock.acquire()
+                    # self.lock.acquire()
                     print("65 acquire")
                     # time.sleep(5)
                 elif RX != 255:
@@ -304,4 +304,3 @@ if __name__ == '__main__':
     # motion.set_head("LEFTRIGHT_CENTER")
     # motion.set_head("DOWN", 100)
     motion.turn("LEFT", 45, arm=True)
-    
