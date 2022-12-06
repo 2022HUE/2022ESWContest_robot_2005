@@ -88,7 +88,7 @@ class Controller:
             return state
 
     @classmethod
-    def line_v_rotate(self):  # 수직선이 보일때까지 회전
+    def is_vertical(self): # 수직선인지
         # self.robo._motion.turn(Robo.arrow, 10)
         state = self.robo._image_processor.is_line_horizon_vertical()
         if state == "VERTICAL":
@@ -98,9 +98,10 @@ class Controller:
         elif state == "MOVE_RIGHT":
             self.robo._motion.walk_side("RIGHT")
         else:
+            # 수정 필요
             self.robo._motion.turn(Robo.arrow, 20)
-            self.robo._motion.walk("FORWARD")
-            return True
+            # self.robo._motion.walk("FORWARD")
+            # return True
             # self.robo._motion.turn(self.robo.arrow, 10)
         return False
 
@@ -242,8 +243,8 @@ class Controller:
             # self.act = act.GO_EXIT
 
             self.robo._motion.set_head("DOWN", 70)
-            # self.act = act.DANGER
-            self.act = act.STAIR
+            self.act = act.DANGER
+            # self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:
             print("ACT: ", act)  # Debug
@@ -279,7 +280,7 @@ class Controller:
         elif act == act.ENTRANCE:
             if self.miss > 0:
                 print("MISS MISS MISS MISS MISS MISS MISS MISS")
-                if self.line_v_rotate():
+                if self.is_vertical():
                     self.miss = 0
                     self.robo._motion.set_head("DOWN", 30)
                     self.act = act.GO_NEXTROOM
@@ -363,7 +364,7 @@ class Controller:
             if MissionStair.go_robo():
                 # return True  # debug
                 if self.check_stair > 0:
-                    if self.line_v_rotate():
+                    if self.is_vertical():
                         self.count_area += 1
                         print("count_area: ", self.count_area)
                         if self.count_area < limits:
@@ -411,7 +412,7 @@ class Controller:
             if self.check_danger > 0:
                 if self.danger_line_flag > 0:
                     print('냥냥냥')
-                    if self.line_v_rotate():
+                    if self.is_vertical():
                         print('-------TRUE?------')
                         # return True # debug
                         print("self.count_area: ", self.count_area)
@@ -424,8 +425,8 @@ class Controller:
                         self.robo._motion.turn(Robo.arrow, 10)
                         return False
                 else:
-                    #  경우의수 수정 필요!!!
-                    if Robo.box_pos in self.danger_right_out:
+                    # 직진
+                    if (Robo.box_pos in self.danger_right_out and Robo.arrow == "RIGHT") or (Robo.box_pos not in self.danger_right_out and Robo.arrow == "LEFT"):
                         if self.danger_turn_flag < 1:
                             # self.robo._motion.turn("RIGHT", 60, 1, 0.8)
                             self.danger_turn_flag += 1

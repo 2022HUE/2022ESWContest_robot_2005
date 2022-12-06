@@ -240,7 +240,8 @@ class ImageProccessor:
 
             ####################################
 
-            print(':: state:{}, vslope:{}, hslope:{} ::'.format(state, v_slope, h_slope))
+            print(':: state:{}, vslope:{}, hslope:{} ::'.format(
+                state, v_slope, h_slope))
 
             if state == "BOTH":
                 # is_center = Line.is_center(self, origin, v_line)
@@ -286,7 +287,6 @@ class ImageProccessor:
             print("LINE DETECT FAILED : return FALSE")
             return False
 
-
     def is_yellow(self, show=False):
         img = self.get_img()
         origin = img.copy()
@@ -295,19 +295,21 @@ class ImageProccessor:
         line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
-        
+
         line_arr = Line.hough_lines(line_gray)   # 허프 변환
         line_arr = np.squeeze(line_arr)
-        
+
         if show:
             cv.imshow("show", origin)
             cv.imshow("tmp", line_mask)
             cv.waitKey(1) & 0xFF == ord('q')
-            
+
         if line_arr != 'None':
             print('FIND YELLOW :: True')
-            state, horizon_arr, vertical_arr = Line.slope_filter(line_arr, black=True)
-            h_line, v_line = Line.get_black_fitline(origin, horizon_arr), Line.get_black_fitline(origin, vertical_arr)
+            state, horizon_arr, vertical_arr = Line.slope_filter(
+                line_arr, black=True)
+            h_line, v_line = Line.get_black_fitline(
+                origin, horizon_arr), Line.get_black_fitline(origin, vertical_arr)
             v_slope, h_slope = None, None
             if v_line:
                 Line.draw_fitline(origin, v_line, [0, 255, 255])  # Debug
@@ -650,14 +652,6 @@ class ImageProccessor:
         top_ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
 
         if top_ret >= setting.STAIR_UP:
-            ''' motion
-            cnt = 2
-            2층->3층 올라가기
-            샤샤샥 
-
-            cnt = 3
-            잘 올라갔는지 판단
-            '''
             # stair_stage_check는 외부에서 계단 올라간거 체크하는 변수 만들어야 함.
             if int(setting.STAIR_LEVEL) < 3:
                 print("2층입니다. 올라가세요")
