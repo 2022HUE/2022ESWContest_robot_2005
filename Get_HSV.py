@@ -9,7 +9,8 @@ from imutils.video import FileVideoStream
 from imutils.video import FPS
 
 import warnings
-warnings.simplefilter(action='ignore', category=FutureWarning)  # FutureWarning 제거
+warnings.simplefilter(
+    action='ignore', category=FutureWarning)  # FutureWarning 제거
 
 
 class Test:
@@ -38,6 +39,7 @@ class Test:
         img = self._cam.read()
         # 이미지를 받아오지 못하면 종료
         if img is None:
+            print("camera image not acquired")
             exit()
 
         # 이미지를 받아오면 화면에 띄움
@@ -45,7 +47,6 @@ class Test:
             cv.imshow("imageProcessor-get_img", img)
             cv.waitKey(1)
         return img
-
 
     @classmethod
     def mouse_callback(self, event, x, y, flags, param):
@@ -101,13 +102,12 @@ class Test:
             print("@3", lower_blue3, "~", upper_blue3)
 
 
-
 if __name__ == "__main__":
     # img_processor = ImageProccessor(video=DataPath.danger06)
     test = Test()
     cv.namedWindow('img_color')
     cv.setMouseCallback('img_color', test.mouse_callback)
-    
+
     hsv = 0
     lower_blue1 = 0
     upper_blue1 = 0
@@ -115,12 +115,12 @@ if __name__ == "__main__":
     upper_blue2 = 0
     lower_blue3 = 0
     upper_blue3 = 0
-    
+
     ### Debug Run ###
     while True:
-        
+
         img_color = test.get_img()
-        
+
         # 원본 영상을 HSV 영상으로 변환합니다.
         img_hsv = cv.cvtColor(img_color, cv.COLOR_BGR2HSV)
 
@@ -130,14 +130,12 @@ if __name__ == "__main__":
         img_mask3 = cv.inRange(img_hsv, lower_blue3, upper_blue3)
         img_mask = img_mask1 | img_mask2 | img_mask3
 
-
         # 마스크 이미지로 원본 이미지에서 범위값에 해당되는 영상 부분을 획득합니다.
         img_result = cv.bitwise_and(img_color, img_color, mask=img_mask)
-
 
         cv.imshow('img_color', img_color)
         cv.imshow('img_mask', img_mask)
         cv.imshow('img_result', img_result)
-    
+
         if cv.waitKey(1) & 0xFF == ord('q'):
             break
