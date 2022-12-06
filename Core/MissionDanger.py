@@ -179,6 +179,9 @@ class MissionDanger:
                 # 9개 구역에 따라 다른 모션 수행
                 if self.milkbox_pos == 7:
                     if self.is_okay_grab_milkbox():
+                        self.head_angle = 40
+                        self.robo._motion.set_head("DOWN", 40)
+                        time.sleep(1)
                         # 장애물 제대로 집고 나왔는지 체크하면 그때 turn 하기 -> 중간에 돌다가 떨어질 경우 고려 안 함...
                         if self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
                             # 아예 반대로 나오는 것보다 180도 비스무레하게 turn 한 후에 걸어 나오게끔 변경
@@ -196,6 +199,9 @@ class MissionDanger:
                             break
                             
                         else:
+                            self.head_angle = 30
+                            self.robo._motion.set_head("DOWN", 30)
+                            time.sleep(1)
                             print("MISS해서 팔 원위치로 돌리기 동작 수행")
                             # motion : 팔 원위치로 돌리기 동작 수행
                             self.robo._motion.grab("MISS")
@@ -243,10 +249,16 @@ class MissionDanger:
                 # 9개 구역에 따라 다른 모션 수행
                 if self.milkbox_pos == 7:
                     if self.is_okay_grab_milkbox():
+                        self.head_angle = 40
+                        self.robo._motion.set_head("DOWN", 40)
+                        time.sleep(1)
                         if self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
                             self.act = Act.SET_OUT_DIRECTION
                             self.miss = 0
                         else:
+                            self.head_angle = 30
+                            self.robo._motion.set_head("DOWN", 30)
+                            time.sleep(1)
                             print("MISS해서 팔 원위치로 돌리기 동작 수행")
                             # motion : 팔 원위치로 돌리기 동작 수행
                             self.robo._motion.grab("MISS")
