@@ -19,12 +19,13 @@ class Direction:
         # cv.imshow("show3", th_s)
         
         # _, th_s = cv.threshold(s, 120, 255, cv2.THRESH_BINARY)
+        _, danger_mask = cv.threshold(s, 80, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
         # _, th_v = cv.threshold(v, 100, 255, cv2.THRESH_BINARY_INV)
         text_mask = cv.bitwise_and(th_s, th_v)
         # text_dst = cv.bitwise_and(img_crop, img_crop, mask = text_mask) # remove background
 
         if not danger: return text_mask
-        else: return th_s
+        else: return danger_mask
 
     @classmethod
     def match_sam(self, sam_l, tar, num):
