@@ -319,6 +319,9 @@ class MissionDanger:
             self.first_milkbox_pos = Robo.box_pos
             # 장애물을 들고 있는 채로 위험지역 밖을 벗어날 때까지 아래 과정 반복
             while True:
+                self.head_angle = 40
+                self.robo._motion.set_head("DOWN", 40)
+                time.sleep(1)
                 # 장애물을 집지 못하거나 떨어트렸을 경우
                 if not self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
                     time.sleep(2)
@@ -328,6 +331,10 @@ class MissionDanger:
                     time.sleep(2)
                     self.act = Act.REGRAB_MILKBOX
                     return False
+                
+                self.head_angle = 30
+                self.robo._motion.set_head("DOWN", 30)
+                time.sleep(1)
                 if self.robo._image_processor.is_out_of_black():
                     # motion : 장애물 내려놓기 동작 수행
                     self.robo._motion.grab("DOWN")
