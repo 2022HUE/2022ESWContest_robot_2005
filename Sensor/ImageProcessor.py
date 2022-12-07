@@ -712,7 +712,7 @@ class ImageProccessor:
 
     def stair_down(self):
         img = self.get_img()
-        cv.imshow('img',img)
+        # cv.imshow('img',img)
         img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
         img_mask = Stair.in_saturation_measurement(
             self, img, setting.STAIR_S, setting.ROOM_V)  # -->s_mask가 50 이면 좋겠어
