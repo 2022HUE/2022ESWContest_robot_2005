@@ -100,9 +100,9 @@ setting.TWO_F = 250  # 계단 2층 채도
 setting.THREE_F = 400  # 계단 3층 채도
 
 # setting.top_forward = 95  # 꼭대기에서 전진 판단하는 채도
-setting.top_forward = 180  # 꼭대기에서 전진 판단하는 채도
+setting.top_forward = 190  # 꼭대기에서 전진 판단하는 채도
 setting.top_move = 45  # 반대쪽 계단으로 떨어지지 않기 위해 안쪽으로 이동할 때 채도 값
-setting.top_saturation = 550
+setting.top_saturation = 500
 
 setting.STAIR_START_UP = 310
 ########### MOTION ###########

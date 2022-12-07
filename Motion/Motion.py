@@ -41,11 +41,11 @@ class Motion:
 
     def TX_data_py2(self, one_byte):  # one_byte= 0~255
 
-        print('Lock Start')
+        # print('Lock Start')
         self.lock.acquire()
-        print("Lock acuqire !!")
+        # print("Lock acuqire !!")
         # print("\nserial.to_bytes([one_byte]) = {}\n".format(chr(one_byte)))
-        print("\nserial.to_bytes([one_byte]) = {}\n".format(one_byte))
+        # print("\nserial.to_bytes([one_byte]) = {}\n".format(one_byte))
         self.serial_port.write(serial.to_bytes([one_byte]))  # python3
         # print("one_byte TX :: ", one_byte)
 
@@ -66,7 +66,7 @@ class Motion:
         while True:
 
             if self.receiving_exit == 0:
-                print('exit=0', self.threading_Time)
+                # print('exit=0', self.threading_Time)
                 # self.lock.acquire()
                 # self.lock.release()
                 
@@ -80,7 +80,7 @@ class Motion:
                 result = ser.read(1)
                 # print('result={}'.format(result))
                 RX = ord(result)
-                print("Receiving RX: ", RX)
+                # print("Receiving RX: ", RX)
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16 or RX == 15:
                     # self.lock.acquire()
@@ -190,7 +190,7 @@ class Motion:
             time.sleep(sleep)
 
     # 팔 들고 돌기 (141~160)
-    def arm_turn(self, dir, angle, loop=1, sleep=0.5):
+    def arm_turn(self, dir, angle, loop=0.02, sleep=0.5):
         """ parameter :
         dir : {LEFT, RIGHT}
         """
@@ -275,7 +275,7 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
 
     # 집고 턴 (193~200) [Danger]
-    def grab_turn(self, dir, angle, loop=1, sleep=0.5):
+    def grab_turn(self, dir, angle, loop=1, sleep=0.02):
         """ parameter :
         dir : {LEFT, RIGHT}
         """

@@ -45,12 +45,12 @@ class MissionEntrance:
             self.map_direction = cur.MAP_DIRECTION
         else:
             print('check direction')
-            time.sleep(2)
+            time.sleep(1)
             self.map_direction = self.robo._image_processor.get_ewsn()
 
         if self.map_direction:
             self.robo._motion.notice_direction(self.map_direction)
-            time.sleep(3)  # Lock
+            # time.sleep(3)  # Lock
             return True
         else:  # 인식 실패
             return False

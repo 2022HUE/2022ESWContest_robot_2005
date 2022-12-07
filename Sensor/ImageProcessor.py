@@ -734,20 +734,20 @@ class ImageProccessor:
             return False
 
     # 계단 앞으로 밀착
-    def stair_forward(self):
-        img = self.get_img()
-        img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
-        lower_hue, upper_hue = np.array(
-            setting.STAIR_GREEN[0]), np.array(setting.STAIR_GREEN[1])
-        b_mask = cv.inRange(img, lower_hue, upper_hue)
-        ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
-        print('greenmask={}'.format(ret))
-        if ret >= setting.STAIR_START_UP:
-            return False
-            print("전진 그만 하고 샤샤샤샥")
-        else:
-            return True
-            print("전진")
+    # def stair_forward(self):
+    #     img = self.get_img()
+    #     img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
+    #     lower_hue, upper_hue = np.array(
+    #         setting.STAIR_GREEN[0]), np.array(setting.STAIR_GREEN[1])
+    #     b_mask = cv.inRange(img, lower_hue, upper_hue)
+    #     ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
+    #     print('greenmask={}'.format(ret))
+    #     if ret >= setting.STAIR_START_UP:
+    #         return False
+    #         print("전진 그만 하고 샤샤샤샥")
+    #     else:
+    #         return True
+    #         print("전진")
 
     # 계단 내려가기 전에 파란색이 더 많은 부분 발이 먼저 내려가기
     # 넘어졌을 때 cnt
