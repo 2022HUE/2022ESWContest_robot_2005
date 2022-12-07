@@ -124,7 +124,6 @@ class MissionDanger:
 
             print(Robo.alphabet_color)
 
-            # 알파벳 D를 A로 인식해서 sleep 줬는데 그거 문제가 아닌 듯
             # time.sleep(1)
             if cur.BLACK_ROOM_LIST:
                 Robo.black_room_list = cur.BLACK_ROOM_LIST
@@ -160,7 +159,7 @@ class MissionDanger:
                 self.first_milkbox_pos = cur.FIRST_MILKBOX_POS
                 Robo.box_pos = self.first_milkbox_pos
             else:
-                # 장애물 처음 위치 저장 -> 선언 위치가 여기가 맞을 지 모르겠지만 일단 여기에 둠
+                # 장애물 처음 위치 저장
                 self.first_milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
                 Robo.box_pos = self.first_milkbox_pos
             
@@ -182,37 +181,40 @@ class MissionDanger:
                         self.head_angle = 40
                         self.robo._motion.set_head("DOWN", 40)
                         time.sleep(1)
-                        # 장애물 제대로 집고 나왔는지 체크하면 그때 turn 하기 -> 중간에 돌다가 떨어질 경우 고려 안 함...
-                        if self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
-                            # 아예 반대로 나오는 것보다 180도 비스무레하게 turn 한 후에 걸어 나오게끔 변경
-                            self.robo._motion.grab_turn(self.out_direction, 60)
-                            time.sleep(2.5)
-                            self.robo._motion.grab_turn(self.out_direction, 60)
-                            time.sleep(2.5)
-                            self.robo._motion.grab_turn(self.out_direction, 60)
-                            time.sleep(2.5)
+                        for _ in range(3):
+                            # 장애물 제대로 집고 나왔는지 체크하면 그때 turn 하기 -> 중간에 돌다가 떨어질 경우 고려 안 함...
+                            if self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
+                                # 아예 반대로 나오는 것보다 180도 비스무레하게 turn 한 후에 걸어 나오게끔 변경
+                                self.robo._motion.grab_turn(self.out_direction, 60)
+                                time.sleep(2.5)
+                                
                             # self.robo._motion.grab_turn(self.out_direction, 45)
                             # time.sleep(2.5)
+                                
+                            else:
+                                self.head_angle = 30
+                                self.robo._motion.set_head("DOWN", 30)
+                                # time.sleep(1)
+                                print("MISS해서 팔 원위치로 돌리기 동작 수행")
+                                # motion : 팔 원위치로 돌리기 동작 수행
+                                self.robo._motion.grab("MISS")
+                                # time.sleep(2)
+                                if self.out_direction == "RIGHT":
+                                    self.robo._motion.turn("LEFT", 45)
+                                else:
+                                    self.robo._motion.turn("RIGHT", 45)
+                                time.sleep(1)
+                                self.miss += 1
+                                return False
                         
-                            self.act = Act.SET_OUT_DIRECTION
-                            self.miss = 0
-                            break
-                            
-                        else:
-                            self.head_angle = 30
-                            self.robo._motion.set_head("DOWN", 30)
-                            time.sleep(1)
-                            print("MISS해서 팔 원위치로 돌리기 동작 수행")
-                            # motion : 팔 원위치로 돌리기 동작 수행
-                            self.robo._motion.grab("MISS")
-                            time.sleep(2)
-                            self.miss += 1
-                            return False
+                        self.act = Act.SET_OUT_DIRECTION
+                        self.miss = 0
+                        break
                     
                 elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
                     # motion : 장애물 접근 걸어가기
                     self.robo._motion.walk("FORWARD")
-                    time.sleep(0.5)
+                    time.sleep(1)
                 elif self.milkbox_pos == 0 or self.milkbox_pos == 3 or self.milkbox_pos == 6:
                     # motion : 왼쪽으로 20도 회전 수행
                     self.robo._motion.turn("LEFT", 20)
@@ -227,6 +229,7 @@ class MissionDanger:
                     self.miss = 0
                     # 계속 못찾으면 그냥 시민 대피 미션 포기 (실패할 경우 EXIT 버전 하나 더 만들어야할 듯)
                     self.act = Act.EXIT
+                    return False
                 else:
                     self.miss += 1
                     print("장애물 못찾음 miss++")
@@ -248,25 +251,42 @@ class MissionDanger:
                     self.miss = 0
                     break
                 self.milkbox_pos = self.robo._image_processor.get_milkbox_pos(Robo.alphabet_color)
-                # 9개 구역에 따라 다른 모션 수행
+                                # 9개 구역에 따라 다른 모션 수행
                 if self.milkbox_pos == 7:
                     if self.is_okay_grab_milkbox():
                         self.head_angle = 40
                         self.robo._motion.set_head("DOWN", 40)
                         time.sleep(1)
-                        if self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
-                            self.act = Act.SET_OUT_DIRECTION
-                            self.miss = 0
-                        else:
-                            self.head_angle = 30
-                            self.robo._motion.set_head("DOWN", 30)
-                            time.sleep(1)
-                            print("MISS해서 팔 원위치로 돌리기 동작 수행")
-                            # motion : 팔 원위치로 돌리기 동작 수행
-                            self.robo._motion.grab("MISS")
-                            self.miss += 1
-                            time.sleep(2)
+                        for _ in range(3):
+                            # 장애물 제대로 집고 나왔는지 체크하면 그때 turn 하기 -> 중간에 돌다가 떨어질 경우 고려 안 함...
+                            if self.robo._image_processor.is_holding_milkbox(Robo.alphabet_color):
+                                # 아예 반대로 나오는 것보다 180도 비스무레하게 turn 한 후에 걸어 나오게끔 변경
+                                self.robo._motion.grab_turn(self.out_direction, 60)
+                                time.sleep(2.5)
+                                
+                            # self.robo._motion.grab_turn(self.out_direction, 45)
+                            # time.sleep(2.5)
+                                
+                            else:
+                                self.head_angle = 30
+                                self.robo._motion.set_head("DOWN", 30)
+                                # time.sleep(1)
+                                print("MISS해서 팔 원위치로 돌리기 동작 수행")
+                                # motion : 팔 원위치로 돌리기 동작 수행
+                                self.robo._motion.grab("MISS")
+                                # time.sleep(2)
+                                if self.out_direction == "RIGHT":
+                                    self.robo._motion.turn("LEFT", 45)
+                                else:
+                                    self.robo._motion.turn("RIGHT", 45)
+                                time.sleep(1)
+                                self.miss += 1
+                                return False
+                        
+                        self.act = Act.SET_OUT_DIRECTION
+                        self.miss = 0
                         break
+                    
                 elif self.milkbox_pos == 1 or self.milkbox_pos == 4:
                     # motion : 장애물 접근 걸어가기
                     self.robo._motion.walk("FORWARD")
