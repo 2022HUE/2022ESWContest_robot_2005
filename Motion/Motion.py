@@ -7,6 +7,7 @@ import sys
 import serial
 import time
 from threading import Thread, Lock
+from Setting import setting
 
 # -----------------------------------------------
 
@@ -36,18 +37,17 @@ class Motion:
         def decorated():
             func()
             time.sleep(self.sleep_time)
-
         return decorated
 
     def TX_data_py2(self, one_byte):  # one_byte= 0~255
-        try:
-            self.lock.acquire()
-            self.serial_port.write(serial.to_bytes([one_byte]))  # python3
-        finally:
-            self.lock.release()
-            time.sleep(0.02)
+        print('Lock Start')
+        self.lock.acquire()
+        # print("\nserial.to_bytes([one_byte]) = {}\n".format(chr(one_byte)))
+        self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+        time.sleep(0.02)
 
     def RX_data(self):
+        time.sleep(0.02)
         if self.serial_port.inWaiting() > 0:
             result = self.serial_port.read(1)
             RX = ord(result)
@@ -61,22 +61,40 @@ class Motion:
             if self.receiving_exit == 0:
                 break
             time.sleep(self.threading_Time)
+            time.sleep(0.08)
+
             while ser.inWaiting() > 0:
                 result = ser.read(1)
+                # print('result={}'.format(result))
                 RX = ord(result)
+                # print("--------------")
+                # print(RX)
+                # print("--------------")
                 # -----  remocon 16 Code  Exit ------
-                if RX == 16:
+                if RX == 16 or RX == 15:
                     self.receiving_exit = 0
+                    setting.SICK += 1
+                    # self.lock.release()
+                    # print('15,16 Lock End')
+                    # time.sleep(5)
+                    # print("\nsick변수 체크 {}\n".format(setting.SICK))
                     break
-                elif RX == 200:
-                    try:
-                        self.lock.release()
-                    except:
-                        continue
-                elif RX != 200:
+                elif RX == 255:
+                    # try:
+                    self.lock.release()
+                    # print('Lock End')
+                    # except:
+                    #     continue
+                elif RX == 65:
+                    print("넘어졌다가 일어남")
+                    # self.lock.acquire()
+                    print("65 acquire")
+                    # time.sleep(5)
+                elif RX != 255:
                     self.distance = RX
 
     ############################################################
+
     # 기본자세 (100)
     def basic(self):
         self.TX_data_py2(100)
@@ -86,7 +104,7 @@ class Motion:
         """ parameter :
         dir : {FORWARD, BACKWARD}
         """
-        dir_list = {'FORWARD': 101, "BACKWORD": 111}
+        dir_list = {'FORWARD': 101, "BACKWARD": 111}
         if short:
             dir_list[dir] += 1
 
@@ -114,7 +132,7 @@ class Motion:
         center_list = {'UPDOWN_CENTER': 140, 'LEFTRIGHT_CENTER': 135}
         dir_list = {
             'DOWN': {
-                20: 121, 30: 122, 45: 123, 50: 124, 60: 125, 70: 126, 80: 127, 90: 128, 100: 129, 110: 130
+                20: 121, 30: 122, 40: 123, 45: 124, 60: 125, 70: 126, 80: 127, 90: 128, 100: 129, 110: 130
             },
             'LEFT': {
                 30: 134, 45: 133, 60: 132, 90: 131
@@ -131,7 +149,7 @@ class Motion:
         time.sleep(0.3)
 
     # 돌기 (141~160)
-    def turn(self, dir, angle, loop=1, sleep=0.5, arm=False):  # sleep 0.5 -> 1
+    def turn(self, dir, angle, loop=1, sleep=0.5, arm=False):
         """ parameter :
         dir : {LEFT, RIGHT}
         """
@@ -195,25 +213,28 @@ class Motion:
         """ parameter :
         dir : {LEFT, RIGHT}
         """
-        dir_list = {"LEFT": 174, "RIGHT": 175}
+        dir_list = {"LEFT": 175, "RIGHT": 176}
         self.TX_data_py2(dir_list[dir])
 
-    # 집기 (181~186) [Danger]
+    # 집기 (181~185) [Danger]
     def grab(self, dir):
         """ parameter :
         dir : {UP, DOWN, MISS}
         """
-        dir_list = {"UP" : 181, "DOWN" : 185, "MISS" : 184}
+        dir_list = {"UP": 181, "DOWN": 185, "MISS": 184}
         self.TX_data_py2(dir_list[dir])
 
-    # 집고 전진 (187~188) [Danger]
-    def grab_walk(self, loop=1):
-        for _ in range(loop):
-            self.TX_data_py2(187)
-            time.sleep(1.5)  # 나중에 보고 초 조정하기
-            self.TX_data_py2(188)
+    # 횟수_집고 전진 (186~188) [Danger]
+    def grab_walk(self, dir="DEFAULT"):
+        """ parameter :
+        dir : {DEFAULT, LEFT, RIGHT}
+        """
+        dir_list = {"LEFT": 186, "RIGHT": 187, "DEFAULT": 188}
+        self.TX_data_py2(dir_list[dir])
+        time.sleep(1.5)   # 나중에 보고 초 조정하기
 
     # 집고 옆으로 (189~192) [Danger]
+
     def grab_sideway(self, dir, long=False):
         """ parameter :
         dir : {LEFT, RIGHT}
@@ -242,10 +263,10 @@ class Motion:
             time.sleep(sleep)
 
     # 손 들고 걷기
-    def handsUp_walk(self, loop = 1):
-        for _ in range(loop) :
+    def handsUp_walk(self, loop=1):
+        for _ in range(loop):
             self.TX_data_py2(103)
-            time.sleep(1.5)   # 나중에 보고 초 조정하기
+            time.sleep(2)   # 나중에 보고 초 조정하기
 
     # 방위 인식 (201~204)
     def notice_direction(self, dir):
@@ -280,6 +301,6 @@ class Motion:
 
 if __name__ == '__main__':
     motion = Motion()
-    # motion.basic()
     # motion.set_head("LEFTRIGHT_CENTER")
-    motion.grab("DOWN")
+    # motion.set_head("DOWN", 100)
+    motion.turn("LEFT", 45, arm=True)

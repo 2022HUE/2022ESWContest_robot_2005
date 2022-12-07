@@ -2515,8 +2515,8 @@ GOSUB_RX_EXIT2:
     MOTORMODE G6D,3,3,3,3,2
     MOVE G6B, 100, 180,  80,  ,  ,
     MOVE G6C, 100, 180,  80,  ,  ,
-    
-    
+
+
 
 팔들면서오른쪽턴45_LOOP:
     SPEED 10
@@ -2594,7 +2594,7 @@ GOSUB_RX_EXIT2:
     MOVE G6A,95,  96, 145,  73, 105, 100
     MOVE G6D,95,  56, 145,  113, 105, 100
     MOVE G6B,110
-    MOVE G6C,90, 
+    MOVE G6C,90,
     WAIT
 
     SPEED 12
@@ -2660,7 +2660,7 @@ GOSUB_RX_EXIT2:
 
     SPEED 8
     GOSUB 만세자세
-    
+
     GOTO RX_EXIT
     '**********************************************
 팔들고오른쪽턴45:
@@ -3232,17 +3232,17 @@ Number_Play: '  BUTTON_NO = 숫자대입
     '**********************************************
 집고왼쪽턴60:
 
-    SPEED 15
+    SPEED 8
     MOVE G6A,95,  116, 145,  45, 105, 100
     MOVE G6D,95,  36, 145,  125, 105, 100
     WAIT
 
-    SPEED 15
+    SPEED 10
     MOVE G6A,90,  116, 145,  45, 105, 100
     MOVE G6D,90,  36, 145,  125, 105, 100
     WAIT
 
-    SPEED 10
+    SPEED 8
     MOVE G6A,100,  76, 145,  85, 100
     MOVE G6D,100,  76, 145,  85, 100
     WAIT
@@ -3251,17 +3251,17 @@ Number_Play: '  BUTTON_NO = 숫자대입
     '**********************************************
 집고오른쪽턴60:
 
-    SPEED 15
+    SPEED 8
     MOVE G6A,95,  36, 145,  125, 105, 100
     MOVE G6D,95,  116, 145,  45, 105, 100
     WAIT
 
-    SPEED 15
+    SPEED 10
     MOVE G6A,90,  36, 145,  125, 105, 100
     MOVE G6D,90,  116, 145,  45, 105, 100
     WAIT
 
-    SPEED 10
+    SPEED 8
     MOVE G6A,100,  76, 145,  85, 100
     MOVE G6D,100,  76, 145,  85, 100
     WAIT
@@ -3633,7 +3633,7 @@ D지역:
     RETURN
     '******************************************
 
-'양팔벌리기:
+    '양팔벌리기:
     ''MOVE G6A, 101,  83, 128,  96,  99, 100
     ''MOVE G6D, 100,  79, 128, 100,  99, 100
     'MOVE G6B, 107, 101, 100, 100, 100, 101
@@ -3775,13 +3775,13 @@ D지역:
 
     RETURN
 
-	'*****************************************
+    '*****************************************
 집은채로팔내리기:
-	GOSUB All_motor_mode3
+    GOSUB All_motor_mode3
     GOSUB 자이로OFF
-	
-	
-	
+
+
+
     '******************************************
 집고왼쪽옆으로:
     MOTORMODE G6A,3,3,3,3,2
@@ -4154,7 +4154,7 @@ D지역:
     GOSUB All_motor_mode3
     보행COUNT = 0
     SPEED 7
-    'HIGHSPEED SETON
+    HIGHSPEED SETON
     MOVE G6B,100,  190,  95,
     MOVE G6C,100,  190,  95
 
@@ -4207,17 +4207,21 @@ D지역:
         MOVE G6A,104,  76, 145,  91,  102
         'MOVE G6C, 100
         'MOVE G6B,100
-        'WAIT
-        'HIGHSPEED SETOFF
-        'SPEED 15
-        'GOSUB 안정화자세
-        'SPEED 5
-        'GOSUB 기본자세2
+        WAIT
+        HIGHSPEED SETOFF
+        
+        SPEED 15
+        '안정화자세 손 빼고
+        MOVE G6A,98,  76, 145,  93, 101, 100
+    	MOVE G6D,98,  76, 145,  93, 101, 100
+    	
+        SPEED 5
+        GOSUB 만세자세
 
         'DELAY 400
         GOTO RX_EXIT
     ENDIF
-    
+
     RETURN
 
     '*********************************
@@ -4254,14 +4258,20 @@ D지역:
         'MOVE G6C,100
         WAIT
         HIGHSPEED SETOFF
+        
         SPEED 15
-        GOSUB 안정화자세
+        '안정화자세 손 빼고
+        MOVE G6A,98,  76, 145,  93, 101, 100
+    	MOVE G6D,98,  76, 145,  93, 101, 100
+    	
         SPEED 5
-        GOSUB 기본자세2
+        GOSUB 만세자세
 
         'DELAY 400
         GOTO RX_EXIT
     ENDIF
+    
+    '************************************
 
 물건집고전진:
     보행속도 = 8
@@ -4538,6 +4548,98 @@ D지역:
     WAIT
 
     GOTO RX_EXIT
+    '********************************************
+집고전진3:
+    보행속도 = 8
+    좌우속도 = 4
+    넘어진확인 = 0
+
+    'GOSUB 전방하향18도
+    'DELAY 20
+    SPEED 10
+    GOSUB All_motor_mode3
+    MOVE G6B,185,  10,  60
+    MOVE G6C,185,  10,  60
+    WAIT
+
+    DELAY 20
+    'HIGHSPEED SETON
+
+    SPEED 10
+    MOVE G6D,  90,  74, 142,  94, 109
+    MOVE G6A, 108,  76, 144,  93, 96
+    WAIT
+
+    SPEED 12
+    MOVE G6D,90, 90, 118, 101, 109,99
+    MOVE G6A,108,  76, 145,  92,  96,100
+    WAIT
+
+    'HIGHSPEED SETOFF
+    GOTO 집고전진3_2	
+
+집고전진3_2:
+    MOVE G6A,110,  76, 145,  93, 100,100
+    MOVE G6D,96, 90, 118, 101, 106,99
+    WAIT
+
+집고전진3_3:
+    'ETX 4800,13 '진행코드를 보냄
+
+    SPEED 보행속도
+
+    MOVE G6D, 90,  56, 143, 114, 109
+    MOVE G6A,108,  76, 145,  89,  95
+    WAIT
+
+    SPEED 좌우속도
+    MOVE G6D,108,  76, 145, 89,  97
+    MOVE G6A,90, 100, 140,  68, 107
+    WAIT
+
+    SPEED 보행속도
+
+    GOSUB 앞뒤기울기측정
+    IF 넘어진확인 = 1 THEN
+        넘어진확인 = 0
+        GOTO MAIN
+    ENDIF
+
+
+    ERX 4800,A, 집고전진3_4
+    IF A = 11 THEN
+        GOTO 집고전진3_4
+        '    ELSE
+        '    	MOVE G6A, 90, 100, 100, 115, 110,100
+        ' 		MOVE G6D,112,  76, 146,  93,  96,100
+        ' 		MOVE G6B,90
+        ' 		MOVE G6C,110
+        ' 		WAIT
+        ' 		HIGHSPEED SETOFF
+        ' 		SPEED 8
+
+        ' 		MOVE G6D, 106,  76, 146,  93,  96,100		
+        ' 		MOVE G6A,  88,  71, 152,  91, 106,100
+        ' 		MOVE G6C, 100
+        ' 		MOVE G6B, 100
+        ' 		WAIT	
+        ' 		SPEED 8
+        ' 		GOSUB 기본자세2
+
+        ' 		GOTO RX_EXIT
+    ENDIF
+집고전진3_4:
+    SPEED 13
+    MOVE G6A,95, 90, 118, 101, 110,99
+    MOVE G6D,108,  76, 144,  92,  95,99
+    WAIT
+
+    SPEED 11
+    MOVE G6A,100,  76, 143,  92, 99, 100
+    MOVE G6D,100,  76, 143,  92, 99, 100
+    WAIT
+
+    GOTO 집고전진2
     '*******************
 횟수_집고후진:
     GOSUB All_motor_mode3
@@ -5463,10 +5565,18 @@ D지역:
 
     '오른발 내리기3
     SPEED 3
-    MOVE G6A, 97, 55,  149, 136,  96, 100
-    MOVE G6D,  107,  55, 149, 139, 104, 100
+    MOVE G6A, 90, 55,  149, 149,  96, 100
+    MOVE G6D,  107,  55, 149, 139, 106, 100
     MOVE G6B, 101,  36,  85, 100, 30, 101
     MOVE G6C,  99,  32,  92, 100,  30, 100
+    WAIT
+    
+    '기본자세 과정
+	SPEED 3
+    MOVE G6A, 97, 55,  149, 136,  96, 100
+    MOVE G6D,  107,  55, 149, 139, 104, 100
+    MOVE G6C, 101,  36,  85, 100, 30, 101
+    MOVE G6B,  99,  32,  92, 100,  95, 100
     WAIT
 
 
@@ -5528,7 +5638,7 @@ D지역:
     WAIT
 
     '오른무릎 많이들기
-    SPEED 1
+    SPEED 3
     MOVE G6D, 112, 125,  102, 65,  91, 100
     MOVE G6A,  95,  15, 169, 139, 116, 100
     MOVE G6C, 101,  36,  85, 100, 30, 101
@@ -5546,7 +5656,7 @@ D지역:
     '시험 왼발로 지탱하고 내려가는 동작
     SPEED 5
     MOVE G6D, 105, 140,  92, 102,  81, 100
-    MOVE G6A,  95,  15, 169, 149, 116, 100
+    MOVE G6A,  95,  15, 150, 149, 116, 100
     MOVE G6C, 101,  36,  85, 100, 30, 101
     MOVE G6B,  99,  32,  92, 100,  95, 100
     WAIT
@@ -5641,15 +5751,22 @@ D지역:
 
     '왼발 내리기3
     SPEED 3
+    MOVE G6D, 90, 55,  149, 149,  96, 100
+    MOVE G6A,  107,  55, 149, 139, 106, 100
+    MOVE G6C, 101,  36,  85, 100, 30, 101
+    MOVE G6B,  99,  32,  92, 100,  95, 100
+    WAIT
+
+    '기본자세 과정
+	SPEED 3
     MOVE G6D, 97, 55,  149, 136,  96, 100
     MOVE G6A,  107,  55, 149, 139, 104, 100
     MOVE G6C, 101,  36,  85, 100, 30, 101
     MOVE G6B,  99,  32,  92, 100,  95, 100
     WAIT
 
-
     SPEED 4
-    GOSUB 기본자세''검수 대상
+    GOSUB 기본자세'여기를 수정해야 발 빠지는 게 덜할 듯
 
     RETURN
 
@@ -5804,7 +5921,7 @@ D지역:
     'HIGHSPEED SETON
     MOVE G6D,104,  77, 147, 93, 100
     MOVE G6A,95,  90, 143,  94,  102
-    MOVE G6B, 100 
+    MOVE G6B, 100
     MOVE G6C, 100
     WAIT
 횟수_좁은보폭2:
@@ -6245,15 +6362,15 @@ D지역:
     WAIT
 
     RETURN
-    
+
     '*****************************************
 양팔벌리기:
     MOVE G6B, 185, 10, 80
     MOVE G6C, 190, 10, 80
     WAIT
 
-	SPEED 5
-	GOSUB 기본자세
+    SPEED 5
+    GOSUB 기본자세
     '******************************************
 
 MAIN: '라벨설정
@@ -6537,13 +6654,14 @@ KEY30: ' ▷
     '***************
 KEY31: ' ▽
     ETX 4800, 31
-    GOSUB 집고전진2
+    GOTO 집고전진2
     GOTO RX_EXIT
     '***************
 
 KEY32: ' F
     ETX 4800, 32
-    GOSUB 양팔벌리기
+    보행횟수= 1
+    GOSUB 집고전진3
     GOTO RX_EXIT
     '***************
 
@@ -6831,7 +6949,7 @@ KEY101:
     GOTO RX_EXIT
 KEY102:
     ETX  4800,102
-    보행횟수 = 1
+    보행횟수 = 4
     GOSUB 횟수_좁은보폭
     GOTO RX_EXIT
 KEY103:
@@ -6877,7 +6995,7 @@ KEY111:
     GOTO RX_EXIT
 KEY112:
     ETX 4800,112
-    보행횟수 = 1
+    보행횟수 = 4
     GOSUB 횟수_뒤로좁은보폭
     GOTO RX_EXIT
 KEY113:
@@ -7190,22 +7308,23 @@ KEY185:
     ETX 4800, 185
     GOSUB 물건놓기
     GOTO RX_EXIT
+    
+    '**************** grab_walk ********************
 
 KEY186:
     ETX 4800, 186
-    GOSUB 고개중앙기본자세
+    보행횟수 = 1
+    GOSUB 집고전진
     GOTO RX_EXIT
-
-    '**************** grab_walk ********************
 KEY187:
     ETX 4800, 187
     보행횟수 = 1
-    GOSUB 집고전진
+    GOSUB 집고전진2
     GOTO RX_EXIT
 KEY188:
     ETX 4800, 188
     보행횟수 = 1
-    GOSUB 집고전진2
+    GOSUB 집고전진3
     GOTO RX_EXIT
 
     '**************** grab_sidewalk ********************

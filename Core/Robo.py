@@ -6,13 +6,17 @@ from Sensor.DataPath import DataPath
 
 print('code: Robo.py - ## Debug')
 
+
 class Robo:
-    arrow: str = "RIGHT"
-    dis_arrow: str = "LEFT"
+    arrow: str = "LEFT"
+    dis_arrow: str = "RIGHT"
     black_room_list = list = []
     alphabet_color: str
-    _image_processor = ImageProccessor(video="") # Image Processor
+    box_pos: int = -1
+    feet_down = 'LEFT_DOWN'
+    _image_processor = ImageProccessor(video="")  # Image Processor
+    _motion = Motion()  # Motion
 
     def __init__(self, vpath=''):
-        #self._image_processor = ImageProccessor(video=vpath) # Image Processor
-        self._motion = Motion() # Motion
+        # self._image_processor = ImageProccessor(video=vpath) # Image Processor
+        pass
