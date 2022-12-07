@@ -732,15 +732,16 @@ class ImageProccessor:
         else:
             print("1층에서 좁은 보폭")  # motion: 2층에서 샤샤샥
             return False
-        
-    #계단 앞으로 밀착
+
+    # 계단 앞으로 밀착
     def stair_forward(self):
         img = self.get_img()
         img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
         lower_hue, upper_hue = np.array(
-            setting.STAIR_RED[0]), np.array(setting.STAIR_RED[1])
-        b_mask = cv.inRange(hsv, lower_hue, upper_hue)
+            setting.STAIR_GREEN[0]), np.array(setting.STAIR_GREEN[1])
+        b_mask = cv.inRange(img, lower_hue, upper_hue)
         ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
+        print('greenmask={}'.format(ret))
         if ret >= setting.STAIR_START_UP:
             return False
             print("전진 그만 하고 샤샤샤샥")

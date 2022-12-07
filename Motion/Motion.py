@@ -83,7 +83,9 @@ class Motion:
                 print("Receiving RX: ", RX)
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16 or RX == 15:
-                    self.receiving_exit = 0
+                    # self.lock.acquire()
+                    break
+                    # self.receiving_exit = 0
                     # setting.SICK += 1
                     # print(setting.SICK)
                     # self.lock.release()
@@ -101,7 +103,8 @@ class Motion:
                 elif RX == 253:
                     # print("넘어졌다가 일어남")
                     # self.lock.acquire()
-                    self.lock.release()
+                    RX = 255
+                    
                     # print("253 acquire")
                     # time.sleep(5)
                 elif RX != 255:

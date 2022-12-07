@@ -105,6 +105,8 @@ class MissionStair:
                 self.robo._motion.kick(Robo.arrow)
                 self.robo._motion.kick(Robo.arrow)
                 time.sleep(0.2)
+                self.robo._motion.set_head('DOWN', 30)
+                time.sleep(1)
                 self.act = Act.STAIR_FORWARD
             else:
                 self.robo._motion.walk_side(ret, long=70)  # 벽쪽으로 이동
@@ -133,7 +135,7 @@ class MissionStair:
             if ret == True:
                 self.robo._motion.walk('FORWARD')
             else:
-                self.robo._motion.set_head('DOWN', 30)
+                
                 self.act = Act.DRAW_STAIR_LINE
 
         elif act == act.DRAW_STAIR_LINE:
