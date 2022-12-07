@@ -247,6 +247,8 @@ class MissionDanger:
                     # motion : 이미 위험 지역 탈출했으니까 BACK_TO_LINE으로 넘어가기
                     
                     self.robo._motion.walk("FORWARD")
+                    
+                    self.robo._motion.set_head("DOWN", 30)
                     self.act = Act.BACK_TO_LINE
                     self.miss = 0
                     break
@@ -454,6 +456,9 @@ class MissionDanger:
                     time.sleep(2.5)
 
             self.robo._motion.walk("FORWARD")
+            
+            self.robo._motion.set_head("DOWN", 30)
+            
             self.act = Act.BACK_TO_LINE
 
         elif act == Act.BACK_TO_LINE:
