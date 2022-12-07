@@ -806,19 +806,19 @@ if __name__ == "__main__":
         # img_processor.is_yellow(show=True)
         # img_processor.is_line_horizon_vertical(show=True)
 
-        # print(img_processor.get_alphabet_name(show=True))
+        print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)
         # img_processor.get_milkbox_pos("RED", True)
 
         ### stair ###
         # img_processor.first_rotation('RIGHT')
-        img_processor.alphabet_center_check(True)
+        # img_processor.alphabet_center_check(True)
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-        # img_processor.get_milkbox_mask("BLUE", True)
+        # img_processor.get_milkbox_mask("RED", True)
         # print("is holding : ", img_processor.is_holding_milkbox("BLUE", True))
         # img_processor.is_out_of_black(True)
         # print("can hold: ", img_processor.can_hold_milkbox("RED"))
