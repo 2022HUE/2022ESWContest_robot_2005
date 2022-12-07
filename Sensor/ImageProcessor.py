@@ -799,6 +799,8 @@ class ImageProccessor:
 
     def stair_obstacle(self):
         img = self.get_img()
+        if setting.STAIR_LEVEL!=1:
+            return False
         return Stair.in_stair_obstacle(self,img) #True가 나오면 치워
     ############# STAIR PROCESSING #############
 
