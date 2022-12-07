@@ -2750,6 +2750,8 @@ GOSUB_RX_EXIT2:
     PTP SETON 				
     PTP ALLON		
 
+	ETX 4800, 253
+
     GOSUB 자이로OFF
 
     GOSUB All_motor_Reset
@@ -2812,9 +2814,6 @@ GOSUB_RX_EXIT2:
     GOSUB 기본자세
 
     넘어진확인 = 1
-    
-    J = "A"
-    ETX 4800, J
 
     DELAY 200
     GOSUB 자이로ON
@@ -2830,6 +2829,8 @@ GOSUB_RX_EXIT2:
     PTP SETON 				
     PTP ALLON
 
+	ETX 4800, 253
+	
     GOSUB 자이로OFF
 
     HIGHSPEED SETOFF
@@ -2876,9 +2877,6 @@ GOSUB_RX_EXIT2:
     GOSUB All_motor_mode2
     GOSUB 기본자세
     넘어진확인 = 1
-    
-    J = "A"
-    ETX 4800, J
 
     '******************************
     DELAY 200
@@ -4022,6 +4020,7 @@ D지역:
 
 물건놓기:
     GOSUB All_motor_mode3
+    SPEED 8
     GOSUB 자이로OFF
     MOVE G6B, 145, , ,
     MOVE G6C, 145, , ,
@@ -6177,7 +6176,7 @@ D지역:
 장애물왼쪽앞치우기:
 
     '무릎 굽히기
-    SPEED 5
+    SPEED 8
     MOVE G6A, 98, 165,  27, 131,  101, 100
     MOVE G6D, 98, 165,  27, 131,  101, 100
     MOVE G6B,100,  23,  90,
@@ -6187,7 +6186,7 @@ D지역:
     DELAY 300
 
     '왼팔 뻗기
-    SPEED 15
+    SPEED 18
     MOVE G6A, 98, 165,  27, 131,  101, 100
     MOVE G6D, 98, 165,  27, 131,  101, 100
     MOVE G6B,140, 50,  90,
@@ -6195,7 +6194,7 @@ D지역:
     WAIT
 
 
-    SPEED 5
+    SPEED 8
     '발 모으기
     MOVE G6A,100, 150,  28, 140, 100, 100
     MOVE G6D,100, 150,  28, 140, 100, 100
@@ -6210,7 +6209,7 @@ D지역:
 
     '발 조금 모으기
     'test
-    SPEED 5	
+    SPEED 8
     MOVE G6A,  80, 150,  25, 162, 115
     MOVE G6D,  80, 150,  25, 162, 115
     MOVE G6B,160, 65,  75,
@@ -6218,7 +6217,7 @@ D지역:
     WAIT
 
     '허리 접기
-    SPEED 10	
+    SPEED 13
     MOVE G6A,  70, 165,  25, 162, 135
     MOVE G6D,  70, 165,  25, 162, 135
     MOVE G6B,179, 65,  70,
@@ -6228,7 +6227,7 @@ D지역:
     HIGHSPEED SETON
 
     '왼팔꿈치 움직이기test
-    SPEED 10	
+    SPEED 13	
     MOVE G6A,  70, 165,  25, 162, 135
     MOVE G6D,  70, 165,  25, 162, 135
     MOVE G6B,170, 10,  30,
@@ -6238,7 +6237,7 @@ D지역:
     DELAY 500
 
     '왼팔꿈치 움직이기 밖으로빼기
-    SPEED 10
+    SPEED 13
     MOVE G6A,  70, 165,  25, 162, 135
     MOVE G6D,  70, 165,  25, 162, 135
     MOVE G6B,170, 65,  70,
@@ -6249,7 +6248,7 @@ D지역:
 
     '발 조금 모으기
 
-    SPEED 5
+    SPEED 8
     MOVE G6A,  80, 150,  25, 162, 115
     MOVE G6D,  80, 150,  25, 162, 115
     MOVE G6B,170, 65,  70,
@@ -6257,7 +6256,7 @@ D지역:
     WAIT
 
     '발 모으기
-    SPEED 5
+    SPEED 8
     MOVE G6A,100, 150,  28, 140, 100, 100
     MOVE G6D,100, 150,  28, 140, 100, 100
     MOVE G6B,130,  50,  85
@@ -6265,7 +6264,7 @@ D지역:
     WAIT
 
     '안정화자세
-    SPEED 5
+    SPEED 8
     MOVE G6A,98,  76, 145,  93, 101, 100
     MOVE G6D,98,  76, 145,  93, 101, 100
     MOVE G6B,100,  35,  90
@@ -6278,7 +6277,7 @@ D지역:
 장애물오른쪽앞치우기:
 
     '무릎 굽히기
-    SPEED 5
+    SPEED 8
     MOVE G6A, 98, 165,  27, 131,  101, 100
     MOVE G6D, 98, 165,  27, 131,  101, 100
     MOVE G6B,100,  65,  35,
@@ -6286,7 +6285,7 @@ D지역:
     WAIT
 
     '팔 앞으로
-    SPEED 5
+    SPEED 8
     MOVE G6A, 98, 165,  27, 131,  101, 100
     MOVE G6D, 98, 165,  27, 131,  101, 100
     MOVE G6B,90,  65,  30,
@@ -6296,7 +6295,7 @@ D지역:
     DELAY 300
 
     '왼팔 뻗기
-    SPEED 15
+    SPEED 18
     MOVE G6A, 98, 165,  27, 131,  101, 100
     MOVE G6D, 98, 165,  27, 131,  101, 100
     MOVE G6C,140, 25,  90,
@@ -6306,7 +6305,7 @@ D지역:
     DELAY 300
 
 
-    SPEED 5
+    SPEED 8
     '발 모으기
     MOVE G6A,100, 150,  28, 140, 100, 100
     MOVE G6D,100, 150,  28, 140, 100, 100
@@ -6321,7 +6320,7 @@ D지역:
     DELAY 300
 
     '발 조금 모으기
-    SPEED 5	
+    SPEED 8
     MOVE G6A,  80, 150,  25, 162, 115
     MOVE G6D,  83, 150,  25, 162, 115
     MOVE G6C,160, 25,  90,
@@ -6329,7 +6328,7 @@ D지역:
     WAIT
 
     '허리 접기
-    SPEED 5
+    SPEED 8
     MOVE G6A,  70, 165,  25, 152, 135
     MOVE G6D,  70, 165,  25, 152, 135
     MOVE G6C,179, 65,  70,
@@ -6339,7 +6338,7 @@ D지역:
     HIGHSPEED SETON
 
     '왼팔꿈치 움직이기
-    SPEED 10	
+    SPEED 13
     MOVE G6A,  70, 165,  25, 152, 135
     MOVE G6D,  70, 165,  25, 152, 135
     MOVE G6C,170, 10,  30,
@@ -6349,7 +6348,7 @@ D지역:
     DELAY 500
 
     '왼팔꿈치 움직이기 밖으로빼기
-    SPEED 10
+    SPEED 13
     MOVE G6A,  70, 165,  25, 152, 135
     MOVE G6D,  70, 165,  25, 152, 135
     MOVE G6C,170, 65,  70,
@@ -6360,7 +6359,7 @@ D지역:
 
     '발 조금 모으기
 
-    SPEED 5
+    SPEED 8
     MOVE G6A,  80, 150,  25, 162, 115
     MOVE G6D,  83, 150,  25, 162, 115
     MOVE G6C,170, 65,  70,
@@ -6368,7 +6367,7 @@ D지역:
     WAIT
 
     '발 모으기
-    SPEED 5
+    SPEED 8
     MOVE G6A,100, 150,  28, 140, 100, 100
     MOVE G6D,100, 150,  28, 140, 100, 100
     MOVE G6B,120,  40,  85
@@ -6376,7 +6375,7 @@ D지역:
     WAIT
 
     '안정화자세
-    SPEED 5
+    SPEED 8
     MOVE G6A,98,  76, 145,  93, 101, 100
     MOVE G6D,98,  76, 145,  93, 101, 100
     MOVE G6B,100,  35,  90
@@ -6823,8 +6822,9 @@ KEY31: ' ▽
 
 KEY32: ' F
     ETX 4800, 32
-    기어가기횟수= 3
-    GOTO 기어가기
+    '기어가기횟수= 3
+    'GOTO 기어가기
+    GOTO 오른쪽옆으로70연속
     GOTO RX_EXIT
     '***************
 
@@ -7374,7 +7374,7 @@ KEY161:
     GOTO RX_EXIT
 KEY162:
     ETX 4800, 162
-    GOSUB 왼쪽옆으로70연속
+    GOTO 왼쪽옆으로70연속
     GOTO RX_EXIT
 KEY163:
     ETX 4800, 163
@@ -7406,7 +7406,7 @@ KEY169:
     GOTO RX_EXIT
 KEY170:
     ETX 4800, 170
-    GOSUB 오른쪽옆으로70연속
+    GOTO 오른쪽옆으로70연속
     GOTO RX_EXIT
 
     '**************** stair ********************
