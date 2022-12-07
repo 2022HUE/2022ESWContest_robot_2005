@@ -191,11 +191,15 @@ class Motion:
             time.sleep(sleep)
 
     # 옆으로 이동 (161~170)
-    def walk_side(self, dir):
+    def walk_side(self, dir, long = 20):
         """ parameter :
         dir : {LEFT, RIGHT}
+        long : 20, 70
         """
         dir_list = {"LEFT": 161, "RIGHT": 169}
+        if long == 70 :
+            dir_list[dir] += 1
+            
         self.TX_data_py2(dir_list[dir])
 
     # 계단 오르내리기 (171~174) [Stair]
