@@ -67,7 +67,7 @@ class Motion:
                 break
             time.sleep(self.threading_Time)
             # time.sleep(0.08)
-
+            # 수신받은 데이터의 수가 0보다 크면 데이터를 읽고 출력 (RX 수신이 있으면 while문 아래 실행)
             while ser.inWaiting() > 0:
                 # RX, receiving
                 result = ser.read(1)
@@ -76,22 +76,24 @@ class Motion:
                 print("Receiving RX: ", RX)
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16 or RX == 15:
-                    self.receiving_exit = 0
+                    # self.receiving_exit = 0
                     # setting.SICK += 1
                     # print(setting.SICK)
                     # self.lock.release()
-                    # print('15,16 Lock End')
-                    time.sleep(10)
+                    print('15,16 Lock End')
+                    # time.sleep(10)
                     # print("\nsick변수 체크 {}\n".format(setting.SICK))
-                    break
+                    continue
                 elif RX == 255:
                     try:
                         self.lock.release()
+                        self.receiving_exit = 0
                         print('Lock End')
+                        break
                     except:
                         print("release 실패해서 넘어감")
                         continue
-                elif RX == 65:
+                elif RX == 253:
                     print("넘어졌다가 일어남")
                     # self.lock.acquire()
                     print("65 acquire")
