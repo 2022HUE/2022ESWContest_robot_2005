@@ -70,7 +70,7 @@ class Stair:
             # 오른쪽 값이 작아질 때 까지 돌아야되고
 
     def in_rotation(self, a, comparison, ARROW):  # first_turn, second_turn 에서 쓴다
-        print(a, comparison, ARROW)
+        # print(a, comparison, ARROW)
         if a <= comparison:  # 이부분 다시 확인.
             return True
         else:

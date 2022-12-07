@@ -769,34 +769,29 @@ class ImageProccessor:
 
     def wall_move(self, Arrow):  # 계단 오를 때
         img = self.get_img()
-        # cv.imshow("img", img)
+
         img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         mask = Stair.in_saturation_measurement(
             self, img, setting.STAIR_S, setting.ROOM_V)
-
         if Arrow == 'LEFT':
             x = 0
             y = 0
             left = int(
                 (np.count_nonzero(mask[y:y + 480, x:x + 140]) / (640 * 480)) * 1000)
+            print(Stair.in_rotation(self, left, setting.top_move, Arrow))
             return Stair.in_rotation(self, left, setting.top_move, Arrow)
         else:
             x = 500
             y = 0
             right = int(
                 (np.count_nonzero(mask[y:y + 480, x:x + 320]) / (640 * 480)) * 1000)
-            # cv.imshow("right", mask[y:y + 480, x:x + 320])
+            print(Stair.in_rotation(self, right, setting.top_move, Arrow))
             return Stair.in_rotation(self, right, setting.top_move, Arrow)
-
-    def stair_obstacle(self):
-        img = self.get_img()
-        return Stair.in_stair_obstacle(self, img)  # True가 나오면 치워
-    ############# STAIR PROCESSING #############
 
 
 if __name__ == "__main__":
-    # img_processor = ImageProccessor(video=DataPath.danger06)
-    img_processor = ImageProccessor()
+    img_processor = ImageProccessor(video=DataPath.stair13)
+    # img_processor = ImageProccessor()
 
     ### Debug Run ###
     while True:
@@ -813,10 +808,10 @@ if __name__ == "__main__":
         ### stair ###
         # img_processor.first_rotation('RIGHT')
         # img_processor.alphabet_center_check(True)
-        # img_processor.second_rotation(show=True)
+        # img_processor.second_rotation(True)
         # img_processor.draw_stair_line()
         # img_processor.top_processing()
-        # img_processor.wall_move('RIGHT')
+        img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
         # img_processor.get_milkbox_mask("RED", True)
         # print("is holding : ", img_processor.is_holding_milkbox("BLUE", True))
