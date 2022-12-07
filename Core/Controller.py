@@ -303,7 +303,7 @@ class Controller:
                     self.robo._motion.set_head("DOWN", 30)
                     self.act = act.GO_NEXTROOM
                 else:
-                    print('수직선 못찾음')
+                    print('ENTRANCE - 수직선 못찾음')
                     # self.robo._motion.walk_side(Robo.dis_arrow)
                     # self.robo._motion.walk("FORWARD")
                     # time.sleep(0.5)
@@ -345,7 +345,6 @@ class Controller:
                 self.robo._motion.turn("RIGHT", 10)
             elif state == "BOTH":  # 선 둘 다 인식
                 self.check_nextroom += 1
-                # print('efnenfwlenfjw')
                 self.robo._motion.walk("FORWARD")
             # else:
             #     if self.check_nextroom > 0:
@@ -389,8 +388,8 @@ class Controller:
                     # return True # Debug
                 else:
                     # 장애물??
-                    self.robo._motion.kick("RIGHT")  # test
-                    time.sleep(3)
+                    # self.robo._motion.kick("RIGHT")  # test
+                    # time.sleep(3)
                     return False
             return False
 

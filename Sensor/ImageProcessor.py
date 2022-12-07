@@ -279,8 +279,8 @@ class ImageProccessor:
                     else:
                         print("수직: BOTH, TURN_RIGHT")
                         return "TURN_LEFT"
-                elif not v_slope and not h_slope:
-                    return False
+                # elif not v_slope and not h_slope: return False
+                elif not v_slope and not h_slope: return state
                 else:  # 선이 둘 다 인식됨
                     if h_slope < 10 or 170 < h_slope:
                         return state
@@ -824,7 +824,7 @@ class ImageProccessor:
 
 if __name__ == "__main__":
     # img_processor = ImageProccessor(video=DataPath.m13)
-    # img_processor = ImageProccessor(video=DataPath.m9)
+    # img_processor = ImageProccessor(video=DataPath.m19)
     img_processor = ImageProccessor()
 
     ### Debug Run ###

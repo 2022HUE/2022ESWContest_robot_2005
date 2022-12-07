@@ -7,7 +7,7 @@ import sys
 import serial
 import time
 from threading import Thread, Lock
-# from Setting import setting
+from Setting import setting
 
 # -----------------------------------------------
 
