@@ -102,9 +102,9 @@ class Motion:
     # 걷기 (101~120)
     def walk(self, dir, loop=1, sleep=0.1, short=False):
         """ parameter :
-        dir : {FORWARD, BACKWARD}
+        dir : {FORWARD, BACKWARD, FORWARD3, FORWARD5}
         """
-        dir_list = {'FORWARD': 101, "BACKWARD": 111}
+        dir_list = {'FORWARD': 101, "BACKWARD": 111, 'FORWARD3': 104, 'FORWARD5': 105}
         if short:
             dir_list[dir] += 1
 
