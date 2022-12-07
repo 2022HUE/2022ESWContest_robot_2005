@@ -29,6 +29,7 @@ Sensor/src
 *.pyc
 __pycache__/
 __init__.py
+tmp.py
 
 .DS_Store
 DS_Store

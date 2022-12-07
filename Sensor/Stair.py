@@ -32,13 +32,17 @@ class Stair:
                 cv.drawContours(img_color, [approx], 0, (0, 255, 255), 2)
                 return area, rect_x
 
-    def in_alphabet_center_check(self, x):
-        if (x >= 240 and x <= 400):  # 전진
+    def in_alphabet_center_check(self, x, alphabet_area):
+        print('x={}'.format(x))
+        print('alphabet_area={}'.format(alphabet_area))
+        if alphabet_area>70000:
+            return False
+        elif (x >= 150 and x <= 380):  # 전진
             return True
-        elif x < 240:  # 왼쪽의 여백이 부족하다.
-            return 'LEFT'  # ,x//100 #뒤의 리턴값은 옮겨야할 걸음 수
-        elif x > 400:
+        elif x > 300:
             return 'RIGHT'  # , x // 100 #뒤의 리턴값은 옮겨야할 걸음 수
+        elif x < 200:  # 왼쪽의 여백이 부족하다.
+            return 'LEFT'  # ,x//100 #뒤의 리턴값은 옮겨야할 걸음 수
 
     # 전진 하면서 크기 측정 함수
     def in_alphabet_size_calc(self, area, size):
@@ -105,7 +109,6 @@ class Stair:
 
     def in_draw_stair_line(self, lines, img, w, h, LINE_HIGH):
         cv.rectangle(img, (0, 200), (640-1, 400-1), [0, 255, 0], 2)
-
         for i in range(len(lines)):
             for rho, theta in lines[i]:  # rho = 거리, scale = 각도
                 scale = img.shape[0] + img.shape[1]
@@ -145,12 +148,18 @@ class Stair:
         else:
             print("꼭대기 회전(다음처리해)")
             return True
-    def in_stair_obstacle(self,img):
-        y = 250; x = 200; h = 200; w = 310  # ROI 영역 지정을 위해 변수 선언
-        roi = img[y:y + h, x:x + w]  # x=0; y=200; w = 640; h = 200  # 계단 영역 ROI지정
+
+    def in_stair_obstacle(self, img):
+        print("in_stair_obstacle(self,img)")
+        y = 250
+        x = 200
+        h = 200
+        w = 310  # ROI 영역 지정을 위해 변수 선언
+        # x=0; y=200; w = 640; h = 200  # 계단 영역 ROI지정
+        roi = img[y:y + h, x:x + w]
 
         h, s, v = cv.split(roi)
-        blur = cv.GaussianBlur(s, (5, 5), 0)
+        blur = cv.GaussianBlur(s, (3, 3), 0)
 
         ret, th = cv.threshold(
             s, 10, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
@@ -159,10 +168,10 @@ class Stair:
 
         img_canny = cv.Canny(roi, 10, 100)
 
-        lines = cv.HoughLinesP(img_canny, 0.9, np.pi / 200, 70, minLineLength=1, maxLineGap=1000)
-        print(lines)
+        lines = cv.HoughLinesP(img_canny, 0.9, np.pi /
+                               200, 68, minLineLength=1, maxLineGap=1000)
+        # print(lines)
         cv.rectangle(img, (200, 250), (510, 450), [0, 255, 0], 2)
-
         if lines is not None:
             line_length = lines[0][0][1]
             if line_length <= 100:
@@ -176,8 +185,14 @@ class Stair:
                     print(slope)
                     if slope >= 0.2:
                         cv.line(roi, (x1, y1), (x2, y2), (0, 255, 0), 1)
+                        print("self.stair_obstacle(): TURE")
                         return True
                     else:
+                        print("self.stair_obstacle(): False")
                         return False
+            else:
+                print("self.stair_obstacle(): False")
+                return False
         else:
+            print("self.stair_obstacle(): False")
             return False
