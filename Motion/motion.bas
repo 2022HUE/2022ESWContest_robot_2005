@@ -6473,45 +6473,58 @@ D지역:
     HIGHSPEED SETOFF
 
 
-    MOVE G6A, 100, 150,  80, 150, 100
-    MOVE G6D, 100, 150,  80, 150, 100
-    MOVE G6B,185,  40, 60
-    MOVE G6C,185,  40, 60
+    MOVE G6A,90, 130, ,  80, 110, 100
+    MOVE G6D,90, 130, 120,  80, 110, 100
+    MOVE G6B,150, 160,  10, 100, 100, 100
+    MOVE G6C,150, 160,  10, 100, , 
     WAIT
 
-    GOSUB Leg_motor_mode3
-    DELAY 300
-
-    SPEED 10	
-    MOVE G6A,  100, 165,  25, 162, 100
-    MOVE G6D,  100, 165,  25, 162, 100
-    MOVE G6B,  155, 15, 90
-    MOVE G6C,  155, 15, 90
+    MOVE G6B,170, 140,  10, 100, 100, 100
+    MOVE G6C,170, 140,  10, 100, , 
     WAIT
 
-    SPEED 10	
-    MOVE G6A,  100, 150,  25, 162, 100
-    MOVE G6D,  100, 150,  25, 162, 100
-    MOVE G6B,  140, 15, 90
-    MOVE G6C,  140, 15, 90
+    MOVE G6B,185,  20, 70,  100, 100, 100
+    MOVE G6C,185,  20, 70,  100, , 
+    WAIT
+    SPEED 10
+    MOVE G6A, 80, 155,  85, 150, 150, 100
+    MOVE G6D, 80, 155,  85, 150, 150, 100
+    MOVE G6B,185,  20, 70,  100, 100, 100
+    MOVE G6C,185,  20, 70,  100, , 
     WAIT
 
-    SPEED 6
-    MOVE G6A,  100, 138,  25, 155, 100
-    MOVE G6D,  100, 138,  25, 155, 100
-    MOVE G6B, 113,  30, 80
-    MOVE G6C, 113,  30, 80
+
+
+    MOVE G6A, 75, 162,  55, 162, 155, 100
+    MOVE G6D, 75, 162,  59, 162, 155, 100
+    MOVE G6B,188,  10, 100, 100, 100, 100
+    MOVE G6C,188,  10, 100, 100, , 
     WAIT
 
+    SPEED 10
+    MOVE G6A, 60, 162,  30, 162, 145, 100
+    MOVE G6D, 60, 162,  30, 162, 145, 100
+    MOVE G6B,170,  10, 100, 100, 100, 100
+    MOVE G6C,170,  10, 100, 100, , 
+    WAIT
+    GOSUB Leg_motor_mode3	
+    MOVE G6A, 60, 150,  28, 155, 140, 100
+    MOVE G6D, 60, 150,  28, 155, 140, 100
+    MOVE G6B,150,  60,  90, 100, 100, 100
+    MOVE G6C,150,  60,  90, 100, , 
+    WAIT
+
+    MOVE G6A,100, 150,  28, 140, 100, 100
+    MOVE G6D,100, 150,  28, 140, 100, 100
+    MOVE G6B,130,  50,  85, 100, 100, 100
+    MOVE G6C,130,  50,  85, 100, , 
+    WAIT
     DELAY 100
-    SPEED 8
-    GOSUB Leg_motor_mode2
 
-    SPEED 6
-    MOVE G6A,100, 140,  37, 140, 100, 100
-    MOVE G6D,100, 140,  37, 140, 100, 100
+    MOVE G6A,100, 150,  33, 140, 100, 100
+    MOVE G6D,100, 150,  33, 140, ,
     WAIT
-
+    SPEED 10
     GOSUB 기본자세
 
     GOTO RX_EXIT
@@ -7422,7 +7435,7 @@ KEY176:
     GOTO RX_EXIT
 KEY177:
     ETX 4800, 177
-    기어가기횟수= 5
+    보행횟수 = 5
     GOTO 기어가기
     GOTO RX_EXIT
 KEY178:
