@@ -26,6 +26,8 @@ DIM 넘어진확인 AS BYTE
 DIM 기울기확인횟수 AS BYTE
 DIM 보행횟수 AS BYTE
 DIM 보행COUNT AS BYTE
+DIM 기어가기횟수 AS BYTE
+DIM 기어가기COUNT AS BYTE
 
 DIM 적외선거리값  AS BYTE
 
@@ -79,6 +81,7 @@ OUT 52,0	'머리 LED 켜기
 반전체크 = 0
 기울기확인횟수 = 0
 보행횟수 = 1
+기어가기횟수= 1
 모터ONOFF = 0
 
 '****초기위치 피드백*****************************
@@ -6384,6 +6387,8 @@ D지역:
 	'************************************************
 기어가기:
 
+	기어가기COUNT = 0
+
     GOSUB Leg_motor_mode3
     SPEED 15
     MOVE G6A,100, 155,  28, 140, 100, 100
@@ -6420,10 +6425,8 @@ D지역:
     WAIT
     ERX 4800, A, 기어가기_1
     IF A = 8 THEN GOTO 기어가기_1
-    'IF A = 9 THEN GOTO 기어가기오른쪽턴_LOOP
-    'IF A = 7 THEN GOTO 기어가기왼쪽턴_LOOP
-
-    GOTO 기어가다일어나기
+    
+    'GOTO 기어가다일어나기
 
 기어가기_1:
     MOVE G6A, 100, 150,  70, 160, 100
@@ -6440,10 +6443,8 @@ D지역:
 
     ERX 4800, A, 기어가기_2
     IF A = 8 THEN GOTO 기어가기_2
-    'IF A = 9 THEN GOTO 기어가기오른쪽턴_LOOP
-    'IF A = 7 THEN GOTO 기어가기왼쪽턴_LOOP
 
-    GOTO 기어가다일어나기
+    'GOTO 기어가다일어나기
 
 기어가기_2:
     MOVE G6D, 100, 140,  80, 160, 100
@@ -6451,10 +6452,19 @@ D지역:
     MOVE G6C, 160,  25,  70
     MOVE G6B, 190,  25,  70
     WAIT
-
-    GOTO 기어가기_LOOP
     
-    'GOTO EXIT
+    기어가기COUNT = 기어가기COUNT + 1
+    IF 기어가기COUNT > 기어가기횟수 THEN
+        GOTO 기어가다일어나기
+
+    ELSE
+        GOTO 기어가기_LOOP
+
+    ENDIF
+
+    GOTO RX_EXIT
+    
+'***************************************
     
 기어가다일어나기:
     PTP SETON		
@@ -6793,14 +6803,14 @@ KEY30: ' ▷
     '***************
 KEY31: ' ▽
     ETX 4800, 31
-    GOTO 집고전진2
+    GOTO 기어가다일어나기
     GOTO RX_EXIT
     '***************
 
 KEY32: ' F
     ETX 4800, 32
-    보행횟수= 1
-    GOTO 집고전진3
+    기어가기횟수= 5
+    GOTO 기어가기
     GOTO RX_EXIT
     '***************
 
@@ -7412,6 +7422,7 @@ KEY176:
     GOTO RX_EXIT
 KEY177:
     ETX 4800, 177
+    기어가기횟수= 5
     GOTO 기어가기
     GOTO RX_EXIT
 KEY178:
