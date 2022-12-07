@@ -124,10 +124,10 @@ class ImageProccessor:
     def bright(self, img, alpha):  # 명도
         return np.clip((1+alpha)*img - 128*alpha, 0, 255).astype(np.uint8)
 
-    def correction(self, img, val):
-        img = self.blur(img, val)
-        img = self.light(img, 0)
-        img = self.bright(img, 0.0)
+    def correction(self, img, blur=7, light=0, bright=0.0):
+        img = self.blur(img, blur)
+        img = self.light(img, light)
+        img = self.bright(img, bright)
         return img
 
     def RGB2GRAY(self, img):
@@ -181,27 +181,41 @@ class ImageProccessor:
     def is_line_horizon_vertical(self, show=False):
         img = self.get_img()
         origin = img.copy()
-        img = self.correction(img, 7)
+        img = self.correction(img, 7, 50, 2.0)
         hsv = self.hsv_mask(img)
-        line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
-        line_mask = self.HSV2BGR(line_mask)
+        h, s, v = cv.split(hsv)
+
+        _, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
+        _, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        th_mask = cv.bitwise_or(th_s, th_v)
+
+        dst = cv.bitwise_and(hsv, hsv, mask = th_mask)
+        # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
+        line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
+        # line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
+        # line_gray = self.RGB2GRAY(dst)
+
+        kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
+        img_mask = cv.morphologyEx(line_mask, cv.MORPH_DILATE, kernel, iterations=3)
 
         if show:
             cv.imshow("tmp", line_mask)
-            cv.waitKey(1) & 0xFF == ord('q')
+            # cv.imshow("img_mask", img_mask)
+            # cv.imshow("test", Line.yellow_mask(img, setting.YELLOW_DATA))
+            # cv.imshow("dst", dst)
+            # cv.waitKey(1) & 0xFF == ord('q')
 
         roi_img = Line.ROI(line_gray, self.height, self.width, origin)
 
         # get Line
-        line_arr = Line.hough_lines(
-            roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
+        line_arr = Line.hough_lines(roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
         line_arr = np.squeeze(line_arr)
         # print(line_arr)
 
         if show:
             cv.imshow("show", origin)
-            cv.waitKey(1) & 0xFF == ord('q')
+            # cv.waitKey(1) & 0xFF == ord('q')
 
         if line_arr != 'None':
             Line.draw_lines(origin, line_arr, [0, 0, 255], 2)
@@ -210,8 +224,7 @@ class ImageProccessor:
             #     cv.waitKey(1) & 0xFF == ord('q')
 
             state, horizon_arr, vertical_arr = Line.slope_filter(line_arr)
-            h_line, v_line = Line.get_fitline(
-                origin, horizon_arr), Line.get_fitline(origin, vertical_arr)
+            h_line, v_line = Line.get_fitline(origin, horizon_arr), Line.get_fitline(origin, vertical_arr)
 
             # init
             v_slope = None
@@ -233,12 +246,17 @@ class ImageProccessor:
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", origin)
-                cv.waitKey(1) & 0xFF == ord('q')
+                # cv.waitKey(1) & 0xFF == ord('q')
             ####################################
 
             print(':: state:{}, vslope:{}, hslope:{} ::'.format(
                 state, v_slope, h_slope))
+            
+            # 예외처리
+            if v_slope == 0: v_slope = 1
+            if h_slope == 0: h_slope = 1
 
+            
             if state == "BOTH":
                 # is_center = Line.is_center(self, origin, v_line)
                 # cv.putText(origin, "center: {}".format(is_center), (260, 80), cv.FONT_HERSHEY_SIMPLEX, 0.8, [0,255,100], 2)
@@ -256,6 +274,7 @@ class ImageProccessor:
                     else:
                         print("수직: BOTH, TURN_RIGHT")
                         return "TURN_LEFT"
+                elif not v_slope and not h_slope: return False
                 else:  # 선이 둘 다 인식됨
                     if h_slope < 10 or 170 < h_slope:
                         return state
@@ -275,7 +294,7 @@ class ImageProccessor:
                 ########### [Option] Show ##########
                 if show:
                     cv.imshow("show", origin)
-                    cv.waitKey(1) & 0xFF == ord('q')
+                    # cv.waitKey(1) & 0xFF == ord('q')
                 ####################################
                 if is_center != True:
                     return is_center
@@ -769,28 +788,34 @@ class ImageProccessor:
 
     def wall_move(self, Arrow):  # 계단 오를 때
         img = self.get_img()
-
+        # cv.imshow("img", img)
         img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         mask = Stair.in_saturation_measurement(
             self, img, setting.STAIR_S, setting.ROOM_V)
+
         if Arrow == 'LEFT':
             x = 0
             y = 0
             left = int(
                 (np.count_nonzero(mask[y:y + 480, x:x + 140]) / (640 * 480)) * 1000)
-            print(Stair.in_rotation(self, left, setting.top_move, Arrow))
             return Stair.in_rotation(self, left, setting.top_move, Arrow)
         else:
             x = 500
             y = 0
             right = int(
                 (np.count_nonzero(mask[y:y + 480, x:x + 320]) / (640 * 480)) * 1000)
-            print(Stair.in_rotation(self, right, setting.top_move, Arrow))
+            # cv.imshow("right", mask[y:y + 480, x:x + 320])
             return Stair.in_rotation(self, right, setting.top_move, Arrow)
+
+    def stair_obstacle(self):
+        img = self.get_img()
+        return Stair.in_stair_obstacle(self, img)  # True가 나오면 치워
+    ############# STAIR PROCESSING #############
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video=DataPath.stair13)
+    # img_processor = ImageProccessor(video=DataPath.m13)
+    img_processor = ImageProccessor(video=DataPath.m9)
     # img_processor = ImageProccessor()
 
     ### Debug Run ###
@@ -799,21 +824,21 @@ if __name__ == "__main__":
         # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
-        # img_processor.is_line_horizon_vertical(show=True)
+        img_processor.is_line_horizon_vertical(True)
 
-        print(img_processor.get_alphabet_name(show=True))
+        # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)
         # img_processor.get_milkbox_pos("RED", True)
 
         ### stair ###
         # img_processor.first_rotation('RIGHT')
         # img_processor.alphabet_center_check(True)
-        # img_processor.second_rotation(True)
+        # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
         # img_processor.top_processing()
-        img_processor.wall_move('RIGHT')
+        # img_processor.wall_move('RIGHT')
         # img_processor.stair_down()
-        # img_processor.get_milkbox_mask("RED", True)
+        # img_processor.get_milkbox_mask("BLUE", True)
         # print("is holding : ", img_processor.is_holding_milkbox("BLUE", True))
         # img_processor.is_out_of_black(True)
         # print("can hold: ", img_processor.can_hold_milkbox("RED"))
