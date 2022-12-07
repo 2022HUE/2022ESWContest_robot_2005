@@ -235,10 +235,10 @@ class ImageProccessor:
             h_slope = None
 
             if v_line:
-                Line.draw_fitline(origin, v_line, [0, 255, 255])  # Debug
+                # Line.draw_fitline(origin, v_line, [0, 255, 255])  # Debug
                 v_slope = int(Line.slope_cal(v_line))
             if h_line:
-                Line.draw_fitline(origin, h_line, [0, 255, 0])  # Debug
+                # Line.draw_fitline(origin, h_line, [0, 255, 0])  # Debug
                 h_slope = int(Line.slope_cal(h_line))
             cv.putText(origin, "state: {}".format(state), (50, 210),
                        cv.FONT_HERSHEY_SIMPLEX, 1, [255, 255, 0], 2)
@@ -297,6 +297,7 @@ class ImageProccessor:
                     # return state
             elif state == "VERTICAL" and v_line:
                 is_center = Line.is_center(origin, v_line)
+                print(is_center, v_line)
                 ########### [Option] Show ##########
                 if show:
                     cv.imshow("show", origin)
