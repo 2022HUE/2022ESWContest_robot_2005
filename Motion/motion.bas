@@ -3110,6 +3110,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
     '**********************************************
 집고왼쪽턴10:
 
+	GOSUB Leg_motor_mode2
     SPEED 5
     MOVE G6A,97,  86, 145,  75, 103, 100
     MOVE G6D,97,  66, 145,  95, 103, 100
@@ -3128,10 +3129,12 @@ Number_Play: '  BUTTON_NO = 숫자대입
     MOVE G6A,100,  76, 145,  85, 100
     MOVE G6D,100,  76, 145,  85, 100
     WAIT
+    GOSUB Leg_motor_mode1
     GOTO RX_EXIT
     '**********************************************
 집고오른쪽턴10:
-
+	
+	GOSUB Leg_motor_mode2
     SPEED 5
     MOVE G6A,97,  66, 145,  95, 103, 100
     MOVE G6D,97,  86, 145,  75, 103, 100
@@ -3149,6 +3152,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
     MOVE G6A,100,  76, 145,  85, 100
     MOVE G6D,100,  76, 145,  85, 100
     WAIT
+    GOSUB Leg_motor_mode1
     GOTO RX_EXIT
     '**********************************************
     '**********************************************
@@ -3242,7 +3246,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
     GOTO RX_EXIT
     '**********************************************
 집고왼쪽턴60:
-
+	GOSUB Leg_motor_mode2
     SPEED 8
     MOVE G6A,95,  116, 145,  45, 105, 100
     MOVE G6D,95,  36, 145,  125, 105, 100
@@ -3257,11 +3261,13 @@ Number_Play: '  BUTTON_NO = 숫자대입
     MOVE G6A,100,  76, 145,  85, 100
     MOVE G6D,100,  76, 145,  85, 100
     WAIT
+    GOSUB Leg_motor_mode1
     GOTO RX_EXIT
 
     '**********************************************
 집고오른쪽턴60:
 
+	GOSUB Leg_motor_mode2
     SPEED 8
     MOVE G6A,95,  36, 145,  125, 105, 100
     MOVE G6D,95,  116, 145,  45, 105, 100
@@ -3276,6 +3282,7 @@ Number_Play: '  BUTTON_NO = 숫자대입
     MOVE G6A,100,  76, 145,  85, 100
     MOVE G6D,100,  76, 145,  85, 100
     WAIT
+    GOSUB Leg_motor_mode1
     GOTO RX_EXIT
 
     '************************************************
