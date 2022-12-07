@@ -140,9 +140,6 @@ class MissionStair:
         elif act == act.DRAW_STAIR_LINE:
             # if self.stair_obstacle() == True:
             #     self.robo._motion.kick(Robo.arrow)
-            #     time.sleep(3.5)
-            #     self.robo._motion.walk("FORWARD")
-            #     time.sleep(1)
 
             print('Act = %s' % act)
             ret = self.stair_up()
@@ -218,18 +215,12 @@ class MissionStair:
 
             if self.stair_down() == True:  # 1층임
                 time.sleep(3)
-                self.robo._motion.walk('FORWARD', loop=2)  # 전진 2회
+                self.robo._motion.walk('FORWARD')  # 전진 2회
                 time.sleep(1)
                 self.robo._motion.walk_side(Robo.dis_arrow)  # 옆으로 이동
                 time.sleep(1.5)
                 self.robo._motion.walk_side(Robo.dis_arrow)  # 옆으로 이동
-                time.sleep(1.5)
-                # self.robo._motion.turn(
-                #     Robo.dis_arrow, 45, loop=2, sleep=2)  # 화살표 반대 방향으로
-                # time.sleep(0.5)
-                self.robo._motion.walk('FORWARD', loop=2)  # 전진 2회
-                time.sleep(1.5)
-                time.sleep(3)
+                time.sleep(0.8)
                 self.act = Act.EXIT
             else:
 
