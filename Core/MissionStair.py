@@ -101,7 +101,7 @@ class MissionStair:
                 self.robo._motion.kick(Robo.arrow)
                 self.robo._motion.walk('FORWARD', short=True)  # 3회 정도
                 time.sleep(0.2)
-                self.robo._motion.turn(Robo.dis_arrow,20)
+                self.robo._motion.turn(Robo.dis_arrow, 20)
                 self.act = Act.DRAW_STAIR_LINE
             else:
                 self.robo._motion.walk_side(ret)  # 벽쪽으로 이동
@@ -145,6 +145,8 @@ class MissionStair:
 
             elif ret == 'Top':
                 self.robo._motion.walk_side(Robo.dis_arrow)  # 벽 반대쪽으로 이동
+                self.robo._motion.walk_side(Robo.dis_arrow)  # 벽 반대쪽으로 이동
+
                 self.robo._motion.walk('FORWARD', loop=2)
                 self.robo._motion.walk('FORWARD', short=True)
 
