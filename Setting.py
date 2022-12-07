@@ -26,14 +26,16 @@ setting.DIR_KERNEL = 1
 setting.DANGER_MILKBOX_BLUE1 = [[82, 87, 30], [130, 255, 120]]
 setting.DANGER_MILKBOX_BLUE2 = [[97, 30, 30], [107, 255, 190]]
 setting.DANGER_MILKBOX_BLUE3 = [[82, 87, 30], [110, 255, 190]]
-setting.DANGER_MILKBOX_BLUE = [[102, 30, 30], [123, 255, 210]]
+# setting.DANGER_MILKBOX_BLUE = [[92, 87, 30], [117, 255, 190]] # 경기장용 
+setting.DANGER_MILKBOX_BLUE = [[102, 30, 30], [123, 255, 210]] # 테스트용
 
 # 장애물 빨간색 색상 마스크 lower, upper의 [h, s, v] 값
 # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
 setting.DANGER_MILKBOX_RED1 = [[167, 77, 30], [180, 255, 189]]
 setting.DANGER_MILKBOX_RED2 = [[164, 77, 30], [180, 255, 179]]
 setting.DANGER_MILKBOX_RED3 = [[164, 77, 30], [180, 255, 189]]
-setting.DANGER_MILKBOX_RED = [[164, 77, 30], [190, 255, 210]]
+# setting.DANGER_MILKBOX_RED = [[164, 77, 30], [190, 255, 210]] # 경기장용
+setting.DANGER_MILKBOX_RED = [[164, 77, 30], [190, 255, 210]] # 테스트용
 
 # 알파벳 파란색 색상 마스크 lower, upper의 [h, s, v] 값
 setting.ALPHABET_BLUE = [[82, 87, 30], [130, 255, 120]]
