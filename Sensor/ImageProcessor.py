@@ -779,8 +779,8 @@ class ImageProccessor:
             ro = 'LEFT_DOWN'
         else:
             ro = 'RIGHT_DOWN'
-        print(ro)
-
+        
+        print("꼭대기 내려가기위한 파란 채도값 {} 세팅값 {}".format(top_ret,setting.STAIR_DOWN))
         if top_ret <= setting.STAIR_DOWN:
             return True, ro  # 내려가라
         else:
@@ -821,10 +821,10 @@ if __name__ == "__main__":
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
-        # img_processor.get_ewsn(show=True)
+        img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
-        img_processor.is_line_horizon_vertical(True)
+        # img_processor.is_line_horizon_vertical(True)
 
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)

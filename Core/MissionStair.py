@@ -146,7 +146,6 @@ class MissionStair:
             elif ret == 'Top':
                 self.robo._motion.walk_side(Robo.dis_arrow)  # 벽 반대쪽으로 이동
                 self.robo._motion.walk_side(Robo.dis_arrow)  # 벽 반대쪽으로 이동
-
                 self.robo._motion.walk('FORWARD', loop=2)
                 self.robo._motion.walk('FORWARD', short=True)
 
@@ -169,7 +168,7 @@ class MissionStair:
                 time.sleep(1)
                 self.act = Act.CLOSE_TO_DESCENT
             else:
-                self.robo._motion.turn(rotation, 20, sleep=1)
+                self.robo._motion.turn(rotation, 45, sleep=1)
                 time.sleep(0.5)
 
         elif act == act.CLOSE_TO_DESCENT:
