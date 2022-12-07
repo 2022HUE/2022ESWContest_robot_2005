@@ -77,8 +77,8 @@ class Motion:
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16 or RX == 15:
                     self.receiving_exit = 0
-                    setting.SICK += 1
-                    print(setting.SICK)
+                    # setting.SICK += 1
+                    # print(setting.SICK)
                     # self.lock.release()
                     # print('15,16 Lock End')
                     time.sleep(10)
@@ -200,12 +200,16 @@ class Motion:
         self.TX_data_py2(177)
         time.sleep(1.5)
 
-    # 옆으로 이동 (161~170)
-    def walk_side(self, dir):
+        # 옆으로 이동 (161~170)
+    def walk_side(self, dir, long=20):
         """ parameter :
         dir : {LEFT, RIGHT}
+        long : 20, 70
         """
         dir_list = {"LEFT": 161, "RIGHT": 169}
+        if long == 70:
+            dir_list[dir] += 1
+
         self.TX_data_py2(dir_list[dir])
 
     # 계단 오르내리기 (171~174) [Stair]
@@ -317,5 +321,5 @@ class Motion:
 if __name__ == '__main__':
     motion = Motion()
     # motion.set_head("LEFTRIGHT_CENTER")
-    motion.set_head("DOWN", 100)
+    motion.set_head("DOWN", 80)
     # motion.turn("LEFT", 45, arm=True)

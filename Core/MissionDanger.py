@@ -91,7 +91,7 @@ class MissionDanger:
             print("SPEAK_DANGER")
             # motion : "위험지역" 음성 말하기
             self.robo._motion.notice_area("BLACK")
-            # time.sleep(1.5)
+            time.sleep(1.5)
             # motion: 화살표 반대 방향으로 고개 돌리기
             self.robo._motion.set_head(Robo.dis_arrow, 45)
             time.sleep(1)

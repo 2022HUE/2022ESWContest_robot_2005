@@ -83,7 +83,8 @@ class MissionEntrance:
             print('ACT - Entrance: ', act)
             # (motion) 고개 올리기 70도 - 방위 보이게
             # time.sleep(1)
-            self.robo._motion.set_head("DOWN", 70)
+            # self.robo._motion.set_head("DOWN", 70)
+            self.robo._motion.set_head("DOWN", 80)
             time.sleep(1)
             self.act = Act.DETECT_DIRECTION
 

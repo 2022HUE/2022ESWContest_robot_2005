@@ -244,7 +244,7 @@ class Controller:
             print("ACT - controller: ", act)  # Debug
             # print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
             # motion: 고개 내리기 30
-            self.robo._motion.set_head("DOWN", 30)
+            # self.robo._motion.set_head("DOWN", 30)
             # self.act = act.GO_ENTRANCE
 
             # debug
@@ -253,7 +253,11 @@ class Controller:
             # self.act = act.GO_EXIT
             # self.act = act.EXIT
 
+            
+            self.robo._motion.set_head("LEFTRIGHT_CENTER")
+            time.sleep(1)
             self.robo._motion.set_head("DOWN", 70)
+            time.sleep(1)
             # self.act = act.DANGER
             self.act = act.STAIR
 
@@ -262,7 +266,9 @@ class Controller:
             time.sleep(0.5)
 
             state = self.robo._image_processor.is_line_horizon_vertical()
+            print(state)
             if state == "VERTICAL":
+                print('state', state)
                 self.robo._motion.walk("FORWARD")
             elif state == "MOVE_LEFT":
                 self.robo._motion.walk_side("LEFT")
