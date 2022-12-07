@@ -712,6 +712,7 @@ class ImageProccessor:
 
     def stair_down(self):
         img = self.get_img()
+        cv.imshow('img',img)
         img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
         img_mask = Stair.in_saturation_measurement(
             self, img, setting.STAIR_S, setting.ROOM_V)  # -->s_mask가 50 이면 좋겠어
@@ -816,7 +817,8 @@ class ImageProccessor:
 if __name__ == "__main__":
     # img_processor = ImageProccessor(video=DataPath.m13)
     # img_processor = ImageProccessor(video=DataPath.m9)
-    img_processor = ImageProccessor()
+    # img_processor = ImageProccessor()
+    img_processor = ImageProccessor(video=DataPath.stair06)
 
     ### Debug Run ###
     while True:
@@ -826,7 +828,7 @@ if __name__ == "__main__":
         # img_processor.is_yellow(show=True)
         # img_processor.is_line_horizon_vertical(True)
 
-        print(img_processor.get_alphabet_name(show=True))
+        # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)
         # img_processor.get_milkbox_pos("RED", True)
 
@@ -837,7 +839,7 @@ if __name__ == "__main__":
         # img_processor.draw_stair_line()
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
-        # img_processor.stair_down()
+        img_processor.stair_down()
         # img_processor.get_milkbox_mask("BLUE", True)
         # print("is holding : ", img_processor.is_holding_milkbox("BLUE", True))
         # img_processor.is_out_of_black(True)

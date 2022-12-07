@@ -79,6 +79,7 @@ class Stair:
     def in_stair_down(self, img_mask, ONE_F, TWO_F, THREE_F, x=140, y=100):
         saturation = int(
             (np.count_nonzero(img_mask[y:y+380, x:x+500]) / (640 * 480))*1000)
+        print(saturation)
         if saturation >= THREE_F:
             print("3층 입니다.%d" % saturation)
             return False  # 내려가기
