@@ -35,13 +35,13 @@ class Stair:
     def in_alphabet_center_check(self, x, alphabet_area):
         print('x={}'.format(x))
         print('alphabet_area={}'.format(alphabet_area))
-        if alphabet_area>70000:
+        if alphabet_area > 70000:
             return False
         elif (x >= 150 and x <= 380):  # 전진
             return True
-        elif x > 300:
+        elif x > 380:
             return 'RIGHT'  # , x // 100 #뒤의 리턴값은 옮겨야할 걸음 수
-        elif x < 200:  # 왼쪽의 여백이 부족하다.
+        elif x < 150:  # 왼쪽의 여백이 부족하다.
             return 'LEFT'  # ,x//100 #뒤의 리턴값은 옮겨야할 걸음 수
 
     # 전진 하면서 크기 측정 함수

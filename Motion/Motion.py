@@ -41,7 +41,7 @@ class Motion:
 
     def TX_data_py2(self, one_byte):  # one_byte= 0~255
 
-        print('Lock Start')
+        # print('Lock Start')
         self.lock.acquire()
         print("Lock acuqire !!")
         # print("\nserial.to_bytes([one_byte]) = {}\n".format(chr(one_byte)))
@@ -63,7 +63,9 @@ class Motion:
     def Receiving(self, ser):
         self.receiving_exit = 1
         while True:
+
             if self.receiving_exit == 0:
+                print('exit=0')
                 break
             time.sleep(self.threading_Time)
             # time.sleep(0.08)
@@ -80,10 +82,9 @@ class Motion:
                     # setting.SICK += 1
                     # print(setting.SICK)
                     # self.lock.release()
-                    # print('15,16 Lock End')
+                    print('15,16 Lock End')
                     time.sleep(10)
                     # print("\nsick변수 체크 {}\n".format(setting.SICK))
-                    break
                 elif RX == 255:
                     try:
                         self.lock.release()
@@ -91,10 +92,11 @@ class Motion:
                     except:
                         print("release 실패해서 넘어감")
                         continue
-                elif RX == 65:
-                    print("넘어졌다가 일어남")
+                    print("255 받음")
+                elif RX == 253:
+                    # print("넘어졌다가 일어남")
                     # self.lock.acquire()
-                    print("65 acquire")
+                    print("253 acquire")
                     # time.sleep(5)
                 elif RX != 255:
                     self.distance = RX

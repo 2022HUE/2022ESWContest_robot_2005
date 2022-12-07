@@ -253,11 +253,10 @@ class Controller:
             # self.act = act.GO_EXIT
             # self.act = act.EXIT
 
-            
-            self.robo._motion.set_head("LEFTRIGHT_CENTER")
-            time.sleep(1)
+            # self.robo._motion.set_head("LEFTRIGHT_CENTER")
+            # time.sleep(1)
             self.robo._motion.set_head("DOWN", 70)
-            time.sleep(1)
+            # time.sleep(1)
             # self.act = act.DANGER
             self.act = act.STAIR
 
@@ -306,7 +305,7 @@ class Controller:
                     print('수직선 못찾음')
                     # self.robo._motion.walk_side(Robo.dis_arrow)
                     # self.robo._motion.walk("FORWARD")
-                    time.sleep(0.5)
+                    # time.sleep(0.5)
                     self.miss += 1
                     return False
             elif MissionEntrance.go_robo():
