@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import cv2 as cv
 import numpy as np
 
@@ -5,21 +6,28 @@ class Direction:
     def __init__(self): 
         self.matching_num: int
   
-    def text_masking(self, text):
+    @classmethod
+    def text_masking(self, text, danger=False):
         hsv = cv.cvtColor(text, cv.COLOR_BGR2HSV)
         h, s, v = cv.split(hsv)
         
         # 폰트 이미지와 유사하게 만들기 위해 inverse해줌
+        # ret_s, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
+        # ret_v, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
         ret_s, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
         ret_v, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+        # cv.imshow("show3", th_s)
+        
         # _, th_s = cv.threshold(s, 120, 255, cv2.THRESH_BINARY)
+        _, danger_mask = cv.threshold(s, 80, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
         # _, th_v = cv.threshold(v, 100, 255, cv2.THRESH_BINARY_INV)
         text_mask = cv.bitwise_and(th_s, th_v)
         # text_dst = cv.bitwise_and(img_crop, img_crop, mask = text_mask) # remove background
 
-        return text_mask
+        if not danger: return text_mask
+        else: return danger_mask
 
-
+    @classmethod
     def match_sam(self, sam_l, tar, num):
         target_h, target_w = tar.shape
         ms_score = 100 # matchShape score
@@ -62,13 +70,14 @@ class Direction:
 
         return mt_score
 
+    @classmethod
     def matching(self, sam, tar, params, option): # [Option] "EWSN", "ABCD"
         # sample_img: list
         n = len(sam[0])
-        match1 = (option[0], self.match_sam(self, sam[0], tar, n))
-        match2 = (option[1], self.match_sam(self, sam[1], tar, n))
-        match3 = (option[2], self.match_sam(self, sam[2], tar, n))
-        match4 = (option[3], self.match_sam(self, sam[3], tar, n))
+        match1 = (option[0], self.match_sam(sam[0], tar, n))
+        match2 = (option[1], self.match_sam(sam[1], tar, n))
+        match3 = (option[2], self.match_sam(sam[2], tar, n))
+        match4 = (option[3], self.match_sam(sam[3], tar, n))
 
         match_list = [match1, match2, match3, match4]
         ret_mt = max(match_list, key=lambda x: x[1])[0]
@@ -76,16 +85,15 @@ class Direction:
 
         if ret_match_val < params: return ret_mt
         else: return ret_mt
-
-    # font_img matching
-    font_img = [cv.imread('./src/entrance/direction_data/font_img/{}.jpg'.format(x), cv.IMREAD_GRAYSCALE) for x in range(4)]
-    def match_font(self, font_img,tar):
+    
+    @classmethod
+    def match_font(self, font_img,tar, danger=False):
         target_h, target_w = tar.shape
         match = 100
         mt_score = 0
         self.matching_num = 99
         for i in range(4):
-            sample = self.font_img[i]
+            sample = font_img[i]
             h, w = sample.shape[:2]
             ratio = w / h
 
@@ -119,28 +127,26 @@ class Direction:
             if maxv > mt_score:
                 mt_score = maxv
                 self.matching_num = i
-
-        if self.matching_num == 0: 
-            return "E"
-        elif self.matching_num == 1: 
-            return "W"
-        elif self.matching_num == 2: 
-            return "S"
-        elif self.matching_num == 3:
-            return "N"
-        else: return None
-    
-
-    # sample E
-    sample_e = [cv.imread('src/entrance/direction_data/sam_e0{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    # sample W
-    sample_w = [cv.imread('./src/entrance/direction_data/sam_w0{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    # sample N
-    sample_n = [cv.imread('./src/entrance/direction_data/sam_s0{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-    # sample S
-    sample_s = [cv.imread('./src/entrance/direction_data/sam_n0{}.png'.format(x), cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
-
-    sample_list = [sample_e, sample_w, sample_s, sample_n]
+        if danger:
+            if self.matching_num == 0: 
+                return "A"
+            elif self.matching_num == 1: 
+                return "B"
+            elif self.matching_num == 2: 
+                return "C"
+            elif self.matching_num == 3:
+                return "D"
+            else: return None
+        else:
+            if self.matching_num == 0: 
+                return "E"
+            elif self.matching_num == 1: 
+                return "W"
+            elif self.matching_num == 2: 
+                return "S"
+            elif self.matching_num == 3:
+                return "N"
+            else: return None
 
 # Debug
 if __name__ == "__main__":
@@ -184,7 +190,7 @@ if __name__ == "__main__":
 
         if roi_contour: 
             x, y, w, h = cv.boundingRect(roi_contour[0])
-            img_crop = img_copy[y:y+h, x:x+h]
+            img_crop = img_copy[y:y+h, x:x+w]
             text_gray = cv.cvtColor(img_crop, cv.COLOR_BGR2GRAY)
             text = img_crop.copy()
 
