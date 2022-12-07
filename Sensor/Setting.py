@@ -83,6 +83,9 @@ setting.ROOM_V = 0
 setting.STAIR_S = 50  # 계단 내려갈 때 채도 체크
 setting.LINE_HIGH = 300  # 계단 올라갈 때 허프라인 위치
 setting.STAIR_BLUE = [[102, 30, 30], [130, 255, 255]]  # 계단 맨 위의 파란색 hsv
+setting.STAIR_RED = [[168, 30, 10], [178, 255, 200]]
+
+
 setting.STAIR_UP = 290  # 계단 올라갈 때 채도값 설정
 setting.STAIR_DOWN = 150  # 계단 내려갈 때 전진 채도값 설정
 
@@ -101,7 +104,7 @@ setting.top_forward = 180  # 꼭대기에서 전진 판단하는 채도
 setting.top_move = 45  # 반대쪽 계단으로 떨어지지 않기 위해 안쪽으로 이동할 때 채도 값
 setting.top_saturation = 550
 
-
+setting.STAIR_START_UP = 310
 ########### MOTION ###########
 setting.SICK = 0
 

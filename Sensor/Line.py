@@ -164,7 +164,7 @@ class Line:
     def slope_cal(self, line):
         if line != 'None':
             slope = (np.arctan2(line[1] - line[3], line[0] - line[2]) * 180) / np.pi
-            return abs(slope)
+            return slope
 
     @classmethod
     def slope_filter(self, line_arr, black=False):
