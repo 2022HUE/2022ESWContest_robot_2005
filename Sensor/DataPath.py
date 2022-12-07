@@ -66,6 +66,40 @@ class DataPath:
     stair10 = "src/stair/1124_18:37.h264"
     stair11 = "src/stair/1124_18:38.h264"
 
+    stair12= 'src/stair/1207_23:52:35.h264'
+    stair13 = 'src/stair/1207_23:52:17.h264'
+    stair14 = 'src/stair/1207_23:51:52.h264'
+    stair15 = 'src/stair/1207_23:50:39.h264'
+    stair16 = 'src/stair/1207_23:50:30.h264'
+    stair17 = 'src/stair/1207_23:50:03.h264'
+    stair18 = 'src/stair/1207_23:49:25.h264'
+    stair19 = 'src/stair/1207_23:48:31.h264'
+    stair20 = 'src/stair/1207_14:10:12.h264'
+    stair21 = 'src/stair/1207_14:08:17.h264'
+    ## 1207
+    m1 = "src/1207/1207_01.h264"
+    m2 = "src/1207/1207_02.h264"
+    m3 = "src/1207/1207_03.h264"
+    m4 = "src/1207/1207_04.h264"
+
+    m5 = "src/1207/1207_05.h264" # d
+    m6 = "src/1207/1207_06.h264"
+    m7 = "src/1207/1207_07.h264"
+    m8 = "src/1207/1207_08.h264" # danger
+
+    m9 = "src/1207/1207_09.h264" # line
+    m10 = "src/1207/1207_10.h264" # line
+    m11 = "src/1207/1207_11.h264" # line
+    m12 = "src/1207/1207_12.h264" # line
+    m13 = "src/1207/1207_13.h264" # ewsn
+
+    m14 = "src/1207/1207_14.h264"# stair
+    m15 = "src/1207/1207_15.h264"
+    m16 = "src/1207/1207_16.h264"
+    m17 = "src/1207/1207_17.h264"
+    m18 = "src/1207/1207_18.h264" 
+    m19 = "src/1207/1207_19.h264" # line
+
 
     # debug in image processor
     d_alpha = 'src/alphabet_data/'

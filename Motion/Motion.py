@@ -7,7 +7,7 @@ import sys
 import serial
 import time
 from threading import Thread, Lock
-from Setting import setting
+# from Setting import setting
 
 # -----------------------------------------------
 
@@ -40,10 +40,15 @@ class Motion:
         return decorated
 
     def TX_data_py2(self, one_byte):  # one_byte= 0~255
+
         print('Lock Start')
         self.lock.acquire()
+        print("Lock acuqire !!")
         # print("\nserial.to_bytes([one_byte]) = {}\n".format(chr(one_byte)))
         self.serial_port.write(serial.to_bytes([one_byte]))  # python3
+        print("one_byte TX :: ", one_byte)
+
+        # setting.SICK = 0
         time.sleep(0.02)
 
     def RX_data(self):
@@ -61,30 +66,31 @@ class Motion:
             if self.receiving_exit == 0:
                 break
             time.sleep(self.threading_Time)
-            time.sleep(0.08)
+            # time.sleep(0.08)
 
             while ser.inWaiting() > 0:
+                # RX, receiving
                 result = ser.read(1)
                 # print('result={}'.format(result))
                 RX = ord(result)
-                # print("--------------")
-                # print(RX)
-                # print("--------------")
+                print("Receiving RX: ", RX)
                 # -----  remocon 16 Code  Exit ------
                 if RX == 16 or RX == 15:
                     self.receiving_exit = 0
-                    setting.SICK += 1
+                    # setting.SICK += 1
+                    # print(setting.SICK)
                     # self.lock.release()
                     # print('15,16 Lock End')
-                    # time.sleep(5)
+                    time.sleep(10)
                     # print("\nsick변수 체크 {}\n".format(setting.SICK))
                     break
                 elif RX == 255:
-                    # try:
-                    self.lock.release()
-                    # print('Lock End')
-                    # except:
-                    #     continue
+                    try:
+                        self.lock.release()
+                        print('Lock End')
+                    except:
+                        print("release 실패해서 넘어감")
+                        continue
                 elif RX == 65:
                     print("넘어졌다가 일어남")
                     # self.lock.acquire()
@@ -190,12 +196,20 @@ class Motion:
             self.TX_data_py2(dir_list[dir][angle])
             time.sleep(sleep)
 
-    # 옆으로 이동 (161~170)
-    def walk_side(self, dir):
+    def crawl(self):
+        self.TX_data_py2(177)
+        time.sleep(1.5)
+
+        # 옆으로 이동 (161~170)
+    def walk_side(self, dir, long=20):
         """ parameter :
         dir : {LEFT, RIGHT}
+        long : 20, 70
         """
         dir_list = {"LEFT": 161, "RIGHT": 169}
+        if long == 70:
+            dir_list[dir] += 1
+
         self.TX_data_py2(dir_list[dir])
 
     # 계단 오르내리기 (171~174) [Stair]
@@ -207,6 +221,11 @@ class Motion:
                     'LEFT_DOWN': 173, 'RIGHT_DOWN': 174}
         self.TX_data_py2(dir_list[dir])
         time.sleep(1)
+
+    # 기어가기 (177)
+    def crawl(self):
+        self.TX_data_py2(177)
+        time.sleep(1.5)
 
     # 장애물 치우기 (175~176) [Line/Stair/Danger]
     def kick(self, dir):
@@ -302,5 +321,5 @@ class Motion:
 if __name__ == '__main__':
     motion = Motion()
     # motion.set_head("LEFTRIGHT_CENTER")
-    # motion.set_head("DOWN", 100)
-    motion.turn("LEFT", 45, arm=True)
+    motion.set_head("DOWN", 80)
+    # motion.turn("LEFT", 45, arm=True)

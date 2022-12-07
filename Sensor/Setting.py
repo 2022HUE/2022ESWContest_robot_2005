@@ -10,7 +10,8 @@ class Setting:
 setting = Setting()
 ########### LINE DETECTION ###########
 # setting.YELLOW_DATA = [[20, 100, 100], [35, 255, 255]]
-setting.YELLOW_DATA = [[9, 30, 30], [20, 255, 255]] # 1206
+# setting.YELLOW_DATA = [[9, 30, 30], [20, 255, 255]] # 1206
+setting.YELLOW_DATA = [[15, 150, 100], [40, 255, 255]]  # 1207
 setting.VSLOPE1 = 85
 setting.VSLOPE2 = 105
 
@@ -26,14 +27,16 @@ setting.DIR_KERNEL = 1
 setting.DANGER_MILKBOX_BLUE1 = [[82, 87, 30], [130, 255, 120]]
 setting.DANGER_MILKBOX_BLUE2 = [[97, 30, 30], [107, 255, 190]]
 setting.DANGER_MILKBOX_BLUE3 = [[82, 87, 30], [110, 255, 190]]
-setting.DANGER_MILKBOX_BLUE = [[102, 30, 30], [123, 255, 210]]
+# setting.DANGER_MILKBOX_BLUE = [[92, 87, 30], [117, 255, 190]] # 경기장용
+setting.DANGER_MILKBOX_BLUE = [[102, 30, 30], [123, 255, 210]]  # 테스트용
 
 # 장애물 빨간색 색상 마스크 lower, upper의 [h, s, v] 값
 # 실제로 hue값 가져왔을 때 167 까지 내려갔음 167 ~ 5
 setting.DANGER_MILKBOX_RED1 = [[167, 77, 30], [180, 255, 189]]
 setting.DANGER_MILKBOX_RED2 = [[164, 77, 30], [180, 255, 179]]
 setting.DANGER_MILKBOX_RED3 = [[164, 77, 30], [180, 255, 189]]
-setting.DANGER_MILKBOX_RED = [[164, 77, 30], [190, 255, 210]]
+# setting.DANGER_MILKBOX_RED = [[164, 77, 30], [190, 255, 210]] # 경기장용
+setting.DANGER_MILKBOX_RED = [[164, 77, 30], [190, 255, 210]]  # 테스트용
 
 # 알파벳 파란색 색상 마스크 lower, upper의 [h, s, v] 값
 setting.ALPHABET_BLUE = [[82, 87, 30], [130, 255, 120]]
@@ -81,7 +84,7 @@ setting.STAIR_S = 50  # 계단 내려갈 때 채도 체크
 setting.LINE_HIGH = 300  # 계단 올라갈 때 허프라인 위치
 setting.STAIR_BLUE = [[102, 30, 30], [130, 255, 255]]  # 계단 맨 위의 파란색 hsv
 setting.STAIR_UP = 290  # 계단 올라갈 때 채도값 설정
-setting.STAIR_DOWN = 100  # 계단 내려갈 때 전진 채도값 설정
+setting.STAIR_DOWN = 150  # 계단 내려갈 때 전진 채도값 설정
 
 setting.ALPHABET_ROTATION = 40  # 알파벳 방향으로 회전할 때 알파벳 부분의 채도가 이거 이하여야 함.
 setting.STAIR_ROTATION = 370  # 계단 지역으로 회전할 때 채도
@@ -89,17 +92,18 @@ setting.STAIR_ROTATION = 370  # 계단 지역으로 회전할 때 채도
 setting.STAIR_ALPHABET_SIZE = 40000
 setting.STAIR_LEVEL = 1  # 채연아 미안  merge하면서 지워졌다^^,,,,,
 
-setting.ONE_F = 90  # 계단 1층 채도
-setting.TWO_F = 100  # 계단 2층 채도
+setting.ONE_F = 150  # 계단 1층 채도
+setting.TWO_F = 250  # 계단 2층 채도
 setting.THREE_F = 400  # 계단 3층 채도
 
-setting.top_forward = 150  # 꼭대기에서 전진 판단하는 채도
+# setting.top_forward = 95  # 꼭대기에서 전진 판단하는 채도
+setting.top_forward = 180  # 꼭대기에서 전진 판단하는 채도
 setting.top_move = 45  # 반대쪽 계단으로 떨어지지 않기 위해 안쪽으로 이동할 때 채도 값
-setting.top_saturation = 750
+setting.top_saturation = 550
 
 
 ########### MOTION ###########
-setting.SICK =0
+setting.SICK = 0
 
 ########### CURRENT ACT ###########
 cur = Setting()

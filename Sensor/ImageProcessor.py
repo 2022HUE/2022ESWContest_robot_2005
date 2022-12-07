@@ -124,10 +124,10 @@ class ImageProccessor:
     def bright(self, img, alpha):  # 명도
         return np.clip((1+alpha)*img - 128*alpha, 0, 255).astype(np.uint8)
 
-    def correction(self, img, val):
-        img = self.blur(img, val)
-        img = self.light(img, 0)
-        img = self.bright(img, 0.0)
+    def correction(self, img, blur=7, light=0, bright=0.0):
+        img = self.blur(img, blur)
+        img = self.light(img, light)
+        img = self.bright(img, bright)
         return img
 
     def RGB2GRAY(self, img):
@@ -181,15 +181,32 @@ class ImageProccessor:
     def is_line_horizon_vertical(self, show=False):
         img = self.get_img()
         origin = img.copy()
-        img = self.correction(img, 7)
+        img = self.correction(img, 7, 50, 2.0)
         hsv = self.hsv_mask(img)
-        line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
-        line_mask = self.HSV2BGR(line_mask)
+        h, s, v = cv.split(hsv)
+
+        _, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
+        _, th_v = cv.threshold(
+            v, 100, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        th_mask = cv.bitwise_or(th_s, th_v)
+
+        dst = cv.bitwise_and(hsv, hsv, mask=th_mask)
+        # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
+        line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
+        # line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
+        # line_gray = self.RGB2GRAY(dst)
+
+        kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
+        img_mask = cv.morphologyEx(
+            line_mask, cv.MORPH_DILATE, kernel, iterations=3)
 
         if show:
             cv.imshow("tmp", line_mask)
-            cv.waitKey(1) & 0xFF == ord('q')
+            # cv.imshow("img_mask", img_mask)
+            # cv.imshow("test", Line.yellow_mask(img, setting.YELLOW_DATA))
+            # cv.imshow("dst", dst)
+            # cv.waitKey(1) & 0xFF == ord('q')
 
         roi_img = Line.ROI(line_gray, self.height, self.width, origin)
 
@@ -201,7 +218,7 @@ class ImageProccessor:
 
         if show:
             cv.imshow("show", origin)
-            cv.waitKey(1) & 0xFF == ord('q')
+            # cv.waitKey(1) & 0xFF == ord('q')
 
         if line_arr != 'None':
             Line.draw_lines(origin, line_arr, [0, 0, 255], 2)
@@ -233,11 +250,17 @@ class ImageProccessor:
             ########### [Option] Show ##########
             if show:
                 cv.imshow("show", origin)
-                cv.waitKey(1) & 0xFF == ord('q')
+                # cv.waitKey(1) & 0xFF == ord('q')
             ####################################
 
             print(':: state:{}, vslope:{}, hslope:{} ::'.format(
                 state, v_slope, h_slope))
+
+            # 예외처리
+            if v_slope == 0:
+                v_slope = 1
+            if h_slope == 0:
+                h_slope = 1
 
             if state == "BOTH":
                 # is_center = Line.is_center(self, origin, v_line)
@@ -256,6 +279,8 @@ class ImageProccessor:
                     else:
                         print("수직: BOTH, TURN_RIGHT")
                         return "TURN_LEFT"
+                elif not v_slope and not h_slope:
+                    return False
                 else:  # 선이 둘 다 인식됨
                     if h_slope < 10 or 170 < h_slope:
                         return state
@@ -275,7 +300,7 @@ class ImageProccessor:
                 ########### [Option] Show ##########
                 if show:
                     cv.imshow("show", origin)
-                    cv.waitKey(1) & 0xFF == ord('q')
+                    # cv.waitKey(1) & 0xFF == ord('q')
                 ####################################
                 if is_center != True:
                     return is_center
@@ -616,13 +641,15 @@ class ImageProccessor:
         alpha = 0.0
         dst = np.clip((1 + alpha) * add - 128 * alpha, 0, 255).astype(np.uint8)
 
-        ret, th = cv.threshold(dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
+        ret, th = cv.threshold(
+            dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
         dst = cv.bitwise_or(dst, dst, mask=th)
 
         kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
         dst = cv.dilate(dst, kernel, iterations=1)
 
-        contours, hierarchy = cv.findContours(dst, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
+        contours, hierarchy = cv.findContours(
+            dst, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
         return contours
 
     def alphabet_center_check(self, show=False):
@@ -760,8 +787,8 @@ class ImageProccessor:
             ro = 'LEFT_DOWN'
         else:
             ro = 'RIGHT_DOWN'
-        print(ro)
 
+        print("꼭대기 내려가기위한 파란 채도값 {} 세팅값 {}".format(top_ret, setting.STAIR_DOWN))
         if top_ret <= setting.STAIR_DOWN:
             return True, ro  # 내려가라
         else:
@@ -795,7 +822,8 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    # img_processor = ImageProccessor(video=DataPath.danger06)
+    # img_processor = ImageProccessor(video=DataPath.m13)
+    # img_processor = ImageProccessor(video=DataPath.m9)
     img_processor = ImageProccessor()
 
     ### Debug Run ###
@@ -804,7 +832,7 @@ if __name__ == "__main__":
         # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
-        # img_processor.is_line_horizon_vertical(show=True)
+        img_processor.is_line_horizon_vertical(True)
 
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)
@@ -812,7 +840,7 @@ if __name__ == "__main__":
 
         ### stair ###
         # img_processor.first_rotation('RIGHT')
-        img_processor.alphabet_center_check(True)
+        # img_processor.alphabet_center_check(True)
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
         # img_processor.top_processing()
