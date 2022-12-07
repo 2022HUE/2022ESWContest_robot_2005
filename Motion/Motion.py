@@ -40,15 +40,15 @@ class Motion:
         return decorated
 
     def TX_data_py2(self, one_byte):  # one_byte= 0~255
-            
+
         print('Lock Start')
         self.lock.acquire()
         print("Lock acuqire !!")
         # print("\nserial.to_bytes([one_byte]) = {}\n".format(chr(one_byte)))
         self.serial_port.write(serial.to_bytes([one_byte]))  # python3
         print("one_byte TX :: ", one_byte)
-        
-            # setting.SICK = 0
+
+        # setting.SICK = 0
         time.sleep(0.02)
 
     def RX_data(self):
@@ -85,11 +85,12 @@ class Motion:
                     # print("\nsick변수 체크 {}\n".format(setting.SICK))
                     break
                 elif RX == 255:
-                    # try:
-                    self.lock.release()
-                    print('Lock End')
-                    # except:
-                    #     continue
+                    try:
+                        self.lock.release()
+                        print('Lock End')
+                    except:
+                        print("release 실패해서 넘어감")
+                        continue
                 elif RX == 65:
                     print("넘어졌다가 일어남")
                     # self.lock.acquire()
@@ -218,7 +219,7 @@ class Motion:
         time.sleep(1)
 
     # 기어가기 (177)
-    def crawl(self) :
+    def crawl(self):
         self.TX_data_py2(177)
         time.sleep(1.5)
 
