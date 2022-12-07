@@ -92,11 +92,20 @@ class Line:
             if lines.size > 8:
                 lines = lines.reshape(lines.shape[0]*2, 2)
                 output = cv.fitLine(lines, cv.DIST_L2, 0, 0.01, 0.01)
+                # print(output)
                 vx, vy, x, y = output[0], output[1], output[2], output[3]
-                x1, y1 = int(((img.shape[0]-1)-y)/vy*vx + x), img.shape[0]-1
-                x2, y2 = int(((img.shape[0]/2+50)-y) /
-                             vy*vx + x), int(img.shape[0]/2+50)
+                
+                tmp = vy*vx
+                if tmp == 0: tmp = 0.001
+
+                lefty = int((-x * vy / vx) + y)
+                righty = int((((img.shape[1]-1) - x) * vy / vx) + y)
+                # cv.line(img, ((img.shape[0]-1) - 1, righty), (0, lefty), (255, 255, 255), 2)
+                x1, y1, x2, y2 =  int((img.shape[1]-1)), righty, 0, lefty #1207
+                # x1, y1 = int(((img.shape[0]-1)-y)/tmp + x), img.shape[0]-1
+                # x2, y2 = int(((img.shape[0]/2+50)-y) / tmp + x), int(img.shape[0]/2+50)
                 res = [x1, y1, x2, y2]
+                # print(res)
                 return res
             else:
                 return False
@@ -142,15 +151,13 @@ class Line:
     @classmethod
     def slope_cal(self, line):
         if line != 'None':
-            slope = (np.arctan2(line[1] - line[3],
-                     line[0] - line[2]) * 180) / np.pi
-            return slope
+            slope = (np.arctan2(line[1] - line[3], line[0] - line[2]) * 180) / np.pi
+            return abs(slope)
 
     @classmethod
     def slope_filter(self, line_arr, black=False):
         # if len(line_arr) <= 4: return "None", "None", "None"
-        slope = (np.arctan2(line_arr[:, 1] - line_arr[:, 3],
-                 line_arr[:, 0] - line_arr[:, 2]) * 180) / np.pi
+        slope = (np.arctan2(line_arr[:, 1] - line_arr[:, 3], line_arr[:, 0] - line_arr[:, 2]) * 180) / np.pi
         # print(slope)
         # 수직/수평 필터링
         line_arr = line_arr[np.abs(slope) < 181]
