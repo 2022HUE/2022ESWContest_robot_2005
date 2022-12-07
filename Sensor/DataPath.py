@@ -66,6 +66,16 @@ class DataPath:
     stair10 = "src/stair/1124_18:37.h264"
     stair11 = "src/stair/1124_18:38.h264"
 
+    stair12= 'src/stair/1207_23:52:35.h264'
+    stair13 = 'src/stair/1207_23:52:17.h264'
+    stair14 = 'src/stair/1207_23:51:52.h264'
+    stair15 = 'src/stair/1207_23:50:39.h264'
+    stair16 = 'src/stair/1207_23:50:30.h264'
+    stair17 = 'src/stair/1207_23:50:03.h264'
+    stair18 = 'src/stair/1207_23:49:25.h264'
+    stair19 = 'src/stair/1207_23:48:31.h264'
+    stair20 = 'src/stair/1207_14:10:12.h264'
+    stair21 = 'src/stair/1207_14:08:17.h264'
 
     # debug in image processor
     d_alpha = 'src/alphabet_data/'

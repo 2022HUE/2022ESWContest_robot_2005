@@ -208,6 +208,11 @@ class Motion:
         self.TX_data_py2(dir_list[dir])
         time.sleep(1)
 
+    # 기어가기 (177)
+    def crawl(self) :
+        self.TX_data_py2(177)
+        time.sleep(1.5)
+
     # 장애물 치우기 (175~176) [Line/Stair/Danger]
     def kick(self, dir):
         """ parameter :
