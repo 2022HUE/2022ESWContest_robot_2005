@@ -304,14 +304,14 @@ class ImageProccessor:
                             return is_center
                         else:
                             # return state
-                            return "VERTICAL"
+                            return "B_VERTICAL"
                     elif v_sign == 1:
                         return "TURN_RIGHT"
                     elif v_sign == 0:
                         return "TURN_LEFT"
                     if h_slope < 10 or 170 < h_slope:
                         # return state
-                        return "HORIZON"
+                        return "B_HORIZON"
                     elif h_sign == 1:
                         return "TURN_RIGHT"
                     elif h_sign == 0:

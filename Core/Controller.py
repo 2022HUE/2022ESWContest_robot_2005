@@ -106,6 +106,7 @@ class Controller:
             self.robo._motion.turn("LEFT", 10)
         elif state == "TURN_RIGHT":
             self.robo._motion.turn("RIGHT", 10)
+        elif state=="B_VERTICAL":return True # 수정한거라 봐야함
         
         # BOTH : 선 둘 다 인식했지만 기울기 둘 다 못받아옴
         else:
@@ -272,7 +273,6 @@ class Controller:
             # motion: 고개 내리기 30
             self.robo._motion.set_head("DOWN", 30)
             self.robo._motion.walk("FORWARD3")
-            
             self.act = act.GO_ENTRANCE
 
             # debug
@@ -355,11 +355,13 @@ class Controller:
             time.sleep(0.5)
             state = self.robo._image_processor.is_line_horizon_vertical()
             print("GO_NEXTROOM", state)
-            if state == "HORIZON":
+            if state == "HORIZON" or state == "B_HORIZON":
                 self.check_nextroom += 1
                 time.sleep(1)
                 self.robo._motion.walk("FORWARD")
             if state == "VERTICAL":
+                self.robo._motion.walk("FORWARD")
+            elif state == "B_VERTICAL":
                 self.robo._motion.walk("FORWARD")
             elif state == "MOVE_LEFT":
                 self.robo._motion.walk_side("LEFT")
@@ -587,7 +589,7 @@ class Controller:
                 self.check_exit += 1
                 self.robo._motion.walk("FORWARD", 2)
 
-            elif state == "HORIZON":
+            elif state == "HORIZON"or state=="B_VERTICAL" or state=="B_HORIZON":
                 self.check_exit += 1
                 # self.robo._motion.walk("FORWARD")
                 self.robo._motion.walk("FORWARD", 2)
@@ -619,6 +621,7 @@ class Controller:
                         self.robo._motion.notice_alpha(i)
                         time.sleep(1)
                 else:
+                    print(Robo.black_room_list[0])
                     self.robo._motion.notice_alpha(Robo.black_room_list[0])
                 # return False # Debug
                 return True

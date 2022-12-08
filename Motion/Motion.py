@@ -329,5 +329,6 @@ class Motion:
 if __name__ == '__main__':
     motion = Motion()
     # motion.set_head("LEFTRIGHT_CENTER")
-    motion.set_head("DOWN", 80)
+    # motion.set_head("DOWN", 80)
     # motion.turn("LEFT", 45, arm=True)
+    # motion.notice_direction("E")

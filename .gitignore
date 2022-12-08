@@ -19,7 +19,7 @@ Sensor/top.py
  
 # 특정 폴더안의 파일 전부 제외
 #폴더명/
-# Sensor/src
+#Sensor/src
  
 # 해당 확장자 파일 전체 제외
 #*.txt

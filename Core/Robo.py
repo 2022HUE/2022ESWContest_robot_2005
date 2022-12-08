@@ -8,9 +8,9 @@ print('code: Robo.py - ## Debug')
 
 
 class Robo:
-    arrow: str = ""
-    dis_arrow: str = ""
-    black_room_list = list = []
+    arrow: str = "RIGHT"
+    dis_arrow: str = "LEFT"
+    black_room_list = list = ["B"]
     alphabet_color: str
     box_pos: int = 5
     feet_down = 'LEFT_DOWN'
