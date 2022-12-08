@@ -80,15 +80,15 @@ class Stair:
         saturation = int(
             (np.count_nonzero(img_mask[y:y+380, x:x+500]) / (640 * 480))*1000)
         print(saturation)
-        if saturation >= THREE_F:
+        if saturation <= ONE_F:
+            print("모두 내려왔습니다.%d" % saturation)
+            return True  # 전진
+        elif saturation >= THREE_F:
             print("3층 입니다.%d" % saturation)
             return False  # 내려가기
         elif saturation >= TWO_F:
             print("2층입니다.%d" % saturation)
             return False  # 내려가기
-        elif saturation <= ONE_F:
-            print("모두 내려왔습니다.%d" % saturation)
-            return True  # 전진
 
     def in_HoughLine(self, img_canny, linecount=-1):
         # 허프라인 두번째 인자 rho, 세번째 인자 theta , 두 값은 작을수록 오래걸리지만 정교하다.

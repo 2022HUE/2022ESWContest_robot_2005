@@ -64,13 +64,12 @@ class Controller:
         if self.count_area == 0:  # 최초 방문
             # self.robo._motion.turn(self.robo.arrow, 60, arm=True)
             self.robo._motion.set_head(self.robo.arrow, 45)
-
-            # time.sleep(1.2)
             if cur.AREA:  # 고정 값 존재시 (Setting - current)
                 self.area = cur.AREA
             else:
                 time.sleep(2)
                 self.area = self.robo._image_processor.is_danger()
+            self.robo._motion.set_head("LEFTRIGHT_CENTER")
 
         else:
             if self.area == "STAIR":
@@ -79,7 +78,6 @@ class Controller:
             else:
                 # 2번째 방 입장일 때 계단지역이면 turn 안함
                 self.area = "STAIR"
-            self.robo._motion.set_head("LEFTRIGHT_CENTER")
 
     @classmethod
     def check_line(self):
@@ -255,13 +253,13 @@ class Controller:
             # debug
             # 바꿔
             # self.act = act.ENTRANCE
-            # self.act = act.GO_NEXTROOM
+            self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
             # self.act = act.EXIT
 
             # self.robo._motion.set_head("LEFTRIGHT_CENTER")
-            self.robo._motion.set_head("DOWN", 70)
-            self.act = act.DANGER
+            # self.robo._motion.set_head("DOWN", 70)
+            # self.act = act.DANGER
             # self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:
@@ -426,7 +424,7 @@ class Controller:
                         self.act = act.GO_EXIT
                 else:
                     print('계단지역 수직선 못찾음')
-                    self.robo._motion.side_walk(Robo.dis_arrow)
+                    self.robo._motion.walk_side(Robo.dis_arrow)
                     return False
 
             elif MissionStair.go_robo():

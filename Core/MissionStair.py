@@ -83,8 +83,8 @@ class MissionStair:
         if act == act.START:
             print('Act = %s' % act)
             self.robo._motion.set_head('DOWN', 40)
-            self.robo._motion.walk_side(ret, long=70)  # 벽쪽으로 이동
-            self.robo._motion.walk_side(ret, long=70)  # 벽쪽으로 이동
+            self.robo._motion.walk_side(self.robo.arrow, long=70)  # 벽쪽으로 이동
+            self.robo._motion.walk_side(self.robo.arrow, long=70)  # 벽쪽으로 이동
             time.sleep(0.3)
             self.act = Act.WALL_MOVE
             # self.act = Act.EXIT
@@ -104,9 +104,6 @@ class MissionStair:
                 self.robo._motion.walk('FORWARD')  # 3회 정도
                 self.robo._motion.kick(Robo.arrow)
                 self.robo._motion.walk('FORWARD')  # 3회 정도
-                self.robo._motion.kick(Robo.arrow)
-                self.robo._motion.kick(Robo.arrow)
-                # self.robo._motion.walk('FORWARD')  # 3회 정도
                 self.robo._motion.walk('FORWARD')  # 3회 정도
                 self.robo._motion.set_head('DOWN', 30)
                 time.sleep(1)
@@ -151,6 +148,10 @@ class MissionStair:
             if ret == True:  # 1->2로 up, 샤샥 & 2->3로 up 할 때도
                 wall = self.wall_move()
                 if wall == True:
+                    if setting.STAIR_LEVEL == 1:
+                        self.robo._motion.kick(Robo.arrow)
+                        self.robo._motion.kick(Robo.arrow)
+
                     self.robo._motion.stair('RIGHT_UP')  # up
                     self.robo._motion.walk(
                         'FORWARD', loop=2, short=True)  # 좁은 보폭
