@@ -124,7 +124,7 @@ class MissionDanger:
 
             print(Robo.alphabet_color)
 
-            # time.sleep(1)
+            time.sleep(1)
             if cur.BLACK_ROOM_LIST:
                 Robo.black_room_list = cur.BLACK_ROOM_LIST
             else:
