@@ -39,6 +39,7 @@ class DataPath:
     danger04 = "src/danger/1031_20:49.h264"  # B
     danger05 = "src/danger/1110_22:29.h264"  # 위험지역 확인과 알파벳 확인
     danger06 = "src/danger/1110_22:34.h364"
+    yellowInDanger = "src/danger/1201_23:36.h264"
     de1 = "src/danger/1127_de1.h264"
     de2 = "src/danger/1127_de2.h264"
     y1 = "src/danger/1201_yellow1.h264"

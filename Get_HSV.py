@@ -4,6 +4,7 @@ import numpy as np
 import os
 import time
 import platform
+from Sensor import DataPath
 from imutils.video import WebcamVideoStream
 from imutils.video import FileVideoStream
 from imutils.video import FPS
@@ -103,7 +104,7 @@ class Test:
 
 
 if __name__ == "__main__":
-    # img_processor = ImageProccessor(video=DataPath.danger06)
+    img_processor = ImageProccessor(video=DataPath.yellowInDanger)
     test = Test()
     cv.namedWindow('img_color')
     cv.setMouseCallback('img_color', test.mouse_callback)
