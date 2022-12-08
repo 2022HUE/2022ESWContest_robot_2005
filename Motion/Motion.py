@@ -119,9 +119,9 @@ class Motion:
     # 걷기 (101~120)
     def walk(self, dir, loop=1, sleep=0.05, short=False):
         """ parameter :
-        dir : {FORWARD, BACKWARD}
+        dir : {FORWARD, BACKWARD, FORWARD3, FORWARD5}
         """
-        dir_list = {'FORWARD': 101, "BACKWARD": 111}
+        dir_list = {'FORWARD': 101, "BACKWARD": 111, 'FORWARD3': 104, 'FORWARD5': 105}
         if short:
             dir_list[dir] += 1
 
@@ -149,7 +149,7 @@ class Motion:
         center_list = {'UPDOWN_CENTER': 140, 'LEFTRIGHT_CENTER': 135}
         dir_list = {
             'DOWN': {
-                20: 121, 30: 122, 40: 123, 45: 124, 60: 125, 70: 126, 80: 127, 90: 128, 100: 129, 110: 130
+                20 : 121, 30 : 122, 40 : 123, 45: 124, 60 : 125, 70 : 126, 80 : 127, 90 : 128, 100 : 129, 110 : 130
             },
             'LEFT': {
                 30: 134, 45: 133, 60: 132, 90: 131
@@ -207,20 +207,16 @@ class Motion:
             self.TX_data_py2(dir_list[dir][angle])
             time.sleep(sleep)
 
-    def crawl(self):
-        self.TX_data_py2(177)
-        time.sleep(1.5)
-
-        # 옆으로 이동 (161~170)
-    def walk_side(self, dir, long=20):
+    # 옆으로 이동 (161~170)
+    def walk_side(self, dir, long = 20):
         """ parameter :
         dir : {LEFT, RIGHT}
         long : 20, 70
         """
         dir_list = {"LEFT": 161, "RIGHT": 169}
-        if long == 70:
+        if long == 70 :
             dir_list[dir] += 1
-
+            
         self.TX_data_py2(dir_list[dir])
 
     # 계단 오르내리기 (171~174) [Stair]
@@ -246,7 +242,7 @@ class Motion:
         dir_list = {"LEFT": 175, "RIGHT": 176}
         self.TX_data_py2(dir_list[dir])
 
-    # 집기 (181~185) [Danger]
+    # 집기 (181~186) [Danger]
     def grab(self, dir):
         """ parameter :
         dir : {UP, DOWN, MISS}
