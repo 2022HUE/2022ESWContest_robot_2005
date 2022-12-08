@@ -74,6 +74,7 @@ class Direction:
     def matching(self, sam, tar, params, option): # [Option] "EWSN", "ABCD"
         # sample_img: list
         n = len(sam[0])
+        print("n: ", n)
         match1 = (option[0], self.match_sam(sam[0], tar, n))
         match2 = (option[1], self.match_sam(sam[1], tar, n))
         match3 = (option[2], self.match_sam(sam[2], tar, n))
