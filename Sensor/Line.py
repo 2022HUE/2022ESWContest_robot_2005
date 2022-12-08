@@ -14,6 +14,8 @@ class Line:
     # video = "./src/line/1003_line2.mp4"
     # cap = cv.VideoCapture(video)
 
+    my_x:int=999
+    
     @classmethod
     def yellow_mask(self, hsv, color_data):
         lower = np.array(color_data[0], np.uint8)
@@ -79,6 +81,7 @@ class Line:
     # 대표선 그리기
     @classmethod
     def draw_fitline(self, img, lines, color, thickness=10):
+        print(lines)
         cv.line(img, (lines[0], lines[1]),
                 (lines[2], lines[3]), color, thickness)
 
@@ -94,13 +97,14 @@ class Line:
                 output = cv.fitLine(lines, cv.DIST_L2, 0, 0.01, 0.01)
                 # print(output)
                 vx, vy, x, y = output[0], output[1], output[2], output[3]
-                
+                self.my_x = x
                 tmp = vy*vx
                 if tmp == 0: tmp = 0.001
 
                 lefty = int((-x * vy / vx) + y)
                 righty = int((((img.shape[1]-1) - x) * vy / vx) + y)
                 # cv.line(img, ((img.shape[0]-1) - 1, righty), (0, lefty), (255, 255, 255), 2)
+                # cv.line(img, (int(x), 640), (int(x), 0), (255, 255, 255), 5)
                 x1, y1, x2, y2 =  int((img.shape[1]-1)), righty, 0, lefty #1207
                 # x1, y1 = int(((img.shape[0]-1)-y)/tmp + x), img.shape[0]-1
                 # x2, y2 = int(((img.shape[0]/2+50)-y) / tmp + x), int(img.shape[0]/2+50)
@@ -136,15 +140,23 @@ class Line:
 
     @classmethod
     def is_center(self, img, line):
-        x1, y1, x2, y2 = line[0], line[1], line[2], line[3]
+        x = self.my_x
+        # x1, y1, x2, y2 = line[0], line[1], line[2], line[3]
         cv.rectangle(img, (290, 100), (400-1, 480-1), [0, 255, 0], 2)  # roi
-        if 300 <= x1 < 380 and 300 <= x2 < 380:
+        # if 300 <= x1 < 380 and 300 <= x2 < 380:
+        #     return True
+        # else:
+        #     if x1 < 300 or x2 < 300:
+        #         return "MOVE_LEFT"  # 왼쪽으로 이동 필요
+        #     else:
+        #         return "MOVE_RIGHT"  # 오른쪽로 이동 필요
+        if 300 <= x < 380:
             return True
         else:
-            if x1 < 300 or x2 < 300:
+            if x < 300:
                 return "MOVE_LEFT"  # 왼쪽으로 이동 필요
             else:
-                return "MOVE_RIGHT"  # 오른쪽로 이동 필요
+                return "MOVE_RIGHT"  # 오른쪽로 이동 필요 
 
     # 기울기 필터링
 
@@ -152,7 +164,7 @@ class Line:
     def slope_cal(self, line):
         if line != 'None':
             slope = (np.arctan2(line[1] - line[3], line[0] - line[2]) * 180) / np.pi
-            return abs(slope)
+            return slope
 
     @classmethod
     def slope_filter(self, line_arr, black=False):
