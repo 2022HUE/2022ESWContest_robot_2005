@@ -883,7 +883,7 @@ if __name__ == "__main__":
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
-        img_processor.get_ewsn()
+        img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
         # img_processor.is_yellow_danger(show=True)

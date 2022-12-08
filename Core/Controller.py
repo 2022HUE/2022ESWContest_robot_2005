@@ -317,8 +317,7 @@ class Controller:
 
                 # motion: 회전 (수직선이 보일 때 까지)
                 self.robo._motion.walk("FORWARD")
-                self.robo._motion.turn(
-                    Robo.arrow, 60, 2, 3, True)  # arm = True
+                self.robo._motion.turn(Robo.arrow, 60, 2, 3, True)  # arm = True
                 # time.sleep(3)
                 self.robo._motion.turn(Robo.arrow, 20)
                 self.miss += 1
