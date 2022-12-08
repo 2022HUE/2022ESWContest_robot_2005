@@ -395,22 +395,24 @@ class ImageProccessor:
 
     def is_yellow_danger(self, show=False):
         img = self.get_img()
+        cv.imshow('img', img)
         origin = img.copy()
-        img = self.correction(img, 7, 50, 2.0)
-        hsv = self.hsv_mask(img)
+        img = self.correction(img, 7, 0, 2.0)
+        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
+        cv.imshow('hsv', hsv)
         h, s, v = cv.split(hsv)
 
-        _, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
+        _, th_s = cv.threshold(s, 200, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
         _, th_v = cv.threshold(
-            v, 100, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+            v, 200, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
         th_mask = cv.bitwise_or(th_s, th_v)
 
         dst = cv.bitwise_and(hsv, hsv, mask=th_mask)
         # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
-        line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
-        # line_mask = self.HSV2BGR(line_mask)
+        line_mask = Line.yellow_mask(dst, setting.YELLOW_DANGER_DATA)
+        cv.imshow('line_mask',line_mask)
+        line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
-        # line_gray = self.RGB2GRAY(dst)
 
         kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
         img_mask = cv.morphologyEx(
@@ -575,6 +577,7 @@ class ImageProccessor:
     # 방 이름(알파벳) 인식
     def get_alphabet_name(self, show=False):
         img = self.get_img()
+        cv.imshow('img', img)
         roi = Danger.get_alphabet_roi(img, "GRAY")
         # roi = self.bright(roi,1.0)
 
@@ -882,7 +885,8 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video='src/danger/1106_20:07.h264')
+    img_processor = ImageProccessor(video='src/ALL1208_10:32:04.h264')
+    # img_processor = ImageProccessor(video='src/1207/videos/ALL1207_13:13:32.h264')
     # cap = cv.VideoCapture("src/danger/1106_20:07.h264")
     
     # img_processor = ImageProccessor(video='src/1207/videos/ALL1207_13:22:20.h264')
@@ -898,10 +902,10 @@ if __name__ == "__main__":
         # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
-        # img_processor.is_yellow_danger(show=True)
+        print(img_processor.is_yellow_danger(show=True))
         # img_processor.is_line_horizon_vertical(True)
 
-        print(img_processor.get_alphabet_name(show=True))
+        # print(img_processor.get_alphabet_name(True))
         # img_processor.get_alphabet_name(show=True)
         # img_processor.get_milkbox_pos("RED", True)
 

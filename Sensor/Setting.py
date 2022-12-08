@@ -12,6 +12,7 @@ setting = Setting()
 # setting.YELLOW_DATA = [[20, 100, 100], [35, 255, 255]]
 # setting.YELLOW_DATA = [[9, 30, 30], [20, 255, 255]] # 1206
 setting.YELLOW_DATA = [[15, 150, 100], [40, 255, 255]]  # 1207
+setting.YELLOW_DANGER_DATA = [[11, 70, 100], [30, 150, 255]]  # 1208
 setting.VSLOPE1 = 85
 setting.VSLOPE2 = 105
 
