@@ -90,8 +90,7 @@ class MissionStair:
         # 현재 상태: 계단을 70도로 바라보고 계단임이 판단됨.
         elif act == act.FIRST_ROTATION:  # 현재 머리각도 70
             print('Act = %s' % act)
-            self.robo._motion.turn(
-                Robo.dis_arrow, 60, arm=True)  # 화살표 방향으로 회전해야함
+            self.robo._motion.turn(Robo.dis_arrow, 60)  # 화살표 방향으로 회전해야함
             self.act = Act.WALL_MOVE
 
         elif act == act.WALL_MOVE:  # 머리각도 45도
@@ -102,9 +101,10 @@ class MissionStair:
             if ret == True:
                 self.robo._motion.walk('FORWARD')  # 3회 정도
                 self.robo._motion.kick(Robo.arrow)
-                self.robo._motion.kick(Robo.arrow)
-                self.robo._motion.kick(Robo.arrow)
                 self.robo._motion.walk('FORWARD')  # 3회 정도
+                self.robo._motion.kick(Robo.arrow)
+                self.robo._motion.kick(Robo.arrow)
+                # self.robo._motion.walk('FORWARD')  # 3회 정도
                 self.robo._motion.walk('FORWARD')  # 3회 정도
                 self.robo._motion.set_head('DOWN',30)
                 time.sleep(1)
@@ -189,7 +189,7 @@ class MissionStair:
             if rotation == True:
                 self.act = Act.CLOSE_TO_DESCENT
             else:
-                self.robo._motion.turn(rotation, 20, sleep=1)
+                self.robo._motion.turn(rotation, 20, sleep=1, arm=False)
                 time.sleep(0.5)
 
         elif act == act.CLOSE_TO_DESCENT:

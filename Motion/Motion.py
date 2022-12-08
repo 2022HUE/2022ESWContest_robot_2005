@@ -166,7 +166,7 @@ class Motion:
         time.sleep(0.3)
 
     # 돌기 (141~160)
-    def turn(self, dir, angle, loop=1, sleep=0.02, arm=False):
+    def turn(self, dir, angle, loop=1, sleep=0.2, arm=False):
         """ parameter :
         dir : {LEFT, RIGHT}
         """

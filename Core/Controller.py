@@ -208,7 +208,7 @@ class Controller:
 
         if state == "HORIZON" and h_slope <= 10 or 170 <= h_slope:
             print("앞으로 걸어라!")
-            self.robo._motion.walk("FORWARD", 3, 2)
+            self.robo._motion.walk("FORWARD", 2)
             self.stair_exit_hor = 1
 
         # if state == "HORIZON" or h_slope <= 10 or 170 <= h_slope or state == "VERTICAL":
