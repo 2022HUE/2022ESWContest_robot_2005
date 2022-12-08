@@ -271,14 +271,14 @@ class Controller:
             # my action
             # motion: 고개 내리기 30
             self.robo._motion.set_head("DOWN", 30)
-            # self.robo._motion.walk("FORWARD3")
+            self.robo._motion.walk("FORWARD3")
             
-            # self.act = act.GO_ENTRANCE
+            self.act = act.GO_ENTRANCE
 
             # debug
             # 바꿔
             # self.act = act.ENTRANCE
-            self.act = act.GO_NEXTROOM
+            # self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
             # self.act = act.EXIT
 
@@ -566,11 +566,11 @@ class Controller:
 
         elif act == act.GO_EXIT:
             print("ACT - controller: ", act)  # Debug
-            # time.sleep(0.5)
+            time.sleep(0.5)
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL" and self.check_exit > 0:
-                self.robo._motion.turn(
-                    Robo.arrow, 45, 3, arm=True)  # arm = True
+                # self.robo._motion.turn(Robo.arrow, 45, 3, arm=True)  # arm = True
+                self.robo._motion.turn(Robo.arrow, 60, 2)  # arm = True
                 setting.SICK = 0  # 넘어짐 초기화
                 self.act = act.EXIT
             elif state == "VERTICAL" and self.check_exit == 0:
@@ -585,11 +585,13 @@ class Controller:
                 self.robo._motion.turn("RIGHT", 10)
             elif state == "BOTH":  # 선 둘 다 인식
                 self.check_exit += 1
-                self.robo._motion.walk("FORWARD", 2, 1)
+                self.robo._motion.walk("FORWARD", 2)
 
-            # elif state == "HORIZON": # (일단 사용 x) BOTH가 잘 인식 안될경우 사용
-            #     self.check_exit += 1
-            #     self.robo._motion.walk("FORWARD")
+            elif state == "HORIZON":
+                self.check_exit += 1
+                # self.robo._motion.walk("FORWARD")
+                self.robo._motion.walk("FORWARD", 2)
+                
             else:
                 self.robo._motion.walk("FORWARD")
                 return False

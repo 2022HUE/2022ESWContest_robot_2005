@@ -23,14 +23,14 @@ if __name__ == "__main__":
     from Setting import setting
     from DataPath import DataPath
 
-    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
-    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
-    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
-    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
+    e_ = [cv.imread('{}sam_e{}.png'.format(DataPath.d_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 14)]
+    w_ = [cv.imread('{}sam_w{}.png'.format(DataPath.d_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 14)]
+    n_ = [cv.imread('{}sam_s{}.png'.format(DataPath.d_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 14)]
+    s_ = [cv.imread('{}sam_n{}.png'.format(DataPath.d_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 14)]
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
     font_danger = [cv.imread(
@@ -55,14 +55,14 @@ else:
     from Sensor.Setting import setting
     from Sensor.DataPath import DataPath
 
-    e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
-    w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
-    n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
-    s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
+    e_ = [cv.imread('{}sam_e{}.png'.format(DataPath.r_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 14)]
+    w_ = [cv.imread('{}sam_w{}.png'.format(DataPath.r_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 14)]
+    n_ = [cv.imread('{}sam_s{}.png'.format(DataPath.r_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 14)]
+    s_ = [cv.imread('{}sam_n{}.png'.format(DataPath.r_dirimg, x),
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 14)]
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
     font_danger = [cv.imread(
@@ -186,7 +186,7 @@ class ImageProccessor:
         dst = cv.bitwise_and(hsv, hsv, mask=th_mask)
         # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
         line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
-        # line_mask = self.HSV2BGR(line_mask)
+        line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
         # line_gray = self.RGB2GRAY(dst)
 
@@ -367,7 +367,7 @@ class ImageProccessor:
         dst = cv.bitwise_and(hsv, hsv, mask=th_mask)
         # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
         line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
-        # line_mask = self.HSV2BGR(line_mask)
+        line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
         # line_gray = self.RGB2GRAY(dst)
 
@@ -453,7 +453,7 @@ class ImageProccessor:
         # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
         line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
-        # line_gray = self.RGB2GRAY(line_mask)
+        line_gray = self.RGB2GRAY(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
 
         line_arr = Line.hough_lines(line_gray)   # 허프 변환
@@ -497,7 +497,7 @@ class ImageProccessor:
 
         dst = cv.bitwise_and(hsv, hsv, mask=th_mask)
         # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
-        line_mask = Line.yellow_mask(dst, setting.YELLOW_DANGER_DATA)
+        line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
         # line_gray = self.RGB2GRAY(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
@@ -718,7 +718,7 @@ class ImageProccessor:
     # 장애물 집을 지 말 지 결정하는 함수 (7번 위치에서 충분히 가까운지)
     def get_milkbox_mask(self, color, show=False):
         img = self.get_img()
-        # cv.imshow('img',  img)
+        cv.imshow('img',  img)
         # img = self.correction(img, 7)
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         return Danger.get_milkbox_mask(hsv, color, show)
