@@ -42,7 +42,7 @@ class MissionDanger:
 
     @classmethod
     def is_okay_grab_milkbox(self):
-        print("head angle: ", self.head_angle)
+        # print("head angle: ", self.head_angle)
         if self.head_angle == 70:
             self.head_angle = 45
             # motion : 고개 각도 45도로 설정
@@ -115,7 +115,7 @@ class MissionDanger:
                     Robo.alphabet_color = self.alphabet_color
                 elif self.miss >= self.limits:
                     # 계속 못찾으면 그냥 빨강으로 지정
-                    self.alphabet_color = "RED"
+                    self.alphabet_color = "BLUE"
                     Robo.alphabet_color = self.alphabet_color
                     self.miss = 0
                 # 아직 get_alphabet_color miss 처리 안했음
@@ -135,7 +135,7 @@ class MissionDanger:
                     self.miss = 0
                     Robo.black_room_list.append(self.alphabet_name)
                 elif self.miss >= self.limits:
-                    # 계속 못찾으면 그냥 글자 B로 지정
+                    # 계속 못찾으면 그냥 글자 D로 지정
                     self.alphabet_name = 'D'
                     Robo.black_room_list.append(self.alphabet_name)
                     self.miss = 0

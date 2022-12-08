@@ -718,7 +718,7 @@ class ImageProccessor:
     # 장애물 집을 지 말 지 결정하는 함수 (7번 위치에서 충분히 가까운지)
     def get_milkbox_mask(self, color, show=False):
         img = self.get_img()
-        cv.imshow('img',  img)
+        # cv.imshow('img',  img)
         # img = self.correction(img, 7)
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         return Danger.get_milkbox_mask(hsv, color, show)
