@@ -10,6 +10,8 @@ from imutils.video import FileVideoStream
 from imutils.video import FPS
 
 import warnings
+
+from Sensor.ImageProcessor import ImageProccessor
 warnings.simplefilter(action='ignore', category=FutureWarning)  # FutureWarning 제거
 
 
@@ -104,8 +106,8 @@ class Test:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video=DataPath.yellowInDanger)
-    test = Test()
+    # img_processor = ImageProccessor(video=DataPath.yellowInDanger)
+    test = Test(video='src/ALL1208_10:32:04.h264')
     cv.namedWindow('img_color')
     cv.setMouseCallback('img_color', test.mouse_callback)
     
@@ -140,5 +142,5 @@ if __name__ == "__main__":
         cv.imshow('img_mask', img_mask)
         cv.imshow('img_result', img_result)
     
-        if cv.waitKey(1) & 0xFF == ord('q'):
+        if cv.waitKey(35) & 0xFF == ord('q'):
             break
