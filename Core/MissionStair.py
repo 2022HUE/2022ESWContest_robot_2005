@@ -106,9 +106,9 @@ class MissionStair:
                 self.robo._motion.kick(Robo.arrow)
                 # self.robo._motion.walk('FORWARD')  # 3회 정도
                 self.robo._motion.walk('FORWARD')  # 3회 정도
-                self.robo._motion.set_head('DOWN',30)
+                self.robo._motion.set_head('DOWN', 30)
                 time.sleep(1)
-
+                # self.robo._motion.turn(Robo.dis_arrow, 20)
                 self.act = Act.DRAW_STAIR_LINE
             else:
                 self.robo._motion.walk_side(ret, long=70)  # 벽쪽으로 이동
@@ -137,7 +137,7 @@ class MissionStair:
             if ret == True:
                 self.robo._motion.walk('FORWARD')
             else:
-                
+
                 self.act = Act.DRAW_STAIR_LINE
 
         elif act == act.DRAW_STAIR_LINE:
@@ -151,7 +151,8 @@ class MissionStair:
                 if wall == True:
                     self.robo._motion.stair('RIGHT_UP')  # up
                     self.robo._motion.walk(
-                        'FORWARD', loop=2, short=True, sleep=1.5)  # 좁은 보폭
+                        'FORWARD', loop=2, short=True)  # 좁은 보폭
+                    time.sleep(1)
 
                     setting.STAIR_LEVEL += 1  # stair = 2
                 else:
@@ -161,7 +162,7 @@ class MissionStair:
             elif ret == False:  # 선이 안 잡힌 경우 샤샥, 2층에서 중앙 아래에 선이 잡힌 경우
                 self.robo._motion.walk(
                     'FORWARD', short=True)  # 좁은 보폭
-                time.sleep(0.3)
+                time.sleep(1)
 
             elif ret == 'Top':
                 self.robo._motion.walk('FORWARD')
@@ -169,10 +170,10 @@ class MissionStair:
                 time.sleep(0.5)
                 self.act = Act.TOP_TURN
 
-        elif act == act.TOP_PROCESSING:
-            ret = self.top_processing()
-            if ret == True:  # 앞으로 어느정도 전진했다.
-                self.act = Act.TOP_TURN
+        # elif act == act.TOP_PROCESSING:
+        #     ret = self.top_processing()
+        #     if ret == True:  # 앞으로 어느정도 전진했다.
+        #         self.act = Act.TOP_TURN
 
         # elif act == act.TOP_PROCESSING:
         #     ret = self.top_processing()

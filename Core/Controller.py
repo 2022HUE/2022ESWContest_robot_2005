@@ -245,19 +245,19 @@ class Controller:
             print("ACT - controller: ", act)  # Debug
             # print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
             # motion: 고개 내리기 30
-            self.robo._motion.set_head("DOWN", 30)
-            self.act = act.GO_ENTRANCE
+            # self.robo._motion.set_head("DOWN", 30)
+            # self.act = act.GO_ENTRANCE
 
             # debug
-            ######## 바꿔
+            # 바꿔
             # self.act = act.ENTRANCE
             # self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
             # self.act = act.EXIT
 
             # self.robo._motion.set_head("LEFTRIGHT_CENTER")
-            # self.robo._motion.set_head("DOWN", 70)
-            # self.act = act.DANGER
+            self.robo._motion.set_head("DOWN", 70)
+            self.act = act.DANGER
             # self.act = act.STAIR
 
         elif act == act.GO_ENTRANCE:

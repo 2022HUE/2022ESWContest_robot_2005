@@ -101,7 +101,7 @@ class ImageProccessor:
         time.sleep(2)
 
     ########### 이미지 불러오기 ###########
-    def get_img(self, show=True):
+    def get_img(self, show=False):
         img = self._cam.read()
         # 이미지를 받아오지 못하면 종료
         if img is None:
@@ -876,7 +876,7 @@ if __name__ == "__main__":
     # img_processor = ImageProccessor(video=DataPath.m13)
     # img_processor = ImageProccessor(video=DataPath.m9)
 
-    img_processor = ImageProccessor()
+    # img_processor = ImageProccessor()
     # img_processor = ImageProccessor(video=DataPath.stair06)
 
     ### Debug Run ###
@@ -885,7 +885,7 @@ if __name__ == "__main__":
         # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
-        img_processor.is_yellow_danger(show=True)
+        # img_processor.is_yellow_danger(show=True)
         # img_processor.is_line_horizon_vertical(True)
 
         # print(img_processor.get_alphabet_name(show=True))
@@ -894,8 +894,8 @@ if __name__ == "__main__":
 
         ### stair ###
         # img_processor.first_rotation('RIGHT')
-        img_processor.alphabet_center_check(True)
-        # img_processor.second_rotation(show=True)
+        # img_processor.alphabet_center_check(True)
+        # img_processor.second_rotation('RIGHT', 580)
         # img_processor.draw_stair_line()
         # img_processor.top_processing()
         # img_processor.wall_move('RIGHT')
