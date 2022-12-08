@@ -43,6 +43,9 @@ class Controller:
 
     stair_turn: int = 0
     stair_exit_hor: int = 0
+    
+    exit_ex: int=0 # exit exception
+    exit_ok: int=0 # exit success
 
     miss: int = 0
 
@@ -88,8 +91,7 @@ class Controller:
             return state
 
     @classmethod
-    def is_vertical(self, action=""):  # 수직선인지
-        # self.robo._motion.turn(Robo.arrow, 10)
+    def is_vertical(self, action="DEFAULT"):  # 수직선인지
         state = self.robo._image_processor.is_line_horizon_vertical()
         if state == "VERTICAL":
             return True
@@ -101,69 +103,45 @@ class Controller:
             self.robo._motion.turn("LEFT", 10)
         elif state == "TURN_RIGHT":
             self.robo._motion.turn("RIGHT", 10)
+        
+        # BOTH : 선 둘 다 인식했지만 기울기 둘 다 못받아옴
         else:
+            _, v_slope, h_slope = self.robo._image_processor.is_line_horizon_vertical(option=True)
+            
             print("func: is_vertical(action={})".format(action))
-            if action == "":
+
+            if action == "DEFAULT":
                 return True
-            elif action == "STAIR-EXIT":
-                # if state == "HORIZON":
-                #     self.robo._motion.turn("LEFT", 10)
+            elif action == "STAIR_EXIT":
+                if state == "HORIZON":
+                    if self.exit_ex == 0:
+                        self.exit_ex = 1
+                        self.robo._motion.walk("FORWARD")
+                        return False
+
+                    self.exit_ex = 1
+                    self.robo._motion.walk("FORWARD")
+                    self.robo._motion.set_head("DOWN", 45)
+                    self.robo._motion.turn(Robo.arrow, 60)
+                    self.robo._motion.turn(Robo.arrow, 45)
+                    return True
                 self.robo._motion.walk_side(Robo.dis_arrow)
 
         return False
 
     @classmethod
-    def danger_to_line(self, option):  # option: L, R
-        state = self.robo._image_processor.is_line_horizon_vertical()
-        print("danger_to_line", state)
-        time.sleep(1)
-        if option == "L":
-            if state == "VERTICAL":
-                print('ENDENDENDNENDNENENN')
-                time.sleep(1)
+    def exit_stair(self):
+        state, v_slope, h_slope = self.robo._image_processor.is_line_horizon_vertical(option=True)
+        if state == "VERTICAL":
+            return True
+        elif state == "BOTH":
+            if not h_slope:
                 return True
-            elif state == "MOVE_LEFT":
-                self.robo._motion.walk_side("LEFT")
-            elif state == "MOVE_RIGHT":
-                self.robo._motion.walk_side("RIGHT")
-            elif state == "TURN_LEFT":
-                self.robo._motion.turn("LEFT", 10)
-            elif state == "TURN_RIGHT":
-                self.robo._motion.turn("RIGHT", 10)
-            elif state == "BOTH":  # 선 둘 다 인식
-                # self.robo._motion.walk_side("LEFT")
-                self.robo._motion.walk("FORWARD")
-
-            elif state == "HORIZON":
-                # self.robo._motion.walk_side("LEFT")
-                # time.sleep(0.8)
-                # self.robo._motion.walk("FORWARD")
-                self.robo._motion.turn("RIGHT", 20)
-                time.sleep(0.8)
-
-            else:
-                self.robo._motion.walk_side("LEFT")
-                time.sleep(0.8)
-                self.robo._motion.walk("FORWARD")
-            return False
+            if v_slope:
+                return True
         else:
-            if state == "HORIZON":
-                return True
-            elif state == "MOVE_LEFT":
-                self.robo._motion.walk_side("LEFT")
-            elif state == "MOVE_RIGHT":
-                self.robo._motion.walk_side("RIGHT")
-            elif state == "TURN_LEFT":
-                self.robo._motion.turn("LEFT", 10)
-            elif state == "TURN_RIGHT":
-                self.robo._motion.turn("RIGHT", 10)
-
-            elif state == "BOTH":  # 선 둘 다 인식
-                self.robo._motion.walk_side("RIGHT")
-            else:
-                self.robo._motion.walk_side("RIGHT")
-                time.sleep(1)
-                self.robo._motion.walk("FORWARD")
+            self.robo._motion.walk("FORWARD")
+            return False
 
     @classmethod
     def check_horizon(self):
@@ -188,50 +166,7 @@ class Controller:
             self.robo._motion.walk("FORWARD")
         return False
 
-    @classmethod
-    def exit_stair(self):
-
-        if self.stair_exit_hor == 1:
-            return self.check_horizon()
-        if self.stair_turn == 0:
-            # self.robo._motion.turn(Robo.dis_arrow, 60)
-            # self.robo._motion.turn(Robo.dis_arrow, 60)
-            self.robo._motion.turn(Robo.dis_arrow, 45, arm=True)
-            self.robo._motion.turn(Robo.dis_arrow, 45, arm=True)
-
-            self.stair_turn += 1
-
-        state, h_slope, v_slope = self.robo._image_processor.is_yellow()
-        if not h_slope:
-            self.robo._motion.turn(Robo.dis_arrow, 10)
-            time.sleep(1)
-            self.robo._motion.walk("FORWARD")
-            return False
-
-        if state == "HORIZON" and h_slope <= 10 or 170 <= h_slope:
-            print("앞으로 걸어라!")
-            self.robo._motion.walk("FORWARD", 2)
-            self.stair_exit_hor = 1
-
-        # if state == "HORIZON" or h_slope <= 10 or 170 <= h_slope or state == "VERTICAL":
-            # return True
-        elif state == "MOVE_LEFT":
-            self.robo._motion.walk_side("LEFT")
-        elif state == "MOVE_RIGHT":
-            self.robo._motion.walk_side("RIGHT")
-        elif state == "TURN_LEFT":
-            self.robo._motion.turn("LEFT", 10)
-        elif state == "TURN_RIGHT":
-            self.robo._motion.turn("RIGHT", 10)
-        elif state == "BOTH":
-            if h_slope < 90:
-                self.robo._motion.turn("RIGHT", 10)
-            else:
-                self.robo._motion.turn("LEFT", 10)
-        else:
-            self.robo._motion.walk("FORWARD")
-        return False
-
+   
     @classmethod
     def escape_room(self):
         self.robo._motion.turn(Robo.dis_arrow, 60, 3, arm=True)  # arm = True
@@ -336,43 +271,15 @@ class Controller:
                 self.robo._motion.walk("FORWARD")
             elif state == "MOVE_LEFT":
                 self.robo._motion.walk_side("LEFT")
-                # time.sleep(0.8)
-                # self.robo._motion.turn("LEFT", 10)
             elif state == "MOVE_RIGHT":
                 self.robo._motion.walk_side("RIGHT")
-                # time.sleep(0.8)
-                # self.robo._motion.turn("RIGHT", 10)
             elif state == "TURN_LEFT":
                 self.robo._motion.turn("LEFT", 10)
             elif state == "TURN_RIGHT":
                 self.robo._motion.turn("RIGHT", 10)
             elif state == "BOTH":  # 선 둘 다 인식
                 self.check_nextroom += 1
-                # print('efnenfwlenfjw')
                 self.robo._motion.walk("FORWARD")
-            # else:
-            #     if self.check_nextroom > 0:
-            #         self.robo._motion.walk("FORWARD")
-            #         # self.robo._motion.walk("FORWARD")
-            #         time.sleep(0.5)
-            #         # self.robo._motion.set_head("DOWN", 70)
-            #         print("END")
-            #         # 방 입구 도착 -> 위험/계단지역 판단
-            #         self.check_nextroom = 0  # init
-            #         self.check_area()
-            #         print("----Current Area", self.area, "----")  # Debug
-            #         # return True ## debug
-            #         setting.SICK = 0 # 넘어짐 초기화
-            #         if self.area == "STAIR":
-            #             self.act = act.STAIR
-            #         else:
-            #             self.act = act.DANGER
-            #         # return True # Debug
-            #     else:
-            #         # 장애물??
-            #         self.robo._motion.kick("RIGHT")  # test
-            #         time.sleep(3)
-            #         return False
             else:
                 if self.check_nextroom > 0:
                     # self.robo._motion.walk("FORWARD")
@@ -412,15 +319,31 @@ class Controller:
             ##############################
 
             if self.check_stair > 0:
-                if self.is_vertical(action="STAIR-EXIT"):
-                    self.count_area += 1
-                    print("\ncount_area: ", self.count_area)
-                    setting.SICK = 0  # 넘어짐 초기화
+                if self.exit_ex > 0:
+                    if self.exit_ex == 3:
+                        self.robo._motion.turn(Robo.dis_arrow, 60)
+                        self.robo._motion.turn(Robo.arrow, 45)
+                        self.robo._motion.walk("FORWARD",2)
+                        self.exit_ok = 1
+                    elif self.exit_stair():
+                        self.exit_ex = 0
+                        self.exit_ok = 1
+                        self.robo._motion.set_head("DOWN", 30)
+                elif self.exit_ok == 1:
+                    if self.is_vertical():
+                        self.count_area += 1
+                        print("\ncount_area: ", self.count_area)
+                        setting.SICK = 0  # 넘어짐 초기화
 
-                    if self.count_area < limits:
-                        self.act = act.GO_NEXTROOM
+                        if self.count_area < limits:
+                            self.act = act.GO_NEXTROOM
+                        else:
+                            self.act = act.GO_EXIT
                     else:
-                        self.act = act.GO_EXIT
+                        print("self.exit_ok == 1 but not found vertical line")
+                        return False
+                elif self.is_vertical(action="STAIR_EXIT"):
+                    self.exit_ok = 1
                 else:
                     print('계단지역 수직선 못찾음')
                     self.robo._motion.walk_side(Robo.dis_arrow)
@@ -429,6 +352,7 @@ class Controller:
             elif MissionStair.go_robo():
                 self.check_stair = 1
             else:
+                print('^^')
                 return False
 
         elif act == act.DANGER:

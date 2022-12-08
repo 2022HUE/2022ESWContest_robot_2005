@@ -178,7 +178,7 @@ class ImageProccessor:
     ########### LINE DETECTION ###########
     # 라인이 수평선인지 수직선인지 return해줌
 
-    def is_line_horizon_vertical(self, show=False):
+    def is_line_horizon_vertical(self, show=False, option=False):
         img = self.get_img()
         origin = img.copy()
         img = self.correction(img, 7, 50, 2.0)
@@ -275,45 +275,54 @@ class ImageProccessor:
             if h_slope == 0:
                 h_slope = 1
 
+            # option return
+            if option:
+                return state, v_slope, h_slope
+
             if state == "BOTH":
-                # is_center = Line.is_center(self, origin, v_line)
-                # cv.putText(origin, "center: {}".format(is_center), (260, 80), cv.FONT_HERSHEY_SIMPLEX, 0.8, [0,255,100], 2)
-                # if is_center != True:
-                # return is_center
                 if v_slope and not h_slope:  # vertical
-                    if v_sign == 1:
-                        return "TURN_RIGHT"
-                    else:
-                        return "TURN_LEFT"
-                elif h_slope and not v_slope:  # horizon
-                    if h_sign == 1:
-                        print("수평: BOTH, TURN_RIGHT")
-                        return "TURN_RIGHT"
-                    else:
-                        print("수직: BOTH, TURN_RIGHT")
-                        return "TURN_LEFT"
-                elif not v_slope and not h_slope:
-                    # return False
-                    return state
-                else:  # 선이 둘 다 인식됨
                     if setting.VSLOPE1 <= v_slope <= setting.VSLOPE2:  # 수직
                         is_center = Line.is_center(origin, v_line)
                         if is_center != True:
                             return is_center
                         else:
-                            return state
+                            # return state
+                            return "VERTICAL"
+                    elif v_sign == 1:
+                        return "TURN_RIGHT"
+                    elif v_sign == 0:
+                        return "TURN_LEFT"
+                elif h_slope and not v_slope:  # horizon
+                    if h_slope < 10 or 170 < h_slope:
+                        return "HORIZON"
+                    elif h_sign == 1:
+                        return "TURN_RIGHT"
+                    elif h_sign == 0:
+                        return "TURN_LEFT"
+                elif not v_slope and not h_slope:
+                    return False
+                    # return state # return BOTH
+                else:  # 선이 둘 다 인식됨 -수직선 우선 리턴
+                    if setting.VSLOPE1 <= v_slope <= setting.VSLOPE2:  # 수직
+                        is_center = Line.is_center(origin, v_line)
+                        if is_center != True:
+                            return is_center
+                        else:
+                            # return state
+                            return "VERTICAL"
                     elif v_sign == 1:
                         return "TURN_RIGHT"
                     elif v_sign == 0:
                         return "TURN_LEFT"
                     if h_slope < 10 or 170 < h_slope:
-                        return state
+                        # return state
+                        return "HORIZON"
                     elif h_sign == 1:
                         return "TURN_RIGHT"
                     elif h_sign == 0:
                         return "TURN_LEFT"
-
-                    # return state
+                    
+                    return False
 
             elif state == "VERTICAL" and v_line:
                 is_center = Line.is_center(origin, v_line)
