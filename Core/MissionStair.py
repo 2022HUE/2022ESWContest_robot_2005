@@ -175,7 +175,7 @@ class MissionStair:
             if ret == True:  # 1->2로 up, 샤샥 & 2->3로 up 할 때도
                 wall = self.wall_move()
                 if wall == True:
-
+                    self.robo._motion.walk_side(Robo.dis_arrow,20)
                     self.robo._motion.stair('RIGHT_UP')  # up
                     self.robo._motion.walk(
                         'FORWARD', loop=2, short=True)  # 좁은 보폭

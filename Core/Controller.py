@@ -293,7 +293,7 @@ class Controller:
 
             state = self.robo._image_processor.is_line_horizon_vertical()
             print(state)
-            if state == "VERTICAL":
+            if state == "VERTICAL" or state=="B_VERTICAL":
                 self.robo._motion.walk("FORWARD")
             elif state == "MOVE_LEFT":
                 self.robo._motion.walk_side("LEFT")
@@ -308,7 +308,7 @@ class Controller:
                 setting.SICK = 0  # 넘어짐 초기화
                 self.act = act.ENTRANCE
                 # self.robo._motion.walk("FORWARD") # 1206 주석 할지 말지
-            elif state == "HORIZON":  # 1208
+            elif state == "HORIZON" or state=="B_HORIZON":  # 1208
                 # self.robo._motion.walk("FORWARD")
                 self.act = act.ENTRANCE
 
@@ -358,7 +358,7 @@ class Controller:
             if state == "HORIZON" or state == "B_HORIZON":
                 self.check_nextroom += 1
                 time.sleep(1)
-                self.robo._motion.walk("FORWARD")
+                self.robo._motion.walk("FORWARD",2)
             if state == "VERTICAL":
                 self.robo._motion.walk("FORWARD")
             elif state == "B_VERTICAL":
@@ -373,7 +373,7 @@ class Controller:
                 self.robo._motion.turn("RIGHT", 10)
             elif state == "BOTH":  # 선 둘 다 인식
                 self.check_nextroom += 1
-                self.robo._motion.walk("FORWARD")
+                self.robo._motion.walk("FORWARD",2)
             else:
                 if self.check_nextroom > 0:
                     # self.robo._motion.walk("FORWARD")
