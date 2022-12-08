@@ -234,7 +234,9 @@ class MissionStair:
 
         elif act == act.EXIT:
             print('Act = %s' % act)
-            self.robo._motion.set_head('DOWN', angle=30)  # 머리 45도
+            self.robo._motion.set_head('DOWN', angle=30)
+            self.robo._motion.walk('FORWARD')
+            
             return True
 
         return False

@@ -7,7 +7,7 @@ import sys
 import serial
 import time
 from threading import Thread, Lock
-# from Setting import setting
+from Setting import setting
 
 # -----------------------------------------------
 
@@ -103,6 +103,7 @@ class Motion:
                 elif RX == 253:
                     # print("넘어졌다가 일어남")
                     # self.lock.acquire()
+                    setting.SICK += 1
                     RX = 255
                     
                     # print("253 acquire")

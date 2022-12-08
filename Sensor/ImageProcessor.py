@@ -887,7 +887,7 @@ if __name__ == "__main__":
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
         # img_processor.is_yellow_danger(show=True)
-        # img_processor.is_line_horizon_vertical(True)
+        img_processor.is_line_horizon_vertical(True)
 
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)

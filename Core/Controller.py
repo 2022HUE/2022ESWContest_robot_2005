@@ -88,7 +88,7 @@ class Controller:
             return state
 
     @classmethod
-    def is_vertical(self):  # 수직선인지
+    def is_vertical(self, action=""):  # 수직선인지
         # self.robo._motion.turn(Robo.arrow, 10)
         state = self.robo._image_processor.is_line_horizon_vertical()
         if state == "VERTICAL":
@@ -102,11 +102,14 @@ class Controller:
         elif state == "TURN_RIGHT":
             self.robo._motion.turn("RIGHT", 10)
         else:
-            # 수정 필요
-            # self.robo._motion.turn(Robo.arrow, 20)
-            self.robo._motion.walk("FORWARD")
-            # return True
-            # self.robo._motion.turn(self.robo.arrow, 10)
+            print("func: is_vertical(action={})".format(action))
+            if action == "":
+                return True
+            elif action == "STAIR-EXIT":
+                # if state == "HORIZON":
+                #     self.robo._motion.turn("LEFT", 10)
+                self.robo._motion.walk_side(Robo.dis_arrow)
+
         return False
 
     @classmethod
@@ -228,10 +231,6 @@ class Controller:
         else:
             self.robo._motion.walk("FORWARD")
         return False
-
-    @classmethod
-    def exit_stair2(self):
-        pass
     
         
     @classmethod
@@ -414,43 +413,23 @@ class Controller:
             #     self.act = act.GO_EXIT
             ##############################
 
-            if MissionStair.go_robo():
-                # return True  # debug
-                if self.check_stair > 0:
-                    if self.is_vertical():
-                        self.count_area += 1
-                        print("count_area: ", self.count_area)
-                        setting.SICK = 0  # 넘어짐 초기화
-                        if self.count_area < limits:
-                            self.act = act.GO_NEXTROOM
-                        else:
-                            self.act = act.GO_EXIT
+            if self.check_stair > 0:
+                if self.is_vertical(action="STAIR-EXIT"):
+                    self.count_area += 1
+                    print("\ncount_area: ", self.count_area)
+                    setting.SICK = 0  # 넘어짐 초기화
+                    
+                    if self.count_area < limits:
+                        self.act = act.GO_NEXTROOM
                     else:
-                        print('수직선 못찾음')
-                        self.robo._motion.walk("FORWARD")
-                        return False
+                        self.act = act.GO_EXIT
                 else:
-                    self.robo._motion.set_head("DOWN", 30)
-                    print('exit stair')
-                    if self.exit_stair():
-                        print('exit stair 성공')
+                    print('계단지역 수직선 못찾음')
+                    self.robo._motion.side_walk(Robo.dis_arrow)
+                    return False
 
-                        # time.sleep(1)
-                        self.check_stair += 1
-
-                        # ROTATE - 수직선 나오도록 (하드)
-                        self.robo._motion.turn(
-                            Robo.arrow, 45, 3, True)  # arm = True
-                        # time.sleep(3)
-                        self.robo._motion.turn(Robo.arrow, 20)
-
-                        self.robo._motion.walk_side(Robo.dis_arrow)
-                        self.robo._motion.walk_side(Robo.dis_arrow)
-
-                        return False
-                    else:
-                        return False
-
+            elif MissionStair.go_robo():
+                self.check_stair = 1
             else:
                 return False
 
