@@ -481,7 +481,7 @@ class ImageProccessor:
             peri = cv.arcLength(contours[pos], True)
             approx = cv.approxPolyDP(contours[pos], peri * 0.02, True)
             points = len(approx)
-            print(peri, points)  # DEBUG
+            print(peri, points) # DEBUG
             # 1206 :: peri 750 -> 650 -> 400
             if peri > 400 and points == 4:
                 roi_contour.append(contours[pos])
