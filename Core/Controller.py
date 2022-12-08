@@ -59,14 +59,11 @@ class Controller:
     @classmethod
     def check_area(self):
         time.sleep(1)
-        # [motion] 로봇 화살표 방향으로 45도 회전
-        # self.robo._motion.turn(self.robo.arrow, 45, 2, 0.8)
-        self.robo._motion.turn(self.robo.arrow, 60, arm=True)
-        # time.sleep(0.5)
-        # self.robo._motion.walk_side(Robo.dis_arrow)
-
+        
         self.robo._motion.set_head("DOWN", 70)
         if self.count_area == 0:  # 최초 방문
+            self.robo._motion.turn(self.robo.arrow, 60, arm=True)
+            
             # time.sleep(1.2)
             if cur.AREA:  # 고정 값 존재시 (Setting - current)
                 self.area = cur.AREA
@@ -76,8 +73,10 @@ class Controller:
 
         else:
             if self.area == "STAIR":
+                self.robo._motion.turn(self.robo.arrow, 60, arm=True)
                 self.area = "DANGER"
             else:
+                # 2번째 방 입장일 때 계단지역이면 turn 안함
                 self.area = "STAIR"
 
     @classmethod
@@ -230,6 +229,11 @@ class Controller:
             self.robo._motion.walk("FORWARD")
         return False
 
+    @classmethod
+    def exit_stair2(self):
+        pass
+    
+        
     @classmethod
     def escape_room(self):
         self.robo._motion.turn(Robo.dis_arrow, 60, 3, arm=True)  # arm = True
