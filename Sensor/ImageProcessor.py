@@ -186,10 +186,11 @@ class ImageProccessor:
         h, s, v = cv.split(hsv)
 
         _, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
-        _, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        _, th_v = cv.threshold(
+            v, 100, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
         th_mask = cv.bitwise_or(th_s, th_v)
 
-        dst = cv.bitwise_and(hsv, hsv, mask = th_mask)
+        dst = cv.bitwise_and(hsv, hsv, mask=th_mask)
         # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
         line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
         # line_mask = self.HSV2BGR(line_mask)
@@ -197,7 +198,8 @@ class ImageProccessor:
         # line_gray = self.RGB2GRAY(dst)
 
         kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
-        img_mask = cv.morphologyEx(line_mask, cv.MORPH_DILATE, kernel, iterations=3)
+        img_mask = cv.morphologyEx(
+            line_mask, cv.MORPH_DILATE, kernel, iterations=3)
 
         if show:
             cv.imshow("tmp", line_mask)
@@ -209,7 +211,8 @@ class ImageProccessor:
         roi_img = Line.ROI(line_gray, self.height, self.width, origin)
 
         # get Line
-        line_arr = Line.hough_lines(roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
+        line_arr = Line.hough_lines(
+            roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
         line_arr = np.squeeze(line_arr)
         # print(line_arr)
 
@@ -224,11 +227,14 @@ class ImageProccessor:
             #     cv.waitKey(1) & 0xFF == ord('q')
 
             state, horizon_arr, vertical_arr = Line.slope_filter(line_arr)
-            h_line, v_line = Line.get_fitline(origin, horizon_arr), Line.get_fitline(origin, vertical_arr)
+            h_line, v_line = Line.get_fitline(
+                origin, horizon_arr), Line.get_fitline(origin, vertical_arr)
 
             # init
             v_slope = None
             h_slope = None
+            v_sign = 0  # 1이면 음수
+            h_sign = 0
 
             if v_line:
                 Line.draw_fitline(origin, v_line, [0, 255, 255])  # Debug
@@ -236,6 +242,17 @@ class ImageProccessor:
             if h_line:
                 Line.draw_fitline(origin, h_line, [0, 255, 0])  # Debug
                 h_slope = int(Line.slope_cal(h_line))
+
+            if v_slope:
+                if v_slope < 0:
+                    v_sign = 1
+                    v_slope = abs(v_slope)
+
+            if h_slope:
+                if h_slope < 0:
+                    h_sign = 1
+                    h_slope = abs(h_slope)
+
             cv.putText(origin, "state: {}".format(state), (50, 210),
                        cv.FONT_HERSHEY_SIMPLEX, 1, [255, 255, 0], 2)
             cv.putText(origin, "v_slope: {}".format(v_slope),
@@ -251,44 +268,53 @@ class ImageProccessor:
 
             print(':: state:{}, vslope:{}, hslope:{} ::'.format(
                 state, v_slope, h_slope))
-            
-            # 예외처리
-            if v_slope == 0: v_slope = 1
-            if h_slope == 0: h_slope = 1
 
-            
+            # 예외처리
+            if v_slope == 0:
+                v_slope = 1
+            if h_slope == 0:
+                h_slope = 1
+
             if state == "BOTH":
                 # is_center = Line.is_center(self, origin, v_line)
                 # cv.putText(origin, "center: {}".format(is_center), (260, 80), cv.FONT_HERSHEY_SIMPLEX, 0.8, [0,255,100], 2)
                 # if is_center != True:
                 # return is_center
                 if v_slope and not h_slope:  # vertical
-                    if 90 - v_slope < 0:
+                    if v_sign == 1:
                         return "TURN_RIGHT"
                     else:
                         return "TURN_LEFT"
                 elif h_slope and not v_slope:  # horizon
-                    if h_slope < 90:
+                    if h_sign == 1:
                         print("수평: BOTH, TURN_RIGHT")
                         return "TURN_RIGHT"
                     else:
                         print("수직: BOTH, TURN_RIGHT")
                         return "TURN_LEFT"
-                elif not v_slope and not h_slope: return False
+                elif not v_slope and not h_slope:
+                    # return False
+                    return state
                 else:  # 선이 둘 다 인식됨
+                    if setting.VSLOPE1 <= v_slope <= setting.VSLOPE2:  # 수직
+                        is_center = Line.is_center(origin, v_line)
+                        if is_center != True:
+                            return is_center
+                        else:
+                            return state
+                    elif v_sign == 1:
+                        return "TURN_RIGHT"
+                    elif v_sign == 0:
+                        return "TURN_LEFT"
                     if h_slope < 10 or 170 < h_slope:
                         return state
-                    elif h_slope < 90:
+                    elif h_sign == 1:
                         return "TURN_RIGHT"
-                    elif h_slope > 90:
+                    elif h_sign == 0:
                         return "TURN_LEFT"
-                    if setting.VSLOPE1 <= v_slope <= setting.VSLOPE2:  # 수직
-                        return state
-                    elif v_slope < setting.VSLOPE1:
-                        return "TURN_LEFT"
-                    elif setting.VSLOPE2 < v_slope:
-                        return "TURN_RIGHT"
+
                     # return state
+
             elif state == "VERTICAL" and v_line:
                 is_center = Line.is_center(origin, v_line)
                 ########### [Option] Show ##########
@@ -301,16 +327,16 @@ class ImageProccessor:
                 # if 88 < v_slope < 96:  # 수직
                 if setting.VSLOPE1 <= v_slope <= setting.VSLOPE2:  # 수직
                     return state
-                elif v_slope < setting.VSLOPE1:
-                    return "TURN_LEFT"
-                elif setting.VSLOPE2 < v_slope:
+                elif v_sign == 1:
                     return "TURN_RIGHT"
+                elif v_sign == 0:
+                    return "TURN_LEFT"
             elif state == "HORIZON" and h_line:
                 if h_slope < 10 or 170 < h_slope:
                     return state
-                if h_slope < 90:
+                elif h_sign == 1:
                     return "TURN_RIGHT"
-                else:
+                elif h_sign == 0:
                     return "TURN_LEFT"
             else:
                 print("ELSE", state)
@@ -347,10 +373,10 @@ class ImageProccessor:
             v_slope, h_slope = None, None
             if v_line:
                 Line.draw_fitline(origin, v_line, [0, 255, 255])  # Debug
-                v_slope = abs(int(Line.slope_cal(v_line)))
+                v_slope = int(Line.slope_cal(v_line))
             if h_line:
                 Line.draw_fitline(origin, h_line, [0, 255, 0])  # Debug
-                h_slope = abs(int(Line.slope_cal(h_line)))
+                h_slope = int(Line.slope_cal(h_line))
             print(state, v_slope, h_slope)
             return state, h_slope, v_slope
             # return True
@@ -440,9 +466,9 @@ class ImageProccessor:
             peri = cv.arcLength(contours[pos], True)
             approx = cv.approxPolyDP(contours[pos], peri * 0.02, True)
             points = len(approx)
-            # print(peri) # DEBUG
-            # 1206 :: peri 750 -> 650
-            if peri > 650 and points == 4:
+            print(peri, points)  # DEBUG
+            # 1206 :: peri 750 -> 650 -> 400
+            if peri > 400 and points == 4:
                 roi_contour.append(contours[pos])
                 # cv.drawContours(img, [approx], 0, (0, 255, 255), 1) # Debug: Drawing Contours
 
@@ -635,13 +661,15 @@ class ImageProccessor:
         alpha = 0.0
         dst = np.clip((1 + alpha) * add - 128 * alpha, 0, 255).astype(np.uint8)
 
-        ret, th = cv.threshold(dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
+        ret, th = cv.threshold(
+            dst, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)
         dst = cv.bitwise_or(dst, dst, mask=th)
 
         kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
         dst = cv.dilate(dst, kernel, iterations=1)
 
-        contours, hierarchy = cv.findContours(dst, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
+        contours, hierarchy = cv.findContours(
+            dst, cv.RETR_LIST, cv.CHAIN_APPROX_TC89_L1)
         return contours
 
     def alphabet_center_check(self, show=False):
@@ -705,6 +733,22 @@ class ImageProccessor:
             print("1층에서 좁은 보폭")  # motion: 2층에서 샤샤샥
             return False
 
+    # 계단 앞으로 밀착
+    # def stair_forward(self):
+    #     img = self.get_img()
+    #     img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
+    #     lower_hue, upper_hue = np.array(
+    #         setting.STAIR_GREEN[0]), np.array(setting.STAIR_GREEN[1])
+    #     b_mask = cv.inRange(img, lower_hue, upper_hue)
+    #     ret = int((np.count_nonzero(b_mask) / (640 * 480)) * 1000)
+    #     print('greenmask={}'.format(ret))
+    #     if ret >= setting.STAIR_START_UP:
+    #         return False
+    #         print("전진 그만 하고 샤샤샤샥")
+    #     else:
+    #         return True
+    #         print("전진")
+
     # 계단 내려가기 전에 파란색이 더 많은 부분 발이 먼저 내려가기
     # 넘어졌을 때 cnt
 
@@ -712,7 +756,6 @@ class ImageProccessor:
 
     def stair_down(self):
         img = self.get_img()
-        # cv.imshow('img',img)
         img = cv.cvtColor(img, cv.COLOR_RGB2HSV)
         img_mask = Stair.in_saturation_measurement(
             self, img, setting.STAIR_S, setting.ROOM_V)  # -->s_mask가 50 이면 좋겠어
@@ -780,8 +823,8 @@ class ImageProccessor:
             ro = 'LEFT_DOWN'
         else:
             ro = 'RIGHT_DOWN'
-        
-        print("꼭대기 내려가기위한 파란 채도값 {} 세팅값 {}".format(top_ret,setting.STAIR_DOWN))
+
+        print("꼭대기 내려가기위한 파란 채도값 {} 세팅값 {}".format(top_ret, setting.STAIR_DOWN))
         if top_ret <= setting.STAIR_DOWN:
             return True, ro  # 내려가라
         else:
@@ -817,16 +860,17 @@ class ImageProccessor:
 if __name__ == "__main__":
     # img_processor = ImageProccessor(video=DataPath.m13)
     # img_processor = ImageProccessor(video=DataPath.m9)
-    # img_processor = ImageProccessor()
-    img_processor = ImageProccessor(video=DataPath.stair02)
+
+    img_processor = ImageProccessor()
+    # img_processor = ImageProccessor(video=DataPath.stair06)
 
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
-        # img_processor.get_ewsn(show=True)
+        img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
-        # img_processor.is_line_horizon_vertical(True)
+        img_processor.is_line_horizon_vertical(True)
 
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)
