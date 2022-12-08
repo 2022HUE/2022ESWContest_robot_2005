@@ -25,6 +25,8 @@ class Act(Enum):
 class MissionStair:
     act: Act = Act.START
     robo: Robo = Robo()
+    miss: int = 0
+    
 
     @classmethod
     def init_robo(self, robo: Robo):
@@ -148,10 +150,6 @@ class MissionStair:
             if ret == True:  # 1->2로 up, 샤샥 & 2->3로 up 할 때도
                 wall = self.wall_move()
                 if wall == True:
-                    if setting.STAIR_LEVEL == 1:
-                        self.robo._motion.kick(Robo.arrow)
-                        self.robo._motion.kick(Robo.arrow)
-
                     self.robo._motion.stair('RIGHT_UP')  # up
                     self.robo._motion.walk(
                         'FORWARD', loop=2, short=True)  # 좁은 보폭
@@ -163,14 +161,20 @@ class MissionStair:
                     time.sleep(1)
 
             elif ret == False:  # 선이 안 잡힌 경우 샤샥, 2층에서 중앙 아래에 선이 잡힌 경우
+                self.miss +=1
                 self.robo._motion.walk(
                     'FORWARD', short=True)  # 좁은 보폭
+                if self.miss >=10:
+                    self.robo._motion.kick(Robo.arrow)
+                    self.miss=0
                 time.sleep(1)
 
             elif ret == 'Top':
                 self.robo._motion.walk('FORWARD')
                 self.robo._motion.walk('FORWARD', short=True)
                 time.sleep(0.5)
+                self.miss=0
+
                 self.act = Act.TOP_TURN
 
         elif act == act.TOP_PROCESSING:

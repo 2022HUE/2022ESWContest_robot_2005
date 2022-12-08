@@ -79,7 +79,8 @@ class DataPath:
     stair23 = 'src/stair/1207_14:06:51.h264'
     stair24 = 'src/stair/1207_14:04:52.h264'
     stair25 = 'src/stair/1207_14:04:28.h264'
-    # stair26 = 'src/stair/1207_14:08:17.h264'
+
+    t1 = 'src/stair/1207_14:08:17.h264'
 
     # 1207
     m1 = "src/1207/1207_01.h264"
