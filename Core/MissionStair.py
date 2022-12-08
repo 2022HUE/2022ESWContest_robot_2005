@@ -91,7 +91,7 @@ class MissionStair:
         elif act == act.FIRST_ROTATION:  # 현재 머리각도 70
             print('Act = %s' % act)
             self.robo._motion.turn(
-                Robo.dis_arrow, 45, arm=True)  # 화살표 방향으로 회전해야함
+                Robo.dis_arrow, 60, arm=True)  # 화살표 방향으로 회전해야함
             self.act = Act.WALL_MOVE
 
         elif act == act.WALL_MOVE:  # 머리각도 45도
@@ -106,9 +106,9 @@ class MissionStair:
                 self.robo._motion.kick(Robo.arrow)
                 self.robo._motion.walk('FORWARD')  # 3회 정도
                 self.robo._motion.walk('FORWARD')  # 3회 정도
-                
-                self.robo._motion.set_head('DOWN', 30)
+                self.robo._motion.set_head('DOWN',30)
                 time.sleep(1)
+
                 self.act = Act.DRAW_STAIR_LINE
             else:
                 self.robo._motion.walk_side(ret, long=70)  # 벽쪽으로 이동
@@ -164,8 +164,14 @@ class MissionStair:
                 time.sleep(0.3)
 
             elif ret == 'Top':
-                self.robo._motion.walk('FORWARD', loop=2)
-                # self.robo._motion.walk('FORWARD', short=True)
+                self.robo._motion.walk('FORWARD')
+                self.robo._motion.walk('FORWARD', short=True)
+                time.sleep(0.5)
+                self.act = Act.TOP_TURN
+
+        elif act == act.TOP_PROCESSING:
+            ret = self.top_processing()
+            if ret == True:  # 앞으로 어느정도 전진했다.
                 self.act = Act.TOP_TURN
 
         # elif act == act.TOP_PROCESSING:
@@ -181,8 +187,6 @@ class MissionStair:
             rotation = self.second_rotation(
                 Robo.dis_arrow, setting.top_saturation)
             if rotation == True:
-                self.robo._motion.set_head('DOWN', 30)
-                time.sleep(1)
                 self.act = Act.CLOSE_TO_DESCENT
             else:
                 self.robo._motion.turn(rotation, 20, sleep=1)
@@ -193,7 +197,7 @@ class MissionStair:
             if ret == True:
                 self.robo._motion.notice_area('STAIR')
                 time.sleep(1)
-                Robo.feet_down = rotation
+                # Robo.feet_down = rotation
                 self.act = act.STAIR_DOWN
             else:
                 self.robo._motion.walk('FORWARD')

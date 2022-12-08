@@ -875,6 +875,7 @@ class ImageProccessor:
 if __name__ == "__main__":
     # img_processor = ImageProccessor(video=DataPath.m13)
     # img_processor = ImageProccessor(video=DataPath.m9)
+
     img_processor = ImageProccessor()
     # img_processor = ImageProccessor(video=DataPath.stair06)
 
@@ -893,7 +894,7 @@ if __name__ == "__main__":
 
         ### stair ###
         # img_processor.first_rotation('RIGHT')
-        # img_processor.alphabet_center_check(True)
+        img_processor.alphabet_center_check(True)
         # img_processor.second_rotation(show=True)
         # img_processor.draw_stair_line()
         # img_processor.top_processing()
