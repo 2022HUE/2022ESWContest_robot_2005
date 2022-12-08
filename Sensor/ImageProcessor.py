@@ -178,7 +178,7 @@ class ImageProccessor:
     ########### LINE DETECTION ###########
     # 라인이 수평선인지 수직선인지 return해줌
 
-    def is_line_horizon_vertical(self, show=False):
+    def is_line_horizon_vertical(self, show=True):
         img = self.get_img()
         origin = img.copy()
         img = self.correction(img, 7, 50, 2.0)
@@ -387,11 +387,25 @@ class ImageProccessor:
     def is_yellow_danger(self, show=False):
         img = self.get_img()
         origin = img.copy()
-        img = self.correction(img, 7)
+        img = self.correction(img, 7, 50, 2.0)
         hsv = self.hsv_mask(img)
-        line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
-        line_mask = self.HSV2BGR(line_mask)
+        h, s, v = cv.split(hsv)
+
+        _, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
+        _, th_v = cv.threshold(
+            v, 100, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        th_mask = cv.bitwise_or(th_s, th_v)
+
+        dst = cv.bitwise_and(hsv, hsv, mask=th_mask)
+        # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
+        line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
+        # line_mask = self.HSV2BGR(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
+        # line_gray = self.RGB2GRAY(dst)
+
+        kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
+        img_mask = cv.morphologyEx(
+            line_mask, cv.MORPH_DILATE, kernel, iterations=3)
         # vertices = np.array([[(0,self.height-50),(0, self.height/2+50), (self.width, self.height/2+50), (self.width,self.height-50)]], dtype=np.int32)
         # mask = np.zeros_like(img)
         # cv.fillPoly(mask, vertices, 255)
@@ -404,9 +418,10 @@ class ImageProccessor:
         line_arr = np.squeeze(line_arr)
         # print(line_arr)
         if show:
-            # cv.imshow("show", origin)
-            cv.imshow("img", img)
-            cv.waitKey(1) & 0xFF == ord('q')
+            cv.imshow("tmp", line_mask)
+            cv.imshow("img_mask", img_mask)
+            # cv.imshow("test", Line.yellow_mask(img, setting.YELLOW_DATA))
+            cv.imshow("dst", dst)
         if line_arr != 'None':
             print('T')
 
@@ -866,10 +881,11 @@ if __name__ == "__main__":
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
-        img_processor.get_ewsn(show=True)
+        # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
-        img_processor.is_line_horizon_vertical(True)
+        img_processor.is_yellow_danger(show=True)
+        # img_processor.is_line_horizon_vertical(True)
 
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)

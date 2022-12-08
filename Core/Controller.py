@@ -249,6 +249,7 @@ class Controller:
             self.act = act.GO_ENTRANCE
 
             # debug
+            ######## 바꿔
             # self.act = act.ENTRANCE
             # self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
@@ -315,7 +316,7 @@ class Controller:
                 # motion: 회전 (수직선이 보일 때 까지)
                 self.robo._motion.walk("FORWARD")
                 self.robo._motion.turn(
-                    Robo.arrow, 45, 2, 3, True)  # arm = True
+                    Robo.arrow, 60, 2, 3, True)  # arm = True
                 # time.sleep(3)
                 self.robo._motion.turn(Robo.arrow, 20)
                 self.miss += 1
