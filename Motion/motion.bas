@@ -5807,8 +5807,8 @@ DÁö¿ª:
 Á¼Àºº¸Æø1: '¿Þ¹ß
     'HIGHSPEED SETON
     MOVE G6D,104,  77, 147, 93, 100
-    MOVE G6A,95,  95, 143,  94,  102
-    MOVE G6B, 100
+    MOVE G6A,95,  90, 143,  94,  102
+    MOVE G6B, 100 
     MOVE G6C, 100
     WAIT
 Á¼Àºº¸Æø2:
@@ -5830,8 +5830,8 @@ DÁö¿ª:
     ERX 4800,A, Á¼Àºº¸Æø4
     IF A <> A_old THEN
 Á¼Àºº¸Æø_2_stop:
-        MOVE G6D,95,  87, 143, 97, 102
-        MOVE G6A,104,  76, 145,  92,  100
+        MOVE G6D,95,  77, 147, 93, 100
+        MOVE G6A,96,  79, 143,  94,  102
         MOVE G6C, 100
         MOVE G6B,100
         WAIT
@@ -5872,8 +5872,8 @@ DÁö¿ª:
     ERX 4800,A, Á¼Àºº¸Æø1
     IF A <> A_old THEN
 Á¼Àºº¸Æø5_stop:
-        MOVE G6A,95,  87, 143, 97, 102
-        MOVE G6D,104,  76, 145,  92,  100
+        MOVE G6A,95,  77, 147, 93, 100
+        MOVE G6D,96,  79, 143,  94,  102
         MOVE G6B, 100
         MOVE G6C,100
         WAIT

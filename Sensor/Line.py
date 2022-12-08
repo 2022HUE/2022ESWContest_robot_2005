@@ -106,6 +106,7 @@ class Line:
                 # cv.line(img, ((img.shape[0]-1) - 1, righty), (0, lefty), (255, 255, 255), 2)
                 # cv.line(img, (int(x), 640), (int(x), 0), (255, 255, 255), 5)
                 x1, y1, x2, y2 =  int((img.shape[1]-1)), righty, 0, lefty #1207
+                print(vy / vx, vy*vx, x, y)
                 # x1, y1 = int(((img.shape[0]-1)-y)/tmp + x), img.shape[0]-1
                 # x2, y2 = int(((img.shape[0]/2+50)-y) / tmp + x), int(img.shape[0]/2+50)
                 res = [x1, y1, x2, y2]
