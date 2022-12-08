@@ -106,7 +106,8 @@ class Controller:
         
         # BOTH : 선 둘 다 인식했지만 기울기 둘 다 못받아옴
         else:
-            _, v_slope, h_slope = self.robo._image_processor.is_line_horizon_vertical(option=True)
+            time.sleep(0.3)
+            state_, v_slope, h_slope = self.robo._image_processor.is_line_horizon_vertical(option=True)
             
             print("func: is_vertical(action={})".format(action))
 
@@ -125,7 +126,8 @@ class Controller:
                     self.robo._motion.turn(Robo.arrow, 60)
                     self.robo._motion.turn(Robo.arrow, 45)
                     return True
-                self.robo._motion.walk_side(Robo.dis_arrow)
+                else:
+                    self.robo._motion.walk_side(Robo.dis_arrow ,long=70)
 
         return False
 
@@ -350,6 +352,7 @@ class Controller:
                     return False
 
             elif MissionStair.go_robo():
+                print("Misson Stair END END END \n")
                 self.check_stair = 1
             else:
                 print('^^')
