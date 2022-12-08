@@ -246,11 +246,11 @@ class Controller:
             # print("current area: ", cur.AREA, "(Setting.py Hard Coding for Debuging)")
             # motion: 고개 내리기 30
             self.robo._motion.set_head("DOWN", 30)
-            # self.act = act.GO_ENTRANCE
+            self.act = act.GO_ENTRANCE
 
             # debug
             # self.act = act.ENTRANCE
-            self.act = act.GO_NEXTROOM
+            # self.act = act.GO_NEXTROOM
             # self.act = act.GO_EXIT
             # self.act = act.EXIT
 

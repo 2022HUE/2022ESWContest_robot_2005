@@ -101,7 +101,7 @@ class ImageProccessor:
         time.sleep(2)
 
     ########### 이미지 불러오기 ###########
-    def get_img(self, show=False):
+    def get_img(self, show=True):
         img = self._cam.read()
         # 이미지를 받아오지 못하면 종료
         if img is None:
@@ -203,9 +203,9 @@ class ImageProccessor:
 
         if show:
             cv.imshow("tmp", line_mask)
-            # cv.imshow("img_mask", img_mask)
+            cv.imshow("img_mask", img_mask)
             # cv.imshow("test", Line.yellow_mask(img, setting.YELLOW_DATA))
-            # cv.imshow("dst", dst)
+            cv.imshow("dst", dst)
             # cv.waitKey(1) & 0xFF == ord('q')
 
         roi_img = Line.ROI(line_gray, self.height, self.width, origin)
