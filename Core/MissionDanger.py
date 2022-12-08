@@ -94,7 +94,7 @@ class MissionDanger:
             # time.sleep(1.5)
             # motion: 화살표 반대 방향으로 고개 돌리기
             # self.robo._motion.set_head(Robo.dis_arrow, 45)
-            time.sleep(1)
+            time.sleep(2)
 
             self.act = Act.DETECT_ALPHABET
 
@@ -108,6 +108,7 @@ class MissionDanger:
                 print(cur.ALPHABET_COLOR)
                 Robo.alphabet_color = cur.ALPHABET_COLOR
             else:
+                time.sleep(0.5)
                 self.alphabet_color = self.robo._image_processor.get_alphabet_color()
                 if self.alphabet_color:
                     self.miss = 0

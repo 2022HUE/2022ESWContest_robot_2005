@@ -487,7 +487,7 @@ class ImageProccessor:
     def is_yellow_danger(self, show=False):
         img = self.get_img()
         origin = img.copy()
-        img = self.correction(img, 7, 0, 1.5) # 1.5~2.0
+        img = self.correction(img, 7, 0, 2.0) # 1.5~2.0
         hsv = self.hsv_mask(img)
         h, s, v = cv.split(hsv)
 

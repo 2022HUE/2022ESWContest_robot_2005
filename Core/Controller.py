@@ -76,6 +76,7 @@ class Controller:
             self.robo._motion.set_head("LEFTRIGHT_CENTER")
 
         else:
+            time.sleep(1)
             if self.area == "STAIR":
                 # self.robo._motion.turn(self.robo.arrow, 60, arm=True)
                 self.area = "DANGER"
@@ -342,7 +343,8 @@ class Controller:
 
                 # motion: 회전 (수직선이 보일 때 까지)
                 self.robo._motion.walk("FORWARD")
-                self.robo._motion.turn(Robo.arrow, 60, 2, 3, True)  # arm = True
+                # self.robo._motion.turn(Robo.arrow, 60, 2, 3, True)  # arm = True
+                self.robo._motion.turn(Robo.arrow, 45, 4, 0.5)  # arm = False
                 # time.sleep(3)
                 self.robo._motion.turn(Robo.arrow, 20)
                 self.miss += 1
@@ -572,7 +574,7 @@ class Controller:
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL" and self.check_exit > 0:
                 # self.robo._motion.turn(Robo.arrow, 45, 3, arm=True)  # arm = True
-                self.robo._motion.turn(Robo.arrow, 60, 2)  # arm = True
+                self.robo._motion.turn(Robo.arrow, 45, 4, sleep=0.5)  # arm = True
                 setting.SICK = 0  # 넘어짐 초기화
                 self.act = act.EXIT
             elif state == "VERTICAL" and self.check_exit == 0:
