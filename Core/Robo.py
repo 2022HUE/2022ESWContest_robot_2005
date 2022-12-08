@@ -8,11 +8,11 @@ print('code: Robo.py - ## Debug')
 
 
 class Robo:
-    arrow: str = "RIGHT"
-    dis_arrow: str = "LEFT"
+    arrow: str = ""
+    dis_arrow: str = ""
     black_room_list = list = []
     alphabet_color: str
-    box_pos: int = -1
+    box_pos: int = 5
     feet_down = 'LEFT_DOWN'
     _image_processor = ImageProccessor(video="")  # Image Processor
     _motion = Motion()  # Motion

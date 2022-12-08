@@ -118,7 +118,7 @@ class Motion:
         self.TX_data_py2(100)
 
     # 걷기 (101~120)
-    def walk(self, dir, loop=1, sleep=0.05, short=False):
+    def walk(self, dir, loop=1, sleep=0.2, short=False):
         """ parameter :
         dir : {FORWARD, BACKWARD, FORWARD3, FORWARD5}
         """

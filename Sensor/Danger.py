@@ -218,7 +218,7 @@ class Danger:
             approx = cv.approxPolyDP(contours1[pos], peri * 0.02, True)
             rect_y = contours1[pos][0][0][1]  # 가장 위의 y값 좌표
             points = len(approx)
-            print(peri)
+            # print(peri)
             # 잡히는 컨투어 중에서 위에 있는 컨투어 선택
             if peri > 300 and peri < 500 and rect_y < 150:
                 text_cont.append(contours1[pos])

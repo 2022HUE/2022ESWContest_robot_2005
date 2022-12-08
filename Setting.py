@@ -12,6 +12,7 @@ setting = Setting()
 # setting.YELLOW_DATA = [[20, 100, 100], [35, 255, 255]]
 # setting.YELLOW_DATA = [[9, 30, 30], [20, 255, 255]] # 1206
 setting.YELLOW_DATA = [[15, 150, 100], [40, 255, 255]]  # 1207
+setting.YELLOW_DANGER_DATA = [[11, 70, 100], [30, 150, 255]]  # 1208
 setting.VSLOPE1 = 85
 setting.VSLOPE2 = 105
 
@@ -101,7 +102,7 @@ setting.THREE_F = 400  # 계단 3층 채도
 
 # setting.top_forward = 95  # 꼭대기에서 전진 판단하는 채도
 setting.top_forward = 190  # 꼭대기에서 전진 판단하는 채도
-setting.top_move = 45  # 반대쪽 계단으로 떨어지지 않기 위해 안쪽으로 이동할 때 채도 값
+setting.top_move = 60  # 반대쪽 계단으로 떨어지지 않기 위해 안쪽으로 이동할 때 채도 값
 setting.top_saturation = 710  # 현장=580
 
 setting.STAIR_START_UP = 310

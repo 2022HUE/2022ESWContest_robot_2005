@@ -35,7 +35,7 @@ class MissionDanger:
     holding: bool
     first_milkbox_pos: int = cur.FIRST_MILKBOX_POS
     check_backline: int = 0
-    out_direction: str = ""  # 위험지역 탈출 방향
+    out_direction: str = "RIGHT"  # 위험지역 탈출 방향
 
     def init_robo(self, robo: Robo):
         self.robo = robo
@@ -84,8 +84,8 @@ class MissionDanger:
 
         if act == act.START:
             print("START")
-            self.act = Act.SPEAK_DANGER
-            # self.act = Act.BACK_TO_LINE # hyerin debug
+            # self.act = Act.SPEAK_DANGER
+            self.act = Act.BACK_TO_LINE # hyerin debug
 
         elif act == act.SPEAK_DANGER:
             print("SPEAK_DANGER")
@@ -479,6 +479,12 @@ class MissionDanger:
 
             # if self.out_direction == "LEFT": disdir = "RIGHT"
             # else: disdir = "RIGHT"
+            print(self.out_direction, Robo.arrow)
+            if (self.out_direction == "LEFT" and Robo.arrow == "RIGHT") or (self.out_direction == "RIGHT" and Robo.arrow == "LEFT"):
+                print("fefnjefnj")
+                self.act = Act.EXIT
+                return True
+            print('gqjrgbjr')
             if state == "None":
                 # 선 인식 실패
                 print()

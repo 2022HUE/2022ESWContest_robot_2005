@@ -24,25 +24,25 @@ if __name__ == "__main__":
     from DataPath import DataPath
 
     e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
     w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
     n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
     s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
     font_danger = [cv.imread(
         '{}/{}.jpg'.format(DataPath.d_dangerfont, x), cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_a = [cv.imread('{}a{}.png'.format(DataPath.d_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+                       cv.IMREAD_GRAYSCALE) for x in range(9)]
     arr_b = [cv.imread('{}b{}.png'.format(DataPath.d_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+                       cv.IMREAD_GRAYSCALE) for x in range(9)]
     arr_c = [cv.imread('{}c{}.png'.format(DataPath.d_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+                       cv.IMREAD_GRAYSCALE) for x in range(9)]
     arr_d = [cv.imread('{}d{}.png'.format(DataPath.d_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+                       cv.IMREAD_GRAYSCALE) for x in range(9)]
 
 else:
     from Sensor.Stair import Stair
@@ -56,25 +56,25 @@ else:
     from Sensor.DataPath import DataPath
 
     e_ = [cv.imread('{}sam_e0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
     w_ = [cv.imread('{}sam_w0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
     n_ = [cv.imread('{}sam_s0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
     s_ = [cv.imread('{}sam_n0{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 20)]
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
     font_danger = [cv.imread(
         '{}/{}.jpg'.format(DataPath.r_dangerfont, x), cv.IMREAD_GRAYSCALE) for x in range(4)]
     arr_a = [cv.imread('{}a{}.png'.format(DataPath.r_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+                       cv.IMREAD_GRAYSCALE) for x in range(9)]
     arr_b = [cv.imread('{}b{}.png'.format(DataPath.r_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+                       cv.IMREAD_GRAYSCALE) for x in range(9)]
     arr_c = [cv.imread('{}c{}.png'.format(DataPath.r_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+                       cv.IMREAD_GRAYSCALE) for x in range(9)]
     arr_d = [cv.imread('{}d{}.png'.format(DataPath.r_alpha, x),
-                       cv.IMREAD_GRAYSCALE) for x in range(4)]
+                       cv.IMREAD_GRAYSCALE) for x in range(9)]
 
 
 class ImageProccessor:
@@ -138,13 +138,6 @@ class ImageProccessor:
 
     def hsv_mask(self, img):
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        h, s, v = cv.split(hsv)
-
-        _, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY)
-        _, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY_INV)
-
-        th_mask = cv.bitwise_or(th_s, th_v)
-        hsv = cv.bitwise_and(hsv, hsv, mask=th_mask)
         return hsv
 
     def mophorlogy(self, mask):
@@ -276,8 +269,10 @@ class ImageProccessor:
                 h_slope = 1
 
             # option return
-            if option:
-                return state, v_slope, h_slope
+            print(option)
+            if option == True:
+                print("fenwfnewkjnj", state, v_slope, h_slope)
+                return state, v_slope, h_slope, v_sign, h_sign
 
             if state == "BOTH":
                 if v_slope and not h_slope:  # vertical
@@ -341,11 +336,11 @@ class ImageProccessor:
                 elif v_sign == 0:
                     return "TURN_LEFT"
             elif state == "HORIZON" and h_line:
-                if h_slope < 10 or 170 < h_slope:
+                if h_slope < 5 or 175 < h_slope:
                     return state
-                elif h_sign == 1:
+                elif h_sign == 1 or h_slope > 90:
                     return "TURN_RIGHT"
-                elif h_sign == 0:
+                elif h_sign == 0 or h_slope < 90:
                     return "TURN_LEFT"
             else:
                 print("ELSE", state)
@@ -354,15 +349,111 @@ class ImageProccessor:
 
         else:  # 라인 자체를 인식 못할 경우 False 리턴
             print("LINE DETECT FAILED : return FALSE")
+            if option: return False, None, None, None, None
             return False
+    
+    def line_state(self, show=False):
+        img = self.get_img()
+        origin = img.copy()
+        img = self.correction(img, 7, 50, 2.0)
+        hsv = self.hsv_mask(img)
+        h, s, v = cv.split(hsv)
 
+        _, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
+        _, th_v = cv.threshold(
+            v, 100, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        th_mask = cv.bitwise_or(th_s, th_v)
+
+        dst = cv.bitwise_and(hsv, hsv, mask=th_mask)
+        # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
+        line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
+        # line_mask = self.HSV2BGR(line_mask)
+        line_gray = self.RGB2GRAY(line_mask)
+        # line_gray = self.RGB2GRAY(dst)
+
+        kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
+        img_mask = cv.morphologyEx(
+            line_mask, cv.MORPH_DILATE, kernel, iterations=3)
+
+        if show:
+            cv.imshow("tmp", line_mask)
+            cv.imshow("img_mask", img_mask)
+            cv.imshow("dst", dst)
+
+
+        roi_img = Line.ROI(line_gray, self.height, self.width, origin)
+
+        # get Line
+        line_arr = Line.hough_lines(
+            roi_img, 1, 1 * np.pi/180, 30, 10, 20)   # 허프 변환
+        line_arr = np.squeeze(line_arr)
+        # print(line_arr)
+
+        if show:
+            cv.imshow("show", origin)
+            # cv.waitKey(1) & 0xFF == ord('q')
+
+        if line_arr != 'None':
+            Line.draw_lines(origin, line_arr, [0, 0, 255], 2)
+            # if show:
+            #     cv.imshow("tmp", origin)
+            #     cv.waitKey(1) & 0xFF == ord('q')
+
+            state, horizon_arr, vertical_arr = Line.slope_filter(line_arr)
+            h_line, v_line = Line.get_fitline(
+                origin, horizon_arr), Line.get_fitline(origin, vertical_arr)
+
+            # init
+            v_slope = None
+            h_slope = None
+            v_sign = 0  # 1이면 음수
+            h_sign = 0
+
+            if v_line:
+                Line.draw_fitline(origin, v_line, [0, 255, 255])  # Debug
+                v_slope = int(Line.slope_cal(v_line))
+            if h_line:
+                Line.draw_fitline(origin, h_line, [0, 255, 0])  # Debug
+                h_slope = int(Line.slope_cal(h_line))
+
+            if v_slope:
+                if v_slope < 0:
+                    v_sign = 1
+                    v_slope = abs(v_slope)
+
+            if h_slope:
+                if h_slope < 0:
+                    h_sign = 1
+                    h_slope = abs(h_slope)
+
+            print(':: state:{}, vslope:{}, hslope:{} ::'.format(
+                state, v_slope, h_slope))
+
+            # 예외처리
+            if v_slope == 0:
+                v_slope = 1
+            if h_slope == 0:
+                h_slope = 1
+
+            return state, v_slope, h_slope
+        return False, False, False
+            
     def is_yellow(self, show=False):
         img = self.get_img()
         origin = img.copy()
-        img = self.correction(img, 7)
+        img = self.correction(img, 7, 0, 1.5) # 1.5~2.0
         hsv = self.hsv_mask(img)
-        line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
+        h, s, v = cv.split(hsv)
+
+        _, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
+        _, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        th_mask = cv.bitwise_or(th_s, th_v)
+
+        dst = cv.bitwise_and(hsv, hsv, mask=th_mask)
+        # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
+        line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
+        # line_gray = self.RGB2GRAY(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
 
         line_arr = Line.hough_lines(line_gray)   # 허프 변환
@@ -395,23 +486,20 @@ class ImageProccessor:
 
     def is_yellow_danger(self, show=False):
         img = self.get_img()
-        cv.imshow('img', img)
         origin = img.copy()
-        img = self.correction(img, 7, 0, 2.0)
-        hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        cv.imshow('hsv', hsv)
+        img = self.correction(img, 7, 0, 1.5) # 1.5~2.0
+        hsv = self.hsv_mask(img)
         h, s, v = cv.split(hsv)
 
-        _, th_s = cv.threshold(s, 200, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
-        _, th_v = cv.threshold(
-            v, 200, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        _, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
+        _, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
         th_mask = cv.bitwise_or(th_s, th_v)
 
         dst = cv.bitwise_and(hsv, hsv, mask=th_mask)
         # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
         line_mask = Line.yellow_mask(dst, setting.YELLOW_DANGER_DATA)
-        cv.imshow('line_mask',line_mask)
         line_mask = self.HSV2BGR(line_mask)
+        # line_gray = self.RGB2GRAY(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
 
         kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
@@ -430,7 +518,7 @@ class ImageProccessor:
         # print(line_arr)
         if show:
             cv.imshow("tmp", line_mask)
-            cv.imshow("img_mask", img_mask)
+            # cv.imshow("img_mask", img_mask)
             # cv.imshow("test", Line.yellow_mask(img, setting.YELLOW_DATA))
             cv.imshow("dst", dst)
         if line_arr != 'None':
@@ -577,7 +665,6 @@ class ImageProccessor:
     # 방 이름(알파벳) 인식
     def get_alphabet_name(self, show=False):
         img = self.get_img()
-        cv.imshow('img', img)
         roi = Danger.get_alphabet_roi(img, "GRAY")
         # roi = self.bright(roi,1.0)
 
@@ -631,7 +718,7 @@ class ImageProccessor:
     # 장애물 집을 지 말 지 결정하는 함수 (7번 위치에서 충분히 가까운지)
     def get_milkbox_mask(self, color, show=False):
         img = self.get_img()
-        cv.imshow('img',  img)
+        # cv.imshow('img',  img)
         # img = self.correction(img, 7)
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         return Danger.get_milkbox_mask(hsv, color, show)
@@ -885,13 +972,8 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video='src/ALL1208_10:32:04.h264')
-    # img_processor = ImageProccessor(video='src/1207/videos/ALL1207_13:13:32.h264')
-    # cap = cv.VideoCapture("src/danger/1106_20:07.h264")
-    
-    # img_processor = ImageProccessor(video='src/1207/videos/ALL1207_13:22:20.h264')
-    # img_processor = ImageProccessor(video='src/1207/videos/ALL1207_13:16:37.h264')
-    # img_processor = ImageProccessor(video='src/ALL1208_10:32:04.h264')
+    img_processor = ImageProccessor(video=DataPath.m20)
+    # img_processor = ImageProccessor(video=DataPath.t1)
 
     # img_processor = ImageProccessor()
     # img_processor = ImageProccessor(video=DataPath.stair06)
@@ -902,10 +984,10 @@ if __name__ == "__main__":
         # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
-        print(img_processor.is_yellow_danger(show=True))
-        # img_processor.is_line_horizon_vertical(True)
+        # img_processor.is_yellow_danger(show=True)
+        img_processor.is_line_horizon_vertical(True)
 
-        # print(img_processor.get_alphabet_name(True))
+        # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)
         # img_processor.get_milkbox_pos("RED", True)
 
