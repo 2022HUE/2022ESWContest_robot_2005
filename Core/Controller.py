@@ -64,7 +64,7 @@ class Controller:
         self.robo._motion.turn(self.robo.arrow, 60, arm=True)
         # time.sleep(0.5)
         # self.robo._motion.walk_side(Robo.dis_arrow)
-        
+
         self.robo._motion.set_head("DOWN", 70)
         if self.count_area == 0:  # 최초 방문
             # time.sleep(1.2)
@@ -280,10 +280,10 @@ class Controller:
                 setting.SICK = 0  # 넘어짐 초기화
                 self.act = act.ENTRANCE
                 # self.robo._motion.walk("FORWARD") # 1206 주석 할지 말지
-            elif state == "HORIZON": # 1208
+            elif state == "HORIZON":  # 1208
                 # self.robo._motion.walk("FORWARD")
                 self.act = act.ENTRANCE
-                
+
             else:
                 if self.check_entrance > 0:
                     # self.robo._motion.walk("FORWARD")
@@ -447,7 +447,7 @@ class Controller:
                         return False
 
             else:
-                return False 
+                return False
 
         elif act == act.DANGER:
             print("ACT-controller: ", act)  # Debug
