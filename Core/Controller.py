@@ -59,11 +59,12 @@ class Controller:
     @classmethod
     def check_area(self):
         time.sleep(1)
-        
+
         self.robo._motion.set_head("DOWN", 70)
         if self.count_area == 0:  # 최초 방문
-            self.robo._motion.turn(self.robo.arrow, 60, arm=True)
-            
+            # self.robo._motion.turn(self.robo.arrow, 60, arm=True)
+            self.robo._motion.set_head(self.robo.arrow, 45)
+
             # time.sleep(1.2)
             if cur.AREA:  # 고정 값 존재시 (Setting - current)
                 self.area = cur.AREA
@@ -73,11 +74,12 @@ class Controller:
 
         else:
             if self.area == "STAIR":
-                self.robo._motion.turn(self.robo.arrow, 60, arm=True)
+                # self.robo._motion.turn(self.robo.arrow, 60, arm=True)
                 self.area = "DANGER"
             else:
                 # 2번째 방 입장일 때 계단지역이면 turn 안함
                 self.area = "STAIR"
+            self.robo._motion.set_head("LEFTRIGHT_CENTER")
 
     @classmethod
     def check_line(self):
@@ -231,8 +233,7 @@ class Controller:
         else:
             self.robo._motion.walk("FORWARD")
         return False
-    
-        
+
     @classmethod
     def escape_room(self):
         self.robo._motion.turn(Robo.dis_arrow, 60, 3, arm=True)  # arm = True
@@ -418,7 +419,7 @@ class Controller:
                     self.count_area += 1
                     print("\ncount_area: ", self.count_area)
                     setting.SICK = 0  # 넘어짐 초기화
-                    
+
                     if self.count_area < limits:
                         self.act = act.GO_NEXTROOM
                     else:

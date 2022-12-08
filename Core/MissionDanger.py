@@ -143,8 +143,9 @@ class MissionDanger:
                     return False
 
             time.sleep(0.5)
+            self.robo._motion.turn(self.robo.arrow, 60, arm=True)
             # motion : 정면(위험지역) 바라보기
-            self.robo._motion.set_head("LEFTRIGHT_CENTER")
+            # self.robo._motion.set_head("LEFTRIGHT_CENTER")
             time.sleep(1)
             self.act = Act.DETECT_FIRST_MILKBOX_POS
 
