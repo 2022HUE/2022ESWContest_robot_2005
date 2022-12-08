@@ -138,13 +138,6 @@ class ImageProccessor:
 
     def hsv_mask(self, img):
         hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-        h, s, v = cv.split(hsv)
-
-        _, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY)
-        _, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY_INV)
-
-        th_mask = cv.bitwise_or(th_s, th_v)
-        hsv = cv.bitwise_and(hsv, hsv, mask=th_mask)
         return hsv
 
     def mophorlogy(self, mask):
@@ -359,10 +352,19 @@ class ImageProccessor:
     def is_yellow(self, show=False):
         img = self.get_img()
         origin = img.copy()
-        img = self.correction(img, 7)
+        img = self.correction(img, 7, 0, 1.5) # 1.5~2.0
         hsv = self.hsv_mask(img)
-        line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
+        h, s, v = cv.split(hsv)
+
+        _, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
+        _, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        th_mask = cv.bitwise_or(th_s, th_v)
+
+        dst = cv.bitwise_and(hsv, hsv, mask=th_mask)
+        # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
+        line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
         line_mask = self.HSV2BGR(line_mask)
+        # line_gray = self.RGB2GRAY(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
 
         line_arr = Line.hough_lines(line_gray)   # 허프 변환
@@ -396,21 +398,20 @@ class ImageProccessor:
     def is_yellow_danger(self, show=False):
         img = self.get_img()
         origin = img.copy()
-        img = self.correction(img, 7, 50, 2.0)
+        img = self.correction(img, 7, 0, 1.5) # 1.5~2.0
         hsv = self.hsv_mask(img)
         h, s, v = cv.split(hsv)
 
         _, th_s = cv.threshold(s, 120, 255, cv.THRESH_BINARY+cv.THRESH_OTSU)
-        _, th_v = cv.threshold(
-            v, 100, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
+        _, th_v = cv.threshold(v, 100, 255, cv.THRESH_BINARY_INV+cv.THRESH_OTSU)
         th_mask = cv.bitwise_or(th_s, th_v)
 
         dst = cv.bitwise_and(hsv, hsv, mask=th_mask)
         # line_mask = Line.yellow_mask(hsv, setting.YELLOW_DATA)
         line_mask = Line.yellow_mask(dst, setting.YELLOW_DATA)
-        # line_mask = self.HSV2BGR(line_mask)
+        line_mask = self.HSV2BGR(line_mask)
+        # line_gray = self.RGB2GRAY(line_mask)
         line_gray = self.RGB2GRAY(line_mask)
-        # line_gray = self.RGB2GRAY(dst)
 
         kernel = cv.getStructuringElement(cv.MORPH_RECT, (5, 5))
         img_mask = cv.morphologyEx(
@@ -428,7 +429,7 @@ class ImageProccessor:
         # print(line_arr)
         if show:
             cv.imshow("tmp", line_mask)
-            cv.imshow("img_mask", img_mask)
+            # cv.imshow("img_mask", img_mask)
             # cv.imshow("test", Line.yellow_mask(img, setting.YELLOW_DATA))
             cv.imshow("dst", dst)
         if line_arr != 'None':
@@ -882,12 +883,8 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video='src/danger/1106_20:07.h264')
-    # cap = cv.VideoCapture("src/danger/1106_20:07.h264")
-    
-    # img_processor = ImageProccessor(video='src/1207/videos/ALL1207_13:22:20.h264')
-    # img_processor = ImageProccessor(video='src/1207/videos/ALL1207_13:16:37.h264')
-    # img_processor = ImageProccessor(video='src/ALL1208_10:32:04.h264')
+    img_processor = ImageProccessor(video=DataPath.m20)
+    # img_processor = ImageProccessor(video=DataPath.t1)
 
     # img_processor = ImageProccessor()
     # img_processor = ImageProccessor(video=DataPath.stair06)
@@ -898,7 +895,7 @@ if __name__ == "__main__":
         # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
-        # img_processor.is_yellow_danger(show=True)
+        img_processor.is_yellow_danger(show=True)
         # img_processor.is_line_horizon_vertical(True)
 
         print(img_processor.get_alphabet_name(show=True))

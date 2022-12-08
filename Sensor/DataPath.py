@@ -107,6 +107,8 @@ class DataPath:
     m18 = "src/1207/1207_18.h264"
     m19 = "src/1207/1207_19.h264"  # line
 
+    m20 = "src/1208/1208.h264"  # line
+
     # debug in image processor
     d_alpha = 'src/alphabet_data/'
     d_dirfont = 'src/entrance/direction_data/font_img'
