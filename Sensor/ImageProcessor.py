@@ -575,7 +575,6 @@ class ImageProccessor:
     # 방 이름(알파벳) 인식
     def get_alphabet_name(self, show=False):
         img = self.get_img()
-
         roi = Danger.get_alphabet_roi(img, "GRAY")
         # roi = self.bright(roi,1.0)
 
@@ -883,8 +882,12 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    # img_processor = ImageProccessor(video=DataPath.m13)
-    img_processor = ImageProccessor(video=DataPath.t1)
+    img_processor = ImageProccessor(video='src/danger/1106_20:07.h264')
+    # cap = cv.VideoCapture("src/danger/1106_20:07.h264")
+    
+    # img_processor = ImageProccessor(video='src/1207/videos/ALL1207_13:22:20.h264')
+    # img_processor = ImageProccessor(video='src/1207/videos/ALL1207_13:16:37.h264')
+    # img_processor = ImageProccessor(video='src/ALL1208_10:32:04.h264')
 
     # img_processor = ImageProccessor()
     # img_processor = ImageProccessor(video=DataPath.stair06)
@@ -892,13 +895,13 @@ if __name__ == "__main__":
     ### Debug Run ###
     while True:
         # img_processor.get_arrow(show=True)
-        img_processor.get_ewsn(show=True)
+        # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
         # img_processor.is_yellow(show=True)
         # img_processor.is_yellow_danger(show=True)
         # img_processor.is_line_horizon_vertical(True)
 
-        # print(img_processor.get_alphabet_name(show=True))
+        print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)
         # img_processor.get_milkbox_pos("RED", True)
 

@@ -211,13 +211,16 @@ class Danger:
 
         contours1, hierarchy1 = cv.findContours(
             th, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
-
+        
         text_cont = []
         for pos in range(len(contours1)):
             peri = cv.arcLength(contours1[pos], True)
             approx = cv.approxPolyDP(contours1[pos], peri * 0.02, True)
+            rect_y = contours1[pos][0][0][1]  # 가장 위의 y값 좌표
             points = len(approx)
-            if peri > 200 and peri < 400:
+            print(peri)
+            # 잡히는 컨투어 중에서 위에 있는 컨투어 선택
+            if peri > 300 and peri < 500 and rect_y < 150:
                 text_cont.append(contours1[pos])
                 cv.drawContours(src, [approx], 0, (0, 255, 255), 1)
 
@@ -345,9 +348,8 @@ if __name__ == "__main__":
     # 장애물 집고 나올 때의 영상
     # cap = cv.VideoCapture("src/danger/1031_20:47.h264")
     # cap = cv.VideoCapture("src/danger/1031_20:57.h264")
-    cap = cv.VideoCapture("src/danger/1110_22:29.h264")
+    # cap = cv.VideoCapture("src/danger/1110_22:29.h264")
     # cap = cv.VideoCapture("src/danger/1201_23:39.h264")
-
     # cap = cv.VideoCapture("src/danger/1110_22:32.h264")
 
     # 장애물 어디있는지 바라볼 때의 시야
@@ -363,7 +365,7 @@ if __name__ == "__main__":
         blur = cv.GaussianBlur(img, (5, 5), 0)
         cv.imshow('src', img)
 
-        danger.can_hold_milkbox(img, "RED")
+        # danger.can_hold_milkbox(img, "RED")
         # hsv = cv.cvtColor(img, cv.COLOR_BGR2HSV)
         # print("위험 지역 탈출") if danger.is_out_of_black(src, True) else print("아직 위험 지역")
         # pos_idx = danger.get_milkbox_pos(img, "RED", True)
