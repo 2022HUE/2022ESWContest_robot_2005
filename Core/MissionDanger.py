@@ -169,7 +169,7 @@ class MissionDanger:
                 Robo.box_pos = self.first_milkbox_pos
 
             self.out_direction = "RIGHT" if Robo.box_pos in [
-                2, 5, 8] else "LEFT"
+                2, 5, 8, 1, 4, 7] else "LEFT"
 
             print("초기 장애물 위치 in DETECT_FIRST_MILKBOX_POS: ",  Robo.box_pos)
             self.act = Act.WALK_TO_MILKBOX
@@ -501,6 +501,7 @@ class MissionDanger:
                 print("not state")
                 print()
                 self.robo._motion.turn(self.out_direction, 45)  # 방향 조절 필요
+                self.robo._motion.turn(self.out_direction, 45)  # 방향 조절 필요
                 self.robo._motion.turn(self.out_direction, 20)  # 방향 조절 필요
                 time.sleep(0.5)
                 self.robo._motion.walk("FORWARD")
@@ -508,6 +509,7 @@ class MissionDanger:
             else:
                 if h_slope is None:  # state는 있지만 수평선 인식 못함
                     print('ELSE', self.out_direction)
+                    self.robo._motion.turn(self.out_direction, 45)  # 방향 조절 필요
                     self.robo._motion.turn(self.out_direction, 45)  # 방향 조절 필요
                     self.robo._motion.turn(self.out_direction, 20)  # 방향 조절 필요
                     
@@ -522,11 +524,21 @@ class MissionDanger:
                         # time.sleep(1.5)
                         self.act = Act.EXIT
                     else:
-                        self.robo._motion.walk("FORWARD")
-                        time.sleep(1)
+                        # self.robo._motion.walk("FORWARD")
+                        if h_slope < 90:
+                            self.robo._motion.turn("RIGHT", 20)  # 방향 조절 필요
+                        else:
+                            self.robo._motion.turn("LEFT", 20)  # 방향 조절 필요
+                            
+                            
+                        # time.sleep(1)
                         # self.robo._motion.turn(self.out_direction, 20)  # 방향 조절 필요
                         # time.sleep(1)
 
+                # elif state == "VERTICAL" or state == "B_VERTICAL":
+                #     time.sleep(0.5)
+                #     self.act = Act.EXIT
+                
                 elif state == "VERTICAL" or state == "B_VERTICAL":
                     time.sleep(0.5)
                     self.act = Act.EXIT

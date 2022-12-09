@@ -41,11 +41,11 @@ class MissionEntrance:
     # 방위 감지
     @classmethod
     def get_direction(self):
+        time.sleep(1)
         if cur.MAP_DIRECTION:
             self.map_direction = cur.MAP_DIRECTION
         else:
             print('check direction')
-            time.sleep(1)
             self.map_direction = self.robo._image_processor.get_ewsn()
 
         if self.map_direction:

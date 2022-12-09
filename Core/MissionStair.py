@@ -127,11 +127,13 @@ class MissionStair:
             ret = self.wall_move()
             print(ret)
             if ret == True:
-                self.robo._motion.walk('FORWARD')  # 3회 정도
                 # self.robo._motion.kick(Robo.arrow)
                 self.robo._motion.walk('FORWARD')  # 3회 정도
-                # self.robo._motion.kick(Robo.arrow)
+                self.robo._motion.kick(Robo.arrow)
+                self.robo._motion.walk_side(Robo.dis_arrow)
                 self.robo._motion.walk('FORWARD')  # 3회 정도
+                self.robo._motion.walk('FORWARD', short=True)  # 3회 정도
+                time.sleep(2)
                 self.robo._motion.set_head('DOWN', 30)
                 time.sleep(1)
                 # self.robo._motion.turn(Robo.dis_arrow, 20)
@@ -176,26 +178,27 @@ class MissionStair:
                 wall = self.wall_move()
                 if wall == True:
                     self.robo._motion.walk_side(Robo.dis_arrow,20)
+                    self.robo._motion.walk_side(Robo.dis_arrow,20)
                     self.robo._motion.stair('RIGHT_UP')  # up
-                    self.robo._motion.walk(
-                        'FORWARD', loop=3, short=True)  # 좁은 보폭
+                    self.robo._motion.walk('FORWARD', loop=3, short=True)  # 좁은 보폭
                     time.sleep(3)
 
                     setting.STAIR_LEVEL += 1  # stair = 2
                 else:
                     self.robo._motion.walk_side(wall)  # 벽쪽으로 이동
-                    time.sleep(1)
+                    time.sleep(2)
 
             elif ret == False:  # 선이 안 잡힌 경우 샤샥, 2층에서 중앙 아래에 선이 잡힌 경우
                 self.miss += 1
-                self.robo._motion.walk(
-                    'FORWARD', short=True)  # 좁은 보폭
+                self.robo._motion.walk('FORWARD', short=True)  # 좁은 보폭
 
-                if self.miss >= 15:
+                if self.miss >= 10:
                     # self.robo._motion.kick(Robo.arrow)
-                    self.robo._motion.walk('FORWARD')
+                    # self.robo._motion.walk('FORWARD')
+                    self.robo._motion.turn(Robo.dis_arrow, 10)
+                    self.robo._motion.turn(Robo.dis_arrow, 10)
                     self.miss = 0
-                time.sleep(2)
+                time.sleep(2.5)
 
             elif ret == 'Top':
                 self.robo._motion.walk('FORWARD')

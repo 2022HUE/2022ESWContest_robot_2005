@@ -216,7 +216,7 @@ class Controller:
 
     @classmethod
     def exit_stair(self):
-        state= v_slope= h_slope, v_sign, h_sign = None
+        state= v_slope= h_slope =v_sign=h_sign = None
         time.sleep(0.5)
         state, v_slope, h_slope, v_sign, h_sign = self.robo._image_processor.is_line_horizon_vertical(option=True)
         if state == "VERTICAL":
@@ -230,7 +230,8 @@ class Controller:
             if self.robo._image_processor.is_yellow_danger():
                 self.robo._motion.walk("FORWARD")
             else: 
-                self.robo._motion.turn(Robo.dis_arrow, 60)
+                self.robo._motion.turn(Robo.dis_arrow, 45)
+                time.sleep(1)
             return False
 
     @classmethod
@@ -344,9 +345,9 @@ class Controller:
                 # motion: 회전 (수직선이 보일 때 까지)
                 self.robo._motion.walk("FORWARD")
                 # self.robo._motion.turn(Robo.arrow, 60, 2, 3, True)  # arm = True
-                self.robo._motion.turn(Robo.arrow, 45, 4, 0.5)  # arm = False
+                self.robo._motion.turn(Robo.arrow, 45, 4, 1)  # arm = False
                 # time.sleep(3)
-                self.robo._motion.turn(Robo.arrow, 20)
+                # self.robo._motion.turn(Robo.arrow, 20)
                 self.miss += 1
                 return False
             else:
@@ -574,7 +575,9 @@ class Controller:
             state = self.robo._image_processor.is_line_horizon_vertical()
             if state == "VERTICAL" and self.check_exit > 0:
                 # self.robo._motion.turn(Robo.arrow, 45, 3, arm=True)  # arm = True
-                self.robo._motion.turn(Robo.arrow, 45, 4, sleep=0.5)  # arm = True
+                # self.robo._motion.turn(Robo.arrow, 45, 4, sleep=0.5)  # arm = True
+                self.robo._motion.turn(Robo.arrow, 45, 4, 1)  # arm = False
+                
                 setting.SICK = 0  # 넘어짐 초기화
                 self.act = act.EXIT
             elif state == "VERTICAL" and self.check_exit == 0:

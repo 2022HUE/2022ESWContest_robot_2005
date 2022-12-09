@@ -102,8 +102,8 @@ setting.THREE_F = 400  # 계단 3층 채도
 
 # setting.top_forward = 95  # 꼭대기에서 전진 판단하는 채도
 setting.top_forward = 190  # 꼭대기에서 전진 판단하는 채도
-setting.top_move = 60  # 반대쪽 계단으로 떨어지지 않기 위해 안쪽으로 이동할 때 채도 값
-setting.top_saturation = 580  # 현장=580
+setting.top_move = 50  # 반대쪽 계단으로 떨어지지 않기 위해 안쪽으로 이동할 때 채도 값
+setting.top_saturation = 610  # 현장=580
 
 setting.STAIR_START_UP = 310
 ########### MOTION ###########
@@ -111,10 +111,10 @@ setting.SICK = 0
 
 ########### CURRENT ACT ###########
 cur = Setting()
-cur.MAP_DIRECTION = "E"  # (entr) E, W, S, N
-cur.MAP_ARROW = "LEFT"  # (entr) LEFT, RIGHT
+cur.MAP_DIRECTION = ""  # (entr) E, W, S, N
+cur.MAP_ARROW = ""  # (entr) LEFT, RIGHT
 cur.AREA = ""
 cur.ALPHABET_COLOR = "BLUE"  # (danger) RED, BLUE
 cur.ALPHABET_NAME = None  # (danger) A, B, C, D
-cur.BLACK_ROOM_LIST = []  # (exit) 지나온 위험지역 방 이름 리스트
+cur.BLACK_ROOM_LIST = ["D"]  # (exit) 지나온 위험지역 방 이름 리스트
 cur.FIRST_MILKBOX_POS = None  # (danger) 0 ~ 8

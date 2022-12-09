@@ -974,10 +974,10 @@ class ImageProccessor:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video=DataPath.m20)
+    # img_processor = ImageProccessor(video=DataPath.m20)
     # img_processor = ImageProccessor(video=DataPath.t1)
 
-    # img_processor = ImageProccessor()
+    img_processor = ImageProccessor()
     # img_processor = ImageProccessor(video=DataPath.stair06)
 
     ### Debug Run ###
@@ -985,9 +985,9 @@ if __name__ == "__main__":
         # img_processor.get_arrow(show=True)
         # img_processor.get_ewsn(show=True)
         # img_processor.black_line(show=True)
-        # img_processor.is_yellow(show=True)
+        img_processor.is_yellow(show=True)
         # img_processor.is_yellow_danger(show=True)
-        img_processor.is_line_horizon_vertical(True)
+        # img_processor.is_line_horizon_vertical(True)
 
         # print(img_processor.get_alphabet_name(show=True))
         # img_processor.get_alphabet_name(show=True)
