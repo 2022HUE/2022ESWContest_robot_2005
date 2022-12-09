@@ -117,6 +117,11 @@ class DataPath:
     d_dangerfont = 'src/alphabet_data/font'
 
     # robot path
+    # r_alpha = 'home/pi/minirobot/Python3/Camera/2022ESWContest_robot_2005/Sensor/src/alphabet_data/'  # robot path
+    # r_dirfont = 'home/pi/minirobot/Python3/Camera/2022ESWContest_robot_2005/Sensor/src/entrance/direction_data/font_img'  # robot path
+    # r_dirimg = 'home/pi/minirobot/Python3/Camera/2022ESWContest_robot_2005/Sensor/src/entrance/direction_data/'  # robot path
+    # r_dangerfont = 'home/pi/minirobot/Python3/Camera/2022ESWContest_robot_2005/Sensor/src/alphabet_data/font'  # robot path
+    
     r_alpha = 'Sensor/src/alphabet_data/'  # robot path
     r_dirfont = 'Sensor/src/entrance/direction_data/font_img'  # robot path
     r_dirimg = 'Sensor/src/entrance/direction_data/'  # robot path

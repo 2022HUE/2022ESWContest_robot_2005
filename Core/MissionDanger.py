@@ -503,7 +503,7 @@ class MissionDanger:
                     self.robo._motion.walk("FORWARD")
                     time.sleep(1)
                     return False
-                if state == "HORIZON":
+                if state == "HORIZON" or state=="B_HORIZON":
                     if h_slope <= 10 or 170 <= h_slope:
                         print("웅냥냐양ㅇ")
                         self.robo._motion.walk("FORWARD")
@@ -518,7 +518,7 @@ class MissionDanger:
                             self.out_direction, 20)  # 방향 조절 필요
                         time.sleep(1)
 
-                elif state == "VERTICAL":
+                elif state == "VERTICAL" or state == "B_VERTICAL":
                     time.sleep(2)
                     self.act = Act.EXIT
 

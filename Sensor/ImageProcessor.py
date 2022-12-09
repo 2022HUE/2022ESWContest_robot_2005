@@ -24,13 +24,13 @@ if __name__ == "__main__":
     from DataPath import DataPath
 
     e_ = [cv.imread('{}sam_e{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 7)]
     w_ = [cv.imread('{}sam_w{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 7)]
     n_ = [cv.imread('{}sam_s{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 7)]
     s_ = [cv.imread('{}sam_n{}.png'.format(DataPath.d_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 7)]
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.d_dirfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
     font_danger = [cv.imread(
@@ -56,13 +56,13 @@ else:
     from Sensor.DataPath import DataPath
 
     e_ = [cv.imread('{}sam_e{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 7)]
     w_ = [cv.imread('{}sam_w{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 7)]
     n_ = [cv.imread('{}sam_s{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 7)]
     s_ = [cv.imread('{}sam_n{}.png'.format(DataPath.r_dirimg, x),
-                    cv.IMREAD_GRAYSCALE) for x in range(1, 6)]
+                    cv.IMREAD_GRAYSCALE) for x in range(1, 7)]
     font_img = [cv.imread('{}/{}.jpg'.format(DataPath.r_dirfont, x),
                           cv.IMREAD_GRAYSCALE) for x in range(4)]
     font_danger = [cv.imread(
@@ -604,19 +604,21 @@ class ImageProccessor:
             text = img_crop.copy()
             sample_list = [e_, w_, s_, n_]
             # 1. matchTemplate - Gray Scale
-            mt_gray = Direction.matching(sample_list, text_gray, 0.001, "EWSN")
+            # mt_gray = Direction.matching(sample_list, text_gray, 0.001, "EWSN")
             text_mask = Direction.text_masking(text)
             # 2. matchTemplate - Masking
-            mt_mask = Direction.matching(sample_list, text_mask, 1, "EWSN")
+            # mt_mask = Direction.matching(sample_list, text_mask, 1, "EWSN")
             match_mask_font = Direction.match_font(
                 font_img, text_mask)  # 3. font <-> masking
             match_gray_font = Direction.match_font(
                 font_img, text_gray)  # 4. font <-> gray scale
 
-            print('match: ', mt_gray, mt_mask, match_gray_font,
-                  match_mask_font)  # Debug: printing
-            set_ = {mt_gray, mt_mask, match_mask_font, match_gray_font}
-            li = [match_gray_font, match_mask_font, mt_gray, mt_mask]
+            # print('match: ', mt_gray, mt_mask, match_gray_font,
+            #       match_mask_font)  # Debug: printing
+            # set_ = {mt_gray, mt_mask, match_mask_font, match_gray_font}
+            # li = [match_gray_font, match_mask_font, mt_gray, mt_mask]
+            li = [match_gray_font, match_mask_font]
+            print(li)
             ret = max(li, key=li.count)  # 다 다르면 리스트의 0번째 data 리턴
 
             print("ret direction text : ", ret)

@@ -618,13 +618,14 @@ class Controller:
             else:  # 아무것도 인식 X -> 종료 조건
                 self.robo._motion.walk("FORWARD", 1)
                 time.sleep(1)
-                if len(Robo.black_room_list) > 1:
-                    for i in Robo.black_room_list:
-                        self.robo._motion.notice_alpha(i)
-                        time.sleep(1)
-                else:
-                    print(Robo.black_room_list[0])
-                    self.robo._motion.notice_alpha(Robo.black_room_list[0])
+                # if len(Robo.black_room_list) > 1:
+                #     for i in Robo.black_room_list:
+                #         self.robo._motion.notice_alpha(i)
+                #         time.sleep(1)
+                # else:
+                #     print(Robo.black_room_list[0])
+                #     self.robo._motion.notice_alpha(Robo.black_room_list[0])
+                self.robo._motion.notice_alpha(Robo.black_room_list[0])
                 # return False # Debug
                 return True
             return False

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Main code
+# import sys
 from Core.Controller import Controller
 
 
@@ -9,6 +10,8 @@ def main():
 
 
 if __name__ == "__main__":
-    print('--------------HUE START-------------')
+    # sys.stdout = open('~/minirobot/log.txt','w')
+    # for i in range(10):
+    #     print(i)
     main()
-    print('------------------------------------')
+    # sys.stdout.close()
