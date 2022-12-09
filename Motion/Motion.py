@@ -332,3 +332,4 @@ if __name__ == '__main__':
     # motion.set_head("DOWN", 80)
     # motion.turn("LEFT", 45, arm=True)
     # motion.notice_direction("E")
+    # motion.grab_turn("LEFT", 20)

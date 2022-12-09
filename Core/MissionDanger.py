@@ -36,6 +36,8 @@ class MissionDanger:
     first_milkbox_pos: int = cur.FIRST_MILKBOX_POS
     check_backline: int = 0
     out_direction: str = "RIGHT"  # 위험지역 탈출 방향
+    
+    turn_cnt: int=0
 
     def init_robo(self, robo: Robo):
         self.robo = robo
@@ -332,13 +334,16 @@ class MissionDanger:
             if self.robo._image_processor.is_yellow_danger():
                 self.head_angle = 30
                 self.robo._motion.set_head("DOWN", 30)
+                
+                ## 긴급긴급!
                 time.sleep(1)
                 if self.out_direction == "RIGHT":
-                    self.robo._motion.grab_turn("LEFT", 45)
-                    time.sleep(2.5)
+                    self.robo._motion.grab_turn("LEFT", 20)
+                    time.sleep(1.5)
                 else:
-                    self.robo._motion.grab_turn("RIGHT", 45)
-                    time.sleep(2.5)
+                    self.robo._motion.grab_turn("RIGHT", 20)
+                    time.sleep(1.5)
+                
                 self.act = Act.OUT_OF_DANGER
             else:
                 self.miss += 1
@@ -460,7 +465,7 @@ class MissionDanger:
 
                     # motion: 장애물 집고 앞으로 두 발자국 걷기 동작 2번 수행
                     self.robo._motion.grab_walk()
-                    time.sleep(2.5)
+                    time.sleep(1.5)
 
             self.robo._motion.walk("FORWARD")
 
@@ -475,6 +480,7 @@ class MissionDanger:
             # # 임시
             self.robo._motion.set_head("DOWN", 30)
             # self.out_direction
+            time.sleep(1)
             state, h_slope, v_slope = self.robo._image_processor.is_yellow()
             print("::  Act.BACK_TO_LINE :: ", state, h_slope, v_slope)
 
@@ -486,11 +492,15 @@ class MissionDanger:
                 self.act = Act.EXIT
                 return True
             print('gqjrgbjr')
+            
+            
+            
             if state == "None":
                 # 선 인식 실패
                 print()
                 print("not state")
                 print()
+                self.robo._motion.turn(self.out_direction, 45)  # 방향 조절 필요
                 self.robo._motion.turn(self.out_direction, 20)  # 방향 조절 필요
                 time.sleep(0.5)
                 self.robo._motion.walk("FORWARD")
@@ -498,28 +508,27 @@ class MissionDanger:
             else:
                 if h_slope is None:  # state는 있지만 수평선 인식 못함
                     print('ELSE', self.out_direction)
+                    self.robo._motion.turn(self.out_direction, 45)  # 방향 조절 필요
                     self.robo._motion.turn(self.out_direction, 20)  # 방향 조절 필요
-                    time.sleep(1)
+                    
                     self.robo._motion.walk("FORWARD")
-                    time.sleep(1)
                     return False
                 if state == "HORIZON" or state=="B_HORIZON":
                     if h_slope <= 10 or 170 <= h_slope:
                         print("웅냥냐양ㅇ")
                         self.robo._motion.walk("FORWARD")
-                        time.sleep(2)
+                        # time.sleep()
                         self.robo._motion.walk("FORWARD")
-                        time.sleep(1.5)
+                        # time.sleep(1.5)
                         self.act = Act.EXIT
                     else:
                         self.robo._motion.walk("FORWARD")
                         time.sleep(1)
-                        self.robo._motion.turn(
-                            self.out_direction, 20)  # 방향 조절 필요
-                        time.sleep(1)
+                        # self.robo._motion.turn(self.out_direction, 20)  # 방향 조절 필요
+                        # time.sleep(1)
 
                 elif state == "VERTICAL" or state == "B_VERTICAL":
-                    time.sleep(2)
+                    time.sleep(0.5)
                     self.act = Act.EXIT
 
                 elif state == "BOTH":  # 수직/수평 둘 다 인식
@@ -545,11 +554,8 @@ class MissionDanger:
                 else:
                     print('ELSE', self.out_direction)
                     print("????????")
-                    time.sleep(1)
                     self.robo._motion.turn(self.out_direction, 20)  # 방향 조절 필요
-                    time.sleep(1)
                     self.robo._motion.walk("FORWARD")
-                    time.sleep(1)
 
             return False
 

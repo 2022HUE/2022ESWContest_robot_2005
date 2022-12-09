@@ -336,7 +336,7 @@ class ImageProccessor:
                 elif v_sign == 0:
                     return "TURN_LEFT"
             elif state == "HORIZON" and h_line:
-                if h_slope < 5 or 175 < h_slope:
+                if h_slope < 10 or 170 < h_slope:
                     return state
                 elif h_sign == 1 or h_slope > 90:
                     return "TURN_RIGHT"

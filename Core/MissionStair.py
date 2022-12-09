@@ -199,8 +199,7 @@ class MissionStair:
 
             elif ret == 'Top':
                 self.robo._motion.walk('FORWARD')
-                self.robo._motion.walk('FORWARD', short=True)
-                time.sleep(1.5)
+                time.sleep(1)
                 self.miss = 0
 
                 self.act = Act.TOP_TURN

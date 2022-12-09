@@ -123,7 +123,7 @@ class Controller:
                 # time.sleep(0.5)
                 state, v_slope, h_slope, v_sign, h_sign = self.robo._image_processor.is_line_horizon_vertical(option=True)
                 print(state, v_slope, h_slope, v_sign, h_sign)
-                if state== "HORIZON":
+                if state== "HORIZON" or state=="B_HORIZON":
                     self.robo._motion.walk("FORWARD3")
                     return False
                 if not v_slope:
