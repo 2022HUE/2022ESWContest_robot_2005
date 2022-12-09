@@ -6,10 +6,10 @@ from Sensor.DataPath import DataPath
 
 print('code: Robo.py - ## Debug')
 
-
+ 
 class Robo:
-    arrow: str = "RIGHT"
-    dis_arrow: str = "LEFT"
+    arrow: str = "LEFT"
+    dis_arrow: str = "RIGHT"
     black_room_list = list = []
     alphabet_color: str
     box_pos: int = 5

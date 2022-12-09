@@ -323,7 +323,7 @@ class MissionDanger:
                     time.sleep(1)
                     print("장애물 못찾음 miss++")
                     return False
-
+ 
             self.head_angle = 70
             self.robo._motion.set_head('DOWN', 70)
             time.sleep(1)

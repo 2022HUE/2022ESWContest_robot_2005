@@ -37,10 +37,11 @@ class Controller:
     area: str = ""  # 현재 지역
     stair_level: int = 0  # 계단을 오른 횟수
 
-    danger_right_out = [2, 5, 8]  # 위험지역 오른쪽 탈출
+    danger_right_out = [2, 5, 8, 1, 4, 7]  # 위험지역 오른쪽 탈출
     danger_turn_flag: int = 0
     danger_line_flag: int = 0
-
+    danger_option = 0
+ 
     stair_ws: int = 0
     stair_exit_hor: int = 0
     
@@ -148,7 +149,10 @@ class Controller:
                         else:
                             # return "TURN_LEFT"
                             self.robo._motion.turn("LEFT", 20)
-                self.robo._motion.walk_side(Robo.dis_arrow, long=70)
+                if self.danger_option == 1:
+                    self.robo._motion.walk_side(Robo.dis_arrow, long=70)
+                else:
+                    self.robo._motion.walk("FORWARD")
                 
                 
             elif action == "STAIR_EXIT":
@@ -286,8 +290,9 @@ class Controller:
 
             # self.robo._motion.set_head("LEFTRIGHT_CENTER")
             # self.robo._motion.set_head("DOWN", 70)
-            # self.act = act.DANGER
             # self.act = act.STAIR
+            
+            # self.act = act.DANGER
 
         elif act == act.GO_ENTRANCE:
             print("ACT - controller: ", act)  # Debug
@@ -504,6 +509,7 @@ class Controller:
                     if (Robo.box_pos in self.danger_right_out and Robo.arrow == "RIGHT") or (Robo.box_pos not in self.danger_right_out and Robo.arrow == "LEFT"):
                         print("컨트롤러 위험지역 탈출 - 직진")
                         self.danger_line_flag += 1
+                        self.danger_option = 1
                         return False
                         # if self.danger_turn_flag < 1:
                         #     self.danger_turn_flag += 1
@@ -518,6 +524,7 @@ class Controller:
                     else:  # 회전 필요
                         print("컨트롤러 위험지역 탈출 - 사이드")
                         time.sleep(0.3)
+                        self.danger_option = 2
                         is_y = self.robo._image_processor.is_yellow_danger()
                         if not is_y: self.robo._motion.walk_side(Robo.dis_arrow, long=70)
                         else: self.danger_line_flag += 1

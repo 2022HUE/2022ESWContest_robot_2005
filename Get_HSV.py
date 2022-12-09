@@ -12,7 +12,7 @@ from imutils.video import FPS
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)  # FutureWarning 제거
 
-
+ 
 class Test:
     def __init__(self, video: str = ""):
         if video and os.path.exists(video):
@@ -104,8 +104,8 @@ class Test:
 
 
 if __name__ == "__main__":
-    img_processor = ImageProccessor(video=DataPath.yellowInDanger)
-    test = Test()
+    test = Test(video="testt.h264")
+    # test = Test()
     cv.namedWindow('img_color')
     cv.setMouseCallback('img_color', test.mouse_callback)
     

@@ -126,3 +126,4 @@ class DataPath:
     r_dirfont = 'Sensor/src/entrance/direction_data/font_img'  # robot path
     r_dirimg = 'Sensor/src/entrance/direction_data/'  # robot path
     r_dangerfont = 'Sensor/src/alphabet_data/font'  # robot path
+ 

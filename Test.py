@@ -15,7 +15,7 @@ def danger():
     while not MissionDanger.go_robo():
         print("<DANGER>")
         continue
-
+ 
 
 def stair():
     # stair_ = MissionStair.go_robo()

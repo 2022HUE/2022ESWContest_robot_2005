@@ -38,7 +38,7 @@ class MissionEntrance:
     def init_robo(self, robo: Robo):
         self.robo = robo
 
-    # 방위 감지
+    # 방위 감지 
     @classmethod
     def get_direction(self):
         time.sleep(1)
